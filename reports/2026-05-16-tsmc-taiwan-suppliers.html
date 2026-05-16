@@ -1,0 +1,697 @@
+<!doctype html>
+<html lang="zh-TW" class="scroll-smooth">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>台積電擴產浪潮：台灣廠商受益分析</title>
+  <meta name="description" content="台積電技術論壇重點整理：全球建廠加速、先進製程量產、台灣供應鏈機會全解析">
+  <meta property="og:title" content="台積電擴產浪潮：台灣廠商受益分析">
+  <meta property="og:description" content="台積電技術論壇重點整理：全球建廠加速、先進製程量產、台灣供應鏈機會全解析">
+  <meta property="og:type" content="article">
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = { darkMode: 'class', theme: { extend: { fontFamily: { sans: ['system-ui','ui-sans-serif','sans-serif'] } } } };
+    if (localStorage.theme === 'dark' || (!('theme' in localStorage) && matchMedia('(prefers-color-scheme: dark)').matches)) {
+      document.documentElement.classList.add('dark');
+    }
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <style>
+    @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
+    @media print {
+      .no-print { display: none !important; }
+      body { color: #000; background: #fff; }
+      details { display: block; } details > summary { display: none; }
+    }
+
+    details > summary { cursor: pointer; user-select: none; }
+    details > summary::marker { content: "▸ "; }
+    details[open] > summary::marker { content: "▾ "; }
+
+    .toc a { display: block; padding: .25rem 0; opacity: .55; transition: opacity .15s; font-size: .82rem; }
+    .toc a:hover, .toc a.active { opacity: 1; }
+    .toc a.active { font-weight: 600; }
+
+    /* Tabs */
+    .tabs > input[type="radio"] { display: none; }
+    .tabs > label { cursor: pointer; padding: .45rem 1rem; border-bottom: 2px solid transparent; font-size:.9rem; display:inline-block; }
+    .tabs > input:checked + label { border-color: #3b82f6; color: #3b82f6; }
+    .tab-panel { display: none; padding-top: 1rem; }
+    .tabs > input:nth-of-type(1):checked ~ .tab-panel:nth-of-type(1),
+    .tabs > input:nth-of-type(2):checked ~ .tab-panel:nth-of-type(2),
+    .tabs > input:nth-of-type(3):checked ~ .tab-panel:nth-of-type(3),
+    .tabs > input:nth-of-type(4):checked ~ .tab-panel:nth-of-type(4) { display: block; }
+
+    /* Stat cards */
+    .stat-card {
+      background: linear-gradient(135deg, #1e40af 0%, #1d4ed8 100%);
+      border-radius: .75rem; padding: 1.25rem 1.5rem; color: #fff;
+      transition: transform .2s;
+    }
+    .stat-card:hover { transform: translateY(-2px); }
+    .stat-card.green  { background: linear-gradient(135deg,#065f46,#059669); }
+    .stat-card.purple { background: linear-gradient(135deg,#581c87,#7c3aed); }
+    .stat-card.orange { background: linear-gradient(135deg,#92400e,#d97706); }
+    .stat-card.rose   { background: linear-gradient(135deg,#881337,#e11d48); }
+
+    /* Supplier table */
+    .stbl th { background: #1e3a5f; color:#fff; padding:.6rem .9rem; text-align:left; font-size:.82rem; }
+    .dark .stbl th { background: #1e40af; }
+    .stbl td { padding:.55rem .9rem; font-size:.84rem; border-bottom: 1px solid #e5e7eb; }
+    .dark .stbl td { border-bottom-color: #374151; }
+    .stbl tr:hover td { background: #f0f9ff; }
+    .dark .stbl tr:hover td { background: #1e293b; }
+
+    /* Badge */
+    .badge { display:inline-block; padding:.15rem .55rem; border-radius:9999px; font-size:.72rem; font-weight:600; }
+    .badge-green  { background:#d1fae5; color:#065f46; }
+    .badge-blue   { background:#dbeafe; color:#1e40af; }
+    .badge-purple { background:#ede9fe; color:#5b21b6; }
+    .badge-orange { background:#ffedd5; color:#92400e; }
+    .dark .badge-green  { background:#064e3b; color:#a7f3d0; }
+    .dark .badge-blue   { background:#1e3a5f; color:#93c5fd; }
+    .dark .badge-purple { background:#3b0764; color:#c4b5fd; }
+    .dark .badge-orange { background:#451a03; color:#fed7aa; }
+
+    /* Search */
+    #supplier-search { width:100%; max-width:380px; padding:.45rem .85rem; border:1px solid #d1d5db; border-radius:.5rem; font-size:.88rem; margin-bottom:1rem; background:white; color:#111; }
+    .dark #supplier-search { background:#1f2937; border-color:#374151; color:#f9fafb; }
+
+    /* Timeline */
+    .timeline-item { position:relative; padding-left:2rem; margin-bottom:1.5rem; }
+    .timeline-item::before { content:''; position:absolute; left:.45rem; top:.55rem; width:.7rem; height:.7rem; border-radius:50%; background:#3b82f6; }
+    .timeline-item::after { content:''; position:absolute; left:.75rem; top:1.3rem; bottom:-1.5rem; width:2px; background:#e5e7eb; }
+    .dark .timeline-item::after { background:#374151; }
+    .timeline-item:last-child::after { display:none; }
+
+    /* Chart containers */
+    .chart-wrap { position:relative; height:260px; }
+    @media(max-width:640px) { .chart-wrap { height:200px; } }
+  </style>
+</head>
+
+<body class="bg-gray-50 dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 font-sans antialiased">
+
+<!-- Controls -->
+<div class="fixed top-4 right-4 z-50 flex gap-2 no-print">
+  <button id="theme-toggle" class="px-3 py-1.5 rounded-md border border-zinc-300 dark:border-zinc-700 bg-white/80 dark:bg-zinc-900/80 backdrop-blur text-sm hover:bg-zinc-100 dark:hover:bg-zinc-800">☼ / ☾</button>
+  <button onclick="window.print()" class="px-3 py-1.5 rounded-md border border-zinc-300 dark:border-zinc-700 bg-white/80 dark:bg-zinc-900/80 backdrop-blur text-sm hover:bg-zinc-100 dark:hover:bg-zinc-800">列印</button>
+</div>
+
+<div class="max-w-6xl mx-auto px-4 py-10 lg:grid lg:grid-cols-[190px_minmax(0,1fr)] lg:gap-10">
+
+  <!-- TOC -->
+  <nav class="toc lg:sticky lg:top-10 self-start mb-8 lg:mb-0 no-print">
+    <div class="font-semibold mb-2 text-zinc-400 uppercase tracking-wider text-xs">目錄</div>
+    <a href="#overview">總覽重點</a>
+    <a href="#global-expansion">全球擴產速度</a>
+    <a href="#fabs">各廠進度</a>
+    <a href="#process">先進製程亮點</a>
+    <a href="#packaging">先進封裝</a>
+    <a href="#suppliers">台灣廠商受益</a>
+    <a href="#timeline">時間軸</a>
+    <a href="#green">綠色目標</a>
+  </nav>
+
+  <main class="min-w-0">
+
+    <!-- Header -->
+    <header class="mb-10">
+      <p class="text-xs text-zinc-400 mb-2 uppercase tracking-widest">台積電技術論壇 · <time datetime="2026-05-16">2026-05-16</time></p>
+      <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight mb-3 leading-tight">
+        台積電擴產浪潮<br><span class="text-blue-600 dark:text-blue-400">台灣廠商受益分析</span>
+      </h1>
+      <p class="text-lg text-zinc-500 dark:text-zinc-400 max-w-2xl">
+        全球建廠速度倍增、N2良率超越N3、CoWoS/SoIC產能CAGR破80%——台灣供應鏈正站在史上最大資本支出週期的核心。
+      </p>
+    </header>
+
+    <!-- KPI Cards -->
+    <section id="overview" class="mb-12 scroll-mt-16">
+      <h2 class="text-xl font-bold mb-5">總覽重點</h2>
+      <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
+        <div class="stat-card">
+          <div class="text-3xl font-black">18</div>
+          <div class="text-xs opacity-80 mt-1">全球建廠/改造中</div>
+        </div>
+        <div class="stat-card green">
+          <div class="text-3xl font-black">2×</div>
+          <div class="text-xs opacity-80 mt-1">建廠速度提升<br>（2025-26 vs 歷史均）</div>
+        </div>
+        <div class="stat-card purple">
+          <div class="text-3xl font-black">80%+</div>
+          <div class="text-xs opacity-80 mt-1">先進封裝<br>產能CAGR</div>
+        </div>
+        <div class="stat-card orange">
+          <div class="text-3xl font-black">70%</div>
+          <div class="text-xs opacity-80 mt-1">N2產能<br>CAGR 2026-28</div>
+        </div>
+        <div class="stat-card rose">
+          <div class="text-3xl font-black">12</div>
+          <div class="text-xs opacity-80 mt-1">台灣在建<br>晶圓/封裝廠</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Global Expansion Chart -->
+    <section id="global-expansion" class="mb-12 scroll-mt-16">
+      <h2 class="text-xl font-bold mb-1">全球擴產速度</h2>
+      <p class="text-sm text-zinc-500 dark:text-zinc-400 mb-5">每年新建廠數量大幅跳升，台灣仍是擴產主力。</p>
+
+      <div class="grid sm:grid-cols-2 gap-6">
+        <div class="bg-white dark:bg-zinc-900 rounded-xl p-5 shadow-sm border border-zinc-200 dark:border-zinc-800">
+          <div class="text-sm font-semibold mb-3 text-zinc-600 dark:text-zinc-300">年均新建晶圓廠數</div>
+          <div class="chart-wrap"><canvas id="chartSpeed"></canvas></div>
+        </div>
+        <div class="bg-white dark:bg-zinc-900 rounded-xl p-5 shadow-sm border border-zinc-200 dark:border-zinc-800">
+          <div class="text-sm font-semibold mb-3 text-zinc-600 dark:text-zinc-300">2026年台灣新建廠分布</div>
+          <div class="chart-wrap"><canvas id="chartTW"></canvas></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Fab Progress Tabs -->
+    <section id="fabs" class="mb-12 scroll-mt-16">
+      <h2 class="text-xl font-bold mb-5">各廠進度</h2>
+      <div class="bg-white dark:bg-zinc-900 rounded-xl shadow-sm border border-zinc-200 dark:border-zinc-800 p-5">
+        <div class="tabs flex flex-wrap border-b border-zinc-200 dark:border-zinc-700 mb-2">
+          <input type="radio" name="fab-tab" id="fab-tab-tw" checked>
+          <label for="fab-tab-tw">🇹🇼 台灣</label>
+          <input type="radio" name="fab-tab" id="fab-tab-us">
+          <label for="fab-tab-us">🇺🇸 美國</label>
+          <input type="radio" name="fab-tab" id="fab-tab-jp">
+          <label for="fab-tab-jp">🇯🇵 日本</label>
+          <input type="radio" name="fab-tab" id="fab-tab-eu">
+          <label for="fab-tab-eu">🇩🇪 歐洲/其他</label>
+
+          <!-- TW -->
+          <div class="tab-panel w-full">
+            <ul class="space-y-3 mt-2">
+              <li class="timeline-item">
+                <div class="font-semibold">新竹 20廠 / 高雄 22廠</div>
+                <div class="text-sm text-zinc-500 dark:text-zinc-400">已開始量產 <strong>N2</strong> 及更先進製程 <span class="badge badge-green">量產中</span></div>
+              </li>
+              <li class="timeline-item">
+                <div class="font-semibold">台中 25廠</div>
+                <div class="text-sm text-zinc-500 dark:text-zinc-400">2025年動工，預計 2028年量產 2奈米及更先進製程 <span class="badge badge-blue">建設中</span></div>
+              </li>
+              <li class="timeline-item">
+                <div class="font-semibold">台灣整體</div>
+                <div class="text-sm text-zinc-500 dark:text-zinc-400">共 12座晶圓廠/先進封裝廠 正在建設中，台灣仍是技術核心</div>
+              </li>
+            </ul>
+          </div>
+
+          <!-- US -->
+          <div class="tab-panel w-full">
+            <ul class="space-y-3 mt-2">
+              <li class="timeline-item">
+                <div class="font-semibold">亞利桑那 第1廠</div>
+                <div class="text-sm text-zinc-500 dark:text-zinc-400">2024年底量產 N4；2026年產出年增 <strong>1.8倍</strong> <span class="badge badge-green">量產中</span></div>
+              </li>
+              <li class="timeline-item">
+                <div class="font-semibold">第2廠</div>
+                <div class="text-sm text-zinc-500 dark:text-zinc-400">2026下半年設備移入，2027下半年量產 N3 <span class="badge badge-blue">設備移入中</span></div>
+              </li>
+              <li class="timeline-item">
+                <div class="font-semibold">第3廠</div>
+                <div class="text-sm text-zinc-500 dark:text-zinc-400">2025上半年已動工 <span class="badge badge-blue">建設中</span></div>
+              </li>
+              <li class="timeline-item">
+                <div class="font-semibold">第4廠 + 先進封裝廠</div>
+                <div class="text-sm text-zinc-500 dark:text-zinc-400">進入初期建設 <span class="badge badge-orange">規劃建設</span></div>
+              </li>
+            </ul>
+          </div>
+
+          <!-- JP -->
+          <div class="tab-panel w-full">
+            <ul class="space-y-3 mt-2">
+              <li class="timeline-item">
+                <div class="font-semibold">熊本 第1廠</div>
+                <div class="text-sm text-zinc-500 dark:text-zinc-400">28/22奈米已量產，良率已達台灣水準；2026年N28/N22產出目標為2025年的 <strong>2.3倍</strong> <span class="badge badge-green">量產中</span></div>
+              </li>
+              <li class="timeline-item">
+                <div class="font-semibold">熊本 第2廠</div>
+                <div class="text-sm text-zinc-500 dark:text-zinc-400">2025年開始建設，未來生產 N3 <span class="badge badge-blue">建設中</span></div>
+              </li>
+            </ul>
+          </div>
+
+          <!-- EU/Other -->
+          <div class="tab-panel w-full">
+            <ul class="space-y-3 mt-2">
+              <li class="timeline-item">
+                <div class="font-semibold">德國廠</div>
+                <div class="text-sm text-zinc-500 dark:text-zinc-400">聚焦汽車/工業應用，生產 12–28奈米 <span class="badge badge-purple">建設中</span></div>
+              </li>
+              <li class="timeline-item">
+                <div class="font-semibold">大陸廠</div>
+                <div class="text-sm text-zinc-500 dark:text-zinc-400">持續提供 16/28奈米成熟製程產能</div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Process Highlights -->
+    <section id="process" class="mb-12 scroll-mt-16">
+      <h2 class="text-xl font-bold mb-5">先進製程亮點</h2>
+      <div class="grid sm:grid-cols-2 gap-6">
+        <div class="bg-white dark:bg-zinc-900 rounded-xl p-5 shadow-sm border border-zinc-200 dark:border-zinc-800">
+          <div class="text-sm font-semibold mb-3 text-zinc-600 dark:text-zinc-300">各製程產能 CAGR 比較</div>
+          <div class="chart-wrap"><canvas id="chartCAGR"></canvas></div>
+        </div>
+        <div class="bg-white dark:bg-zinc-900 rounded-xl p-5 shadow-sm border border-zinc-200 dark:border-zinc-800">
+          <div class="text-sm font-semibold mb-4 text-zinc-600 dark:text-zinc-300">N2 製程關鍵數據</div>
+          <div class="space-y-4">
+            <div>
+              <div class="flex justify-between text-sm mb-1"><span>相對N3同期良率</span><span class="font-bold text-green-600 dark:text-green-400">更優</span></div>
+              <div class="h-2 bg-zinc-100 dark:bg-zinc-800 rounded-full overflow-hidden"><div class="h-full bg-green-500 rounded-full" style="width:88%"></div></div>
+            </div>
+            <div>
+              <div class="flex justify-between text-sm mb-1"><span>首年產出 vs N3同期</span><span class="font-bold text-blue-600 dark:text-blue-400">+45%</span></div>
+              <div class="h-2 bg-zinc-100 dark:bg-zinc-800 rounded-full overflow-hidden"><div class="h-full bg-blue-500 rounded-full" style="width:72%"></div></div>
+            </div>
+            <div>
+              <div class="flex justify-between text-sm mb-1"><span>N2 CAGR（2026-28）</span><span class="font-bold text-purple-600 dark:text-purple-400">~70%</span></div>
+              <div class="h-2 bg-zinc-100 dark:bg-zinc-800 rounded-full overflow-hidden"><div class="h-full bg-purple-500 rounded-full" style="width:70%"></div></div>
+            </div>
+            <div>
+              <div class="flex justify-between text-sm mb-1"><span>AI生產優化：導入時間縮短</span><span class="font-bold text-orange-600 dark:text-orange-400">>20%</span></div>
+              <div class="h-2 bg-zinc-100 dark:bg-zinc-800 rounded-full overflow-hidden"><div class="h-full bg-orange-500 rounded-full" style="width:55%"></div></div>
+            </div>
+          </div>
+          <p class="text-xs text-zinc-400 mt-4">A16製程將按計畫如期量產。</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Advanced Packaging -->
+    <section id="packaging" class="mb-12 scroll-mt-16">
+      <h2 class="text-xl font-bold mb-1">先進封裝（CoWoS / SoIC）</h2>
+      <p class="text-sm text-zinc-500 dark:text-zinc-400 mb-5">AI算力需求爆炸，封裝產能成最大瓶頸，也是最大商機。</p>
+      <div class="bg-white dark:bg-zinc-900 rounded-xl p-5 shadow-sm border border-zinc-200 dark:border-zinc-800">
+        <div class="grid sm:grid-cols-3 gap-4 mb-6">
+          <div class="text-center p-4 rounded-lg bg-purple-50 dark:bg-purple-950/40">
+            <div class="text-2xl font-black text-purple-600 dark:text-purple-400">>80%</div>
+            <div class="text-xs text-zinc-500 mt-1">CoWoS/SoIC<br>產能 CAGR 2022-27</div>
+          </div>
+          <div class="text-center p-4 rounded-lg bg-blue-50 dark:bg-blue-950/40">
+            <div class="text-2xl font-black text-blue-600 dark:text-blue-400">SoIC-X</div>
+            <div class="text-xs text-zinc-500 mt-1">已量產<br>最先進堆疊封裝</div>
+          </div>
+          <div class="text-center p-4 rounded-lg bg-green-50 dark:bg-green-950/40">
+            <div class="text-2xl font-black text-green-600 dark:text-green-400">AI驅動</div>
+            <div class="text-xs text-zinc-500 mt-1">全力因應<br>AI算力需求</div>
+          </div>
+        </div>
+        <div class="chart-wrap" style="height:200px;"><canvas id="chartPkg"></canvas></div>
+      </div>
+    </section>
+
+    <!-- Taiwan Suppliers Section -->
+    <section id="suppliers" class="mb-12 scroll-mt-16">
+      <h2 class="text-xl font-bold mb-1">台灣廠商受益分析</h2>
+      <p class="text-sm text-zinc-500 dark:text-zinc-400 mb-4">根據台積電擴產計畫，整理各受益供應鏈環節。<br>
+        <span class="text-xs">搜尋公司名稱或分類：</span></p>
+      <input id="supplier-search" placeholder="搜尋公司 / 分類..." type="text">
+
+      <div class="overflow-x-auto rounded-xl border border-zinc-200 dark:border-zinc-800 shadow-sm">
+        <table class="stbl w-full" id="supplier-table">
+          <thead>
+            <tr>
+              <th>公司</th>
+              <th>分類</th>
+              <th>受益主因</th>
+              <th>關聯製程</th>
+              <th>受益強度</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="font-medium">台灣積體電路（2330）</td>
+              <td><span class="badge badge-blue">晶圓代工</span></td>
+              <td>核心受益者，建廠主體</td>
+              <td>N2 / N3 / A16</td>
+              <td><span class="badge badge-green">★★★★★</span></td>
+            </tr>
+            <tr>
+              <td class="font-medium">日月光投控（3711）</td>
+              <td><span class="badge badge-purple">先進封裝</span></td>
+              <td>CoWoS/SoIC封裝代工，CAGR>80%</td>
+              <td>CoWoS / SoIC-X</td>
+              <td><span class="badge badge-green">★★★★★</span></td>
+            </tr>
+            <tr>
+              <td class="font-medium">聯電（2303）</td>
+              <td><span class="badge badge-blue">晶圓代工</span></td>
+              <td>成熟製程擴產，歐洲/日本廠商溢出訂單</td>
+              <td>28nm / 22nm</td>
+              <td><span class="badge badge-orange">★★★★</span></td>
+            </tr>
+            <tr>
+              <td class="font-medium">台灣大福（4511）</td>
+              <td><span class="badge badge-orange">自動化物流</span></td>
+              <td>新廠AMHS自動化物料搬運系統</td>
+              <td>全廠通用</td>
+              <td><span class="badge badge-green">★★★★★</span></td>
+            </tr>
+            <tr>
+              <td class="font-medium">弘塑科技（3131）</td>
+              <td><span class="badge badge-orange">設備</span></td>
+              <td>晶圓清洗設備，隨新廠建設大量採購</td>
+              <td>N2 / N3</td>
+              <td><span class="badge badge-green">★★★★★</span></td>
+            </tr>
+            <tr>
+              <td class="font-medium">家登精密（3680）</td>
+              <td><span class="badge badge-orange">設備</span></td>
+              <td>極紫外光光罩盒，N2/A16必需品</td>
+              <td>EUV製程</td>
+              <td><span class="badge badge-green">★★★★★</span></td>
+            </tr>
+            <tr>
+              <td class="font-medium">京鼎（3413）</td>
+              <td><span class="badge badge-orange">設備</span></td>
+              <td>機台零組件，台積電設備組裝採購</td>
+              <td>全製程</td>
+              <td><span class="badge badge-orange">★★★★</span></td>
+            </tr>
+            <tr>
+              <td class="font-medium">台勝科（3532）</td>
+              <td><span class="badge badge-blue">材料</span></td>
+              <td>矽晶圓，新廠開出帶動需求</td>
+              <td>全製程</td>
+              <td><span class="badge badge-orange">★★★★</span></td>
+            </tr>
+            <tr>
+              <td class="font-medium">環球晶（6488）</td>
+              <td><span class="badge badge-blue">材料</span></td>
+              <td>矽晶圓，N2/N3先進製程基板</td>
+              <td>N2 / N3</td>
+              <td><span class="badge badge-green">★★★★★</span></td>
+            </tr>
+            <tr>
+              <td class="font-medium">合晶科技（6182）</td>
+              <td><span class="badge badge-blue">材料</span></td>
+              <td>矽晶圓，300mm需求持續成長</td>
+              <td>全製程</td>
+              <td><span class="badge badge-orange">★★★★</span></td>
+            </tr>
+            <tr>
+              <td class="font-medium">昇陽半導體（8028）</td>
+              <td><span class="badge badge-blue">材料</span></td>
+              <td>光阻材料，先進製程用量倍增</td>
+              <td>EUV製程</td>
+              <td><span class="badge badge-orange">★★★★</span></td>
+            </tr>
+            <tr>
+              <td class="font-medium">力積電（6770）</td>
+              <td><span class="badge badge-blue">晶圓代工</span></td>
+              <td>台積電成熟製程外溢，接單成熟IC</td>
+              <td>28nm / 40nm</td>
+              <td><span class="badge badge-purple">★★★</span></td>
+            </tr>
+            <tr>
+              <td class="font-medium">南亞科（2408）</td>
+              <td><span class="badge badge-blue">材料</span></td>
+              <td>PCB/載板，先進封裝ABF基板需求</td>
+              <td>先進封裝</td>
+              <td><span class="badge badge-orange">★★★★</span></td>
+            </tr>
+            <tr>
+              <td class="font-medium">欣興電子（3037）</td>
+              <td><span class="badge badge-blue">材料</span></td>
+              <td>ABF載板，CoWoS/SoIC封裝關鍵材料</td>
+              <td>CoWoS</td>
+              <td><span class="badge badge-green">★★★★★</span></td>
+            </tr>
+            <tr>
+              <td class="font-medium">台灣化學纖維（1301）</td>
+              <td><span class="badge badge-blue">材料</span></td>
+              <td>特用化學品，晶圓廠清潔/製程用</td>
+              <td>全製程</td>
+              <td><span class="badge badge-purple">★★★</span></td>
+            </tr>
+            <tr>
+              <td class="font-medium">崇越科技（5434）</td>
+              <td><span class="badge badge-blue">材料</span></td>
+              <td>CMP研磨液等特殊化學品代理</td>
+              <td>N2 / N3</td>
+              <td><span class="badge badge-orange">★★★★</span></td>
+            </tr>
+            <tr>
+              <td class="font-medium">台積電封裝材料夥伴</td>
+              <td><span class="badge badge-purple">先進封裝</span></td>
+              <td>SoIC-X量產帶動底填膠/導熱材料</td>
+              <td>SoIC-X</td>
+              <td><span class="badge badge-orange">★★★★</span></td>
+            </tr>
+            <tr>
+              <td class="font-medium">兆利科技（3548）</td>
+              <td><span class="badge badge-orange">設備零件</span></td>
+              <td>機台精密零組件，擴廠設備採購</td>
+              <td>全製程</td>
+              <td><span class="badge badge-orange">★★★★</span></td>
+            </tr>
+            <tr>
+              <td class="font-medium">漢唐集成（2404）</td>
+              <td><span class="badge badge-orange">廠務工程</span></td>
+              <td>無塵室系統整合，台灣12廠在建</td>
+              <td>全廠通用</td>
+              <td><span class="badge badge-green">★★★★★</span></td>
+            </tr>
+            <tr>
+              <td class="font-medium">信紘科（6207）</td>
+              <td><span class="badge badge-orange">廠務工程</span></td>
+              <td>高純度氣體/化學品管路系統</td>
+              <td>全製程</td>
+              <td><span class="badge badge-orange">★★★★</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="text-xs text-zinc-400 mt-2">* 受益強度為分析師觀點，僅供參考，非投資建議。</p>
+    </section>
+
+    <!-- Timeline -->
+    <section id="timeline" class="mb-12 scroll-mt-16">
+      <h2 class="text-xl font-bold mb-5">關鍵時間軸</h2>
+      <div class="bg-white dark:bg-zinc-900 rounded-xl p-6 shadow-sm border border-zinc-200 dark:border-zinc-800">
+        <ul>
+          <li class="timeline-item">
+            <div class="text-xs font-bold text-zinc-400 uppercase">2024年底</div>
+            <div class="font-medium mt-0.5">亞利桑那第1廠 N4 量產</div>
+          </li>
+          <li class="timeline-item">
+            <div class="text-xs font-bold text-zinc-400 uppercase">2025上半年</div>
+            <div class="font-medium mt-0.5">美國第3廠動工 / 熊本第2廠開始建設 / 台中25廠動工</div>
+          </li>
+          <li class="timeline-item">
+            <div class="text-xs font-bold text-zinc-400 uppercase">2025全年</div>
+            <div class="font-medium mt-0.5">新竹20廠、高雄22廠 N2量產 / SoIC-X量產 / 台灣減碳380萬噸</div>
+          </li>
+          <li class="timeline-item">
+            <div class="text-xs font-bold text-zinc-400 uppercase">2026年</div>
+            <div class="font-medium mt-0.5">台灣新建4座晶圓廠+2座先進封裝廠 / 美國第2廠設備移入 / 熊本N28/N22產出達2.3倍</div>
+          </li>
+          <li class="timeline-item">
+            <div class="text-xs font-bold text-zinc-400 uppercase">2027年</div>
+            <div class="font-medium mt-0.5">美國第2廠 N3 量產</div>
+          </li>
+          <li class="timeline-item">
+            <div class="text-xs font-bold text-zinc-400 uppercase">2028年</div>
+            <div class="font-medium mt-0.5">台中25廠量產2奈米及更先進製程</div>
+          </li>
+          <li class="timeline-item">
+            <div class="text-xs font-bold text-zinc-400 uppercase">2040年</div>
+            <div class="font-medium mt-0.5">水資源正效益目標</div>
+          </li>
+          <li class="timeline-item">
+            <div class="text-xs font-bold text-zinc-400 uppercase">2050年</div>
+            <div class="font-medium mt-0.5">淨零排放目標</div>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Green Goals -->
+    <section id="green" class="mb-12 scroll-mt-16">
+      <h2 class="text-xl font-bold mb-5">綠色目標</h2>
+      <div class="grid sm:grid-cols-3 gap-4">
+        <div class="bg-green-50 dark:bg-green-950/30 rounded-xl p-5 border border-green-200 dark:border-green-900">
+          <div class="text-2xl font-black text-green-700 dark:text-green-400">2025</div>
+          <div class="font-semibold mt-1">減碳 380萬噸</div>
+          <div class="text-sm text-zinc-500 mt-1">相關節能設備與材料廠商受惠</div>
+        </div>
+        <div class="bg-blue-50 dark:bg-blue-950/30 rounded-xl p-5 border border-blue-200 dark:border-blue-900">
+          <div class="text-2xl font-black text-blue-700 dark:text-blue-400">2040</div>
+          <div class="font-semibold mt-1">水資源正效益</div>
+          <div class="text-sm text-zinc-500 mt-1">廢水回收/純水設備廠商長期訂單</div>
+        </div>
+        <div class="bg-zinc-100 dark:bg-zinc-800 rounded-xl p-5 border border-zinc-200 dark:border-zinc-700">
+          <div class="text-2xl font-black">2050</div>
+          <div class="font-semibold mt-1">淨零排放</div>
+          <div class="text-sm text-zinc-500 mt-1">綠能、碳捕捉相關供應鏈長期商機</div>
+        </div>
+      </div>
+      <details class="mt-5 bg-white dark:bg-zinc-900 rounded-xl p-5 shadow-sm border border-zinc-200 dark:border-zinc-800">
+        <summary class="font-semibold text-sm">AI 優化生產的影響</summary>
+        <p class="mt-3 text-sm text-zinc-600 dark:text-zinc-400">台積電大量導入 AI 優化生產流程，已縮短量產導入時間逾 20%。這意味著 AI 晶片（如 NVIDIA GPU、自研 AI 晶片）的需求端持續強勁，同時也促進台積電自身的運營效率，帶動 AI 相關設備整合商與資料中心廠商的訂單。</p>
+      </details>
+    </section>
+
+    <footer class="mt-12 pt-8 border-t border-zinc-200 dark:border-zinc-800 text-xs text-zinc-400">
+      資料來源：台積電技術論壇（2026年5月） · 本報告由 <code>html-report</code> Claude skill 生成 · 僅供研究參考，非投資建議
+    </footer>
+  </main>
+</div>
+
+<script>
+  // Theme toggle
+  document.getElementById('theme-toggle').addEventListener('click', () => {
+    const dark = document.documentElement.classList.toggle('dark');
+    localStorage.theme = dark ? 'dark' : 'light';
+    updateChartThemes(dark);
+  });
+
+  const isDark = () => document.documentElement.classList.contains('dark');
+
+  // Chart defaults
+  Chart.defaults.font.family = 'system-ui, ui-sans-serif, sans-serif';
+  Chart.defaults.font.size = 12;
+
+  function gridColor() { return isDark() ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.07)'; }
+  function labelColor() { return isDark() ? '#a1a1aa' : '#52525b'; }
+
+  // Chart 1: Build speed
+  const ctxSpeed = document.getElementById('chartSpeed').getContext('2d');
+  const chartSpeed = new Chart(ctxSpeed, {
+    type: 'bar',
+    data: {
+      labels: ['2017-2024\n年均', '2025-2026\n年均'],
+      datasets: [{
+        label: '每年新建廠數',
+        data: [4, 9],
+        backgroundColor: ['#60a5fa', '#2563eb'],
+        borderRadius: 8,
+      }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { display: false }, tooltip: { callbacks: { label: ctx => ` ${ctx.raw} 座/年` } } },
+      scales: {
+        y: { beginAtZero: true, ticks: { color: labelColor(), stepSize: 1 }, grid: { color: gridColor() } },
+        x: { ticks: { color: labelColor() }, grid: { display: false } }
+      }
+    }
+  });
+
+  // Chart 2: Taiwan 2026 breakdown
+  const ctxTW = document.getElementById('chartTW').getContext('2d');
+  const chartTW = new Chart(ctxTW, {
+    type: 'doughnut',
+    data: {
+      labels: ['晶圓廠', '先進封裝廠'],
+      datasets: [{ data: [4, 2], backgroundColor: ['#3b82f6','#a855f7'], borderWidth: 0, hoverOffset: 6 }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: {
+        legend: { position: 'bottom', labels: { color: labelColor(), boxWidth: 12, padding: 16 } },
+        tooltip: { callbacks: { label: ctx => ` ${ctx.label}: ${ctx.raw} 座` } }
+      },
+      cutout: '62%'
+    }
+  });
+
+  // Chart 3: CAGR comparison
+  const ctxCAGR = document.getElementById('chartCAGR').getContext('2d');
+  const chartCAGR = new Chart(ctxCAGR, {
+    type: 'bar',
+    data: {
+      labels: ['先進封裝\n(CoWoS/SoIC)', 'N2\n(2026-28)', 'N3/N5\n(2022-27)'],
+      datasets: [{
+        label: '產能 CAGR',
+        data: [80, 70, 25],
+        backgroundColor: ['#a855f7', '#3b82f6', '#10b981'],
+        borderRadius: 8,
+      }]
+    },
+    options: {
+      indexAxis: 'y',
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { display: false }, tooltip: { callbacks: { label: ctx => ` ~${ctx.raw}% CAGR` } } },
+      scales: {
+        x: { beginAtZero: true, max: 100, ticks: { color: labelColor(), callback: v => v+'%' }, grid: { color: gridColor() } },
+        y: { ticks: { color: labelColor() }, grid: { display: false } }
+      }
+    }
+  });
+
+  // Chart 4: Packaging capacity trend
+  const ctxPkg = document.getElementById('chartPkg').getContext('2d');
+  const base = 100;
+  function compound(cagr, years) { return Array.from({length:years}, (_,i) => Math.round(base * Math.pow(1+cagr/100, i))); }
+  const chartPkg = new Chart(ctxPkg, {
+    type: 'line',
+    data: {
+      labels: ['2022','2023','2024','2025','2026','2027'],
+      datasets: [{
+        label: 'CoWoS/SoIC 相對產能',
+        data: compound(80, 6),
+        borderColor: '#a855f7', backgroundColor: 'rgba(168,85,247,0.12)',
+        fill: true, tension: 0.35, pointRadius: 4, pointBackgroundColor: '#a855f7',
+      }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { display: false }, tooltip: { callbacks: { label: ctx => ` 指數 ${ctx.raw}（基期=100）` } } },
+      scales: {
+        y: { beginAtZero: false, ticks: { color: labelColor() }, grid: { color: gridColor() } },
+        x: { ticks: { color: labelColor() }, grid: { display: false } }
+      }
+    }
+  });
+
+  function updateChartThemes() {
+    [chartSpeed, chartTW, chartCAGR, chartPkg].forEach(c => {
+      if (c.options.scales) {
+        if (c.options.scales.x) { c.options.scales.x.ticks.color = labelColor(); if(c.options.scales.x.grid) c.options.scales.x.grid.color = gridColor(); }
+        if (c.options.scales.y) { c.options.scales.y.ticks.color = labelColor(); if(c.options.scales.y.grid) c.options.scales.y.grid.color = gridColor(); }
+      }
+      if (c.options.plugins && c.options.plugins.legend && c.options.plugins.legend.labels)
+        c.options.plugins.legend.labels.color = labelColor();
+      c.update();
+    });
+  }
+
+  // Supplier search
+  const searchInput = document.getElementById('supplier-search');
+  searchInput.addEventListener('input', () => {
+    const q = searchInput.value.toLowerCase();
+    document.querySelectorAll('#supplier-table tbody tr').forEach(row => {
+      row.style.display = row.textContent.toLowerCase().includes(q) ? '' : 'none';
+    });
+  });
+
+  // TOC scroll-spy
+  const tocLinks = document.querySelectorAll('.toc a');
+  const sections = [...tocLinks].map(a => document.querySelector(a.getAttribute('href'))).filter(Boolean);
+  if (sections.length) {
+    const onScroll = () => {
+      const y = window.scrollY + 120;
+      let active = sections[0];
+      for (const s of sections) if (s.offsetTop <= y) active = s;
+      tocLinks.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + active.id));
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+  }
+</script>
+</body>
+</html>
