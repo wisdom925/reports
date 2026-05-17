@@ -1,0 +1,533 @@
+<!doctype html>
+<html lang="zh-TW" class="scroll-smooth">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>AI 受益者擁有強勁基本面：營收成長 vs. 營業利益率分析</title>
+  <meta name="description" content="分析 AI 相關企業的年增率營收成長與調整後營業利益率，以 Rule of 40 / 80 框架評估基本面強度。">
+  <meta property="og:title" content="AI 受益者擁有強勁基本面：營收成長 vs. 營業利益率分析">
+  <meta property="og:description" content="分析 AI 相關企業的年增率營收成長與調整後營業利益率，以 Rule of 40 / 80 框架評估基本面強度。">
+  <meta property="og:type" content="article">
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = { darkMode: 'class', theme: { extend: { fontFamily: { sans: ['system-ui', 'ui-sans-serif', 'sans-serif'] } } } };
+    if (localStorage.theme === 'dark' || (!('theme' in localStorage) && matchMedia('(prefers-color-scheme: dark)').matches)) {
+      document.documentElement.classList.add('dark');
+    }
+  </script>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@3/dist/chartjs-plugin-annotation.min.js"></script>
+
+  <!-- DataTables -->
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.min.css">
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
+
+  <style>
+    @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
+    @media print {
+      .no-print { display: none !important; }
+      body { color: #000; background: #fff; }
+    }
+    .toc a { display: block; padding: .2rem 0; opacity: .6; transition: opacity .15s; }
+    .toc a:hover, .toc a.active { opacity: 1; }
+    .toc a.active { font-weight: 600; }
+
+    .tabs input[type="radio"] { display: none; }
+    .tabs label { cursor: pointer; padding: .5rem 1.2rem; border-bottom: 3px solid transparent; display: inline-block; font-size: .9rem; transition: border-color .15s; }
+    .tabs input:checked + label { border-color: #6366f1; font-weight: 600; }
+    .tab-panel { display: none; padding-top: 1rem; }
+    .tabs input:nth-of-type(1):checked ~ .tab-panel:nth-of-type(1),
+    .tabs input:nth-of-type(2):checked ~ .tab-panel:nth-of-type(2),
+    .tabs input:nth-of-type(3):checked ~ .tab-panel:nth-of-type(3) { display: block; }
+
+    .badge { display: inline-block; padding: 2px 10px; border-radius: 999px; font-size: .75rem; font-weight: 600; }
+    .badge-bottleneck { background: #ede9fe; color: #7c3aed; }
+    .badge-vulnerable  { background: #ccfbf1; color: #0f766e; }
+    .badge-sp500       { background: #ffedd5; color: #c2410c; }
+    .dark .badge-bottleneck { background: #4c1d95; color: #ddd6fe; }
+    .dark .badge-vulnerable  { background: #134e4a; color: #99f6e4; }
+    .dark .badge-sp500       { background: #7c2d12; color: #fed7aa; }
+
+    #company-table_wrapper { font-size: .875rem; }
+    #company-table th { cursor: pointer; }
+    .dataTables_wrapper .dataTables_filter input {
+      border: 1px solid #d1d5db; border-radius: .375rem; padding: .3rem .6rem; margin-left: .5rem;
+    }
+    .dark .dataTables_wrapper .dataTables_filter input {
+      background: #27272a; border-color: #52525b; color: #f4f4f5;
+    }
+    .dark table.dataTable thead th { background: #1c1c1e; color: #e4e4e7; }
+    .dark table.dataTable tbody td { background: #27272a; color: #d4d4d8; border-color: #3f3f46; }
+    .dark table.dataTable tbody tr:hover td { background: #3f3f46; }
+
+    .rule-badge {
+      display: inline-flex; align-items: center; gap: .4rem;
+      padding: .35rem .9rem; border-radius: .5rem; font-size: .85rem; font-weight: 600;
+    }
+    .rule-80 { background: #fef9c3; color: #854d0e; border: 1px solid #fde047; }
+    .rule-40 { background: #dbeafe; color: #1e40af; border: 1px solid #93c5fd; }
+    .dark .rule-80 { background: #713f12; color: #fef08a; border-color: #ca8a04; }
+    .dark .rule-40 { background: #1e3a8a; color: #bfdbfe; border-color: #3b82f6; }
+  </style>
+</head>
+
+<body class="bg-white dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 font-sans antialiased">
+
+<div class="fixed top-4 right-4 z-50 flex gap-2 no-print">
+  <button id="theme-toggle" class="px-3 py-1.5 rounded-md border border-zinc-300 dark:border-zinc-700 bg-white/70 dark:bg-zinc-900/70 backdrop-blur text-sm hover:bg-zinc-100 dark:hover:bg-zinc-800">☼ / ☾</button>
+  <button onclick="window.print()" class="px-3 py-1.5 rounded-md border border-zinc-300 dark:border-zinc-700 bg-white/70 dark:bg-zinc-900/70 backdrop-blur text-sm hover:bg-zinc-100 dark:hover:bg-zinc-800">列印</button>
+</div>
+
+<div class="max-w-6xl mx-auto px-6 py-12 lg:grid lg:grid-cols-[200px_minmax(0,1fr)] lg:gap-12">
+
+  <nav class="toc lg:sticky lg:top-12 self-start text-sm mb-8 lg:mb-0 no-print">
+    <div class="font-semibold mb-2 text-zinc-500 uppercase tracking-wider text-xs">目錄</div>
+    <a href="#overview">概覽</a>
+    <a href="#scatter">散點圖分析</a>
+    <a href="#rule-framework">Rule of 40/80</a>
+    <a href="#by-category">分類深析</a>
+    <a href="#data-table">完整數據</a>
+    <a href="#key-takeaways">關鍵洞察</a>
+  </nav>
+
+  <main class="min-w-0">
+
+    <header class="mb-12">
+      <p class="text-sm text-zinc-500 mb-2">投資分析報告 · <time datetime="2026-05-17">2026-05-17</time></p>
+      <h1 class="text-4xl font-bold tracking-tight mb-3">AI 受益者擁有強勁基本面</h1>
+      <p class="text-lg text-zinc-600 dark:text-zinc-400">以年增率營收成長 vs. 調整後營業利益率，解析 AI 相關企業的競爭力位置與 Rule of 40/80 達成狀況。</p>
+
+      <!-- KPI 摘要 -->
+      <div class="mt-8 grid grid-cols-2 sm:grid-cols-4 gap-4">
+        <div class="rounded-xl border border-zinc-200 dark:border-zinc-800 p-4 text-center">
+          <div class="text-3xl font-bold text-violet-600">4</div>
+          <div class="text-xs text-zinc-500 mt-1">AI 瓶頸企業<br>達 Rule of 80</div>
+        </div>
+        <div class="rounded-xl border border-zinc-200 dark:border-zinc-800 p-4 text-center">
+          <div class="text-3xl font-bold text-orange-500">~147%</div>
+          <div class="text-xs text-zinc-500 mt-1">NVIDIA<br>Rule of 40 得分</div>
+        </div>
+        <div class="rounded-xl border border-zinc-200 dark:border-zinc-800 p-4 text-center">
+          <div class="text-3xl font-bold text-teal-600">14</div>
+          <div class="text-xs text-zinc-500 mt-1">AI 易受衝擊<br>企業數量</div>
+        </div>
+        <div class="rounded-xl border border-zinc-200 dark:border-zinc-800 p-4 text-center">
+          <div class="text-3xl font-bold text-blue-600">6</div>
+          <div class="text-xs text-zinc-500 mt-1">S&amp;P 500 前十<br>達 Rule of 40</div>
+        </div>
+      </div>
+    </header>
+
+    <!-- 概覽 -->
+    <section id="overview" class="mb-12">
+      <h2 class="text-2xl font-semibold mb-4">概覽</h2>
+      <p class="text-zinc-600 dark:text-zinc-400 leading-relaxed mb-4">
+        本圖表源自對 AI 浪潮下企業基本面的系統性評估，橫軸為<strong>調整後營業利益率</strong>（盈利能力），縱軸為<strong>年增率（YoY）營收成長</strong>（成長動能）。兩條虛線對角分別代表「Rule of 80」與「Rule of 40」基準線——企業落於線右上方代表複合分數達標，基本面越強。
+      </p>
+      <p class="text-zinc-600 dark:text-zinc-400 leading-relaxed">
+        圖中企業依 AI 曝險程度分三類：<span class="badge badge-bottleneck">AI 瓶頸</span>（直接受益於 AI 需求）、<span class="badge badge-vulnerable">AI 易受衝擊</span>（業務可能被 AI 顛覆）、<span class="badge badge-sp500">S&P 500 前十</span>（大盤代表性企業）。
+      </p>
+    </section>
+
+    <!-- 互動散點圖 -->
+    <section id="scatter" class="mb-12">
+      <h2 class="text-2xl font-semibold mb-2">互動散點圖</h2>
+      <p class="text-sm text-zinc-500 mb-4">懸停各點可查看企業名稱與數值。點擊圖例可切換顯示分類。</p>
+      <div class="rounded-xl border border-zinc-200 dark:border-zinc-800 p-4" style="height:480px; position:relative;">
+        <canvas id="scatterChart"></canvas>
+      </div>
+    </section>
+
+    <!-- Rule of 40/80 說明 -->
+    <section id="rule-framework" class="mb-12">
+      <h2 class="text-2xl font-semibold mb-4">Rule of 40 / 80 框架</h2>
+      <div class="grid sm:grid-cols-2 gap-6 mb-6">
+        <div class="rounded-xl border border-yellow-200 dark:border-yellow-900 bg-yellow-50 dark:bg-yellow-950 p-5">
+          <div class="rule-badge rule-80 mb-3">⭐ Rule of 80 — 卓越基本面</div>
+          <p class="text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed">
+            <strong>YoY 營收成長率 + 調整後營業利益率 ≥ 80%</strong><br><br>
+            達標企業兼具高速成長與高獲利，代表競爭護城河極深或正處風口浪尖。本圖中 Nvidia、Lumentum、Sandisk 等均達此標準。
+          </p>
+        </div>
+        <div class="rounded-xl border border-blue-200 dark:border-blue-900 bg-blue-50 dark:bg-blue-950 p-5">
+          <div class="rule-badge rule-40 mb-3">✓ Rule of 40 — 優質基本面</div>
+          <p class="text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed">
+            <strong>YoY 營收成長率 + 調整後營業利益率 ≥ 40%</strong><br><br>
+            SaaS 與科技業常用評估標準，強調成長與獲利的平衡。達標企業被視為有健全商業模式，適合長期投資觀察。
+          </p>
+        </div>
+      </div>
+
+      <details class="rounded-xl border border-zinc-200 dark:border-zinc-800 p-4">
+        <summary class="font-medium text-zinc-700 dark:text-zinc-300 text-sm">▸ 為何這兩個指標重要？</summary>
+        <p class="mt-3 text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed">
+          純粹的高成長企業（高 YoY、低利潤）可能燒錢難以為繼；純粹的高利潤企業（高利潤、低成長）則面臨成熟市場天花板。Rule of 40/80 要求兩者之「和」達標，迫使投資者同時審視成長動能與盈利品質，是篩選優質成長股的經典捷徑。
+        </p>
+      </details>
+    </section>
+
+    <!-- 分類深析（Tabs） -->
+    <section id="by-category" class="mb-12">
+      <h2 class="text-2xl font-semibold mb-4">分類深析</h2>
+      <div class="tabs rounded-xl border border-zinc-200 dark:border-zinc-800 p-4">
+        <input type="radio" name="cat-tab" id="tab1" checked>
+        <label for="tab1" class="text-violet-600 dark:text-violet-400">AI 瓶頸企業</label>
+        <input type="radio" name="cat-tab" id="tab2">
+        <label for="tab2" class="text-teal-600 dark:text-teal-400">AI 易受衝擊</label>
+        <input type="radio" name="cat-tab" id="tab3">
+        <label for="tab3" class="text-orange-500">S&amp;P 500 前十</label>
+
+        <div class="tab-panel">
+          <p class="text-sm text-zinc-600 dark:text-zinc-400 mb-4">
+            AI 瓶頸企業是 AI 供應鏈中不可或缺的關鍵環節，直接受益於 AI 基礎建設投資擴大，多數達到 Rule of 40 甚至 Rule of 80 標準。
+          </p>
+          <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
+            <div class="rounded-lg border border-violet-200 dark:border-violet-900 bg-violet-50 dark:bg-violet-950 p-3">
+              <div class="font-semibold text-violet-800 dark:text-violet-300">Nvidia</div>
+              <div class="text-xs text-zinc-500 mt-1">成長 ~75% · 利潤 ~72% · Rule of 40 得分: <strong>~147</strong></div>
+            </div>
+            <div class="rounded-lg border border-violet-200 dark:border-violet-900 bg-violet-50 dark:bg-violet-950 p-3">
+              <div class="font-semibold text-violet-800 dark:text-violet-300">Lumentum</div>
+              <div class="text-xs text-zinc-500 mt-1">成長 ~65% · 利潤 ~25% · Rule of 40 得分: <strong>~90</strong></div>
+            </div>
+            <div class="rounded-lg border border-violet-200 dark:border-violet-900 bg-violet-50 dark:bg-violet-950 p-3">
+              <div class="font-semibold text-violet-800 dark:text-violet-300">Sandisk</div>
+              <div class="text-xs text-zinc-500 mt-1">成長 ~60% · 利潤 ~37% · Rule of 40 得分: <strong>~97</strong></div>
+            </div>
+            <div class="rounded-lg border border-violet-200 dark:border-violet-900 bg-violet-50 dark:bg-violet-950 p-3">
+              <div class="font-semibold text-violet-800 dark:text-violet-300">Amphenol</div>
+              <div class="text-xs text-zinc-500 mt-1">成長 ~44% · 利潤 ~27% · Rule of 40 得分: <strong>~71</strong></div>
+            </div>
+            <div class="rounded-lg border border-violet-200 dark:border-violet-900 bg-violet-50 dark:bg-violet-950 p-3">
+              <div class="font-semibold text-violet-800 dark:text-violet-300">Marvell</div>
+              <div class="text-xs text-zinc-500 mt-1">成長 ~23% · 利潤 ~35% · Rule of 40 得分: <strong>~58</strong></div>
+            </div>
+            <div class="rounded-lg border border-violet-200 dark:border-violet-900 bg-violet-50 dark:bg-violet-950 p-3">
+              <div class="font-semibold text-violet-800 dark:text-violet-300">Vertiv</div>
+              <div class="text-xs text-zinc-500 mt-1">成長 ~28% · 利潤 ~22% · Rule of 40 得分: <strong>~50</strong></div>
+            </div>
+            <div class="rounded-lg border border-violet-200 dark:border-violet-900 bg-violet-50 dark:bg-violet-950 p-3">
+              <div class="font-semibold text-violet-800 dark:text-violet-300">Coherent</div>
+              <div class="text-xs text-zinc-500 mt-1">成長 ~16% · 利潤 ~10% · Rule of 40 得分: <strong>~26</strong></div>
+            </div>
+            <div class="rounded-lg border border-violet-200 dark:border-violet-900 bg-violet-50 dark:bg-violet-950 p-3">
+              <div class="font-semibold text-violet-800 dark:text-violet-300">Eaton</div>
+              <div class="text-xs text-zinc-500 mt-1">成長 ~18% · 利潤 ~26% · Rule of 40 得分: <strong>~44</strong></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="tab-panel">
+          <p class="text-sm text-zinc-600 dark:text-zinc-400 mb-4">
+            AI 易受衝擊企業的業務模式面臨 AI 替代威脅，整體分布偏向低成長、中等利潤區間，多數位於 Rule of 40 基準線以下。
+          </p>
+          <p class="text-sm text-zinc-600 dark:text-zinc-400 mb-3">
+            這類企業通常是各傳統產業的龍頭，雖有穩定的調整後利潤（10–50%），但 YoY 成長普遍偏低（0–20%）。整體群落落在 Rule of 40 基準線以下，意味著在 AI 驅動的競爭格局中，需要積極轉型或找到差異化定位。
+          </p>
+          <div class="rounded-lg border border-teal-200 dark:border-teal-900 bg-teal-50 dark:bg-teal-950 p-4 text-sm text-teal-800 dark:text-teal-200">
+            💡 本群落包含約 14 家分散在各利潤率段的企業，代表傳統行業龍頭（科技、工業、消費電子）在 AI 浪潮下面臨的兩難：利潤尚可，但成長動能受壓。
+          </div>
+        </div>
+
+        <div class="tab-panel">
+          <p class="text-sm text-zinc-600 dark:text-zinc-400 mb-4">
+            S&P 500 前十大企業大多具備強勁基本面，多數達到 Rule of 40 以上標準，部分更達 Rule of 80。
+          </p>
+          <div class="grid sm:grid-cols-2 gap-3">
+            <div class="rounded-lg border border-orange-200 dark:border-orange-900 bg-orange-50 dark:bg-orange-950 p-3">
+              <div class="font-semibold text-orange-800 dark:text-orange-300">Broadcom</div>
+              <div class="text-xs text-zinc-500 mt-1">成長 ~30% · 利潤 ~70% · Rule of 40 得分: <strong>~100</strong></div>
+            </div>
+            <div class="rounded-lg border border-orange-200 dark:border-orange-900 bg-orange-50 dark:bg-orange-950 p-3">
+              <div class="font-semibold text-orange-800 dark:text-orange-300">TSMC</div>
+              <div class="text-xs text-zinc-500 mt-1">成長 ~33% · 利潤 ~60% · Rule of 40 得分: <strong>~93</strong></div>
+            </div>
+            <div class="rounded-lg border border-orange-200 dark:border-orange-900 bg-orange-50 dark:bg-orange-950 p-3">
+              <div class="font-semibold text-orange-800 dark:text-orange-300">Eli Lilly</div>
+              <div class="text-xs text-zinc-500 mt-1">成長 ~43% · 利潤 ~45% · Rule of 40 得分: <strong>~88</strong></div>
+            </div>
+            <div class="rounded-lg border border-orange-200 dark:border-orange-900 bg-orange-50 dark:bg-orange-950 p-3">
+              <div class="font-semibold text-orange-800 dark:text-orange-300">Meta</div>
+              <div class="text-xs text-zinc-500 mt-1">成長 ~27% · 利潤 ~40% · Rule of 40 得分: <strong>~67</strong></div>
+            </div>
+            <div class="rounded-lg border border-orange-200 dark:border-orange-900 bg-orange-50 dark:bg-orange-950 p-3">
+              <div class="font-semibold text-orange-800 dark:text-orange-300">Microsoft</div>
+              <div class="text-xs text-zinc-500 mt-1">成長 ~18% · 利潤 ~43% · Rule of 40 得分: <strong>~61</strong></div>
+            </div>
+            <div class="rounded-lg border border-orange-200 dark:border-orange-900 bg-orange-50 dark:bg-orange-950 p-3">
+              <div class="font-semibold text-orange-800 dark:text-orange-300">Alphabet</div>
+              <div class="text-xs text-zinc-500 mt-1">成長 ~14% · 利潤 ~35% · Rule of 40 得分: <strong>~49</strong></div>
+            </div>
+            <div class="rounded-lg border border-orange-200 dark:border-orange-900 bg-orange-50 dark:bg-orange-950 p-3">
+              <div class="font-semibold text-orange-800 dark:text-orange-300">Amazon</div>
+              <div class="text-xs text-zinc-500 mt-1">成長 ~10% · 利潤 ~5% · Rule of 40 得分: <strong>~15</strong></div>
+            </div>
+            <div class="rounded-lg border border-orange-200 dark:border-orange-900 bg-orange-50 dark:bg-orange-950 p-3">
+              <div class="font-semibold text-orange-800 dark:text-orange-300">Arista Networks</div>
+              <div class="text-xs text-zinc-500 mt-1">成長 ~38% · 利潤 ~50% · Rule of 40 得分: <strong>~88</strong></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 完整數據表 -->
+    <section id="data-table" class="mb-12">
+      <h2 class="text-2xl font-semibold mb-4">完整數據</h2>
+      <p class="text-sm text-zinc-500 mb-4">點擊欄位標題可排序；右上角搜尋框可篩選企業名稱。</p>
+      <div class="overflow-x-auto">
+        <table id="company-table" class="w-full text-sm border border-zinc-200 dark:border-zinc-700 rounded-lg overflow-hidden" style="border-collapse: collapse;">
+          <thead class="bg-zinc-100 dark:bg-zinc-800">
+            <tr>
+              <th class="px-4 py-2 text-left">企業</th>
+              <th class="px-4 py-2 text-right">YoY 成長</th>
+              <th class="px-4 py-2 text-right">調整後利潤率</th>
+              <th class="px-4 py-2 text-right">Rule of 40 得分</th>
+              <th class="px-4 py-2 text-left">類別</th>
+              <th class="px-4 py-2 text-left">達標</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td class="px-4 py-2 font-medium">Nvidia</td><td class="px-4 py-2 text-right">75%</td><td class="px-4 py-2 text-right">72%</td><td class="px-4 py-2 text-right font-bold text-violet-600">147</td><td class="px-4 py-2"><span class="badge badge-bottleneck">AI 瓶頸</span></td><td class="px-4 py-2 text-yellow-500">⭐ Rule 80</td></tr>
+            <tr><td class="px-4 py-2 font-medium">Lumentum</td><td class="px-4 py-2 text-right">65%</td><td class="px-4 py-2 text-right">25%</td><td class="px-4 py-2 text-right font-bold text-violet-600">90</td><td class="px-4 py-2"><span class="badge badge-bottleneck">AI 瓶頸</span></td><td class="px-4 py-2 text-yellow-500">⭐ Rule 80</td></tr>
+            <tr><td class="px-4 py-2 font-medium">Sandisk</td><td class="px-4 py-2 text-right">60%</td><td class="px-4 py-2 text-right">37%</td><td class="px-4 py-2 text-right font-bold text-violet-600">97</td><td class="px-4 py-2"><span class="badge badge-bottleneck">AI 瓶頸</span></td><td class="px-4 py-2 text-yellow-500">⭐ Rule 80</td></tr>
+            <tr><td class="px-4 py-2 font-medium">Amphenol</td><td class="px-4 py-2 text-right">44%</td><td class="px-4 py-2 text-right">27%</td><td class="px-4 py-2 text-right font-bold text-violet-600">71</td><td class="px-4 py-2"><span class="badge badge-bottleneck">AI 瓶頸</span></td><td class="px-4 py-2 text-blue-500">✓ Rule 40</td></tr>
+            <tr><td class="px-4 py-2 font-medium">Marvell</td><td class="px-4 py-2 text-right">23%</td><td class="px-4 py-2 text-right">35%</td><td class="px-4 py-2 text-right font-bold text-violet-600">58</td><td class="px-4 py-2"><span class="badge badge-bottleneck">AI 瓶頸</span></td><td class="px-4 py-2 text-blue-500">✓ Rule 40</td></tr>
+            <tr><td class="px-4 py-2 font-medium">Vertiv</td><td class="px-4 py-2 text-right">28%</td><td class="px-4 py-2 text-right">22%</td><td class="px-4 py-2 text-right font-bold text-violet-600">50</td><td class="px-4 py-2"><span class="badge badge-bottleneck">AI 瓶頸</span></td><td class="px-4 py-2 text-blue-500">✓ Rule 40</td></tr>
+            <tr><td class="px-4 py-2 font-medium">Eaton</td><td class="px-4 py-2 text-right">18%</td><td class="px-4 py-2 text-right">26%</td><td class="px-4 py-2 text-right">44</td><td class="px-4 py-2"><span class="badge badge-bottleneck">AI 瓶頸</span></td><td class="px-4 py-2 text-blue-500">✓ Rule 40</td></tr>
+            <tr><td class="px-4 py-2 font-medium">Coherent</td><td class="px-4 py-2 text-right">16%</td><td class="px-4 py-2 text-right">10%</td><td class="px-4 py-2 text-right text-zinc-400">26</td><td class="px-4 py-2"><span class="badge badge-bottleneck">AI 瓶頸</span></td><td class="px-4 py-2 text-zinc-400">—</td></tr>
+            <tr><td class="px-4 py-2 font-medium">Broadcom</td><td class="px-4 py-2 text-right">30%</td><td class="px-4 py-2 text-right">70%</td><td class="px-4 py-2 text-right font-bold text-orange-600">100</td><td class="px-4 py-2"><span class="badge badge-sp500">S&P 500</span></td><td class="px-4 py-2 text-yellow-500">⭐ Rule 80</td></tr>
+            <tr><td class="px-4 py-2 font-medium">TSMC</td><td class="px-4 py-2 text-right">33%</td><td class="px-4 py-2 text-right">60%</td><td class="px-4 py-2 text-right font-bold text-orange-600">93</td><td class="px-4 py-2"><span class="badge badge-sp500">S&P 500</span></td><td class="px-4 py-2 text-yellow-500">⭐ Rule 80</td></tr>
+            <tr><td class="px-4 py-2 font-medium">Eli Lilly</td><td class="px-4 py-2 text-right">43%</td><td class="px-4 py-2 text-right">45%</td><td class="px-4 py-2 text-right font-bold text-orange-600">88</td><td class="px-4 py-2"><span class="badge badge-sp500">S&P 500</span></td><td class="px-4 py-2 text-yellow-500">⭐ Rule 80</td></tr>
+            <tr><td class="px-4 py-2 font-medium">Arista Networks</td><td class="px-4 py-2 text-right">38%</td><td class="px-4 py-2 text-right">50%</td><td class="px-4 py-2 text-right font-bold text-orange-600">88</td><td class="px-4 py-2"><span class="badge badge-sp500">S&P 500</span></td><td class="px-4 py-2 text-yellow-500">⭐ Rule 80</td></tr>
+            <tr><td class="px-4 py-2 font-medium">Meta</td><td class="px-4 py-2 text-right">27%</td><td class="px-4 py-2 text-right">40%</td><td class="px-4 py-2 text-right font-bold text-orange-600">67</td><td class="px-4 py-2"><span class="badge badge-sp500">S&P 500</span></td><td class="px-4 py-2 text-blue-500">✓ Rule 40</td></tr>
+            <tr><td class="px-4 py-2 font-medium">Microsoft</td><td class="px-4 py-2 text-right">18%</td><td class="px-4 py-2 text-right">43%</td><td class="px-4 py-2 text-right font-bold text-orange-600">61</td><td class="px-4 py-2"><span class="badge badge-sp500">S&P 500</span></td><td class="px-4 py-2 text-blue-500">✓ Rule 40</td></tr>
+            <tr><td class="px-4 py-2 font-medium">Alphabet</td><td class="px-4 py-2 text-right">14%</td><td class="px-4 py-2 text-right">35%</td><td class="px-4 py-2 text-right">49</td><td class="px-4 py-2"><span class="badge badge-sp500">S&P 500</span></td><td class="px-4 py-2 text-blue-500">✓ Rule 40</td></tr>
+            <tr><td class="px-4 py-2 font-medium">Amazon</td><td class="px-4 py-2 text-right">10%</td><td class="px-4 py-2 text-right">5%</td><td class="px-4 py-2 text-right text-zinc-400">15</td><td class="px-4 py-2"><span class="badge badge-sp500">S&P 500</span></td><td class="px-4 py-2 text-zinc-400">—</td></tr>
+            <tr><td class="px-4 py-2 font-medium">AI 易受衝擊群體<br><span class="text-xs font-normal text-zinc-400">（約 14 家企業平均）</span></td><td class="px-4 py-2 text-right">~12%</td><td class="px-4 py-2 text-right">~22%</td><td class="px-4 py-2 text-right text-zinc-400">~34</td><td class="px-4 py-2"><span class="badge badge-vulnerable">AI 易受衝擊</span></td><td class="px-4 py-2 text-zinc-400">—</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- 關鍵洞察 -->
+    <section id="key-takeaways" class="mb-12">
+      <h2 class="text-2xl font-semibold mb-4">關鍵洞察</h2>
+      <div class="space-y-4">
+        <div class="flex gap-4 rounded-xl border border-zinc-200 dark:border-zinc-800 p-4">
+          <div class="text-2xl">🏆</div>
+          <div>
+            <div class="font-semibold mb-1">Nvidia 遠超同儕，位處象限右上方</div>
+            <p class="text-sm text-zinc-600 dark:text-zinc-400">Rule of 40 得分約 147，是圖中所有企業中最高。AI 晶片的結構性需求使其同時享有超高成長率與超高利潤率，競爭優勢短期難以撼動。</p>
+          </div>
+        </div>
+        <div class="flex gap-4 rounded-xl border border-zinc-200 dark:border-zinc-800 p-4">
+          <div class="text-2xl">💡</div>
+          <div>
+            <div class="font-semibold mb-1">AI 瓶頸企業整體位置優於 AI 易受衝擊企業</div>
+            <p class="text-sm text-zinc-600 dark:text-zinc-400">Lumentum、Sandisk、Amphenol 等 AI 瓶頸企業多落在 Rule of 80 前沿或以上；而易受衝擊企業群體散布在對角線以下，基本面相對遜色。</p>
+          </div>
+        </div>
+        <div class="flex gap-4 rounded-xl border border-zinc-200 dark:border-zinc-800 p-4">
+          <div class="text-2xl">🏦</div>
+          <div>
+            <div class="font-semibold mb-1">S&P 500 前十中，Broadcom 與 TSMC 表現亮眼</div>
+            <p class="text-sm text-zinc-600 dark:text-zinc-400">兩者均憑藉超過 60% 的高利潤率輕鬆跨越 Rule of 80，體現半導體設計/製造在 AI 供應鏈中的稀缺地位。</p>
+          </div>
+        </div>
+        <div class="flex gap-4 rounded-xl border border-zinc-200 dark:border-zinc-800 p-4">
+          <div class="text-2xl">⚠️</div>
+          <div>
+            <div class="font-semibold mb-1">Amazon 是 S&P 前十中基本面最弱的一環</div>
+            <p class="text-sm text-zinc-600 dark:text-zinc-400">受電商低利潤拖累，儘管 AWS 業務強勁，整體調整後利潤率僅約 5%，Rule of 40 得分僅 ~15，遠低於同儕。</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer class="mt-16 pt-8 border-t border-zinc-200 dark:border-zinc-800 text-sm text-zinc-500">
+      數據來源：原始圖表（AI Beneficiaries Tend to Have Strong Fundamentals）· 本報告由 <code>html-report</code> Claude 技能生成 · 2026-05-17
+    </footer>
+
+  </main>
+</div>
+
+<script>
+  // Theme toggle
+  document.getElementById('theme-toggle').addEventListener('click', () => {
+    const dark = document.documentElement.classList.toggle('dark');
+    localStorage.theme = dark ? 'dark' : 'light';
+  });
+
+  // Sticky TOC scroll-spy
+  const tocLinks = document.querySelectorAll('.toc a');
+  const sections = [...tocLinks].map(a => document.querySelector(a.getAttribute('href'))).filter(Boolean);
+  if (sections.length) {
+    const onScroll = () => {
+      const y = window.scrollY + 120;
+      let active = sections[0];
+      for (const s of sections) if (s.offsetTop <= y) active = s;
+      tocLinks.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + active.id));
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+  }
+
+  // DataTable
+  $(document).ready(function() {
+    $('#company-table').DataTable({
+      order: [[3, 'desc']],
+      pageLength: 20,
+      language: {
+        search: '搜尋：',
+        lengthMenu: '顯示 _MENU_ 筆',
+        info: '第 _START_–_END_ 筆，共 _TOTAL_ 筆',
+        paginate: { previous: '上一頁', next: '下一頁' }
+      }
+    });
+  });
+
+  // Scatter Chart
+  const isDark = () => document.documentElement.classList.contains('dark');
+
+  const bottleneckData = [
+    { x: 72, y: 75, label: 'Nvidia' },
+    { x: 25, y: 65, label: 'Lumentum' },
+    { x: 37, y: 60, label: 'Sandisk' },
+    { x: 27, y: 44, label: 'Amphenol' },
+    { x: 35, y: 23, label: 'Marvell' },
+    { x: 22, y: 28, label: 'Vertiv' },
+    { x: 26, y: 18, label: 'Eaton' },
+    { x: 10, y: 16, label: 'Coherent' },
+  ];
+
+  const sp500Data = [
+    { x: 70, y: 30, label: 'Broadcom' },
+    { x: 60, y: 33, label: 'TSMC' },
+    { x: 45, y: 43, label: 'Eli Lilly' },
+    { x: 50, y: 38, label: 'Arista Networks' },
+    { x: 40, y: 27, label: 'Meta' },
+    { x: 43, y: 18, label: 'Microsoft' },
+    { x: 35, y: 14, label: 'Alphabet' },
+    { x: 5,  y: 10, label: 'Amazon' },
+  ];
+
+  const vulnerableData = [
+    { x: 8,  y: 28 }, { x: 5,  y: 3  }, { x: 7,  y: 15 }, { x: 8,  y: 5  },
+    { x: 12, y: 36 }, { x: 14, y: 14 }, { x: 14, y: 7  }, { x: 16, y: 15 },
+    { x: 18, y: 6  }, { x: 20, y: 20 }, { x: 23, y: 30 }, { x: 25, y: 35 },
+    { x: 28, y: 5  }, { x: 30, y: 17 }, { x: 33, y: 7  }, { x: 20, y: 8  },
+    { x: 42, y: 12 }, { x: 47, y: 20 }, { x: 48, y: 4  }, { x: 72, y: 10 },
+  ];
+
+  // Rule lines: y = -x + C  =>  points at x=0 -> y=C, x=C -> y=0
+  function ruleLine(C) {
+    return [{ x: 0, y: C }, { x: C, y: 0 }];
+  }
+
+  const ctx = document.getElementById('scatterChart').getContext('2d');
+  const chart = new Chart(ctx, {
+    type: 'scatter',
+    data: {
+      datasets: [
+        {
+          label: 'AI 瓶頸企業',
+          data: bottleneckData,
+          backgroundColor: 'rgba(124, 58, 237, 0.85)',
+          pointRadius: 8,
+          pointHoverRadius: 10,
+        },
+        {
+          label: 'S&P 500 前十',
+          data: sp500Data,
+          backgroundColor: 'rgba(234, 88, 12, 0.85)',
+          pointRadius: 8,
+          pointHoverRadius: 10,
+        },
+        {
+          label: 'AI 易受衝擊',
+          data: vulnerableData,
+          backgroundColor: 'rgba(20, 184, 166, 0.6)',
+          pointRadius: 6,
+          pointHoverRadius: 8,
+        },
+        {
+          label: 'Rule of 80',
+          data: ruleLine(80),
+          type: 'line',
+          borderColor: 'rgba(202, 138, 4, 0.7)',
+          borderDash: [8, 4],
+          borderWidth: 2,
+          pointRadius: 0,
+          fill: false,
+          tension: 0,
+        },
+        {
+          label: 'Rule of 40',
+          data: ruleLine(40),
+          type: 'line',
+          borderColor: 'rgba(59, 130, 246, 0.7)',
+          borderDash: [6, 4],
+          borderWidth: 2,
+          pointRadius: 0,
+          fill: false,
+          tension: 0,
+        },
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      scales: {
+        x: {
+          title: { display: true, text: '調整後營業利益率 (%)', color: isDark() ? '#a1a1aa' : '#71717a' },
+          min: 0, max: 85,
+          ticks: { callback: v => v + '%', color: isDark() ? '#a1a1aa' : '#71717a' },
+          grid: { color: isDark() ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.05)' },
+        },
+        y: {
+          title: { display: true, text: 'YoY 營收成長率 (%)', color: isDark() ? '#a1a1aa' : '#71717a' },
+          min: 0, max: 85,
+          ticks: { callback: v => v + '%', color: isDark() ? '#a1a1aa' : '#71717a' },
+          grid: { color: isDark() ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.05)' },
+        },
+      },
+      plugins: {
+        legend: {
+          labels: { color: isDark() ? '#e4e4e7' : '#27272a', usePointStyle: true }
+        },
+        tooltip: {
+          callbacks: {
+            label: function(ctx) {
+              const d = ctx.raw;
+              const name = d.label ? d.label + ': ' : '';
+              return `${name}利潤率 ${d.x}% · 成長率 ${d.y}% · Rule of 40 得分: ${d.x + d.y}`;
+            }
+          }
+        }
+      }
+    }
+  });
+
+  // Re-render chart colors on theme toggle
+  document.getElementById('theme-toggle').addEventListener('click', () => {
+    const dark = isDark();
+    const axisColor = dark ? '#a1a1aa' : '#71717a';
+    const gridColor = dark ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.05)';
+    const labelColor = dark ? '#e4e4e7' : '#27272a';
+    chart.options.scales.x.ticks.color = axisColor;
+    chart.options.scales.y.ticks.color = axisColor;
+    chart.options.scales.x.title.color = axisColor;
+    chart.options.scales.y.title.color = axisColor;
+    chart.options.scales.x.grid.color = gridColor;
+    chart.options.scales.y.grid.color = gridColor;
+    chart.options.plugins.legend.labels.color = labelColor;
+    chart.update();
+  });
+</script>
+
+</body>
+</html>
