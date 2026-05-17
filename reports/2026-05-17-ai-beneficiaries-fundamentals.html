@@ -87,6 +87,7 @@
     <div class="font-semibold mb-2 text-zinc-500 uppercase tracking-wider text-xs">目錄</div>
     <a href="#overview">概覽</a>
     <a href="#scatter">散點圖分析</a>
+    <a href="#bar-chart">Rule of 40 排名</a>
     <a href="#rule-framework">Rule of 40/80</a>
     <a href="#by-category">分類深析</a>
     <a href="#data-table">完整數據</a>
@@ -138,6 +139,15 @@
       <p class="text-sm text-zinc-500 mb-4">懸停各點可查看企業名稱與數值。點擊圖例可切換顯示分類。</p>
       <div class="rounded-xl border border-zinc-200 dark:border-zinc-800 p-4" style="height:480px; position:relative;">
         <canvas id="scatterChart"></canvas>
+      </div>
+    </section>
+
+    <!-- Rule of 40 長條圖 -->
+    <section id="bar-chart" class="mb-12">
+      <h2 class="text-2xl font-semibold mb-2">Rule of 40 得分排名</h2>
+      <p class="text-sm text-zinc-500 mb-4">各命名企業依 Rule of 40 得分（YoY 成長率 + 調整後利潤率）由高至低排列。虛線為 80 與 40 兩條基準線。</p>
+      <div class="rounded-xl border border-zinc-200 dark:border-zinc-800 p-4" style="height:520px; position:relative;">
+        <canvas id="barChart"></canvas>
       </div>
     </section>
 
@@ -291,23 +301,23 @@
             </tr>
           </thead>
           <tbody>
-            <tr><td class="px-4 py-2 font-medium">Nvidia</td><td class="px-4 py-2 text-right">75%</td><td class="px-4 py-2 text-right">72%</td><td class="px-4 py-2 text-right font-bold text-violet-600">147</td><td class="px-4 py-2"><span class="badge badge-bottleneck">AI 瓶頸</span></td><td class="px-4 py-2 text-yellow-500">⭐ Rule 80</td></tr>
-            <tr><td class="px-4 py-2 font-medium">Lumentum</td><td class="px-4 py-2 text-right">65%</td><td class="px-4 py-2 text-right">25%</td><td class="px-4 py-2 text-right font-bold text-violet-600">90</td><td class="px-4 py-2"><span class="badge badge-bottleneck">AI 瓶頸</span></td><td class="px-4 py-2 text-yellow-500">⭐ Rule 80</td></tr>
-            <tr><td class="px-4 py-2 font-medium">Sandisk</td><td class="px-4 py-2 text-right">60%</td><td class="px-4 py-2 text-right">37%</td><td class="px-4 py-2 text-right font-bold text-violet-600">97</td><td class="px-4 py-2"><span class="badge badge-bottleneck">AI 瓶頸</span></td><td class="px-4 py-2 text-yellow-500">⭐ Rule 80</td></tr>
-            <tr><td class="px-4 py-2 font-medium">Amphenol</td><td class="px-4 py-2 text-right">44%</td><td class="px-4 py-2 text-right">27%</td><td class="px-4 py-2 text-right font-bold text-violet-600">71</td><td class="px-4 py-2"><span class="badge badge-bottleneck">AI 瓶頸</span></td><td class="px-4 py-2 text-blue-500">✓ Rule 40</td></tr>
-            <tr><td class="px-4 py-2 font-medium">Marvell</td><td class="px-4 py-2 text-right">23%</td><td class="px-4 py-2 text-right">35%</td><td class="px-4 py-2 text-right font-bold text-violet-600">58</td><td class="px-4 py-2"><span class="badge badge-bottleneck">AI 瓶頸</span></td><td class="px-4 py-2 text-blue-500">✓ Rule 40</td></tr>
-            <tr><td class="px-4 py-2 font-medium">Vertiv</td><td class="px-4 py-2 text-right">28%</td><td class="px-4 py-2 text-right">22%</td><td class="px-4 py-2 text-right font-bold text-violet-600">50</td><td class="px-4 py-2"><span class="badge badge-bottleneck">AI 瓶頸</span></td><td class="px-4 py-2 text-blue-500">✓ Rule 40</td></tr>
-            <tr><td class="px-4 py-2 font-medium">Eaton</td><td class="px-4 py-2 text-right">18%</td><td class="px-4 py-2 text-right">26%</td><td class="px-4 py-2 text-right">44</td><td class="px-4 py-2"><span class="badge badge-bottleneck">AI 瓶頸</span></td><td class="px-4 py-2 text-blue-500">✓ Rule 40</td></tr>
-            <tr><td class="px-4 py-2 font-medium">Coherent</td><td class="px-4 py-2 text-right">16%</td><td class="px-4 py-2 text-right">10%</td><td class="px-4 py-2 text-right text-zinc-400">26</td><td class="px-4 py-2"><span class="badge badge-bottleneck">AI 瓶頸</span></td><td class="px-4 py-2 text-zinc-400">—</td></tr>
-            <tr><td class="px-4 py-2 font-medium">Broadcom</td><td class="px-4 py-2 text-right">30%</td><td class="px-4 py-2 text-right">70%</td><td class="px-4 py-2 text-right font-bold text-orange-600">100</td><td class="px-4 py-2"><span class="badge badge-sp500">S&P 500</span></td><td class="px-4 py-2 text-yellow-500">⭐ Rule 80</td></tr>
-            <tr><td class="px-4 py-2 font-medium">TSMC</td><td class="px-4 py-2 text-right">33%</td><td class="px-4 py-2 text-right">60%</td><td class="px-4 py-2 text-right font-bold text-orange-600">93</td><td class="px-4 py-2"><span class="badge badge-sp500">S&P 500</span></td><td class="px-4 py-2 text-yellow-500">⭐ Rule 80</td></tr>
-            <tr><td class="px-4 py-2 font-medium">Eli Lilly</td><td class="px-4 py-2 text-right">43%</td><td class="px-4 py-2 text-right">45%</td><td class="px-4 py-2 text-right font-bold text-orange-600">88</td><td class="px-4 py-2"><span class="badge badge-sp500">S&P 500</span></td><td class="px-4 py-2 text-yellow-500">⭐ Rule 80</td></tr>
-            <tr><td class="px-4 py-2 font-medium">Arista Networks</td><td class="px-4 py-2 text-right">38%</td><td class="px-4 py-2 text-right">50%</td><td class="px-4 py-2 text-right font-bold text-orange-600">88</td><td class="px-4 py-2"><span class="badge badge-sp500">S&P 500</span></td><td class="px-4 py-2 text-yellow-500">⭐ Rule 80</td></tr>
-            <tr><td class="px-4 py-2 font-medium">Meta</td><td class="px-4 py-2 text-right">27%</td><td class="px-4 py-2 text-right">40%</td><td class="px-4 py-2 text-right font-bold text-orange-600">67</td><td class="px-4 py-2"><span class="badge badge-sp500">S&P 500</span></td><td class="px-4 py-2 text-blue-500">✓ Rule 40</td></tr>
-            <tr><td class="px-4 py-2 font-medium">Microsoft</td><td class="px-4 py-2 text-right">18%</td><td class="px-4 py-2 text-right">43%</td><td class="px-4 py-2 text-right font-bold text-orange-600">61</td><td class="px-4 py-2"><span class="badge badge-sp500">S&P 500</span></td><td class="px-4 py-2 text-blue-500">✓ Rule 40</td></tr>
-            <tr><td class="px-4 py-2 font-medium">Alphabet</td><td class="px-4 py-2 text-right">14%</td><td class="px-4 py-2 text-right">35%</td><td class="px-4 py-2 text-right">49</td><td class="px-4 py-2"><span class="badge badge-sp500">S&P 500</span></td><td class="px-4 py-2 text-blue-500">✓ Rule 40</td></tr>
-            <tr><td class="px-4 py-2 font-medium">Amazon</td><td class="px-4 py-2 text-right">10%</td><td class="px-4 py-2 text-right">5%</td><td class="px-4 py-2 text-right text-zinc-400">15</td><td class="px-4 py-2"><span class="badge badge-sp500">S&P 500</span></td><td class="px-4 py-2 text-zinc-400">—</td></tr>
-            <tr><td class="px-4 py-2 font-medium">AI 易受衝擊群體<br><span class="text-xs font-normal text-zinc-400">（約 14 家企業平均）</span></td><td class="px-4 py-2 text-right">~12%</td><td class="px-4 py-2 text-right">~22%</td><td class="px-4 py-2 text-right text-zinc-400">~34</td><td class="px-4 py-2"><span class="badge badge-vulnerable">AI 易受衝擊</span></td><td class="px-4 py-2 text-zinc-400">—</td></tr>
+            <tr><td class="px-4 py-2 font-medium">Nvidia</td><td class="px-4 py-2 text-right" data-order="75">75%</td><td class="px-4 py-2 text-right" data-order="72">72%</td><td class="px-4 py-2 text-right font-bold text-violet-600" data-order="147">147</td><td class="px-4 py-2"><span class="badge badge-bottleneck">AI 瓶頸</span></td><td class="px-4 py-2 text-yellow-500">⭐ Rule 80</td></tr>
+            <tr><td class="px-4 py-2 font-medium">Sandisk</td><td class="px-4 py-2 text-right" data-order="60">60%</td><td class="px-4 py-2 text-right" data-order="37">37%</td><td class="px-4 py-2 text-right font-bold text-violet-600" data-order="97">97</td><td class="px-4 py-2"><span class="badge badge-bottleneck">AI 瓶頸</span></td><td class="px-4 py-2 text-yellow-500">⭐ Rule 80</td></tr>
+            <tr><td class="px-4 py-2 font-medium">Lumentum</td><td class="px-4 py-2 text-right" data-order="65">65%</td><td class="px-4 py-2 text-right" data-order="25">25%</td><td class="px-4 py-2 text-right font-bold text-violet-600" data-order="90">90</td><td class="px-4 py-2"><span class="badge badge-bottleneck">AI 瓶頸</span></td><td class="px-4 py-2 text-yellow-500">⭐ Rule 80</td></tr>
+            <tr><td class="px-4 py-2 font-medium">Broadcom</td><td class="px-4 py-2 text-right" data-order="30">30%</td><td class="px-4 py-2 text-right" data-order="70">70%</td><td class="px-4 py-2 text-right font-bold text-orange-600" data-order="100">100</td><td class="px-4 py-2"><span class="badge badge-sp500">S&P 500</span></td><td class="px-4 py-2 text-yellow-500">⭐ Rule 80</td></tr>
+            <tr><td class="px-4 py-2 font-medium">TSMC</td><td class="px-4 py-2 text-right" data-order="33">33%</td><td class="px-4 py-2 text-right" data-order="60">60%</td><td class="px-4 py-2 text-right font-bold text-orange-600" data-order="93">93</td><td class="px-4 py-2"><span class="badge badge-sp500">S&P 500</span></td><td class="px-4 py-2 text-yellow-500">⭐ Rule 80</td></tr>
+            <tr><td class="px-4 py-2 font-medium">Eli Lilly</td><td class="px-4 py-2 text-right" data-order="43">43%</td><td class="px-4 py-2 text-right" data-order="45">45%</td><td class="px-4 py-2 text-right font-bold text-orange-600" data-order="88">88</td><td class="px-4 py-2"><span class="badge badge-sp500">S&P 500</span></td><td class="px-4 py-2 text-yellow-500">⭐ Rule 80</td></tr>
+            <tr><td class="px-4 py-2 font-medium">Arista Networks</td><td class="px-4 py-2 text-right" data-order="38">38%</td><td class="px-4 py-2 text-right" data-order="50">50%</td><td class="px-4 py-2 text-right font-bold text-orange-600" data-order="88">88</td><td class="px-4 py-2"><span class="badge badge-sp500">S&P 500</span></td><td class="px-4 py-2 text-yellow-500">⭐ Rule 80</td></tr>
+            <tr><td class="px-4 py-2 font-medium">Amphenol</td><td class="px-4 py-2 text-right" data-order="44">44%</td><td class="px-4 py-2 text-right" data-order="27">27%</td><td class="px-4 py-2 text-right font-bold text-violet-600" data-order="71">71</td><td class="px-4 py-2"><span class="badge badge-bottleneck">AI 瓶頸</span></td><td class="px-4 py-2 text-blue-500">✓ Rule 40</td></tr>
+            <tr><td class="px-4 py-2 font-medium">Meta</td><td class="px-4 py-2 text-right" data-order="27">27%</td><td class="px-4 py-2 text-right" data-order="40">40%</td><td class="px-4 py-2 text-right font-bold text-orange-600" data-order="67">67</td><td class="px-4 py-2"><span class="badge badge-sp500">S&P 500</span></td><td class="px-4 py-2 text-blue-500">✓ Rule 40</td></tr>
+            <tr><td class="px-4 py-2 font-medium">Microsoft</td><td class="px-4 py-2 text-right" data-order="18">18%</td><td class="px-4 py-2 text-right" data-order="43">43%</td><td class="px-4 py-2 text-right font-bold text-orange-600" data-order="61">61</td><td class="px-4 py-2"><span class="badge badge-sp500">S&P 500</span></td><td class="px-4 py-2 text-blue-500">✓ Rule 40</td></tr>
+            <tr><td class="px-4 py-2 font-medium">Marvell</td><td class="px-4 py-2 text-right" data-order="23">23%</td><td class="px-4 py-2 text-right" data-order="35">35%</td><td class="px-4 py-2 text-right font-bold text-violet-600" data-order="58">58</td><td class="px-4 py-2"><span class="badge badge-bottleneck">AI 瓶頸</span></td><td class="px-4 py-2 text-blue-500">✓ Rule 40</td></tr>
+            <tr><td class="px-4 py-2 font-medium">Vertiv</td><td class="px-4 py-2 text-right" data-order="28">28%</td><td class="px-4 py-2 text-right" data-order="22">22%</td><td class="px-4 py-2 text-right font-bold text-violet-600" data-order="50">50</td><td class="px-4 py-2"><span class="badge badge-bottleneck">AI 瓶頸</span></td><td class="px-4 py-2 text-blue-500">✓ Rule 40</td></tr>
+            <tr><td class="px-4 py-2 font-medium">Alphabet</td><td class="px-4 py-2 text-right" data-order="14">14%</td><td class="px-4 py-2 text-right" data-order="35">35%</td><td class="px-4 py-2 text-right" data-order="49">49</td><td class="px-4 py-2"><span class="badge badge-sp500">S&P 500</span></td><td class="px-4 py-2 text-blue-500">✓ Rule 40</td></tr>
+            <tr><td class="px-4 py-2 font-medium">Eaton</td><td class="px-4 py-2 text-right" data-order="18">18%</td><td class="px-4 py-2 text-right" data-order="26">26%</td><td class="px-4 py-2 text-right" data-order="44">44</td><td class="px-4 py-2"><span class="badge badge-bottleneck">AI 瓶頸</span></td><td class="px-4 py-2 text-blue-500">✓ Rule 40</td></tr>
+            <tr><td class="px-4 py-2 font-medium">Coherent</td><td class="px-4 py-2 text-right" data-order="16">16%</td><td class="px-4 py-2 text-right" data-order="10">10%</td><td class="px-4 py-2 text-right text-zinc-400" data-order="26">26</td><td class="px-4 py-2"><span class="badge badge-bottleneck">AI 瓶頸</span></td><td class="px-4 py-2 text-zinc-400">—</td></tr>
+            <tr><td class="px-4 py-2 font-medium">Amazon</td><td class="px-4 py-2 text-right" data-order="10">10%</td><td class="px-4 py-2 text-right" data-order="5">5%</td><td class="px-4 py-2 text-right text-zinc-400" data-order="15">15</td><td class="px-4 py-2"><span class="badge badge-sp500">S&P 500</span></td><td class="px-4 py-2 text-zinc-400">—</td></tr>
+            <tr><td class="px-4 py-2 font-medium">AI 易受衝擊群體<br><span class="text-xs font-normal text-zinc-400">（約 14 家企業平均）</span></td><td class="px-4 py-2 text-right" data-order="12">~12%</td><td class="px-4 py-2 text-right" data-order="22">~22%</td><td class="px-4 py-2 text-right text-zinc-400" data-order="34">~34</td><td class="px-4 py-2"><span class="badge badge-vulnerable">AI 易受衝擊</span></td><td class="px-4 py-2 text-zinc-400">—</td></tr>
           </tbody>
         </table>
       </div>
@@ -381,6 +391,9 @@
     $('#company-table').DataTable({
       order: [[3, 'desc']],
       pageLength: 20,
+      columnDefs: [
+        { targets: [1, 2, 3], orderDataType: 'dom-data-order' }
+      ],
       language: {
         search: '搜尋：',
         lengthMenu: '顯示 _MENU_ 筆',
@@ -389,6 +402,13 @@
       }
     });
   });
+
+  // Custom DataTables sort using data-order attribute
+  $.fn.dataTable.ext.order['dom-data-order'] = function(settings, col) {
+    return this.api().column(col, { order: 'index' }).nodes().map(function(td) {
+      return parseFloat($(td).attr('data-order')) || 0;
+    });
+  };
 
   // Scatter Chart
   const isDark = () => document.documentElement.classList.contains('dark');
@@ -512,7 +532,7 @@
     }
   });
 
-  // Re-render chart colors on theme toggle
+  // Re-render scatter chart colors on theme toggle
   document.getElementById('theme-toggle').addEventListener('click', () => {
     const dark = isDark();
     const axisColor = dark ? '#a1a1aa' : '#71717a';
@@ -526,6 +546,118 @@
     chart.options.scales.y.grid.color = gridColor;
     chart.options.plugins.legend.labels.color = labelColor;
     chart.update();
+    barChart.options.scales.x.ticks.color = axisColor;
+    barChart.options.scales.y.ticks.color = axisColor;
+    barChart.options.scales.x.grid.color = gridColor;
+    barChart.options.plugins.legend.labels.color = labelColor;
+    barChart.update();
+  });
+
+  // Rule of 40 Bar Chart — all named companies sorted desc
+  const barCompanies = [
+    { name: 'Nvidia',          score: 147, growth: 75, margin: 72, cat: 'bottleneck' },
+    { name: 'Broadcom',        score: 100, growth: 30, margin: 70, cat: 'sp500' },
+    { name: 'Sandisk',         score: 97,  growth: 60, margin: 37, cat: 'bottleneck' },
+    { name: 'TSMC',            score: 93,  growth: 33, margin: 60, cat: 'sp500' },
+    { name: 'Lumentum',        score: 90,  growth: 65, margin: 25, cat: 'bottleneck' },
+    { name: 'Eli Lilly',       score: 88,  growth: 43, margin: 45, cat: 'sp500' },
+    { name: 'Arista Networks', score: 88,  growth: 38, margin: 50, cat: 'sp500' },
+    { name: 'Amphenol',        score: 71,  growth: 44, margin: 27, cat: 'bottleneck' },
+    { name: 'Meta',            score: 67,  growth: 27, margin: 40, cat: 'sp500' },
+    { name: 'Microsoft',       score: 61,  growth: 18, margin: 43, cat: 'sp500' },
+    { name: 'Marvell',         score: 58,  growth: 23, margin: 35, cat: 'bottleneck' },
+    { name: 'Vertiv',          score: 50,  growth: 28, margin: 22, cat: 'bottleneck' },
+    { name: 'Alphabet',        score: 49,  growth: 14, margin: 35, cat: 'sp500' },
+    { name: 'Eaton',           score: 44,  growth: 18, margin: 26, cat: 'bottleneck' },
+    { name: 'Coherent',        score: 26,  growth: 16, margin: 10, cat: 'bottleneck' },
+    { name: 'Amazon',          score: 15,  growth: 10, margin: 5,  cat: 'sp500' },
+  ];
+
+  const catColor = {
+    bottleneck: 'rgba(124, 58, 237, 0.80)',
+    sp500:      'rgba(234, 88, 12, 0.80)',
+  };
+  const catColorHover = {
+    bottleneck: 'rgba(124, 58, 237, 1)',
+    sp500:      'rgba(234, 88, 12, 1)',
+  };
+
+  // Build stacked bar data: growth (bottom) + margin (top) = score
+  const barLabels = barCompanies.map(c => c.name);
+  const growthData = barCompanies.map(c => c.growth);
+  const marginData = barCompanies.map(c => c.margin);
+  const bgColorsGrowth = barCompanies.map(c => catColor[c.cat]);
+  const bgColorsMargin = barCompanies.map(c => catColor[c.cat].replace('0.80', '0.45'));
+
+  const bCtx = document.getElementById('barChart').getContext('2d');
+  const barChart = new Chart(bCtx, {
+    type: 'bar',
+    data: {
+      labels: barLabels,
+      datasets: [
+        {
+          label: 'YoY 成長率',
+          data: growthData,
+          backgroundColor: bgColorsGrowth,
+          borderRadius: { topLeft: 0, topRight: 0, bottomLeft: 4, bottomRight: 4 },
+          borderSkipped: 'bottom',
+        },
+        {
+          label: '調整後利潤率',
+          data: marginData,
+          backgroundColor: bgColorsMargin,
+          borderRadius: { topLeft: 4, topRight: 4, bottomLeft: 0, bottomRight: 0 },
+          borderSkipped: 'bottom',
+        },
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      interaction: { mode: 'index' },
+      scales: {
+        x: {
+          stacked: true,
+          ticks: { color: isDark() ? '#a1a1aa' : '#71717a', maxRotation: 45, minRotation: 30 },
+          grid: { color: isDark() ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.05)' },
+        },
+        y: {
+          stacked: true,
+          title: { display: true, text: 'Rule of 40 得分', color: isDark() ? '#a1a1aa' : '#71717a' },
+          min: 0, max: 160,
+          ticks: { color: isDark() ? '#a1a1aa' : '#71717a' },
+          grid: { color: isDark() ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.05)' },
+        },
+      },
+      plugins: {
+        legend: {
+          labels: { color: isDark() ? '#e4e4e7' : '#27272a', usePointStyle: true }
+        },
+        tooltip: {
+          callbacks: {
+            afterBody: function(items) {
+              const idx = items[0].dataIndex;
+              const c = barCompanies[idx];
+              return [`Rule of 40 總分: ${c.score}`, c.score >= 80 ? '⭐ 達 Rule of 80' : c.score >= 40 ? '✓ 達 Rule of 40' : '— 未達標'];
+            }
+          }
+        },
+        annotation: {
+          annotations: {
+            rule80: {
+              type: 'line', yMin: 80, yMax: 80,
+              borderColor: 'rgba(202,138,4,0.75)', borderWidth: 2, borderDash: [8,4],
+              label: { content: 'Rule of 80', enabled: true, position: 'end', color: '#ca8a04', font: { size: 11 }, backgroundColor: 'transparent' }
+            },
+            rule40: {
+              type: 'line', yMin: 40, yMax: 40,
+              borderColor: 'rgba(59,130,246,0.75)', borderWidth: 2, borderDash: [6,4],
+              label: { content: 'Rule of 40', enabled: true, position: 'end', color: '#3b82f6', font: { size: 11 }, backgroundColor: 'transparent' }
+            }
+          }
+        }
+      }
+    }
   });
 </script>
 
