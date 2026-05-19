@@ -1,0 +1,967 @@
+<!doctype html>
+<html lang="zh-Hant" class="scroll-smooth">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+
+  <title>券商研究報告整理 ﹒ 2026-05-19 八檔個股</title>
+  <meta name="description" content="整理 7 份券商研究報告：元太、亞德客、上銀、Nvidia、全新光電、旺矽、矽力杰、萬潤——目標價、評級、上漲空間、核心論點與隱藏洞察。">
+  <meta property="og:title" content="券商研究報告整理 ﹒ 八檔個股 (2026-05-19)">
+  <meta property="og:description" content="Morgan Stanley、Goldman Sachs、廣發證券——AI 散熱、半導體測試、類比 IC、電子紙 全面盤點">
+  <meta property="og:type" content="article">
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = { darkMode: 'class', theme: { extend: { fontFamily: { sans: ['system-ui', 'ui-sans-serif', 'sans-serif'] } } } };
+    if (localStorage.theme === 'dark' || (!('theme' in localStorage) && matchMedia('(prefers-color-scheme: dark)').matches)) {
+      document.documentElement.classList.add('dark');
+    }
+  </script>
+
+  <link rel="stylesheet" href="https://cdn.datatables.net/2.1.8/css/dataTables.dataTables.min.css">
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <script src="https://cdn.datatables.net/2.1.8/js/dataTables.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <style>
+    @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
+    @media print {
+      .no-print { display: none !important; }
+      body { color: #000; background: #fff; }
+      a { color: inherit; text-decoration: underline; }
+      details { display: block; } details > summary { display: none; }
+    }
+    details > summary { cursor: pointer; user-select: none; padding: .75rem 0; }
+    details > summary::-webkit-details-marker { display: none; }
+    details > summary::marker { content: "" }
+    details > summary::before { content: "▸ "; display: inline-block; margin-right: .5rem; transition: transform .2s; }
+    details[open] > summary::before { transform: rotate(90deg); }
+    .toc a { display: block; padding: .25rem 0; opacity: .6; transition: opacity .15s; font-size: .85rem; }
+    .toc a:hover, .toc a.active { opacity: 1; }
+    .toc a.active { font-weight: 600; color: #2563eb; }
+    .dark .toc a.active { color: #60a5fa; }
+
+    /* 評級徽章 */
+    .badge-buy { background: rgba(34, 197, 94, .15); color: #15803d; }
+    .dark .badge-buy { background: rgba(34, 197, 94, .2); color: #4ade80; }
+    .badge-hold { background: rgba(234, 179, 8, .15); color: #a16207; }
+    .dark .badge-hold { background: rgba(234, 179, 8, .2); color: #fde047; }
+    .badge-sell { background: rgba(239, 68, 68, .15); color: #b91c1c; }
+    .dark .badge-sell { background: rgba(239, 68, 68, .2); color: #f87171; }
+
+    /* upside 顏色 */
+    .upside-strong { color: #15803d; font-weight: 600; }
+    .upside-warn { color: #ca8a04; font-weight: 600; }
+    .upside-neg { color: #dc2626; font-weight: 600; }
+    .dark .upside-strong { color: #4ade80; }
+    .dark .upside-warn { color: #fde047; }
+    .dark .upside-neg { color: #f87171; }
+
+    /* 隱藏洞察區塊 */
+    .insight {
+      border-left: 4px solid;
+      padding: .75rem 1rem;
+      margin: .5rem 0;
+      border-radius: 0 .5rem .5rem 0;
+    }
+    .insight-warn { border-color: #f59e0b; background: rgba(245, 158, 11, .08); }
+    .insight-risk { border-color: #ef4444; background: rgba(239, 68, 68, .08); }
+    .insight-opp { border-color: #10b981; background: rgba(16, 185, 129, .08); }
+    .insight-info { border-color: #3b82f6; background: rgba(59, 130, 246, .08); }
+
+    /* DataTables 深色模式調整 */
+    .dark table.dataTable { color: #e4e4e7; }
+    .dark table.dataTable thead th { background: #18181b; color: #fafafa; border-bottom-color: #3f3f46; }
+    .dark table.dataTable tbody tr { background: transparent; color: #e4e4e7; }
+    .dark table.dataTable tbody td { border-color: #27272a; }
+    .dark table.dataTable tbody tr:hover { background: #18181b; }
+    .dark .dataTables_wrapper .dataTables_length,
+    .dark .dataTables_wrapper .dataTables_filter,
+    .dark .dataTables_wrapper .dataTables_info,
+    .dark .dataTables_wrapper .dataTables_processing,
+    .dark .dataTables_wrapper .dataTables_paginate { color: #d4d4d8; }
+    .dark .dataTables_wrapper .dataTables_filter input,
+    .dark .dataTables_wrapper .dataTables_length select {
+      background: #18181b; color: #fafafa; border: 1px solid #3f3f46; padding: .25rem .5rem; border-radius: .25rem;
+    }
+    .dark .dataTables_wrapper .dataTables_paginate .paginate_button { color: #d4d4d8 !important; }
+    .dark .dataTables_wrapper .dataTables_paginate .paginate_button:hover { background: #27272a !important; color: #fff !important; border-color: #52525b !important; }
+
+    /* 時效性條 */
+    .freshness {
+      display: inline-flex; align-items: center; gap: .35rem;
+      padding: .2rem .6rem; border-radius: 999px; font-size: .75rem; font-weight: 500;
+    }
+    .freshness::before { content: ""; display: inline-block; width: 8px; height: 8px; border-radius: 50%; }
+    .fresh-green { background: rgba(34, 197, 94, .15); color: #15803d; }
+    .fresh-green::before { background: #22c55e; }
+    .fresh-yellow { background: rgba(234, 179, 8, .15); color: #a16207; }
+    .fresh-yellow::before { background: #eab308; }
+    .fresh-red { background: rgba(239, 68, 68, .15); color: #b91c1c; }
+    .fresh-red::before { background: #ef4444; }
+    .dark .fresh-green { color: #4ade80; }
+    .dark .fresh-yellow { color: #fde047; }
+    .dark .fresh-red { color: #f87171; }
+  </style>
+</head>
+
+<body class="bg-white dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 font-sans antialiased">
+
+<div class="fixed top-4 right-4 z-50 flex gap-2 no-print">
+  <button id="theme-toggle" class="px-3 py-1.5 rounded-md border border-zinc-300 dark:border-zinc-700 bg-white/80 dark:bg-zinc-900/80 backdrop-blur text-sm hover:bg-zinc-100 dark:hover:bg-zinc-800">
+    ☼ / ☾
+  </button>
+  <button onclick="window.print()" class="px-3 py-1.5 rounded-md border border-zinc-300 dark:border-zinc-700 bg-white/80 dark:bg-zinc-900/80 backdrop-blur text-sm hover:bg-zinc-100 dark:hover:bg-zinc-800">
+    列印
+  </button>
+</div>
+
+<div class="max-w-6xl mx-auto px-6 py-12 lg:grid lg:grid-cols-[200px_minmax(0,1fr)] lg:gap-12">
+
+  <nav class="toc lg:sticky lg:top-12 self-start mb-8 lg:mb-0 no-print">
+    <div class="font-semibold mb-2 text-zinc-500 uppercase tracking-wider text-xs">目錄</div>
+    <a href="#overview">總覽比較</a>
+    <a href="#charts">視覺化分析</a>
+    <a href="#insights">隱藏洞察彙整</a>
+    <a href="#einkholdings">元太 8069</a>
+    <a href="#automation">亞德客 / 上銀</a>
+    <a href="#nvda">Nvidia</a>
+    <a href="#vpec">全新光電 2455</a>
+    <a href="#mpi">旺矽 6223</a>
+    <a href="#silergy">矽力杰 6415</a>
+    <a href="#allring">萬潤 6187</a>
+    <a href="#methodology">方法說明</a>
+  </nav>
+
+  <main class="min-w-0">
+
+    <header class="mb-12">
+      <p class="text-sm text-zinc-500 mb-2">券商研究報告整理 ﹒ <time>2026-05-19</time></p>
+      <h1 class="text-3xl sm:text-4xl font-bold tracking-tight mb-3">8 檔個股 ﹒ 7 份券商報告全盤點</h1>
+      <p class="text-base sm:text-lg text-zinc-600 dark:text-zinc-400">
+        Morgan Stanley、Goldman Sachs 與廣發證券 5/6–5/17 期間出具的研究報告。
+        橫跨 AI 散熱、半導體測試設備、類比 IC、電子紙與工業自動化——以及一檔 <strong class="text-rose-600 dark:text-rose-400">股價已超越目標價</strong> 的警示標的。
+      </p>
+
+      <div class="mt-6 grid grid-cols-2 sm:grid-cols-4 gap-3 text-center">
+        <div class="rounded-lg border border-zinc-200 dark:border-zinc-800 p-3">
+          <div class="text-2xl font-bold">8</div>
+          <div class="text-xs text-zinc-500 mt-1">個股</div>
+        </div>
+        <div class="rounded-lg border border-zinc-200 dark:border-zinc-800 p-3">
+          <div class="text-2xl font-bold text-emerald-600 dark:text-emerald-400">7</div>
+          <div class="text-xs text-zinc-500 mt-1">買進/加碼</div>
+        </div>
+        <div class="rounded-lg border border-zinc-200 dark:border-zinc-800 p-3">
+          <div class="text-2xl font-bold text-amber-600 dark:text-amber-400">~62%</div>
+          <div class="text-xs text-zinc-500 mt-1">最大 upside (NVDA)</div>
+        </div>
+        <div class="rounded-lg border border-zinc-200 dark:border-zinc-800 p-3">
+          <div class="text-2xl font-bold text-rose-600 dark:text-rose-400">-4.8%</div>
+          <div class="text-xs text-zinc-500 mt-1">萬潤股價超標</div>
+        </div>
+      </div>
+
+      <div class="mt-4 p-3 rounded-lg bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-900 text-sm">
+        ⚠️ <strong>財報季提醒：</strong>5 月正值 Q1 財報季，部分公司（如旺矽 5/15 法說、矽力杰 5/15 法說、Nvidia 預計 5/20 法說）資料更新頻繁，請以最新財報為準。
+      </div>
+    </header>
+
+    <!-- ===== 總覽比較 ===== -->
+    <section id="overview" class="mb-16">
+      <h2 class="text-2xl font-semibold mb-4 pb-2 border-b border-zinc-200 dark:border-zinc-800">總覽比較表</h2>
+      <p class="text-sm text-zinc-600 dark:text-zinc-400 mb-4">
+        點選欄位標頭可排序；上方搜尋框可篩選公司、券商或評級。
+      </p>
+
+      <div class="overflow-x-auto">
+        <table id="overview-table" class="display w-full text-sm">
+          <thead>
+            <tr>
+              <th>公司</th>
+              <th>代號</th>
+              <th>券商</th>
+              <th>報告日</th>
+              <th>評級</th>
+              <th>目標價</th>
+              <th>報告股價</th>
+              <th data-sort-type="num">上漲空間</th>
+              <th>時效</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>元太科技 E Ink</td>
+              <td>8069.TWO</td>
+              <td>Morgan Stanley</td>
+              <td>2026-05-17</td>
+              <td><span class="badge-buy px-2 py-0.5 rounded text-xs font-medium">OW 加碼</span></td>
+              <td>NT$250</td>
+              <td>NT$210</td>
+              <td data-order="19.0"><span class="upside-strong">+19.0%</span></td>
+              <td><span class="freshness fresh-green">2 天</span></td>
+            </tr>
+            <tr>
+              <td>亞德客 AirTAC</td>
+              <td>1590.TW</td>
+              <td>Morgan Stanley</td>
+              <td>2026-05-17</td>
+              <td><span class="badge-buy px-2 py-0.5 rounded text-xs font-medium">OW 加碼</span></td>
+              <td>NT$2,000</td>
+              <td>NT$1,465</td>
+              <td data-order="36.5"><span class="upside-strong">+36.5%</span></td>
+              <td><span class="freshness fresh-green">2 天</span></td>
+            </tr>
+            <tr>
+              <td>上銀 Hiwin</td>
+              <td>2049.TW</td>
+              <td>Morgan Stanley</td>
+              <td>2026-05-17</td>
+              <td><span class="badge-buy px-2 py-0.5 rounded text-xs font-medium">OW 加碼</span></td>
+              <td>NT$400</td>
+              <td>NT$392.5</td>
+              <td data-order="1.9"><span class="upside-warn">+1.9%</span></td>
+              <td><span class="freshness fresh-green">2 天</span></td>
+            </tr>
+            <tr>
+              <td>Nvidia</td>
+              <td>NVDA US</td>
+              <td>廣發證券 (HK)</td>
+              <td>2026-05-17</td>
+              <td><span class="badge-buy px-2 py-0.5 rounded text-xs font-medium">Buy 買進</span></td>
+              <td>$308</td>
+              <td>~$190 (ATH)</td>
+              <td data-order="62.1"><span class="upside-strong">~+62.1%</span></td>
+              <td><span class="freshness fresh-green">2 天</span></td>
+            </tr>
+            <tr>
+              <td>全新光電 VPEC</td>
+              <td>2455.TW</td>
+              <td>Goldman Sachs</td>
+              <td>2026-05-17</td>
+              <td><span class="badge-buy px-2 py-0.5 rounded text-xs font-medium">Buy 買進</span></td>
+              <td>NT$504</td>
+              <td>NT$358.5</td>
+              <td data-order="40.6"><span class="upside-strong">+40.6%</span></td>
+              <td><span class="freshness fresh-green">2 天</span></td>
+            </tr>
+            <tr>
+              <td>旺矽 MPI</td>
+              <td>6223.TWO</td>
+              <td>Goldman Sachs</td>
+              <td>2026-05-15</td>
+              <td><span class="badge-buy px-2 py-0.5 rounded text-xs font-medium">Buy 買進</span></td>
+              <td>NT$8,800</td>
+              <td>NT$5,895</td>
+              <td data-order="49.3"><span class="upside-strong">+49.3%</span></td>
+              <td><span class="freshness fresh-green">4 天</span></td>
+            </tr>
+            <tr>
+              <td>矽力杰 Silergy</td>
+              <td>6415.TW</td>
+              <td>Goldman Sachs</td>
+              <td>2026-05-17</td>
+              <td><span class="badge-buy px-2 py-0.5 rounded text-xs font-medium">Buy 買進 (↑升評)</span></td>
+              <td>NT$650</td>
+              <td>NT$468</td>
+              <td data-order="38.9"><span class="upside-strong">+38.9%</span></td>
+              <td><span class="freshness fresh-green">2 天</span></td>
+            </tr>
+            <tr>
+              <td>萬潤 AllRing</td>
+              <td>6187.TWO</td>
+              <td>Morgan Stanley</td>
+              <td>2026-05-06</td>
+              <td><span class="badge-buy px-2 py-0.5 rounded text-xs font-medium">OW 加碼</span></td>
+              <td>NT$1,280</td>
+              <td>NT$1,345</td>
+              <td data-order="-4.8"><span class="upside-neg">-4.8% ⚠</span></td>
+              <td><span class="freshness fresh-green">13 天</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ===== 視覺化分析 ===== -->
+    <section id="charts" class="mb-16">
+      <h2 class="text-2xl font-semibold mb-4 pb-2 border-b border-zinc-200 dark:border-zinc-800">視覺化分析</h2>
+
+      <div class="grid lg:grid-cols-2 gap-6">
+        <div class="rounded-lg border border-zinc-200 dark:border-zinc-800 p-4">
+          <h3 class="font-semibold mb-3">上漲空間排行</h3>
+          <div style="position: relative; height: 320px;">
+            <canvas id="upsideChart"></canvas>
+          </div>
+        </div>
+
+        <div class="rounded-lg border border-zinc-200 dark:border-zinc-800 p-4">
+          <h3 class="font-semibold mb-3">券商覆蓋分布</h3>
+          <div style="position: relative; height: 320px;">
+            <canvas id="brokerChart"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <div class="mt-6 rounded-lg border border-zinc-200 dark:border-zinc-800 p-4">
+        <h3 class="font-semibold mb-3">產業主題分布</h3>
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 text-sm">
+          <div class="p-3 rounded bg-blue-50 dark:bg-blue-950/30 border border-blue-200 dark:border-blue-900">
+            <div class="font-medium text-blue-700 dark:text-blue-400">AI 資料中心</div>
+            <div class="text-xs mt-1">NVDA、VPEC、MPI、Silergy、AllRing</div>
+          </div>
+          <div class="p-3 rounded bg-purple-50 dark:bg-purple-950/30 border border-purple-200 dark:border-purple-900">
+            <div class="font-medium text-purple-700 dark:text-purple-400">工業自動化</div>
+            <div class="text-xs mt-1">AirTAC、Hiwin</div>
+          </div>
+          <div class="p-3 rounded bg-emerald-50 dark:bg-emerald-950/30 border border-emerald-200 dark:border-emerald-900">
+            <div class="font-medium text-emerald-700 dark:text-emerald-400">電子紙</div>
+            <div class="text-xs mt-1">元太 E Ink</div>
+          </div>
+          <div class="p-3 rounded bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-900">
+            <div class="font-medium text-amber-700 dark:text-amber-400">車用 / 類比 IC</div>
+            <div class="text-xs mt-1">Silergy</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== 隱藏洞察彙整 ===== -->
+    <section id="insights" class="mb-16">
+      <h2 class="text-2xl font-semibold mb-4 pb-2 border-b border-zinc-200 dark:border-zinc-800">🔍 隱藏洞察彙整</h2>
+      <p class="text-sm text-zinc-600 dark:text-zinc-400 mb-4">
+        從 7 份報告中萃取出，一般讀者容易忽略但具實質意義的觀察。
+      </p>
+
+      <div class="insight insight-risk">
+        <div class="font-semibold mb-1">⚠️ 萬潤 6187：股價已超越目標價</div>
+        <div class="text-sm">
+          當前股價 NT$1,345 高於 MS 目標價 NT$1,280，upside <strong>-4.8%</strong>。
+          分析師目標價已落後現價，留意是否有<strong>目標價上調空間</strong>或<strong>評等降級風險</strong>。
+          歷史顯示 MS 自 2024/8/27 起 PT 從 NT$500 一路調升至 NT$1,280（4/10/26），股價反應已超前。
+        </div>
+      </div>
+
+      <div class="insight insight-warn">
+        <div class="font-semibold mb-1">📉 Nvidia：Rubin 推遲但 TP 仍上修</div>
+        <div class="text-sm">
+          廣發證券確認 Rubin 量產自原訂時程<strong>推延至 9 月</strong>，這通常會引發空方賣壓。
+          但券商仍將 TP 由 $292 上調至 $308（基於 28x FY27/FY28 EPS），靠 Blackwell、Vera CPU、LPX 三項彌補。
+          隱含解讀：分析師認為市場已 price-in Rubin 推遲，且 capital return program（5/20 法說）可能成為短期催化。
+        </div>
+      </div>
+
+      <div class="insight insight-warn">
+        <div class="font-semibold mb-1">📊 矽力杰 6415：1Q26 毛利率 miss，但 GS 仍升評</div>
+        <div class="text-sm">
+          1Q26 GM 48.2% 較預期低 3.3-3.7ppts，主因<strong>庫存減損損失 1.6ppts</strong>+產品組合不利+上游漲價。
+          但 GS 仍由 Neutral <strong>升至 Buy</strong>，TP 由 NT$310 大幅調升至 NT$650（+110%）。
+          核心邏輯：資料中心 + 車用雙引擎、Gen 4 滲透率提升，1Q 弱勢視為過渡。
+          GSe 2027/28E EPS 較 Bloomberg 共識高 50%/65%。
+        </div>
+      </div>
+
+      <div class="insight insight-opp">
+        <div class="font-semibold mb-1">💡 旺矽 6223：TP 暴增 135%，但 M&amp;A rank 下調</div>
+        <div class="text-sm">
+          GS 將 TP 由 NT$3,750 → NT$8,800 (<strong>+135%</strong>)，估值方法由 2027E 改為 <strong>2028E 折現 P/E (40x)</strong>。
+          注意：M&amp;A rank 由 2 降至 3（市值已超過 US$15bn，併購可能性下降）——隱含市場應該關注成長動能而非併購溢價。
+          CPO 業務 Insertion 2/3 進度與非 AI ASIC 客戶將是 2027 的關鍵變數。
+        </div>
+      </div>
+
+      <div class="insight insight-info">
+        <div class="font-semibold mb-1">⏰ 元太 8069：估值已接近 mid-cycle</div>
+        <div class="text-sm">
+          MS 直言「目前估值已接近 mid-cycle 平均」，<strong>執行力</strong>是下一個觀察重點。
+          4 月稅前獲利已達 MS 全年估的 36%、市場共識的 38%，2Q 有上修空間。
+          但 19x 2027 P/E 已隱含 PEG 1.0x（高於 2020-25 平均），向上空間需靠執行力證明。
+        </div>
+      </div>
+
+      <div class="insight insight-info">
+        <div class="font-semibold mb-1">🗣️ 上銀 2049：MS 雖維持 OW，但措辭明顯保守化</div>
+        <div class="text-sm">
+          報告中明文寫道「Hiwin 估值看起來不便宜」（does not look cheap, 37x 2027e P/E vs peak cycle 35-40x）。
+          當前股價 NT$392.5 vs PT NT$400，upside 僅 <strong>+1.9%</strong>，幾乎 fully priced。
+          相較之下 AirTAC 估值 22x（vs 歷史平均 25x）更具吸引力。
+        </div>
+      </div>
+
+      <div class="insight insight-opp">
+        <div class="font-semibold mb-1">📈 全新光電 2455：InP 磊晶供應吃緊反成催化</div>
+        <div class="text-sm">
+          中國對 InP 基板出口管制使供應吃緊——但這反而推升了既有玩家如 VPEC 的議價力與 GM（1Q26 GM 達 38.1%）。
+          GS 將目標 P/E 由 12.9x 大幅上調至 19.6x（2029E），反映行業 re-rating。
+          下行風險：若中國放寬出口管制，產業 ASP 與 GM 可能承壓。
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== 個股卡片 ===== -->
+
+    <section id="einkholdings" class="mb-12">
+      <h2 class="text-2xl font-semibold mb-4 pb-2 border-b border-zinc-200 dark:border-zinc-800">元太科技 E Ink（8069.TWO）</h2>
+
+      <div class="grid sm:grid-cols-3 gap-3 mb-4">
+        <div class="rounded-lg border border-zinc-200 dark:border-zinc-800 p-3">
+          <div class="text-xs text-zinc-500">報告參考股價</div>
+          <div class="text-xl font-bold">NT$210</div>
+          <div class="text-xs text-zinc-500 mt-1">2026-05-15 收盤</div>
+        </div>
+        <div class="rounded-lg border border-emerald-200 dark:border-emerald-900 bg-emerald-50 dark:bg-emerald-950/30 p-3">
+          <div class="text-xs text-emerald-700 dark:text-emerald-400">目標價</div>
+          <div class="text-xl font-bold text-emerald-700 dark:text-emerald-400">NT$250</div>
+          <div class="text-xs mt-1 upside-strong">+19.0% 上漲空間</div>
+        </div>
+        <div class="rounded-lg border border-zinc-200 dark:border-zinc-800 p-3">
+          <div class="text-xs text-zinc-500">評級 / 券商</div>
+          <div class="text-base font-medium">OW 加碼</div>
+          <div class="text-xs text-zinc-500 mt-1">Morgan Stanley</div>
+        </div>
+      </div>
+
+      <h3 class="font-semibold mt-4 mb-2">核心論點</h3>
+      <ul class="list-disc list-outside ml-5 space-y-1 text-sm">
+        <li>4 月稅前淨利 NT$1,410mn（+105% YoY），淨利 NT$1,172mn（+116% YoY）、EPS NT$1.02</li>
+        <li>4 月獲利已達 MS 全年估的 36%、共識的 38%，<strong>2Q26 有上修空間</strong></li>
+        <li>1Q26 後升評至 OW，看好 ESL（電子貨架標籤）成長前景與招牌業務進展</li>
+        <li>近期反彈使估值接近 mid-cycle，下一階段觀察執行力</li>
+        <li>估值基礎：19x 2027 EPS，2025-28 預估 EPS CAGR 20%</li>
+      </ul>
+
+      <div class="insight insight-info mt-4">
+        <div class="font-semibold mb-1">🔍 隱藏洞察</div>
+        <div class="text-sm">PEG 1.0x 略高於 2020-25 平均，意味目標倍數已給足，向上需靠 execution 推進。</div>
+      </div>
+    </section>
+
+    <section id="automation" class="mb-12">
+      <h2 class="text-2xl font-semibold mb-4 pb-2 border-b border-zinc-200 dark:border-zinc-800">工業自動化：亞德客 1590 ﹒ 上銀 2049</h2>
+      <p class="text-sm text-zinc-600 dark:text-zinc-400 mb-4">
+        Morgan Stanley 在 JMTBA（日本工具機協會）4 月訂單 +45% YoY 後出具的雙股看法。
+      </p>
+
+      <div class="tabs grid gap-2">
+        <div class="grid sm:grid-cols-2 gap-4">
+          <div class="rounded-lg border border-zinc-200 dark:border-zinc-800 p-4">
+            <h3 class="font-semibold mb-2">亞德客 AirTAC (1590.TW)</h3>
+            <div class="grid grid-cols-2 gap-2 mb-3 text-sm">
+              <div><span class="text-zinc-500">股價</span><div class="font-bold">NT$1,465</div></div>
+              <div><span class="text-zinc-500">目標價</span><div class="font-bold text-emerald-600 dark:text-emerald-400">NT$2,000</div></div>
+              <div><span class="text-zinc-500">評級</span><div><span class="badge-buy px-2 py-0.5 rounded text-xs">OW</span></div></div>
+              <div><span class="text-zinc-500">Upside</span><div class="upside-strong">+36.5%</div></div>
+            </div>
+            <ul class="list-disc list-outside ml-5 space-y-1 text-sm">
+              <li>持續搶占市占率</li>
+              <li>22x 2027 P/E vs. 2020 後均值 25x，<strong>估值不貴</strong></li>
+              <li>30x 2027 P/E 為 peak cycle 估值基礎</li>
+            </ul>
+          </div>
+
+          <div class="rounded-lg border border-zinc-200 dark:border-zinc-800 p-4">
+            <h3 class="font-semibold mb-2">上銀 Hiwin (2049.TW)</h3>
+            <div class="grid grid-cols-2 gap-2 mb-3 text-sm">
+              <div><span class="text-zinc-500">股價</span><div class="font-bold">NT$392.5</div></div>
+              <div><span class="text-zinc-500">目標價</span><div class="font-bold text-emerald-600 dark:text-emerald-400">NT$400</div></div>
+              <div><span class="text-zinc-500">評級</span><div><span class="badge-buy px-2 py-0.5 rounded text-xs">OW</span></div></div>
+              <div><span class="text-zinc-500">Upside</span><div class="upside-warn">+1.9%</div></div>
+            </div>
+            <ul class="list-disc list-outside ml-5 space-y-1 text-sm">
+              <li>2H26 因產能利用率提升 + 漲價，<strong>毛利率擴張</strong></li>
+              <li>37x 2027 P/E（vs 過往 peak 35-40x），<strong>估值不算便宜</strong></li>
+              <li>2025-28 預估營業利益 CAGR 44%；若需求動能延續有 EPS 上修空間</li>
+            </ul>
+          </div>
+        </div>
+
+        <h3 class="font-semibold mt-4 mb-2">JMTBA 4 月訂單概覽</h3>
+        <ul class="list-disc list-outside ml-5 space-y-1 text-sm">
+          <li>整體訂單 ¥189bn：-2% MoM / <strong>+45% YoY</strong>（vs. 3月 +32% MoM / +28% YoY）</li>
+          <li>國內訂單 ¥49bn：-2% MoM / +43% YoY</li>
+          <li>海外訂單 ¥140bn：-2% MoM / +46% YoY</li>
+          <li>中國 / 歐洲 / 北美 製造業 PMI 4 月分別 50.3 / 52.2 / 52.7（均高於 50 榮枯線）</li>
+        </ul>
+
+        <div class="insight insight-info mt-4">
+          <div class="font-semibold mb-1">🗣️ 隱藏洞察：上銀措辭明顯保守</div>
+          <div class="text-sm">
+            報告對 Hiwin 直言 "does not look cheap"，目標價僅 +1.9% upside。相較之下 AirTAC 估值與 upside 都更具吸引力。
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="nvda" class="mb-12">
+      <h2 class="text-2xl font-semibold mb-4 pb-2 border-b border-zinc-200 dark:border-zinc-800">Nvidia (NVDA US)</h2>
+
+      <div class="grid sm:grid-cols-3 gap-3 mb-4">
+        <div class="rounded-lg border border-zinc-200 dark:border-zinc-800 p-3">
+          <div class="text-xs text-zinc-500">報告參考股價</div>
+          <div class="text-xl font-bold">~$190 (ATH)</div>
+          <div class="text-xs text-zinc-500 mt-1">all-time-high，須以最新盤價為準</div>
+        </div>
+        <div class="rounded-lg border border-emerald-200 dark:border-emerald-900 bg-emerald-50 dark:bg-emerald-950/30 p-3">
+          <div class="text-xs text-emerald-700 dark:text-emerald-400">目標價</div>
+          <div class="text-xl font-bold text-emerald-700 dark:text-emerald-400">$308</div>
+          <div class="text-xs mt-1 upside-strong">~+62% (由 $292 上修)</div>
+        </div>
+        <div class="rounded-lg border border-zinc-200 dark:border-zinc-800 p-3">
+          <div class="text-xs text-zinc-500">評級 / 券商</div>
+          <div class="text-base font-medium">Buy 買進</div>
+          <div class="text-xs text-zinc-500 mt-1">廣發證券（香港）</div>
+        </div>
+      </div>
+
+      <h3 class="font-semibold mt-4 mb-2">核心論點</h3>
+      <ul class="list-disc list-outside ml-5 space-y-1 text-sm">
+        <li>5/20 法說預期：F1Q 營收 $80.6bn（vs 共識 $78.8bn / buyside $80bn）</li>
+        <li>F2Q guidance 預估 ~$91bn（vs 共識 $86.2bn），<strong>略優於預期</strong></li>
+        <li>Rubin 量產推延至 <strong>9 月（從原訂時程）</strong>，但 2,300W 規格不變</li>
+        <li>LPX rack ramp 快於預期，預估 CY4Q26 至 CY2027 共 16k racks，貢獻 ~$70bn 營收</li>
+        <li>EPS 預估調整：FY27E +0%，FY28E +13% → TP 由 $292 上修至 $308（28x FY27/FY28 EPS）</li>
+        <li>5/14 美國批准 H200 出售給 10 家中國公司，為短期催化</li>
+      </ul>
+
+      <details class="mt-4 border border-zinc-200 dark:border-zinc-800 rounded p-3">
+        <summary class="font-medium">財務預估 (USD m)</summary>
+        <div class="overflow-x-auto mt-3">
+          <table class="w-full text-sm border-collapse">
+            <thead>
+              <tr class="border-b border-zinc-300 dark:border-zinc-700">
+                <th class="text-left p-2">項目</th>
+                <th class="text-right p-2">FY26</th>
+                <th class="text-right p-2">FY27E (新)</th>
+                <th class="text-right p-2">FY28E (新)</th>
+                <th class="text-right p-2">FY28E vs 舊</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="border-b border-zinc-200 dark:border-zinc-800"><td class="p-2">營收</td><td class="text-right">215,938</td><td class="text-right">391,307</td><td class="text-right">581,400</td><td class="text-right text-emerald-600">+13%</td></tr>
+              <tr class="border-b border-zinc-200 dark:border-zinc-800"><td class="p-2">毛利率</td><td class="text-right">71.3%</td><td class="text-right">74.9%</td><td class="text-right">75.2%</td><td class="text-right">—</td></tr>
+              <tr class="border-b border-zinc-200 dark:border-zinc-800"><td class="p-2">營業利潤</td><td class="text-right">137,300</td><td class="text-right">257,805</td><td class="text-right">385,274</td><td class="text-right text-emerald-600">+13%</td></tr>
+              <tr class="border-b border-zinc-200 dark:border-zinc-800"><td class="p-2">淨利</td><td class="text-right">116,996</td><td class="text-right">216,213</td><td class="text-right">322,298</td><td class="text-right text-emerald-600">+13%</td></tr>
+              <tr><td class="p-2">EPS ($)</td><td class="text-right">4.77</td><td class="text-right">8.83</td><td class="text-right">13.16</td><td class="text-right text-emerald-600">+13%</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </details>
+
+      <div class="insight insight-warn mt-4">
+        <div class="font-semibold mb-1">📉 隱藏洞察：Rubin push-out vs TP 上修</div>
+        <div class="text-sm">
+          產品延期通常引發負面反應，但 TP 仍上修，反映分析師認為 Blackwell + Vera CPU + LPX 的 portfolio lift 已能補上 Rubin 延後缺口，且 5/20 法說有 capital return program 預期。
+        </div>
+      </div>
+    </section>
+
+    <section id="vpec" class="mb-12">
+      <h2 class="text-2xl font-semibold mb-4 pb-2 border-b border-zinc-200 dark:border-zinc-800">全新光電 VPEC (2455.TW)</h2>
+
+      <div class="grid sm:grid-cols-3 gap-3 mb-4">
+        <div class="rounded-lg border border-zinc-200 dark:border-zinc-800 p-3">
+          <div class="text-xs text-zinc-500">報告參考股價</div>
+          <div class="text-xl font-bold">NT$358.5</div>
+          <div class="text-xs text-zinc-500 mt-1">2026-05-15 收盤</div>
+        </div>
+        <div class="rounded-lg border border-emerald-200 dark:border-emerald-900 bg-emerald-50 dark:bg-emerald-950/30 p-3">
+          <div class="text-xs text-emerald-700 dark:text-emerald-400">目標價</div>
+          <div class="text-xl font-bold text-emerald-700 dark:text-emerald-400">NT$504</div>
+          <div class="text-xs mt-1 upside-strong">+40.6% (由 NT$267 上修 89%)</div>
+        </div>
+        <div class="rounded-lg border border-zinc-200 dark:border-zinc-800 p-3">
+          <div class="text-xs text-zinc-500">評級 / 券商</div>
+          <div class="text-base font-medium">Buy 買進</div>
+          <div class="text-xs text-zinc-500 mt-1">Goldman Sachs</div>
+        </div>
+      </div>
+
+      <h3 class="font-semibold mt-4 mb-2">核心論點</h3>
+      <ul class="list-disc list-outside ml-5 space-y-1 text-sm">
+        <li><strong>InP 磊晶圓需求強勁</strong>（AI infra cycle 帶動高速連接）— 1Q26 GM 已達 38.1%</li>
+        <li>光電持續成長：產能擴充 + 次世代 AI server rack ramp + PD/LD 客戶擴張 + PD 規格升級至 200G</li>
+        <li>Microelectronics 穩健：WiFi 7 需求成長（手機、AI 眼鏡、WiFi router）</li>
+        <li>預估 2026-28E 營收 CAGR <strong>+36%</strong>，淨利 CAGR <strong>+47%</strong></li>
+        <li>4 月營收 +2% MoM / +38% YoY，較 GSe 低 5%，整體大致符合預期</li>
+        <li>估值：目標 P/E 19.6x（vs 過去 12.9x），由 2029E 折現回 2027E</li>
+      </ul>
+
+      <h3 class="font-semibold mt-4 mb-2">營收結構轉變（GS 預估）</h3>
+      <div class="overflow-x-auto">
+        <table class="w-full text-sm border-collapse">
+          <thead>
+            <tr class="border-b border-zinc-300 dark:border-zinc-700">
+              <th class="text-left p-2">產品</th>
+              <th class="text-right p-2">2025</th>
+              <th class="text-right p-2">2026E</th>
+              <th class="text-right p-2">2027E</th>
+              <th class="text-right p-2">2028E</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="border-b border-zinc-200 dark:border-zinc-800"><td class="p-2">SiPh 磊晶圓占比</td><td class="text-right">6%</td><td class="text-right">19%</td><td class="text-right">34%</td><td class="text-right text-emerald-600">45%</td></tr>
+            <tr class="border-b border-zinc-200 dark:border-zinc-800"><td class="p-2">毛利率</td><td class="text-right">36.1%</td><td class="text-right">41.5%</td><td class="text-right">45.1%</td><td class="text-right">46.5%</td></tr>
+            <tr><td class="p-2">營收 (NT$m)</td><td class="text-right">3,380</td><td class="text-right">4,702</td><td class="text-right">6,473</td><td class="text-right">8,655</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="insight insight-opp mt-4">
+        <div class="font-semibold mb-1">📈 隱藏洞察：中國出口管制反成利多</div>
+        <div class="text-sm">
+          中國對 InP 基板出口管制使供應吃緊——但這推升了既有玩家如 VPEC 的議價力與毛利率。
+          但反過來說：若中國放寬出口管制，產業 ASP 與 GM 可能承壓，為下行風險。
+        </div>
+      </div>
+    </section>
+
+    <section id="mpi" class="mb-12">
+      <h2 class="text-2xl font-semibold mb-4 pb-2 border-b border-zinc-200 dark:border-zinc-800">旺矽 MPI Corp. (6223.TWO)</h2>
+
+      <div class="grid sm:grid-cols-3 gap-3 mb-4">
+        <div class="rounded-lg border border-zinc-200 dark:border-zinc-800 p-3">
+          <div class="text-xs text-zinc-500">報告參考股價</div>
+          <div class="text-xl font-bold">NT$5,895</div>
+          <div class="text-xs text-zinc-500 mt-1">2026-05-15 收盤</div>
+        </div>
+        <div class="rounded-lg border border-emerald-200 dark:border-emerald-900 bg-emerald-50 dark:bg-emerald-950/30 p-3">
+          <div class="text-xs text-emerald-700 dark:text-emerald-400">目標價</div>
+          <div class="text-xl font-bold text-emerald-700 dark:text-emerald-400">NT$8,800</div>
+          <div class="text-xs mt-1 upside-strong">+49.3% (由 NT$3,750 大幅上修 135%)</div>
+        </div>
+        <div class="rounded-lg border border-zinc-200 dark:border-zinc-800 p-3">
+          <div class="text-xs text-zinc-500">評級 / 券商</div>
+          <div class="text-base font-medium">Buy 買進</div>
+          <div class="text-xs text-zinc-500 mt-1">Goldman Sachs</div>
+        </div>
+      </div>
+
+      <h3 class="font-semibold mt-4 mb-2">核心論點</h3>
+      <ul class="list-disc list-outside ml-5 space-y-1 text-sm">
+        <li>產能滿載：VPC/MEMS 全年訂單能見度 <strong>6-9 個月</strong>（過往僅 3 個月）</li>
+        <li>2Q26 營收預估 QoQ +15-20%，3Q26/4Q26 各 QoQ +10-15% → 全年 +41-52% YoY</li>
+        <li>2027 產能擴充延續：VPC 2mn 針/月 (4Q26)、MEMS 3.5mn 針 (2026 年底)</li>
+        <li><strong>CPO 設備機會</strong>：Insertion 2 認證進行中（3Q26 關鍵檢核點）；Insertion 3 進度更快，4Q26 小量出貨、2027 量產能見度</li>
+        <li>非 AI ASIC 新客戶 2H26 開始出貨，2027 有意義貢獻</li>
+        <li>2026 資本支出由 NT$1.6-2.0bn 上修至 NT$2.7bn</li>
+        <li>估值：40x FY28E P/E 折現回 FY27E（vs 過去 36x FY27E）</li>
+      </ul>
+
+      <h3 class="font-semibold mt-4 mb-2">財務預估 (NT$m)</h3>
+      <div class="overflow-x-auto">
+        <table class="w-full text-sm border-collapse">
+          <thead>
+            <tr class="border-b border-zinc-300 dark:border-zinc-700">
+              <th class="text-left p-2">項目</th>
+              <th class="text-right p-2">2025</th>
+              <th class="text-right p-2">2026E</th>
+              <th class="text-right p-2">2027E</th>
+              <th class="text-right p-2">2028E</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="border-b border-zinc-200 dark:border-zinc-800"><td class="p-2">營收</td><td class="text-right">13,371</td><td class="text-right">21,465</td><td class="text-right">42,223</td><td class="text-right">64,546</td></tr>
+            <tr class="border-b border-zinc-200 dark:border-zinc-800"><td class="p-2">YoY</td><td class="text-right">31.5%</td><td class="text-right text-emerald-600">60.5%</td><td class="text-right text-emerald-600">96.7%</td><td class="text-right text-emerald-600">52.9%</td></tr>
+            <tr class="border-b border-zinc-200 dark:border-zinc-800"><td class="p-2">毛利率</td><td class="text-right">55.6%</td><td class="text-right">59.2%</td><td class="text-right">61.8%</td><td class="text-right">63.4%</td></tr>
+            <tr class="border-b border-zinc-200 dark:border-zinc-800"><td class="p-2">營業利益率</td><td class="text-right">28.2%</td><td class="text-right">33.2%</td><td class="text-right">41.9%</td><td class="text-right">46.0%</td></tr>
+            <tr><td class="p-2">EPS (NT$)</td><td class="text-right">33.65</td><td class="text-right">62.99</td><td class="text-right">148.67</td><td class="text-right text-emerald-600">247.23</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="insight insight-opp mt-4">
+        <div class="font-semibold mb-1">💡 隱藏洞察：估值方法切換 → 暗示成長能見度</div>
+        <div class="text-sm">
+          GS 由 2027E 折現改為 <strong>2028E 折現</strong>，並將 M&A rank 由 2 降至 3（市值已過 US$15bn，併購可能性下降）。
+          隱含訊息：分析師對 CPO 等中期動能的能見度提升、不再依賴併購溢價支撐 TP。
+        </div>
+      </div>
+    </section>
+
+    <section id="silergy" class="mb-12">
+      <h2 class="text-2xl font-semibold mb-4 pb-2 border-b border-zinc-200 dark:border-zinc-800">矽力杰 Silergy (6415.TW)</h2>
+
+      <div class="grid sm:grid-cols-3 gap-3 mb-4">
+        <div class="rounded-lg border border-zinc-200 dark:border-zinc-800 p-3">
+          <div class="text-xs text-zinc-500">報告參考股價</div>
+          <div class="text-xl font-bold">NT$468</div>
+          <div class="text-xs text-zinc-500 mt-1">2026-05-15 收盤</div>
+        </div>
+        <div class="rounded-lg border border-emerald-200 dark:border-emerald-900 bg-emerald-50 dark:bg-emerald-950/30 p-3">
+          <div class="text-xs text-emerald-700 dark:text-emerald-400">目標價</div>
+          <div class="text-xl font-bold text-emerald-700 dark:text-emerald-400">NT$650</div>
+          <div class="text-xs mt-1 upside-strong">+38.9% (由 NT$310 上修 110%)</div>
+        </div>
+        <div class="rounded-lg border border-emerald-200 dark:border-emerald-900 bg-emerald-50 dark:bg-emerald-950/30 p-3">
+          <div class="text-xs text-emerald-700 dark:text-emerald-400">評級 / 券商</div>
+          <div class="text-base font-medium text-emerald-700 dark:text-emerald-400">Buy 買進 ↑</div>
+          <div class="text-xs mt-1">Goldman Sachs（由 Neutral 升評）</div>
+        </div>
+      </div>
+
+      <h3 class="font-semibold mt-4 mb-2">核心論點</h3>
+      <ul class="list-disc list-outside ml-5 space-y-1 text-sm">
+        <li><strong>資料中心需求超預期</strong>：2026E 佔比 15-20%（vs 2025 &lt;10%），1Q26 資料中心營收 +90% YoY</li>
+        <li>車用美金含量翻倍：2025 年底 ~$120/car → 2026 年底 ~$250/car；車用營收 +50% YoY</li>
+        <li>2025-2028E 車用 CAGR 61%；2028 車用占比達 high-20%</li>
+        <li>Gen 4 產品滲透率：2026 年底達 20%，毛利率較 Gen 3 高 5ppts；採 12 吋晶圓供應寬鬆</li>
+        <li>預估 2026/27/28E 營收 +25%/+32%/+28%，毛利率 51.0% / 54.8% / 55.5%</li>
+        <li>估值升級：30x 2027E EPS（由 23x，符合 2017-21 上升循環 P/E）</li>
+        <li>GSe 2027/28E EPS 較 Bloomberg 共識高 <strong>50%/65%</strong></li>
+      </ul>
+
+      <div class="insight insight-warn mt-4">
+        <div class="font-semibold mb-1">📊 隱藏洞察：1Q26 GM miss 但仍升評</div>
+        <div class="text-sm">
+          1Q26 GM 48.2%（vs 預期 51.5-51.9%），主因庫存減損 1.6ppts、產品組合不利、上游漲價。
+          GS 認為庫存減損未來會回沖，1Q 弱勢視為過渡——但若 2Q 毛利仍未回升至 50% 以上，分析師升評論述將受質疑。
+        </div>
+      </div>
+    </section>
+
+    <section id="allring" class="mb-12">
+      <h2 class="text-2xl font-semibold mb-4 pb-2 border-b border-zinc-200 dark:border-zinc-800">萬潤科技 AllRing Tech (6187.TWO)</h2>
+
+      <div class="grid sm:grid-cols-3 gap-3 mb-4">
+        <div class="rounded-lg border border-zinc-200 dark:border-zinc-800 p-3">
+          <div class="text-xs text-zinc-500">報告參考股價</div>
+          <div class="text-xl font-bold">NT$1,345</div>
+          <div class="text-xs text-zinc-500 mt-1">2026-05-05 收盤</div>
+        </div>
+        <div class="rounded-lg border border-rose-200 dark:border-rose-900 bg-rose-50 dark:bg-rose-950/30 p-3">
+          <div class="text-xs text-rose-700 dark:text-rose-400">目標價</div>
+          <div class="text-xl font-bold text-rose-700 dark:text-rose-400">NT$1,280</div>
+          <div class="text-xs mt-1 upside-neg">-4.8% ⚠ 股價已超過目標價</div>
+        </div>
+        <div class="rounded-lg border border-zinc-200 dark:border-zinc-800 p-3">
+          <div class="text-xs text-zinc-500">評級 / 券商</div>
+          <div class="text-base font-medium">OW 加碼</div>
+          <div class="text-xs text-zinc-500 mt-1">Morgan Stanley</div>
+        </div>
+      </div>
+
+      <h3 class="font-semibold mt-4 mb-2">核心論點</h3>
+      <ul class="list-disc list-outside ml-5 space-y-1 text-sm">
+        <li>市場擔憂 Rubin TIM2 設計變更會波及 TIM1，但供應鏈確認 <strong>TIM1 設計無變更</strong>（仍為 graphene 解決方案）</li>
+        <li>對 AllRing 在 OS 製程的散熱片貼合需求<strong>無影響</strong></li>
+        <li>2025 營收預估 +52% YoY，CoWoS 占總營收 75%</li>
+        <li>1Q26 法說 5/8 公布</li>
+        <li>估值：殘餘收益模型（CoE 8% / Beta 1.0 / 中期成長 16% / 終值成長 4.5%）</li>
+      </ul>
+
+      <div class="insight insight-risk mt-4">
+        <div class="font-semibold mb-1">⚠️ 隱藏洞察：股價已超越目標價</div>
+        <div class="text-sm">
+          當前股價 NT$1,345 高於 MS 目標價 NT$1,280，upside <strong>-4.8%</strong>。
+          MS 自 2024/8/27 起 PT 從 NT$500 一路調升至 NT$1,280（4/10/26）— 但股價反應更快、已 fully priced。
+          <br><br>
+          <strong>建議行動</strong>：等待分析師更新報告，留意是否有：
+          <ul class="list-disc list-outside ml-5 mt-1">
+            <li>目標價上調空間（CoWoS 滲透率超預期、SoIC 採用、Silicon Photonics 加速）</li>
+            <li>評等降級風險（若 1Q26 法說令市場失望，估值修正風險高）</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== 方法說明 ===== -->
+    <section id="methodology" class="mb-12">
+      <h2 class="text-2xl font-semibold mb-4 pb-2 border-b border-zinc-200 dark:border-zinc-800">方法說明 ﹒ 免責聲明</h2>
+
+      <details class="border border-zinc-200 dark:border-zinc-800 rounded p-3 mb-3">
+        <summary class="font-medium">資料來源 & 提取方式</summary>
+        <ul class="list-disc list-outside ml-5 mt-3 space-y-1 text-sm">
+          <li>7 份券商 PDF 研究報告（Morgan Stanley × 3、Goldman Sachs × 3、廣發證券 × 1）</li>
+          <li>報告日期區間：2026-05-06 至 2026-05-17</li>
+          <li>所有目標價、評級、預估數字均直接擷取自原始報告</li>
+          <li>「報告參考股價」為各報告中註明的最近交易日收盤價</li>
+          <li>Nvidia 報告未明文標示交易日收盤價，以 P/E 與 EPS 反推估 ~$190（all-time-high）</li>
+        </ul>
+      </details>
+
+      <details class="border border-zinc-200 dark:border-zinc-800 rounded p-3 mb-3">
+        <summary class="font-medium">評等術語對照</summary>
+        <table class="w-full text-sm mt-3">
+          <thead><tr class="border-b border-zinc-300 dark:border-zinc-700"><th class="text-left p-2">英文</th><th class="text-left p-2">中文標準說法</th></tr></thead>
+          <tbody>
+            <tr class="border-b border-zinc-200 dark:border-zinc-800"><td class="p-2">Buy / Overweight</td><td class="p-2">買進 / 加碼（跑贏大盤）</td></tr>
+            <tr class="border-b border-zinc-200 dark:border-zinc-800"><td class="p-2">Outperform</td><td class="p-2">優於大盤</td></tr>
+            <tr class="border-b border-zinc-200 dark:border-zinc-800"><td class="p-2">Neutral / Market Perform</td><td class="p-2">中立 / 大盤持平</td></tr>
+            <tr class="border-b border-zinc-200 dark:border-zinc-800"><td class="p-2">Underperform / Underweight</td><td class="p-2">遜於大盤 / 減碼</td></tr>
+            <tr><td class="p-2">Sell</td><td class="p-2">賣出</td></tr>
+          </tbody>
+        </table>
+      </details>
+
+      <details class="border border-zinc-200 dark:border-zinc-800 rounded p-3 mb-3">
+        <summary class="font-medium">時效性判斷標準</summary>
+        <ul class="list-disc list-outside ml-5 mt-3 space-y-1 text-sm">
+          <li>🟢 0-14 天：新鮮有效</li>
+          <li>🟡 15-30 天：留意時效</li>
+          <li>🔴 超過 30 天：資訊可能過時</li>
+          <li>本次 7 份報告均在 14 天內，全部 🟢 新鮮有效</li>
+        </ul>
+      </details>
+
+      <details class="border border-zinc-200 dark:border-zinc-800 rounded p-3 mb-3">
+        <summary class="font-medium">須人工確認事項</summary>
+        <ul class="list-disc list-outside ml-5 mt-3 space-y-1 text-sm">
+          <li>Nvidia 報告未明文標示交易日收盤價，須查證 2026-05-15 實際收盤價</li>
+          <li>AirTAC、Hiwin 目標價取自 MS 報告中歷史目標價列表的最新值（4/30/26 與 5/11/26），如更新報告請以新值為準</li>
+          <li>本報告所有數字「當前股價」均以報告內參考價為準，未即時抓取 5/19 盤價</li>
+        </ul>
+      </details>
+
+      <div class="text-xs text-zinc-500 mt-6 leading-relaxed">
+        ⚠️ <strong>免責聲明</strong>：本報告為研究報告整理摘要，僅供參考，不構成任何投資建議。
+        所有數據與觀點均來自各券商發布的原始報告，準確性與及時性由原券商負責。
+        投資涉及風險，過去績效不代表未來表現，做出投資決策前請諮詢合格財務顧問並參閱各券商完整原始報告。
+      </div>
+    </section>
+
+    <footer class="mt-16 pt-8 border-t border-zinc-200 dark:border-zinc-800 text-sm text-zinc-500">
+      Generated by the <code>html-report</code> Claude skill ﹒ 報告整理日期 2026-05-19
+    </footer>
+
+  </main>
+</div>
+
+<script>
+  // 主題切換
+  document.getElementById('theme-toggle').addEventListener('click', () => {
+    const dark = document.documentElement.classList.toggle('dark');
+    localStorage.theme = dark ? 'dark' : 'light';
+    rebuildCharts();
+  });
+
+  // DataTables 初始化
+  $(document).ready(function() {
+    $('#overview-table').DataTable({
+      paging: false,
+      order: [[7, 'desc']],
+      language: {
+        search: "搜尋:",
+        info: "顯示 _START_ - _END_ 筆，共 _TOTAL_ 筆",
+        infoEmpty: "無資料",
+        zeroRecords: "找不到符合的資料"
+      },
+      columnDefs: [
+        { type: 'num', targets: 7 }
+      ]
+    });
+  });
+
+  // 圖表
+  let upsideChart, brokerChart;
+
+  function getChartColors() {
+    const dark = document.documentElement.classList.contains('dark');
+    return {
+      text: dark ? '#e4e4e7' : '#27272a',
+      grid: dark ? '#3f3f46' : '#e4e4e7',
+      bg: dark ? '#18181b' : '#fff'
+    };
+  }
+
+  function buildUpsideChart() {
+    const colors = getChartColors();
+    const ctx = document.getElementById('upsideChart').getContext('2d');
+    const data = [
+      { label: 'Nvidia', value: 62.1 },
+      { label: '旺矽 6223', value: 49.3 },
+      { label: '全新光電 2455', value: 40.6 },
+      { label: '矽力杰 6415', value: 38.9 },
+      { label: '亞德客 1590', value: 36.5 },
+      { label: '元太 8069', value: 19.0 },
+      { label: '上銀 2049', value: 1.9 },
+      { label: '萬潤 6187', value: -4.8 }
+    ];
+    return new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: data.map(d => d.label),
+        datasets: [{
+          label: '上漲空間 (%)',
+          data: data.map(d => d.value),
+          backgroundColor: data.map(d => d.value < 0 ? '#ef4444' : d.value < 5 ? '#eab308' : d.value < 30 ? '#3b82f6' : '#22c55e'),
+          borderWidth: 0
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        indexAxis: 'y',
+        plugins: {
+          legend: { display: false },
+          tooltip: {
+            callbacks: { label: c => c.parsed.x + '%' }
+          }
+        },
+        scales: {
+          x: {
+            ticks: { color: colors.text, callback: v => v + '%' },
+            grid: { color: colors.grid }
+          },
+          y: {
+            ticks: { color: colors.text },
+            grid: { display: false }
+          }
+        }
+      }
+    });
+  }
+
+  function buildBrokerChart() {
+    const colors = getChartColors();
+    const ctx = document.getElementById('brokerChart').getContext('2d');
+    return new Chart(ctx, {
+      type: 'doughnut',
+      data: {
+        labels: ['Morgan Stanley (4)', 'Goldman Sachs (3)', '廣發證券 (1)'],
+        datasets: [{
+          data: [4, 3, 1],
+          backgroundColor: ['#3b82f6', '#22c55e', '#f59e0b'],
+          borderWidth: 2,
+          borderColor: colors.bg
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            position: 'bottom',
+            labels: { color: colors.text, padding: 12, font: { size: 12 } }
+          }
+        }
+      }
+    });
+  }
+
+  function rebuildCharts() {
+    if (upsideChart) upsideChart.destroy();
+    if (brokerChart) brokerChart.destroy();
+    upsideChart = buildUpsideChart();
+    brokerChart = buildBrokerChart();
+  }
+
+  upsideChart = buildUpsideChart();
+  brokerChart = buildBrokerChart();
+
+  // 目錄滾動高亮
+  const tocLinks = document.querySelectorAll('.toc a');
+  const sections = [...tocLinks].map(a => document.querySelector(a.getAttribute('href'))).filter(Boolean);
+  if (sections.length) {
+    const onScroll = () => {
+      const y = window.scrollY + 120;
+      let active = sections[0];
+      for (const s of sections) if (s.offsetTop <= y) active = s;
+      tocLinks.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + active.id));
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+  }
+</script>
+
+</body>
+</html>
