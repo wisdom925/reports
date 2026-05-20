@@ -1,26 +1,32 @@
 [
   {
+    "file": "2026-05-20-intel-ceo-cnbc-interview.html",
+    "title": "Intel CEO Lip-Bu Tan CNBC \u5c08\u8a2a\u6df1\u5ea6\u5206\u6790",
+    "date": "2026-05-20",
+    "description": "14A \u88fd\u7a0b\u3001CPU:GPU \u6bd4\u4f8b\u7ffb\u8f49\u300118A \u826f\u7387\u7a81\u7834\u2014\u2014Lip-Bu Tan \u91cb\u51fa\u7684\u4e94\u5927\u6295\u8cc7\u4fe1\u865f\u9010\u689d\u62c6\u89e3"
+  },
+  {
     "file": "2026-05-19-analyst-reports-digest.html",
-    "title": "券商研究報告整理 - 8檔個股盤點",
+    "title": "\u5238\u5546\u7814\u7a76\u5831\u544a\u6574\u7406 - 8\u6a94\u500b\u80a1\u76e4\u9ede",
     "date": "2026-05-19",
-    "description": "Morgan Stanley、Goldman Sachs、廣發證券 7份報告整理：元太、亞德客、上銀、Nvidia、全新光電、旺矽、矽力杰、萬潤——目標價、評級、上漲空間與隱藏洞察"
+    "description": "Morgan Stanley\u3001Goldman Sachs\u3001\u5ee3\u767c\u8b49\u5238 7\u4efd\u5831\u544a\u6574\u7406\uff1a\u5143\u592a\u3001\u4e9e\u5fb7\u5ba2\u3001\u4e0a\u9280\u3001Nvidia\u3001\u5168\u65b0\u5149\u96fb\u3001\u65fa\u77fd\u3001\u77fd\u529b\u6770\u3001\u842c\u6f64\u2014\u2014\u76ee\u6a19\u50f9\u3001\u8a55\u7d1a\u3001\u4e0a\u6f32\u7a7a\u9593\u8207\u96b1\u85cf\u6d1e\u5bdf"
   },
   {
     "file": "2026-05-17-ai-beneficiaries-fundamentals.html",
-    "title": "AI 受益者擁有強勁基本面：營收成長 vs. 營業利益率分析",
+    "title": "AI \u53d7\u76ca\u8005\u64c1\u6709\u5f37\u52c1\u57fa\u672c\u9762\uff1a\u71df\u6536\u6210\u9577 vs. \u71df\u696d\u5229\u76ca\u7387\u5206\u6790",
     "date": "2026-05-17",
-    "description": "分析 AI 相關企業的 YoY 營收成長與調整後營業利益率，以 Rule of 40/80 框架評估基本面強度"
+    "description": "\u5206\u6790 AI \u76f8\u95dc\u4f01\u696d\u7684 YoY \u71df\u6536\u6210\u9577\u8207\u8abf\u6574\u5f8c\u71df\u696d\u5229\u76ca\u7387\uff0c\u4ee5 Rule of 40/80 \u6846\u67b6\u8a55\u4f30\u57fa\u672c\u9762\u5f37\u5ea6"
   },
   {
     "file": "2026-05-16-tsmc-taiwan-suppliers.html",
-    "title": "台積電擴產浪潮：台灣廠商受益分析",
+    "title": "\u53f0\u7a4d\u96fb\u64f4\u7522\u6d6a\u6f6e\uff1a\u53f0\u7063\u5ee0\u5546\u53d7\u76ca\u5206\u6790",
     "date": "2026-05-16",
-    "description": "台積電技術論壇重點整理：全球建廠加速、先進製程量產、台灣供應鏈機會全解析"
+    "description": "\u53f0\u7a4d\u96fb\u6280\u8853\u8ad6\u58c7\u91cd\u9ede\u6574\u7406\uff1a\u5168\u7403\u5efa\u5ee0\u52a0\u901f\u3001\u5148\u9032\u88fd\u7a0b\u91cf\u7522\u3001\u53f0\u7063\u4f9b\u61c9\u93c8\u6a5f\u6703\u5168\u89e3\u6790"
   },
   {
     "file": "2026-05-10-example-showcase.html",
     "title": "Example: what an html-report looks like",
     "date": "2026-05-10",
-    "description": "Demo of every interactive feature the skill encourages — charts, sortable tables, tabs, code, diagrams, math, dark mode."
+    "description": "Demo of every interactive feature the skill encourages \u2014 charts, sortable tables, tabs, code, diagrams, math, dark mode."
   }
 ]

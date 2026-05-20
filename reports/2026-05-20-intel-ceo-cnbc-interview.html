@@ -1,0 +1,605 @@
+<!doctype html>
+<html lang="zh-Hant" class="scroll-smooth">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Intel CEO Lip-Bu Tan CNBC 專訪深度分析 | 2026-05-20</title>
+  <meta name="description" content="Intel CEO Lip-Bu Tan 接受 CNBC Jim Cramer 專訪完整解析：14A 製程、代工客戶信號、CPU 需求爆發、18A 良率突破與 New Intel 轉型藍圖。">
+  <meta property="og:title" content="Intel CEO Lip-Bu Tan CNBC 專訪深度分析">
+  <meta property="og:description" content="14A 製程、EMIB-T 封裝、CPU:GPU 比例翻轉、18A 良率突破——Lip-Bu Tan 釋出的五大投資信號逐條拆解。">
+  <meta property="og:type" content="article">
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = { darkMode: 'class', theme: { extend: { fontFamily: { sans: ['system-ui','ui-sans-serif','sans-serif'] } } } };
+    if (localStorage.theme === 'dark' || (!('theme' in localStorage) && matchMedia('(prefers-color-scheme: dark)').matches)) {
+      document.documentElement.classList.add('dark');
+    }
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+    const isDark = document.documentElement.classList.contains('dark');
+    mermaid.initialize({ startOnLoad: true, theme: isDark ? 'dark' : 'default', securityLevel: 'loose' });
+    window.__mermaid = mermaid;
+  </script>
+
+  <style>
+    @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
+    @media print {
+      .no-print { display: none !important; }
+      body { color: #000; background: #fff; }
+      details { display: block; }
+      details > summary { display: none; }
+    }
+    details > summary { cursor: pointer; user-select: none; }
+    details > summary::marker { content: "▸ "; }
+    details[open] > summary::marker { content: "▾ "; }
+    .toc a { display: block; padding: .2rem 0; opacity: .6; transition: opacity .15s; }
+    .toc a:hover, .toc a.active { opacity: 1; }
+    .toc a.active { font-weight: 600; }
+
+    /* signal cards */
+    .signal-card { border-left: 4px solid; }
+
+    /* tabs */
+    .tabs-radio { display: none; }
+    .tab-label { cursor: pointer; padding: .5rem 1.25rem; border-bottom: 2px solid transparent; font-size: .875rem; font-weight: 500; transition: all .15s; }
+    .tab-panel { display: none; }
+    #tab1:checked ~ .tab-labels > label[for="tab1"],
+    #tab2:checked ~ .tab-labels > label[for="tab2"],
+    #tab3:checked ~ .tab-labels > label[for="tab3"] {
+      border-color: #3b82f6; color: #3b82f6;
+    }
+    #tab1:checked ~ #panel1,
+    #tab2:checked ~ #panel2,
+    #tab3:checked ~ #panel3 { display: block; }
+
+    /* progress bar */
+    .bar-track { background: #e5e7eb; border-radius: 9999px; height: 10px; overflow: hidden; }
+    .dark .bar-track { background: #374151; }
+    .bar-fill { height: 100%; border-radius: 9999px; }
+
+    /* quote styling */
+    blockquote { border-left: 4px solid #3b82f6; padding-left: 1rem; font-style: italic; color: #4b5563; }
+    .dark blockquote { color: #9ca3af; border-color: #2563eb; }
+
+    /* timeline */
+    .timeline-item { position: relative; padding-left: 2rem; }
+    .timeline-item::before { content: ''; position: absolute; left: 0; top: 6px; width: 12px; height: 12px; border-radius: 50%; background: #3b82f6; border: 2px solid #fff; box-shadow: 0 0 0 2px #3b82f6; }
+    .dark .timeline-item::before { border-color: #18181b; }
+    .timeline-item::after { content: ''; position: absolute; left: 5px; top: 18px; bottom: -1rem; width: 2px; background: #e5e7eb; }
+    .dark .timeline-item::after { background: #374151; }
+    .timeline-item:last-child::after { display: none; }
+  </style>
+</head>
+
+<body class="bg-white dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 font-sans antialiased">
+
+<!-- Floating controls -->
+<div class="fixed top-4 right-4 z-50 flex gap-2 no-print">
+  <button id="theme-toggle" class="px-3 py-1.5 rounded-md border border-zinc-300 dark:border-zinc-700 bg-white/80 dark:bg-zinc-900/80 backdrop-blur text-sm hover:bg-zinc-100 dark:hover:bg-zinc-800">☼ / ☾</button>
+  <button onclick="window.print()" class="px-3 py-1.5 rounded-md border border-zinc-300 dark:border-zinc-700 bg-white/80 dark:bg-zinc-900/80 backdrop-blur text-sm hover:bg-zinc-100 dark:hover:bg-zinc-800">列印</button>
+</div>
+
+<div class="max-w-6xl mx-auto px-4 sm:px-6 py-12 lg:grid lg:grid-cols-[220px_minmax(0,1fr)] lg:gap-12">
+
+  <!-- Sticky TOC -->
+  <nav class="toc lg:sticky lg:top-12 self-start text-sm mb-10 lg:mb-0 no-print space-y-0.5">
+    <div class="font-semibold mb-3 text-zinc-500 uppercase tracking-wider text-xs">目錄</div>
+    <a href="#signal">五大核心信號</a>
+    <a href="#roadmap">製程路線圖</a>
+    <a href="#cpu-demand">CPU 需求爆發</a>
+    <a href="#supply">三大供需缺口</a>
+    <a href="#transformation">轉型進度</a>
+    <a href="#geopolitics">地緣政治與策略</a>
+    <a href="#outlook">展望與時間軸</a>
+    <a href="#quotes">原文金句</a>
+  </nav>
+
+  <main class="min-w-0">
+
+    <!-- Header -->
+    <header class="mb-12">
+      <p class="text-sm text-zinc-500 mb-2">深度分析 · <time datetime="2026-05-20">2026-05-20</time> · 資料來源：CNBC</p>
+      <h1 class="text-3xl sm:text-4xl font-bold tracking-tight mb-4 leading-tight">Intel CEO Lip-Bu Tan<br>CNBC 專訪深度解析</h1>
+      <p class="text-lg text-zinc-600 dark:text-zinc-400 mb-6">「當你看到我增加資本支出、投入資金購買設備，那就代表我有真正的客戶。」<br>— Lip-Bu Tan，2026/05/18</p>
+      <div class="bg-blue-50 dark:bg-blue-950/40 border border-blue-200 dark:border-blue-800 rounded-xl p-5 text-sm text-blue-900 dark:text-blue-200">
+        <strong>重點摘要：</strong> 本次專訪釋出五大可驗證信號——14A 製程量產時程、EMIB-T 封裝機會、CPU 需求三倍跳升、18A 良率提前達標，以及代工客戶承諾指標（CapEx）。每一項均可作為後續追蹤 Intel 轉型進度的量化錨點。
+      </div>
+    </header>
+
+    <!-- Section 1: 五大核心信號 -->
+    <section id="signal" class="mb-14">
+      <h2 class="text-2xl font-semibold mb-6">五大核心信號</h2>
+      <div class="grid sm:grid-cols-2 gap-4">
+
+        <div class="signal-card border-blue-500 bg-blue-50 dark:bg-blue-950/30 rounded-r-xl p-5">
+          <div class="text-xs font-semibold text-blue-600 dark:text-blue-400 uppercase tracking-wider mb-1">信號 1｜代工客戶驗證指標</div>
+          <div class="font-bold text-lg mb-1">CapEx = 真客戶</div>
+          <p class="text-sm text-zinc-600 dark:text-zinc-400">Tan 親自定義：只有當資本支出上升、設備採購增加，才代表有實際簽約客戶。這是過去 CEO 從未給出的可追蹤指標。</p>
+        </div>
+
+        <div class="signal-card border-emerald-500 bg-emerald-50 dark:bg-emerald-950/30 rounded-r-xl p-5">
+          <div class="text-xs font-semibold text-emerald-600 dark:text-emerald-400 uppercase tracking-wider mb-1">信號 2｜18A 良率提前達標</div>
+          <div class="font-bold text-lg mb-1">年底前完成 → Panther Lake 量產</div>
+          <p class="text-sm text-zinc-600 dark:text-zinc-400">原訂年底達標，實際提前完成。外部客戶已主動詢問開放接單時間，良率每月改善 7-8%。</p>
+        </div>
+
+        <div class="signal-card border-orange-500 bg-orange-50 dark:bg-orange-950/30 rounded-r-xl p-5">
+          <div class="text-xs font-semibold text-orange-600 dark:text-orange-400 uppercase tracking-wider mb-1">信號 3｜CPU 需求暴增</div>
+          <div class="font-bold text-lg mb-1">客戶預測量 ×3</div>
+          <p class="text-sm text-zinc-600 dark:text-zinc-400">有客戶要求今年訂單增加三倍，Agentic AI 驅動 CPU:GPU 比例從 1:8 翻轉至 1:4，甚至 1:1 或 4:1。</p>
+        </div>
+
+        <div class="signal-card border-purple-500 bg-purple-50 dark:bg-purple-950/30 rounded-r-xl p-5">
+          <div class="text-xs font-semibold text-purple-600 dark:text-purple-400 uppercase tracking-wider mb-1">信號 4｜14A 製程對齊 TSMC</div>
+          <div class="font-bold text-lg mb-1">2028 風險量產 / 2029 HVM</div>
+          <p class="text-sm text-zinc-600 dark:text-zinc-400">14A（1.4nm）時程與 TSMC N2 對齊，0.5 PDK 已提供多位客戶，EMIB-T 先進封裝瞄準 CoWoS 缺口。</p>
+        </div>
+
+        <div class="signal-card border-rose-500 bg-rose-50 dark:bg-rose-950/30 rounded-r-xl p-5 sm:col-span-2">
+          <div class="text-xs font-semibold text-rose-600 dark:text-rose-400 uppercase tracking-wider mb-1">信號 5｜基板客戶預付款</div>
+          <div class="font-bold text-lg mb-1">客戶已預付基板費用（罕見承諾）</div>
+          <p class="text-sm text-zinc-600 dark:text-zinc-400">基板供應鏈緊俏，部分客戶主動預付以確保物料，這是半導體業中相當強烈的客戶綁定訊號，顯示需求不是口頭承諾。</p>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Section 2: 製程路線圖 -->
+    <section id="roadmap" class="mb-14">
+      <h2 class="text-2xl font-semibold mb-6">製程路線圖</h2>
+      <p class="text-sm text-zinc-500 mb-5">Tan 在本次專訪中確認的里程碑時間點（灰色為背景參考節點）</p>
+      <div class="overflow-x-auto">
+        <pre class="mermaid">
+timeline
+    title Intel 製程里程碑（Lip-Bu Tan 確認版）
+    section 2025
+        Q1-Q2 2025 : Lip-Bu Tan 就任 CEO<br/>工程師直接彙報制度建立
+        H2 2025 : 18A 良率達標（提前完成）<br/>Panther Lake 量產出貨
+    section 2026
+        H1 2026 : 組建完整高層團隊（6月底）<br/>EMIB-T 進入量產爬坡
+        H2 2026 : 多位客戶使用 14A 0.5 PDK
+    section 2028
+        2028 : 14A 風險量產（Risk Production）<br/>EMIB-T 替代部分 CoWoS 需求
+    section 2029
+        2029 : 14A 高量量產（HVM）<br/>與 TSMC N2 時程對齊
+        </pre>
+      </div>
+    </section>
+
+    <!-- Section 3: CPU 需求爆發 -->
+    <section id="cpu-demand" class="mb-14">
+      <h2 class="text-2xl font-semibold mb-2">CPU 需求爆發：比例翻轉</h2>
+      <p class="text-sm text-zinc-500 mb-6">AI 工作負載演進驅動 CPU:GPU 比例持續上升，Tan 引用客戶數據</p>
+
+      <div class="grid sm:grid-cols-2 gap-8 items-center">
+        <div>
+          <div class="bg-zinc-50 dark:bg-zinc-900 rounded-xl p-4" style="height:280px; position:relative;">
+            <canvas id="cpuGpuChart"></canvas>
+          </div>
+          <p class="text-xs text-zinc-400 mt-2 text-center">* 4:1 為部分客戶提及的極端情境</p>
+        </div>
+
+        <div class="space-y-4">
+          <div class="bg-zinc-50 dark:bg-zinc-900 rounded-xl p-5">
+            <div class="text-xs font-semibold text-zinc-500 uppercase tracking-wider mb-1">驅動力</div>
+            <ul class="text-sm space-y-2">
+              <li class="flex gap-2"><span class="text-blue-500 font-bold">→</span> <span><strong>Inference 推理</strong>：大量平行請求，CPU 是調度核心</span></li>
+              <li class="flex gap-2"><span class="text-blue-500 font-bold">→</span> <span><strong>Agentic AI</strong>：多 Agent 協調管理需 CPU 處理編排邏輯</span></li>
+              <li class="flex gap-2"><span class="text-blue-500 font-bold">→</span> <span><strong>強化學習（RLHF）</strong>：環境模擬與獎勵計算 CPU 密集</span></li>
+              <li class="flex gap-2"><span class="text-blue-500 font-bold">→</span> <span><strong>訓練→推理轉移</strong>：推理佔比提升，整體 CPU 需求上升</span></li>
+            </ul>
+          </div>
+          <div class="bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-800 rounded-xl p-5 text-sm">
+            <strong class="text-amber-700 dark:text-amber-400">關鍵引言：</strong>
+            <p class="text-zinc-600 dark:text-zinc-400 mt-1 italic">「我甚至無法足量出貨給客戶。有一位客戶說，原本給你今年的預測，但現在想增加 3 倍。」— Lip-Bu Tan</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 4: 三大供需缺口 -->
+    <section id="supply" class="mb-14">
+      <h2 class="text-2xl font-semibold mb-6">三大供需缺口：Intel 的機會窗口</h2>
+
+      <div class="mb-4 border-b border-zinc-200 dark:border-zinc-800">
+        <div style="display:flex; gap:0;">
+          <!-- Pure CSS tabs workaround for Tailwind -->
+        </div>
+      </div>
+
+      <!-- Tab implementation with JS for cleanliness -->
+      <div id="supply-tabs">
+        <div class="flex gap-1 border-b border-zinc-200 dark:border-zinc-800 mb-6" role="tablist">
+          <button class="supply-tab-btn px-4 py-2 text-sm font-medium border-b-2 border-blue-500 text-blue-600 dark:text-blue-400" data-tab="st1">CPU 供應緊缺</button>
+          <button class="supply-tab-btn px-4 py-2 text-sm font-medium border-b-2 border-transparent text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-100" data-tab="st2">CoWoS 封裝機會</button>
+          <button class="supply-tab-btn px-4 py-2 text-sm font-medium border-b-2 border-transparent text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-100" data-tab="st3">基板供應鏈</button>
+        </div>
+
+        <div id="st1" class="supply-tab-panel">
+          <div class="grid sm:grid-cols-3 gap-4 mb-5">
+            <div class="bg-zinc-50 dark:bg-zinc-900 rounded-xl p-4 text-center">
+              <div class="text-3xl font-bold text-blue-600 dark:text-blue-400">3×</div>
+              <div class="text-sm text-zinc-500 mt-1">客戶需求增幅</div>
+            </div>
+            <div class="bg-zinc-50 dark:bg-zinc-900 rounded-xl p-4 text-center">
+              <div class="text-3xl font-bold text-orange-600 dark:text-orange-400">Q+幾</div>
+              <div class="text-sm text-zinc-500 mt-1">Tan 承諾追產時間</div>
+            </div>
+            <div class="bg-zinc-50 dark:bg-zinc-900 rounded-xl p-4 text-center">
+              <div class="text-3xl font-bold text-emerald-600 dark:text-emerald-400">數年</div>
+              <div class="text-sm text-zinc-500 mt-1">Tan 認為需求持續性</div>
+            </div>
+          </div>
+          <p class="text-sm text-zinc-600 dark:text-zinc-400">CPU 短缺不是一次性衝擊，而是結構性轉變。Agentic AI 工作負載本質上是 CPU 密集，這與市場過去重 GPU 的敘事大幅不同。Intel 是全球主要 x86 CPU 廠商，這個缺口直接轉化為 Xeon 訂單。</p>
+        </div>
+
+        <div id="st2" class="supply-tab-panel hidden">
+          <div class="grid sm:grid-cols-2 gap-5 mb-5">
+            <div class="bg-zinc-50 dark:bg-zinc-900 rounded-xl p-4">
+              <div class="text-xs font-semibold text-zinc-500 uppercase tracking-wider mb-2">TSMC CoWoS 現況</div>
+              <ul class="text-sm space-y-1 text-zinc-600 dark:text-zinc-400">
+                <li>• 全球 AI 晶片封裝需求爆發</li>
+                <li>• TSMC 產能持續供不應求</li>
+                <li>• 客戶等待期拉長，影響 AI 基礎設施部署</li>
+              </ul>
+            </div>
+            <div class="bg-blue-50 dark:bg-blue-950/30 rounded-xl p-4">
+              <div class="text-xs font-semibold text-blue-600 dark:text-blue-400 uppercase tracking-wider mb-2">Intel EMIB-T 機會</div>
+              <ul class="text-sm space-y-1 text-zinc-600 dark:text-zinc-400">
+                <li>• 下一代先進封裝（次於 CoWoS 競品）</li>
+                <li>• 目標：達到可靠量產良率</li>
+                <li>• Tan 自評：「擁有最好的技術」</li>
+                <li>• 瞄準 CoWoS 溢出需求作為切入點</li>
+              </ul>
+            </div>
+          </div>
+          <p class="text-sm text-zinc-600 dark:text-zinc-400">Tan 的策略是先不正面挑戰 TSMC，而是承接其無法滿足的訂單——這是一個務實的市場進入策略，風險較低但可建立規模與信譽。</p>
+        </div>
+
+        <div id="st3" class="supply-tab-panel hidden">
+          <div class="bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-800 rounded-xl p-5 mb-5">
+            <div class="font-semibold text-amber-800 dark:text-amber-300 mb-2">客戶預付基板費用——罕見的強烈信號</div>
+            <p class="text-sm text-zinc-600 dark:text-zinc-400">在半導體供應鏈中，客戶預付材料費用意味著他們相信需求是真實且緊迫的，願意承擔資金風險來確保供應優先權。這通常發生在產能極度緊張的時期（如 2020-2022 晶片荒）。</p>
+          </div>
+          <div class="grid sm:grid-cols-2 gap-4">
+            <div class="bg-zinc-50 dark:bg-zinc-900 rounded-xl p-4">
+              <div class="text-xs font-semibold text-zinc-500 uppercase mb-2">對 Intel 的意義</div>
+              <ul class="text-sm space-y-1 text-zinc-600 dark:text-zinc-400">
+                <li>• 需求可見度提升，降低庫存風險</li>
+                <li>• 客戶沉沒成本增加切換障礙</li>
+                <li>• Tan 可更有信心投資供應鏈</li>
+              </ul>
+            </div>
+            <div class="bg-zinc-50 dark:bg-zinc-900 rounded-xl p-4">
+              <div class="text-xs font-semibold text-zinc-500 uppercase mb-2">潛在風險</div>
+              <ul class="text-sm space-y-1 text-zinc-600 dark:text-zinc-400">
+                <li>• 基板供應鏈擴產週期長（18-24個月）</li>
+                <li>• 若需求反轉，Intel 仍面臨超額庫存</li>
+                <li>• 競爭對手 AMD 同樣受益於需求上升</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 5: 轉型進度 -->
+    <section id="transformation" class="mb-14">
+      <h2 class="text-2xl font-semibold mb-6">轉型進度追蹤</h2>
+      <p class="text-sm text-zinc-500 mb-6">基於 Tan 本次專訪陳述，評估各項計畫的執行進度</p>
+
+      <div class="space-y-6">
+
+        <div class="bg-zinc-50 dark:bg-zinc-900 rounded-xl p-5">
+          <div class="flex justify-between items-center mb-2">
+            <div>
+              <span class="font-semibold">18A 良率改善</span>
+              <span class="ml-2 text-xs bg-emerald-100 dark:bg-emerald-900 text-emerald-700 dark:text-emerald-300 px-2 py-0.5 rounded-full">提前達標</span>
+            </div>
+            <span class="text-sm font-bold text-emerald-600">100%+</span>
+          </div>
+          <div class="bar-track">
+            <div class="bar-fill bg-emerald-500" style="width:100%"></div>
+          </div>
+          <p class="text-xs text-zinc-500 mt-2">原訂 2025 年底達標，實際提前完成。每月良率改善 7-8%，已觸發 Panther Lake 量產。</p>
+        </div>
+
+        <div class="bg-zinc-50 dark:bg-zinc-900 rounded-xl p-5">
+          <div class="flex justify-between items-center mb-2">
+            <div>
+              <span class="font-semibold">組織架構重組（工程師直接彙報）</span>
+              <span class="ml-2 text-xs bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-300 px-2 py-0.5 rounded-full">已完成</span>
+            </div>
+            <span class="text-sm font-bold text-blue-600">完成</span>
+          </div>
+          <div class="bar-track">
+            <div class="bar-fill bg-blue-500" style="width:100%"></div>
+          </div>
+          <p class="text-xs text-zinc-500 mt-2">Tan 第一天就任即執行，消除孤島與層級問題，直接掌握技術現況與客戶聲音。</p>
+        </div>
+
+        <div class="bg-zinc-50 dark:bg-zinc-900 rounded-xl p-5">
+          <div class="flex justify-between items-center mb-2">
+            <div>
+              <span class="font-semibold">高層團隊建立</span>
+              <span class="ml-2 text-xs bg-amber-100 dark:bg-amber-900 text-amber-700 dark:text-amber-300 px-2 py-0.5 rounded-full">進行中</span>
+            </div>
+            <span class="text-sm font-bold text-amber-600">約 80%</span>
+          </div>
+          <div class="bar-track">
+            <div class="bar-fill bg-amber-500" style="width:80%"></div>
+          </div>
+          <p class="text-xs text-zinc-500 mt-2">目標 2026 年 6 月底完成組建，屆時將共同制定未來 5-10 年策略路線圖。</p>
+        </div>
+
+        <div class="bg-zinc-50 dark:bg-zinc-900 rounded-xl p-5">
+          <div class="flex justify-between items-center mb-2">
+            <div>
+              <span class="font-semibold">EMIB-T 量產良率</span>
+              <span class="ml-2 text-xs bg-purple-100 dark:bg-purple-900 text-purple-700 dark:text-purple-300 px-2 py-0.5 rounded-full">爬坡中</span>
+            </div>
+            <span class="text-sm font-bold text-purple-600">進行中</span>
+          </div>
+          <div class="bar-track">
+            <div class="bar-fill bg-purple-500" style="width:55%"></div>
+          </div>
+          <p class="text-xs text-zinc-500 mt-2">技術已就緒，正確保量產可靠良率。Tan 表示正在確保客戶可以「放心依賴」的良率水準。</p>
+        </div>
+
+        <div class="bg-zinc-50 dark:bg-zinc-900 rounded-xl p-5">
+          <div class="flex justify-between items-center mb-2">
+            <div>
+              <span class="font-semibold">14A 製程開發</span>
+              <span class="ml-2 text-xs bg-zinc-200 dark:bg-zinc-700 text-zinc-600 dark:text-zinc-300 px-2 py-0.5 rounded-full">PDK 階段</span>
+            </div>
+            <span class="text-sm font-bold text-zinc-600 dark:text-zinc-400">~30%</span>
+          </div>
+          <div class="bar-track">
+            <div class="bar-fill bg-zinc-400" style="width:30%"></div>
+          </div>
+          <p class="text-xs text-zinc-500 mt-2">0.5 PDK 已提供多位潛在客戶，距離 2028 風險量產仍有約兩年的研發時間。</p>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Section 6: 地緣政治 -->
+    <section id="geopolitics" class="mb-14">
+      <h2 class="text-2xl font-semibold mb-6">地緣政治與美國製造定位</h2>
+
+      <div class="grid sm:grid-cols-2 gap-6 mb-6">
+        <div class="bg-zinc-50 dark:bg-zinc-900 rounded-xl p-5">
+          <div class="text-xs font-semibold text-zinc-500 uppercase tracking-wider mb-3">Tan 的策略定位</div>
+          <ul class="text-sm space-y-3">
+            <li class="flex gap-3">
+              <span class="text-2xl">🇺🇸</span>
+              <div>
+                <strong>美國公民使命感</strong>
+                <p class="text-zinc-500 text-xs mt-0.5">Tan 以「使命的召喚」描述回美國的決定，強調美國技術主權的重要性</p>
+              </div>
+            </li>
+            <li class="flex gap-3">
+              <span class="text-2xl">🏛️</span>
+              <div>
+                <strong>政府關係深化</strong>
+                <p class="text-zinc-500 text-xs mt-0.5">定期向川普總統及 Howard Lutnick 部長匯報進度，獲得政策支持</p>
+              </div>
+            </li>
+            <li class="flex gap-3">
+              <span class="text-2xl">🏭</span>
+              <div>
+                <strong>本土製造優勢</strong>
+                <p class="text-zinc-500 text-xs mt-0.5">在美國提供技術、研發與製造能力，符合去 TSMC 集中風險的地緣需求</p>
+              </div>
+            </li>
+          </ul>
+        </div>
+
+        <div class="bg-zinc-50 dark:bg-zinc-900 rounded-xl p-5">
+          <div class="text-xs font-semibold text-zinc-500 uppercase tracking-wider mb-3">投資者解讀</div>
+          <div class="space-y-3 text-sm">
+            <div class="bg-emerald-50 dark:bg-emerald-950/30 rounded-lg p-3">
+              <strong class="text-emerald-700 dark:text-emerald-400">正面</strong>
+              <p class="text-zinc-600 dark:text-zinc-400 text-xs mt-1">CHIPS Act 補貼、政府背書降低投資風險；地緣政治推動美國客戶採用美製晶片</p>
+            </div>
+            <div class="bg-amber-50 dark:bg-amber-950/30 rounded-lg p-3">
+              <strong class="text-amber-700 dark:text-amber-400">需觀察</strong>
+              <p class="text-zinc-600 dark:text-zinc-400 text-xs mt-1">政策連續性風險；中國市場限制可能影響部分產品線；台灣緊張局勢對供應鏈的複雜影響</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 7: 展望時間軸 -->
+    <section id="outlook" class="mb-14">
+      <h2 class="text-2xl font-semibold mb-6">展望：New Intel 時間軸</h2>
+
+      <div class="space-y-8 pl-2">
+        <div class="timeline-item pb-6">
+          <div class="text-xs font-bold text-zinc-400 uppercase tracking-wider mb-1">2026 年 6 月</div>
+          <div class="font-semibold">完整高層團隊就位</div>
+          <p class="text-sm text-zinc-500 mt-1">Tan 承諾完成招募，啟動 5-10 年策略規劃，正式定義「New Intel」願景</p>
+        </div>
+        <div class="timeline-item pb-6">
+          <div class="text-xs font-bold text-zinc-400 uppercase tracking-wider mb-1">2026 H2</div>
+          <div class="font-semibold">EMIB-T 量產爬坡 + 代工客戶公告（關注 CapEx 動向）</div>
+          <p class="text-sm text-zinc-500 mt-1">若 Intel CapEx 指引上調，依 Tan 自定指標，代表有實際代工客戶簽約</p>
+        </div>
+        <div class="timeline-item pb-6">
+          <div class="text-xs font-bold text-zinc-400 uppercase tracking-wider mb-1">2027</div>
+          <div class="font-semibold">Coral Rapids 多執行緒伺服器 CPU 上市</div>
+          <p class="text-sm text-zinc-500 mt-1">Tan 提及 Coral Rapids 將支援多執行緒，為資料中心復興的關鍵產品</p>
+        </div>
+        <div class="timeline-item pb-6">
+          <div class="text-xs font-bold text-zinc-400 uppercase tracking-wider mb-1">2028</div>
+          <div class="font-semibold">14A 風險量產（Risk Production）</div>
+          <p class="text-sm text-zinc-500 mt-1">與 TSMC N2 時程並駕，Intel Foundry 正式進入最先進製程競爭</p>
+        </div>
+        <div class="timeline-item">
+          <div class="text-xs font-bold text-zinc-400 uppercase tracking-wider mb-1">2029</div>
+          <div class="font-semibold">14A 高量量產（HVM）</div>
+          <p class="text-sm text-zinc-500 mt-1">Intel Foundry 進入完整量產，代工業務能否成真的關鍵驗證節點</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 8: 原文金句 -->
+    <section id="quotes" class="mb-14">
+      <h2 class="text-2xl font-semibold mb-6">原文金句（可供引用）</h2>
+
+      <div class="space-y-4">
+
+        <details class="bg-zinc-50 dark:bg-zinc-900 rounded-xl p-4">
+          <summary class="font-semibold text-sm">代工客戶驗證邏輯</summary>
+          <blockquote class="mt-3 text-sm">
+            「隨著時間推移，我們的 IP 會準備就緒，能夠服務這些客戶。我認為最好的指標是，當你看到我增加資本支出、投入資金購買設備，那就代表我有真正的客戶。這是我堅持的紀律。」
+          </blockquote>
+        </details>
+
+        <details class="bg-zinc-50 dark:bg-zinc-900 rounded-xl p-4">
+          <summary class="font-semibold text-sm">14A 製程時程</summary>
+          <blockquote class="mt-3 text-sm">
+            「（14A）就是 1.4nm，這是最先進的製程。老實說，2028 年我們將進入風險生產，2029 年進入量產。這與 TSMC 的時程完全一致，這是一項重大的突破，我非常興奮。我們已經有多位客戶與我們接洽，而且我們已提供 0.5 PDK。」
+          </blockquote>
+        </details>
+
+        <details class="bg-zinc-50 dark:bg-zinc-900 rounded-xl p-4">
+          <summary class="font-semibold text-sm">CPU 需求與比例翻轉</summary>
+          <blockquote class="mt-3 text-sm">
+            「目前如我所說，CPU 需求非常強勁，這對我來說是好事。我甚至無法足量出貨給客戶。過去訓練時 CPU 對 GPU 的比例是 1:8，現在因為 Inference、Agentic AI、更多 Agent 需要管理、協調，以及強化學習，CPU 的重要性大幅提升，比例變成 1:4、甚至 1:1，有人甚至提到 4:1，這對我來說是推動 CPU 業務的巨大機會。」
+          </blockquote>
+        </details>
+
+        <details class="bg-zinc-50 dark:bg-zinc-900 rounded-xl p-4">
+          <summary class="font-semibold text-sm">18A 良率提前達標</summary>
+          <blockquote class="mt-3 text-sm">
+            「另外就是良率表現與缺陷密度，本來預計年底達到目標，現在甚至在年底前就達標了——這給我很大的鼓舞，也因此 Panther Lake 現在就能量產出貨。現在有些客戶主動來敲門說，Lip Bu，我們聽說你們進展非常好，現在可以開放給外部客戶了嗎？這真的很令人興奮。」
+          </blockquote>
+        </details>
+
+        <details class="bg-zinc-50 dark:bg-zinc-900 rounded-xl p-4">
+          <summary class="font-semibold text-sm">組織改革：打破孤島</summary>
+          <blockquote class="mt-3 text-sm">
+            「從我第一天擔任 CEO 開始，我就讓所有工程師直接向我報告，這樣我才能真正了解問題、聽到客戶聲音，並知道錯誤出在哪裡。」
+            <br><br>
+            「公司過去有太多孤島、太多層級的人彙報……所以我決定，最好的方式就是真正找出問題所在，專注於工程、重新設計、簡化產品，然後推出真正殺手級的產品。」
+          </blockquote>
+        </details>
+
+        <details class="bg-zinc-50 dark:bg-zinc-900 rounded-xl p-4">
+          <summary class="font-semibold text-sm">New Intel 願景</summary>
+          <blockquote class="mt-3 text-sm">
+            「我招募了一些關鍵人才……到今年 6 月底，我將擁有自己的團隊，我們會一起規劃未來 5 年、10 年的方向，讓 Intel 成為一家不同的公司。我稱之為『New Intel』，以光速前進，團隊合作，一起向前邁進。」
+          </blockquote>
+        </details>
+
+      </div>
+    </section>
+
+    <footer class="mt-16 pt-8 border-t border-zinc-200 dark:border-zinc-800 text-sm text-zinc-500">
+      <p>資料來源：<a href="https://www.cnbc.com/video/2026/05/18/intel-ceo-we-used-to-have-leadership-in-data-center-we-lost-that-im-trying-to-bring-that-back.html" class="underline hover:text-zinc-900 dark:hover:text-zinc-100" target="_blank" rel="noopener">CNBC — Intel CEO: 'We used to have leadership in data center, we lost that' (2026-05-18)</a></p>
+      <p class="mt-2">分析整理：<code>html-report</code> Claude skill · 2026-05-20</p>
+    </footer>
+
+  </main>
+</div>
+
+<script>
+  // Dark mode toggle
+  document.getElementById('theme-toggle').addEventListener('click', () => {
+    const dark = document.documentElement.classList.toggle('dark');
+    localStorage.theme = dark ? 'dark' : 'light';
+    if (window.__mermaid) {
+      document.querySelectorAll('.mermaid[data-processed]').forEach(el => {
+        el.removeAttribute('data-processed');
+        el.innerHTML = el.dataset.src || el.textContent;
+      });
+      window.__mermaid.initialize({ startOnLoad: false, theme: dark ? 'dark' : 'default', securityLevel: 'loose' });
+      window.__mermaid.run();
+    }
+    if (window._cpuChart) {
+      window._cpuChart.options.plugins.legend.labels.color = dark ? '#d4d4d8' : '#3f3f46';
+      window._cpuChart.update();
+    }
+  });
+
+  // CPU:GPU ratio chart
+  const isDark = document.documentElement.classList.contains('dark');
+  const ctx = document.getElementById('cpuGpuChart').getContext('2d');
+  window._cpuChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: ['訓練時代\n(過去)', 'Inference\n時代', 'Agentic AI\n時代', '極端情境\n(部分客戶)'],
+      datasets: [{
+        label: 'CPU:GPU 比例',
+        data: [0.125, 0.25, 1, 4],
+        backgroundColor: ['#94a3b8','#60a5fa','#3b82f6','#1d4ed8'],
+        borderRadius: 6,
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          callbacks: {
+            label: (ctx) => {
+              const v = ctx.raw;
+              if (v < 1) return `CPU:GPU = 1:${1/v}`;
+              return `CPU:GPU = ${v}:1`;
+            }
+          }
+        }
+      },
+      scales: {
+        y: {
+          title: { display: true, text: 'CPU/GPU 比值', color: isDark ? '#a1a1aa' : '#71717a' },
+          grid: { color: isDark ? '#27272a' : '#f4f4f5' },
+          ticks: { color: isDark ? '#a1a1aa' : '#71717a' }
+        },
+        x: {
+          grid: { display: false },
+          ticks: { color: isDark ? '#a1a1aa' : '#71717a', maxRotation: 0 }
+        }
+      }
+    }
+  });
+
+  // Supply tabs
+  const tabBtns = document.querySelectorAll('.supply-tab-btn');
+  const tabPanels = document.querySelectorAll('.supply-tab-panel');
+  tabBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      tabBtns.forEach(b => {
+        b.classList.remove('border-blue-500', 'text-blue-600', 'dark:text-blue-400');
+        b.classList.add('border-transparent', 'text-zinc-600', 'dark:text-zinc-400');
+      });
+      btn.classList.add('border-blue-500', 'text-blue-600', 'dark:text-blue-400');
+      btn.classList.remove('border-transparent', 'text-zinc-600', 'dark:text-zinc-400');
+      const target = btn.dataset.tab;
+      tabPanels.forEach(p => p.classList.toggle('hidden', p.id !== target));
+    });
+  });
+
+  // TOC scroll-spy
+  const tocLinks = document.querySelectorAll('.toc a');
+  const sections = [...tocLinks].map(a => document.querySelector(a.getAttribute('href'))).filter(Boolean);
+  if (sections.length) {
+    const onScroll = () => {
+      const y = window.scrollY + 120;
+      let active = sections[0];
+      for (const s of sections) if (s.offsetTop <= y) active = s;
+      tocLinks.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + active.id));
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+  }
+</script>
+
+</body>
+</html>
