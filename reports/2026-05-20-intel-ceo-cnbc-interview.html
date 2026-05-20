@@ -17,12 +17,6 @@
     }
   </script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <script type="module">
-    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
-    const isDark = document.documentElement.classList.contains('dark');
-    mermaid.initialize({ startOnLoad: true, theme: isDark ? 'dark' : 'default', securityLevel: 'loose' });
-    window.__mermaid = mermaid;
-  </script>
 
   <style>
     @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
@@ -150,22 +144,86 @@
     <!-- Section 2: 製程路線圖 -->
     <section id="roadmap" class="mb-14">
       <h2 class="text-2xl font-semibold mb-6">製程路線圖</h2>
-      <p class="text-sm text-zinc-500 mb-5">Tan 在本次專訪中確認的里程碑時間點（灰色為背景參考節點）</p>
+      <p class="text-sm text-zinc-500 mb-5">Tan 在本次專訪中確認的里程碑時間點</p>
+
       <div class="overflow-x-auto">
-        <pre class="mermaid">
-timeline
-    title Intel 製程里程碑（Lip-Bu Tan 確認版）
-    section 2025
-        Q1-Q2 2025 : Lip-Bu Tan 就任 CEO<br/>工程師直接彙報制度建立
-        H2 2025 : 18A 良率達標（提前完成）<br/>Panther Lake 量產出貨
-    section 2026
-        H1 2026 : 組建完整高層團隊（6月底）<br/>EMIB-T 進入量產爬坡
-        H2 2026 : 多位客戶使用 14A 0.5 PDK
-    section 2028
-        2028 : 14A 風險量產（Risk Production）<br/>EMIB-T 替代部分 CoWoS 需求
-    section 2029
-        2029 : 14A 高量量產（HVM）<br/>與 TSMC N2 時程對齊
-        </pre>
+        <div class="roadmap-wrap min-w-[560px]">
+          <!-- axis line -->
+          <div class="relative">
+            <div class="absolute left-[88px] right-0 top-[22px] h-0.5 bg-zinc-300 dark:bg-zinc-700"></div>
+            <!-- arrow head -->
+            <div class="absolute right-[-1px] top-[16px] w-0 h-0" style="border-top:7px solid transparent;border-bottom:7px solid transparent;border-left:10px solid;border-left-color:rgb(212 212 216);"></div>
+          </div>
+
+          <div class="grid roadmap-grid gap-x-2" style="grid-template-columns:88px repeat(6,1fr);">
+            <!-- year labels row -->
+            <div></div>
+            <div class="text-center text-xs font-bold text-blue-600 dark:text-blue-400 pb-2 col-span-2">2025</div>
+            <div class="text-center text-xs font-bold text-amber-600 dark:text-amber-400 pb-2 col-span-2">2026</div>
+            <div class="text-center text-xs font-bold text-emerald-600 dark:text-emerald-400 pb-2">2028</div>
+            <div class="text-center text-xs font-bold text-purple-600 dark:text-purple-400 pb-2">2029</div>
+
+            <!-- dot row -->
+            <div class="flex items-center justify-end pr-3 text-xs text-zinc-500 pt-0.5">里程碑</div>
+            <div class="flex justify-center pt-1"><div class="w-3.5 h-3.5 rounded-full bg-blue-500 border-2 border-white dark:border-zinc-950 ring-2 ring-blue-400 mt-1"></div></div>
+            <div class="flex justify-center pt-1"><div class="w-3.5 h-3.5 rounded-full bg-blue-600 border-2 border-white dark:border-zinc-950 ring-2 ring-blue-500 mt-1"></div></div>
+            <div class="flex justify-center pt-1"><div class="w-3.5 h-3.5 rounded-full bg-amber-400 border-2 border-white dark:border-zinc-950 ring-2 ring-amber-300 mt-1"></div></div>
+            <div class="flex justify-center pt-1"><div class="w-3.5 h-3.5 rounded-full bg-amber-500 border-2 border-white dark:border-zinc-950 ring-2 ring-amber-400 mt-1"></div></div>
+            <div class="flex justify-center pt-1"><div class="w-4 h-4 rounded-full bg-emerald-500 border-2 border-white dark:border-zinc-950 ring-2 ring-emerald-400 mt-1"></div></div>
+            <div class="flex justify-center pt-1"><div class="w-4 h-4 rounded-full bg-purple-500 border-2 border-white dark:border-zinc-950 ring-2 ring-purple-400 mt-1"></div></div>
+
+            <!-- cards row -->
+            <div></div>
+            <!-- Q1-Q2 2025 -->
+            <div class="mt-4">
+              <div class="rounded-lg bg-blue-50 dark:bg-blue-950/40 border border-blue-200 dark:border-blue-800 p-2.5 text-xs">
+                <div class="font-bold text-blue-700 dark:text-blue-300 mb-1">Q1–Q2 2025</div>
+                <div class="text-zinc-600 dark:text-zinc-400">Lip-Bu Tan 就任 CEO</div>
+                <div class="text-zinc-600 dark:text-zinc-400">工程師直接彙報制度建立</div>
+              </div>
+            </div>
+            <!-- H2 2025 -->
+            <div class="mt-4">
+              <div class="rounded-lg bg-blue-50 dark:bg-blue-950/40 border border-blue-200 dark:border-blue-800 p-2.5 text-xs">
+                <div class="font-bold text-blue-700 dark:text-blue-300 mb-1">H2 2025 ✓</div>
+                <div class="text-zinc-600 dark:text-zinc-400">18A 良率提前達標</div>
+                <div class="text-zinc-600 dark:text-zinc-400">Panther Lake 量產出貨</div>
+              </div>
+            </div>
+            <!-- H1 2026 -->
+            <div class="mt-4">
+              <div class="rounded-lg bg-amber-50 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-800 p-2.5 text-xs">
+                <div class="font-bold text-amber-700 dark:text-amber-300 mb-1">H1 2026</div>
+                <div class="text-zinc-600 dark:text-zinc-400">完整高層團隊建立</div>
+                <div class="text-zinc-600 dark:text-zinc-400">EMIB-T 量產爬坡</div>
+              </div>
+            </div>
+            <!-- H2 2026 -->
+            <div class="mt-4">
+              <div class="rounded-lg bg-amber-50 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-800 p-2.5 text-xs">
+                <div class="font-bold text-amber-700 dark:text-amber-300 mb-1">H2 2026</div>
+                <div class="text-zinc-600 dark:text-zinc-400">多位客戶使用</div>
+                <div class="text-zinc-600 dark:text-zinc-400">14A 0.5 PDK</div>
+              </div>
+            </div>
+            <!-- 2028 -->
+            <div class="mt-4">
+              <div class="rounded-lg bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800 p-2.5 text-xs">
+                <div class="font-bold text-emerald-700 dark:text-emerald-300 mb-1">2028</div>
+                <div class="text-zinc-600 dark:text-zinc-400">14A 風險量產</div>
+                <div class="text-zinc-600 dark:text-zinc-400">EMIB-T 替代 CoWoS</div>
+              </div>
+            </div>
+            <!-- 2029 -->
+            <div class="mt-4">
+              <div class="rounded-lg bg-purple-50 dark:bg-purple-950/40 border border-purple-200 dark:border-purple-800 p-2.5 text-xs">
+                <div class="font-bold text-purple-700 dark:text-purple-300 mb-1">2029</div>
+                <div class="text-zinc-600 dark:text-zinc-400">14A 高量量產</div>
+                <div class="text-zinc-600 dark:text-zinc-400">對齊 TSMC N2</div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
 
@@ -513,14 +571,6 @@ timeline
   document.getElementById('theme-toggle').addEventListener('click', () => {
     const dark = document.documentElement.classList.toggle('dark');
     localStorage.theme = dark ? 'dark' : 'light';
-    if (window.__mermaid) {
-      document.querySelectorAll('.mermaid[data-processed]').forEach(el => {
-        el.removeAttribute('data-processed');
-        el.innerHTML = el.dataset.src || el.textContent;
-      });
-      window.__mermaid.initialize({ startOnLoad: false, theme: dark ? 'dark' : 'default', securityLevel: 'loose' });
-      window.__mermaid.run();
-    }
     if (window._cpuChart) {
       window._cpuChart.options.plugins.legend.labels.color = dark ? '#d4d4d8' : '#3f3f46';
       window._cpuChart.update();
