@@ -3,7 +3,7 @@
     "file": "2026-05-21-sic-gan-800v-taiwan-stocks.html",
     "title": "SiC \u00d7 GaN \u00d7 800V HVDC\uff1aAI \u8cc7\u6599\u4e2d\u5fc3\u96fb\u6e90\u9769\u547d\u8207\u53f0\u80a1\u53d7\u60e0\u5716\u8b5c",
     "date": "2026-05-21",
-    "description": "TrendForce \u6df1\u5ea6\u5206\u6790\u5ef6\u4f38\uff1a800V HVDC \u67b6\u69cb\u9a45\u52d5\u7b2c\u4e09\u4ee3\u534a\u5c0e\u9ad4\u9700\u6c42\uff0c\u53f0\u80a1\u74b0\u7403\u6676\u3001\u6f22\u78ca\u3001\u53f0\u9054\u96fb\u7b49\u5b8c\u6574\u53d7\u60e0\u5716\u8b5c"
+    "description": "fix: \u79fb\u9664\u76db\u65b0\u6750\u6599\u932f\u8aa4\u8cc7\u6599\uff1b\u4fee\u6b63 SiC/GaN tab CSS \u5207\u63db bug"
   },
   {
     "file": "2026-05-21-nvda-q1fy27-earnings.html",
