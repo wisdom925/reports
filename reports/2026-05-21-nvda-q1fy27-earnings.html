@@ -1,0 +1,947 @@
+<!doctype html>
+<html lang="zh-TW" class="scroll-smooth">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>NVIDIA Q1 FY2027 財報深度分析</title>
+  <meta name="description" content="NVIDIA Q1 FY27 財報分析：營收 $81.6B（+85% YoY），自由現金流 $48.6B，Agentic AI 時代全面爆發，Vera CPU 開啟 $200B 新 TAM。">
+  <meta property="og:title" content="NVIDIA Q1 FY2027 財報深度分析">
+  <meta property="og:description" content="營收 $81.6B（+85% YoY），Data Center $75.2B，Vera Rubin Q3 量產，$80B 回購授權。">
+  <meta property="og:type" content="article">
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: { extend: { fontFamily: { sans: ['system-ui','ui-sans-serif','sans-serif'] } } }
+    };
+    if (localStorage.theme === 'dark' || (!('theme' in localStorage) && matchMedia('(prefers-color-scheme: dark)').matches)) {
+      document.documentElement.classList.add('dark');
+    }
+  </script>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.13.8/css/jquery.dataTables.min.css">
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <script src="https://cdn.datatables.net/1.13.8/js/jquery.dataTables.min.js"></script>
+
+  <style>
+    @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
+    @media print {
+      .no-print { display: none !important; }
+      body { color: #000; background: #fff; }
+      details { display: block; }
+    }
+
+    :root {
+      --green: #22c55e;
+      --nvidia: #76b900;
+      --red: #ef4444;
+    }
+
+    /* TOC scroll-spy */
+    .toc-link { transition: color .15s, border-color .15s; }
+    .toc-link.active { color: #76b900; border-left-color: #76b900; font-weight: 600; }
+
+    /* Tab system */
+    .tab-radio { display: none; }
+    .tab-panel { display: none; }
+    #tab-gaap:checked ~ .tab-panels #panel-gaap,
+    #tab-nongaap:checked ~ .tab-panels #panel-nongaap,
+    #tab-seg-dc:checked ~ .tab-panels #panel-seg-dc,
+    #tab-seg-edge:checked ~ .tab-panels #panel-seg-edge { display: block; }
+    .tab-label { cursor: pointer; transition: all .2s; }
+    #tab-gaap:checked ~ .tab-labels label[for="tab-gaap"],
+    #tab-nongaap:checked ~ .tab-labels label[for="tab-nongaap"],
+    #tab-seg-dc:checked ~ .tab-labels label[for="tab-seg-dc"],
+    #tab-seg-edge:checked ~ .tab-labels label[for="tab-seg-edge"] {
+      background-color: #76b900;
+      color: white;
+      border-color: #76b900;
+    }
+
+    /* DataTables dark mode override */
+    .dark table.dataTable thead th { background: #1e293b; color: #e2e8f0; border-color: #334155; }
+    .dark table.dataTable tbody td { background: #0f172a; color: #e2e8f0; border-color: #1e293b; }
+    .dark table.dataTable tbody tr:hover td { background: #1e293b !important; }
+    .dark .dataTables_wrapper .dataTables_length,
+    .dark .dataTables_wrapper .dataTables_filter,
+    .dark .dataTables_wrapper .dataTables_info { color: #94a3b8; }
+    .dark .dataTables_wrapper select,
+    .dark .dataTables_wrapper input { background: #1e293b; color: #e2e8f0; border-color: #334155; }
+
+    /* Quote highlight */
+    .quote-card { border-left: 3px solid #76b900; }
+
+    /* Hero metric card */
+    .metric-card { transition: transform .2s; }
+    .metric-card:hover { transform: translateY(-2px); }
+
+    details > summary { cursor: pointer; user-select: none; }
+    details > summary::marker { content: "▸ "; }
+    details[open] > summary::marker { content: "▾ "; }
+
+    /* Scrollbar */
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: #76b900; border-radius: 3px; }
+  </style>
+</head>
+
+<body class="bg-gray-50 dark:bg-slate-950 text-gray-900 dark:text-gray-100 font-sans">
+
+<!-- Top bar -->
+<header class="sticky top-0 z-50 bg-white/90 dark:bg-slate-900/90 backdrop-blur border-b border-gray-200 dark:border-slate-700 no-print">
+  <div class="max-w-7xl mx-auto px-4 h-12 flex items-center justify-between">
+    <div class="flex items-center gap-3">
+      <span class="text-sm font-mono text-gray-500 dark:text-slate-400">NVDA · Q1 FY2027 · 2026-05-20</span>
+      <span class="px-2 py-0.5 text-xs rounded-full bg-green-100 dark:bg-green-900/40 text-green-700 dark:text-green-300 font-semibold">BEAT</span>
+    </div>
+    <button id="darkToggle" onclick="toggleDark()" class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-slate-800 text-gray-500 dark:text-gray-400 text-lg">🌙</button>
+  </div>
+</header>
+
+<div class="max-w-7xl mx-auto px-4 py-6 flex gap-6">
+
+  <!-- Sticky TOC -->
+  <aside class="no-print hidden lg:block w-48 shrink-0">
+    <nav class="sticky top-16 space-y-1 text-sm">
+      <p class="text-xs font-semibold uppercase tracking-wider text-gray-400 dark:text-slate-500 mb-3">目錄</p>
+      <a href="#hero" class="toc-link block py-1 pl-3 border-l-2 border-transparent text-gray-600 dark:text-slate-400 hover:text-green-600">財務亮點</a>
+      <a href="#revenue-trend" class="toc-link block py-1 pl-3 border-l-2 border-transparent text-gray-600 dark:text-slate-400 hover:text-green-600">營收趨勢</a>
+      <a href="#pnl" class="toc-link block py-1 pl-3 border-l-2 border-transparent text-gray-600 dark:text-slate-400 hover:text-green-600">損益表</a>
+      <a href="#segments" class="toc-link block py-1 pl-3 border-l-2 border-transparent text-gray-600 dark:text-slate-400 hover:text-green-600">業務區段</a>
+      <a href="#cashflow" class="toc-link block py-1 pl-3 border-l-2 border-transparent text-gray-600 dark:text-slate-400 hover:text-green-600">現金流與回購</a>
+      <a href="#outlook" class="toc-link block py-1 pl-3 border-l-2 border-transparent text-gray-600 dark:text-slate-400 hover:text-green-600">Q2 展望</a>
+      <a href="#call-highlights" class="toc-link block py-1 pl-3 border-l-2 border-transparent text-gray-600 dark:text-slate-400 hover:text-green-600">法說會重點</a>
+      <a href="#risks" class="toc-link block py-1 pl-3 border-l-2 border-transparent text-gray-600 dark:text-slate-400 hover:text-green-600">風險因素</a>
+    </nav>
+  </aside>
+
+  <!-- Main content -->
+  <main class="flex-1 min-w-0 space-y-10">
+
+    <!-- Hero title -->
+    <div>
+      <h1 class="text-3xl font-bold tracking-tight mb-1">NVIDIA Q1 FY2027 財報深度分析</h1>
+      <p class="text-gray-500 dark:text-slate-400 text-sm">截至 2026 年 4 月 26 日 · 財報發布日 2026-05-20 · 資料來源：Press Release、10-Q、Earnings Call Transcript</p>
+    </div>
+
+    <!-- Hero metrics -->
+    <section id="hero">
+      <h2 class="text-xl font-semibold mb-4 flex items-center gap-2">
+        <span class="w-1 h-5 rounded bg-[#76b900] inline-block"></span>財務亮點
+      </h2>
+
+      <!-- Big headline -->
+      <div class="bg-gradient-to-br from-[#76b900]/10 to-green-500/5 dark:from-[#76b900]/20 dark:to-slate-900 border border-[#76b900]/30 rounded-xl p-5 mb-6">
+        <p class="text-sm text-gray-500 dark:text-slate-400 mb-1">Q1 FY27 總營收</p>
+        <p class="text-5xl font-black text-[#76b900]">$81.6B</p>
+        <div class="flex gap-4 mt-2 text-sm">
+          <span class="text-green-600 dark:text-green-400 font-semibold">+85% YoY</span>
+          <span class="text-green-600 dark:text-green-400 font-semibold">+20% QoQ</span>
+          <span class="text-gray-500 dark:text-slate-400">連續第 14 季環比成長</span>
+        </div>
+      </div>
+
+      <!-- Metric cards grid -->
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div class="metric-card bg-white dark:bg-slate-900 border border-gray-200 dark:border-slate-700 rounded-xl p-4">
+          <p class="text-xs text-gray-500 dark:text-slate-400 mb-1">資料中心營收</p>
+          <p class="text-2xl font-bold text-gray-900 dark:text-white">$75.2B</p>
+          <p class="text-xs text-green-600 dark:text-green-400 mt-1">+92% YoY  +21% QoQ</p>
+        </div>
+        <div class="metric-card bg-white dark:bg-slate-900 border border-gray-200 dark:border-slate-700 rounded-xl p-4">
+          <p class="text-xs text-gray-500 dark:text-slate-400 mb-1">Non-GAAP 毛利率</p>
+          <p class="text-2xl font-bold text-gray-900 dark:text-white">75.0%</p>
+          <p class="text-xs text-green-600 dark:text-green-400 mt-1">+14.2 pts YoY</p>
+        </div>
+        <div class="metric-card bg-white dark:bg-slate-900 border border-gray-200 dark:border-slate-700 rounded-xl p-4">
+          <p class="text-xs text-gray-500 dark:text-slate-400 mb-1">Non-GAAP EPS</p>
+          <p class="text-2xl font-bold text-gray-900 dark:text-white">$1.87</p>
+          <p class="text-xs text-green-600 dark:text-green-400 mt-1">+140% YoY  +18% QoQ</p>
+        </div>
+        <div class="metric-card bg-white dark:bg-slate-900 border border-gray-200 dark:border-slate-700 rounded-xl p-4">
+          <p class="text-xs text-gray-500 dark:text-slate-400 mb-1">自由現金流</p>
+          <p class="text-2xl font-bold text-gray-900 dark:text-white">$48.6B</p>
+          <p class="text-xs text-green-600 dark:text-green-400 mt-1">+86% YoY  (歷史新高)</p>
+        </div>
+        <div class="metric-card bg-white dark:bg-slate-900 border border-gray-200 dark:border-slate-700 rounded-xl p-4">
+          <p class="text-xs text-gray-500 dark:text-slate-400 mb-1">GAAP 淨利</p>
+          <p class="text-2xl font-bold text-gray-900 dark:text-white">$58.3B</p>
+          <p class="text-xs text-green-600 dark:text-green-400 mt-1">+211% YoY</p>
+        </div>
+        <div class="metric-card bg-white dark:bg-slate-900 border border-gray-200 dark:border-slate-700 rounded-xl p-4">
+          <p class="text-xs text-gray-500 dark:text-slate-400 mb-1">Edge Computing</p>
+          <p class="text-2xl font-bold text-gray-900 dark:text-white">$6.4B</p>
+          <p class="text-xs text-green-600 dark:text-green-400 mt-1">+29% YoY  +10% QoQ</p>
+        </div>
+        <div class="metric-card bg-white dark:bg-slate-900 border border-gray-200 dark:border-slate-700 rounded-xl p-4">
+          <p class="text-xs text-gray-500 dark:text-slate-400 mb-1">股東回報</p>
+          <p class="text-2xl font-bold text-gray-900 dark:text-white">~$20B</p>
+          <p class="text-xs text-green-600 dark:text-green-400 mt-1">歷史新高 · Q1</p>
+        </div>
+        <div class="metric-card bg-white dark:bg-slate-900 border border-gray-200 dark:border-slate-700 rounded-xl p-4">
+          <p class="text-xs text-gray-500 dark:text-slate-400 mb-1">Q2 FY27 指引</p>
+          <p class="text-2xl font-bold text-[#76b900]">$91.0B</p>
+          <p class="text-xs text-gray-500 dark:text-slate-400 mt-1">±2% 目標區間</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Revenue trend chart -->
+    <section id="revenue-trend">
+      <h2 class="text-xl font-semibold mb-4 flex items-center gap-2">
+        <span class="w-1 h-5 rounded bg-[#76b900] inline-block"></span>營收趨勢
+      </h2>
+      <div class="bg-white dark:bg-slate-900 border border-gray-200 dark:border-slate-700 rounded-xl p-5">
+        <div class="flex flex-wrap gap-6 mb-4">
+          <div>
+            <p class="text-xs text-gray-400">環比增加量（Q1 FY27）</p>
+            <p class="text-lg font-bold text-green-600">+$13.5B</p>
+            <p class="text-xs text-gray-400">歷史最大單季增量</p>
+          </div>
+          <div>
+            <p class="text-xs text-gray-400">連續第幾季 YoY 加速</p>
+            <p class="text-lg font-bold text-green-600">第 3 季</p>
+          </div>
+          <div>
+            <p class="text-xs text-gray-400">2025–2027 Blackwell+Rubin 可見度</p>
+            <p class="text-lg font-bold text-[#76b900]">$1 Trillion</p>
+          </div>
+        </div>
+        <div style="position:relative;height:300px">
+          <canvas id="revenueChart"></canvas>
+        </div>
+      </div>
+    </section>
+
+    <!-- P&L tabs -->
+    <section id="pnl">
+      <h2 class="text-xl font-semibold mb-4 flex items-center gap-2">
+        <span class="w-1 h-5 rounded bg-[#76b900] inline-block"></span>損益表（GAAP vs Non-GAAP）
+      </h2>
+
+      <div class="bg-white dark:bg-slate-900 border border-gray-200 dark:border-slate-700 rounded-xl p-5">
+        <!-- Tab system -->
+        <input type="radio" name="pnl-tab" id="tab-gaap" class="tab-radio" checked>
+        <input type="radio" name="pnl-tab" id="tab-nongaap" class="tab-radio">
+
+        <div class="tab-labels flex gap-2 mb-5">
+          <label for="tab-gaap" class="tab-label px-4 py-1.5 text-sm rounded-lg border border-gray-200 dark:border-slate-600 hover:border-[#76b900] text-gray-700 dark:text-gray-300">GAAP</label>
+          <label for="tab-nongaap" class="tab-label px-4 py-1.5 text-sm rounded-lg border border-gray-200 dark:border-slate-600 hover:border-[#76b900] text-gray-700 dark:text-gray-300">Non-GAAP</label>
+        </div>
+
+        <div class="tab-panels">
+          <div id="panel-gaap">
+            <div class="overflow-x-auto">
+              <table id="gaap-table" class="w-full text-sm">
+                <thead>
+                  <tr class="bg-gray-50 dark:bg-slate-800">
+                    <th class="text-left px-3 py-2 font-semibold">項目（$M）</th>
+                    <th class="text-right px-3 py-2 font-semibold">Q1 FY27</th>
+                    <th class="text-right px-3 py-2 font-semibold">Q4 FY26</th>
+                    <th class="text-right px-3 py-2 font-semibold">Q1 FY26</th>
+                    <th class="text-right px-3 py-2 font-semibold">QoQ %</th>
+                    <th class="text-right px-3 py-2 font-semibold">YoY %</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="border-t border-gray-100 dark:border-slate-800 font-semibold bg-[#76b900]/5">
+                    <td class="px-3 py-2">營收</td>
+                    <td class="text-right px-3 py-2">$81,615</td>
+                    <td class="text-right px-3 py-2">$68,127</td>
+                    <td class="text-right px-3 py-2">$44,062</td>
+                    <td class="text-right px-3 py-2 text-green-600">+20%</td>
+                    <td class="text-right px-3 py-2 text-green-600">+85%</td>
+                  </tr>
+                  <tr class="border-t border-gray-100 dark:border-slate-800">
+                    <td class="px-3 py-2">毛利率</td>
+                    <td class="text-right px-3 py-2">74.9%</td>
+                    <td class="text-right px-3 py-2">75.0%</td>
+                    <td class="text-right px-3 py-2">60.5%</td>
+                    <td class="text-right px-3 py-2 text-red-500">-0.1 pts</td>
+                    <td class="text-right px-3 py-2 text-green-600">+14.4 pts</td>
+                  </tr>
+                  <tr class="border-t border-gray-100 dark:border-slate-800">
+                    <td class="px-3 py-2">營業費用</td>
+                    <td class="text-right px-3 py-2">$7,621</td>
+                    <td class="text-right px-3 py-2">$6,794</td>
+                    <td class="text-right px-3 py-2">$5,030</td>
+                    <td class="text-right px-3 py-2 text-red-500">+12%</td>
+                    <td class="text-right px-3 py-2 text-red-500">+52%</td>
+                  </tr>
+                  <tr class="border-t border-gray-100 dark:border-slate-800 font-semibold">
+                    <td class="px-3 py-2">營業利益</td>
+                    <td class="text-right px-3 py-2">$53,536</td>
+                    <td class="text-right px-3 py-2">$44,299</td>
+                    <td class="text-right px-3 py-2">$21,638</td>
+                    <td class="text-right px-3 py-2 text-green-600">+21%</td>
+                    <td class="text-right px-3 py-2 text-green-600">+147%</td>
+                  </tr>
+                  <tr class="border-t border-gray-100 dark:border-slate-800 font-semibold">
+                    <td class="px-3 py-2">淨利</td>
+                    <td class="text-right px-3 py-2">$58,321</td>
+                    <td class="text-right px-3 py-2">$42,960</td>
+                    <td class="text-right px-3 py-2">$18,775</td>
+                    <td class="text-right px-3 py-2 text-green-600">+36%</td>
+                    <td class="text-right px-3 py-2 text-green-600">+211%</td>
+                  </tr>
+                  <tr class="border-t border-gray-100 dark:border-slate-800">
+                    <td class="px-3 py-2">稀釋 EPS</td>
+                    <td class="text-right px-3 py-2">$2.39</td>
+                    <td class="text-right px-3 py-2">$1.76</td>
+                    <td class="text-right px-3 py-2">$0.76</td>
+                    <td class="text-right px-3 py-2 text-green-600">+36%</td>
+                    <td class="text-right px-3 py-2 text-green-600">+214%</td>
+                  </tr>
+                  <tr class="border-t border-gray-100 dark:border-slate-800">
+                    <td class="px-3 py-2 text-xs text-gray-400">R&D</td>
+                    <td class="text-right px-3 py-2 text-xs">$6,321</td>
+                    <td class="text-right px-3 py-2 text-xs">—</td>
+                    <td class="text-right px-3 py-2 text-xs">$3,989</td>
+                    <td class="text-right px-3 py-2 text-xs"></td>
+                    <td class="text-right px-3 py-2 text-xs text-red-500">+58%</td>
+                  </tr>
+                  <tr class="border-t border-gray-100 dark:border-slate-800">
+                    <td class="px-3 py-2 text-xs text-gray-400">SG&A</td>
+                    <td class="text-right px-3 py-2 text-xs">$1,300</td>
+                    <td class="text-right px-3 py-2 text-xs">—</td>
+                    <td class="text-right px-3 py-2 text-xs">$1,041</td>
+                    <td class="text-right px-3 py-2 text-xs"></td>
+                    <td class="text-right px-3 py-2 text-xs text-red-500">+25%</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <p class="text-xs text-gray-400 mt-3">* Q1 FY27 淨利較高係因股票投資未實現收益 $15.9B（equity securities 收益）納入其他收益</p>
+          </div>
+
+          <div id="panel-nongaap">
+            <div class="overflow-x-auto">
+              <table id="nongaap-table" class="w-full text-sm">
+                <thead>
+                  <tr class="bg-gray-50 dark:bg-slate-800">
+                    <th class="text-left px-3 py-2 font-semibold">項目（$M）</th>
+                    <th class="text-right px-3 py-2 font-semibold">Q1 FY27</th>
+                    <th class="text-right px-3 py-2 font-semibold">Q4 FY26</th>
+                    <th class="text-right px-3 py-2 font-semibold">Q1 FY26</th>
+                    <th class="text-right px-3 py-2 font-semibold">QoQ %</th>
+                    <th class="text-right px-3 py-2 font-semibold">YoY %</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="border-t border-gray-100 dark:border-slate-800 font-semibold bg-[#76b900]/5">
+                    <td class="px-3 py-2">營收</td>
+                    <td class="text-right px-3 py-2">$81,615</td>
+                    <td class="text-right px-3 py-2">$68,127</td>
+                    <td class="text-right px-3 py-2">$44,062</td>
+                    <td class="text-right px-3 py-2 text-green-600">+20%</td>
+                    <td class="text-right px-3 py-2 text-green-600">+85%</td>
+                  </tr>
+                  <tr class="border-t border-gray-100 dark:border-slate-800">
+                    <td class="px-3 py-2">毛利率</td>
+                    <td class="text-right px-3 py-2">75.0%</td>
+                    <td class="text-right px-3 py-2">75.1%</td>
+                    <td class="text-right px-3 py-2">60.8%</td>
+                    <td class="text-right px-3 py-2 text-red-500">-0.1 pts</td>
+                    <td class="text-right px-3 py-2 text-green-600">+14.2 pts</td>
+                  </tr>
+                  <tr class="border-t border-gray-100 dark:border-slate-800">
+                    <td class="px-3 py-2">營業費用</td>
+                    <td class="text-right px-3 py-2">$7,449</td>
+                    <td class="text-right px-3 py-2">$6,666</td>
+                    <td class="text-right px-3 py-2">$4,993</td>
+                    <td class="text-right px-3 py-2 text-red-500">+12%</td>
+                    <td class="text-right px-3 py-2 text-red-500">+49%</td>
+                  </tr>
+                  <tr class="border-t border-gray-100 dark:border-slate-800 font-semibold">
+                    <td class="px-3 py-2">營業利益</td>
+                    <td class="text-right px-3 py-2">$53,783</td>
+                    <td class="text-right px-3 py-2">$44,474</td>
+                    <td class="text-right px-3 py-2">$21,801</td>
+                    <td class="text-right px-3 py-2 text-green-600">+21%</td>
+                    <td class="text-right px-3 py-2 text-green-600">+147%</td>
+                  </tr>
+                  <tr class="border-t border-gray-100 dark:border-slate-800 font-semibold">
+                    <td class="px-3 py-2">淨利</td>
+                    <td class="text-right px-3 py-2">$45,548</td>
+                    <td class="text-right px-3 py-2">$38,969</td>
+                    <td class="text-right px-3 py-2">$19,094</td>
+                    <td class="text-right px-3 py-2 text-green-600">+17%</td>
+                    <td class="text-right px-3 py-2 text-green-600">+139%</td>
+                  </tr>
+                  <tr class="border-t border-gray-100 dark:border-slate-800">
+                    <td class="px-3 py-2">稀釋 EPS</td>
+                    <td class="text-right px-3 py-2">$1.87</td>
+                    <td class="text-right px-3 py-2">$1.59</td>
+                    <td class="text-right px-3 py-2">$0.78</td>
+                    <td class="text-right px-3 py-2 text-green-600">+18%</td>
+                    <td class="text-right px-3 py-2 text-green-600">+140%</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <p class="text-xs text-gray-400 mt-3">* Q1 FY27 起，Non-GAAP 不再排除 SBC（股票薪酬），歷史數字已重列以利比較。</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Segment analysis -->
+    <section id="segments">
+      <h2 class="text-xl font-semibold mb-4 flex items-center gap-2">
+        <span class="w-1 h-5 rounded bg-[#76b900] inline-block"></span>業務區段分析（新架構）
+      </h2>
+
+      <!-- New framework explanation -->
+      <div class="bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 rounded-xl p-4 mb-5 text-sm">
+        <p class="font-semibold text-amber-800 dark:text-amber-300 mb-1">⚡ 新報告架構（Q1 FY27 起生效）</p>
+        <p class="text-amber-700 dark:text-amber-400">NVIDIA 自 Q1 FY27 起改採兩大平台報告：<strong>Data Center</strong>（含 Hyperscale + ACIE）與 <strong>Edge Computing</strong>，取代舊有 Data Center + Gaming + Professional Visualization + Automotive + OEM 分類。</p>
+      </div>
+
+      <div class="grid md:grid-cols-2 gap-5">
+        <!-- Segment chart -->
+        <div class="bg-white dark:bg-slate-900 border border-gray-200 dark:border-slate-700 rounded-xl p-5">
+          <h3 class="font-semibold text-sm mb-3">Q1 FY27 營收組成</h3>
+          <div style="position:relative;height:260px">
+            <canvas id="segmentPieChart"></canvas>
+          </div>
+        </div>
+
+        <!-- Segment YoY bar -->
+        <div class="bg-white dark:bg-slate-900 border border-gray-200 dark:border-slate-700 rounded-xl p-5">
+          <h3 class="font-semibold text-sm mb-3">Data Center 子區段 YoY 成長</h3>
+          <div style="position:relative;height:260px">
+            <canvas id="dcSegmentChart"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <!-- Segment details tabs -->
+      <div class="bg-white dark:bg-slate-900 border border-gray-200 dark:border-slate-700 rounded-xl p-5 mt-5">
+        <input type="radio" name="seg-tab" id="tab-seg-dc" class="tab-radio" checked>
+        <input type="radio" name="seg-tab" id="tab-seg-edge" class="tab-radio">
+
+        <div class="tab-labels flex gap-2 mb-4">
+          <label for="tab-seg-dc" class="tab-label px-4 py-1.5 text-sm rounded-lg border border-gray-200 dark:border-slate-600 hover:border-[#76b900] text-gray-700 dark:text-gray-300">Data Center</label>
+          <label for="tab-seg-edge" class="tab-label px-4 py-1.5 text-sm rounded-lg border border-gray-200 dark:border-slate-600 hover:border-[#76b900] text-gray-700 dark:text-gray-300">Edge Computing</label>
+        </div>
+
+        <div class="tab-panels">
+          <div id="panel-seg-dc">
+            <div class="grid sm:grid-cols-3 gap-4 mb-4">
+              <div class="bg-gray-50 dark:bg-slate-800 rounded-lg p-3">
+                <p class="text-xs text-gray-500 mb-1">總計</p>
+                <p class="text-xl font-bold">$75.2B</p>
+                <p class="text-xs text-green-600">+92% YoY  +21% QoQ</p>
+              </div>
+              <div class="bg-gray-50 dark:bg-slate-800 rounded-lg p-3">
+                <p class="text-xs text-gray-500 mb-1">Hyperscale</p>
+                <p class="text-xl font-bold">$37.9B</p>
+                <p class="text-xs text-green-600">Q1 FY26: $17.6B  +12% QoQ</p>
+              </div>
+              <div class="bg-gray-50 dark:bg-slate-800 rounded-lg p-3">
+                <p class="text-xs text-gray-500 mb-1">ACIE（AI雲+工業+企業）</p>
+                <p class="text-xl font-bold">$37.4B</p>
+                <p class="text-xs text-green-600">Q1 FY26: $21.5B  +31% QoQ</p>
+              </div>
+            </div>
+            <ul class="text-sm space-y-1.5 text-gray-700 dark:text-gray-300">
+              <li>• Blackwell GB300 / NVL72 需求特別強勁；前沿模型廠商與超大規模雲各已累計部署「數十萬至數百萬」顆 Blackwell GPU</li>
+              <li>• Networking：Spectrum-X 規模已超過所有以太網路競爭對手總和；InfiniBand YoY +4x</li>
+              <li>• DC Compute：$60.4B（+77% YoY）；DC Networking：$14.8B（+199% YoY）</li>
+              <li>• 主權 AI 收入 YoY +80% 以上；NVIDIA AI 基礎建設已部署於近 40 個國家（GDP 合計 $50T）</li>
+              <li>• 超過 80 個合作夥伴資料中心超過 10MW，較一年前幾乎翻倍</li>
+            </ul>
+          </div>
+
+          <div id="panel-seg-edge">
+            <div class="grid sm:grid-cols-2 gap-4 mb-4">
+              <div class="bg-gray-50 dark:bg-slate-800 rounded-lg p-3">
+                <p class="text-xs text-gray-500 mb-1">Edge Computing 總計</p>
+                <p class="text-xl font-bold">$6.4B</p>
+                <p class="text-xs text-green-600">+29% YoY  +10% QoQ</p>
+              </div>
+              <div class="bg-gray-50 dark:bg-slate-800 rounded-lg p-3">
+                <p class="text-xs text-gray-500 mb-1">Physical AI 過去 12 個月累計</p>
+                <p class="text-xl font-bold">>$9B</p>
+                <p class="text-xs text-green-600">持續動能強勁</p>
+              </div>
+            </div>
+            <ul class="text-sm space-y-1.5 text-gray-700 dark:text-gray-300">
+              <li>• Blackwell 工作站需求強勁（主要驅動力）；消費端因記憶體與系統價格上漲略降</li>
+              <li>• Uber 合作：Robotaxi 車隊擴展至 2028 年前覆蓋近 30 城市、4 大洲</li>
+              <li>• BYD、吉利、五十鈴、日產建置 Level 4 車輛 on NVIDIA DRIVE Hyperion</li>
+              <li>• DLSS 4.5 Dynamic Multi Frame Generation 發布；預覽 DLSS 5（自 2018 光線追蹤以來最大突破）</li>
+              <li>• T-Mobile + Nokia AI-RAN 整合；6G 網路 AI-native 架構承諾</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Cash flow & capital return -->
+    <section id="cashflow">
+      <h2 class="text-xl font-semibold mb-4 flex items-center gap-2">
+        <span class="w-1 h-5 rounded bg-[#76b900] inline-block"></span>現金流與資本配置
+      </h2>
+
+      <div class="grid md:grid-cols-2 gap-5">
+        <div class="bg-white dark:bg-slate-900 border border-gray-200 dark:border-slate-700 rounded-xl p-5">
+          <h3 class="font-semibold text-sm mb-3">自由現金流趨勢（$B）</h3>
+          <div style="position:relative;height:220px">
+            <canvas id="fcfChart"></canvas>
+          </div>
+        </div>
+
+        <div class="bg-white dark:bg-slate-900 border border-gray-200 dark:border-slate-700 rounded-xl p-5">
+          <h3 class="font-semibold text-sm mb-4">資本配置亮點</h3>
+          <ul class="space-y-3 text-sm">
+            <li class="flex items-start gap-3">
+              <span class="mt-0.5 w-5 h-5 rounded-full bg-[#76b900]/20 text-[#76b900] flex items-center justify-center text-xs font-bold shrink-0">✓</span>
+              <div>
+                <p class="font-semibold">$80B 新股票回購授權</p>
+                <p class="text-gray-500 dark:text-slate-400 text-xs">Board 於 2026-05-18 核准，加上原有剩餘 ~$39B，總可用額度 ~$119B</p>
+              </div>
+            </li>
+            <li class="flex items-start gap-3">
+              <span class="mt-0.5 w-5 h-5 rounded-full bg-[#76b900]/20 text-[#76b900] flex items-center justify-center text-xs font-bold shrink-0">✓</span>
+              <div>
+                <p class="font-semibold">季度股利 $0.01 → $0.25（+2400%）</p>
+                <p class="text-gray-500 dark:text-slate-400 text-xs">2026-06-26 發放，基準日 2026-06-04</p>
+              </div>
+            </li>
+            <li class="flex items-start gap-3">
+              <span class="mt-0.5 w-5 h-5 rounded-full bg-[#76b900]/20 text-[#76b900] flex items-center justify-center text-xs font-bold shrink-0">✓</span>
+              <div>
+                <p class="font-semibold">全年回饋約 50% 自由現金流</p>
+                <p class="text-gray-500 dark:text-slate-400 text-xs">FY27 全年目標，兼顧 R&D 投資與生態系投資</p>
+              </div>
+            </li>
+            <li class="flex items-start gap-3">
+              <span class="mt-0.5 w-5 h-5 rounded-full bg-[#76b900]/20 text-[#76b900] flex items-center justify-center text-xs font-bold shrink-0">✓</span>
+              <div>
+                <p class="font-semibold">供應鏈預買 $145B（含庫存+訂單+預付）</p>
+                <p class="text-gray-500 dark:text-slate-400 text-xs">確保未來交貨能力，Q1 庫存 $25.8B（+$4.4B QoQ）</p>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Balance sheet key items -->
+      <details class="bg-white dark:bg-slate-900 border border-gray-200 dark:border-slate-700 rounded-xl mt-4">
+        <summary class="px-5 py-3 font-semibold text-sm text-gray-700 dark:text-gray-300">資產負債表重點項目（2026-04-26）</summary>
+        <div class="px-5 pb-5">
+          <div class="grid sm:grid-cols-2 gap-4 mt-3 text-sm">
+            <div>
+              <p class="font-semibold text-xs uppercase text-gray-400 mb-2">資產</p>
+              <table class="w-full">
+                <tbody class="divide-y divide-gray-100 dark:divide-slate-800">
+                  <tr><td class="py-1.5 text-gray-600 dark:text-gray-400">現金及等價物</td><td class="text-right font-medium">$13.2B</td></tr>
+                  <tr><td class="py-1.5 text-gray-600 dark:text-gray-400">可交易債務證券</td><td class="text-right font-medium">$37.1B</td></tr>
+                  <tr><td class="py-1.5 text-gray-600 dark:text-gray-400">可交易股票證券</td><td class="text-right font-medium">$30.2B</td></tr>
+                  <tr><td class="py-1.5 text-gray-600 dark:text-gray-400">應收帳款</td><td class="text-right font-medium">$40.7B</td></tr>
+                  <tr><td class="py-1.5 text-gray-600 dark:text-gray-400">存貨</td><td class="text-right font-medium">$25.8B</td></tr>
+                  <tr><td class="py-1.5 text-gray-600 dark:text-gray-400">非可交易證券</td><td class="text-right font-medium">$43.4B</td></tr>
+                  <tr class="font-bold text-[#76b900]"><td class="py-1.5">總資產</td><td class="text-right">$259.5B</td></tr>
+                </tbody>
+              </table>
+            </div>
+            <div>
+              <p class="font-semibold text-xs uppercase text-gray-400 mb-2">負債與股東權益</p>
+              <table class="w-full">
+                <tbody class="divide-y divide-gray-100 dark:divide-slate-800">
+                  <tr><td class="py-1.5 text-gray-600 dark:text-gray-400">應付帳款</td><td class="text-right font-medium">$13.1B</td></tr>
+                  <tr><td class="py-1.5 text-gray-600 dark:text-gray-400">短期負債</td><td class="text-right font-medium">$1.0B</td></tr>
+                  <tr><td class="py-1.5 text-gray-600 dark:text-gray-400">長期負債</td><td class="text-right font-medium">$7.5B</td></tr>
+                  <tr><td class="py-1.5 text-gray-600 dark:text-gray-400">總負債</td><td class="text-right font-medium">$64.0B</td></tr>
+                  <tr class="font-bold text-[#76b900]"><td class="py-1.5">股東權益</td><td class="text-right">$195.5B</td></tr>
+                  <tr><td class="py-1.5 text-gray-600 dark:text-gray-400 text-xs">保留盈餘</td><td class="text-right text-xs">$185.0B</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </details>
+    </section>
+
+    <!-- Q2 Outlook -->
+    <section id="outlook">
+      <h2 class="text-xl font-semibold mb-4 flex items-center gap-2">
+        <span class="w-1 h-5 rounded bg-[#76b900] inline-block"></span>Q2 FY2027 展望
+      </h2>
+
+      <div class="grid sm:grid-cols-3 gap-4">
+        <div class="bg-gradient-to-br from-[#76b900]/20 to-transparent border border-[#76b900]/40 rounded-xl p-5">
+          <p class="text-xs text-gray-500 dark:text-slate-400 mb-1">Q2 FY27 營收指引</p>
+          <p class="text-3xl font-black text-[#76b900]">$91.0B</p>
+          <p class="text-sm text-gray-500 dark:text-slate-400 mt-1">±2% · 不含中國 DC 計算收入</p>
+          <p class="text-xs text-green-600 mt-2">QoQ +11.5%（中間值）</p>
+        </div>
+        <div class="bg-white dark:bg-slate-900 border border-gray-200 dark:border-slate-700 rounded-xl p-5">
+          <p class="text-xs text-gray-500 dark:text-slate-400 mb-1">Non-GAAP 毛利率</p>
+          <p class="text-3xl font-bold text-gray-900 dark:text-white">75.0%</p>
+          <p class="text-sm text-gray-500 dark:text-slate-400 mt-1">±50 bps</p>
+          <p class="text-xs text-gray-400 mt-2">全年維持 mid-70s</p>
+        </div>
+        <div class="bg-white dark:bg-slate-900 border border-gray-200 dark:border-slate-700 rounded-xl p-5">
+          <p class="text-xs text-gray-500 dark:text-slate-400 mb-1">Non-GAAP 營業費用</p>
+          <p class="text-3xl font-bold text-gray-900 dark:text-white">$8.3B</p>
+          <p class="text-sm text-gray-500 dark:text-slate-400 mt-1">全年 OPEX YoY 成長上 40%</p>
+          <p class="text-xs text-gray-400 mt-2">GAAP 約 $8.5B</p>
+        </div>
+      </div>
+
+      <div class="mt-4 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-xl p-4 text-sm">
+        <p class="font-semibold text-blue-800 dark:text-blue-300 mb-1">🔑 中長期指引</p>
+        <ul class="text-blue-700 dark:text-blue-400 space-y-1">
+          <li>• Vera Rubin：Q3 FY27 開始出貨，Q4 加速，Q1 FY28 將非常強勁</li>
+          <li>• Blackwell + Rubin 合計 2025–2027 可見度：$1 Trillion</li>
+          <li>• 超大規模 CapEx 預測 2027 超過 $1 Trillion；AI 基礎建設年支出 2030 年前達 $3–4T</li>
+          <li>• Vera CPU 今年收入可見度近 $20B（獨立 CPU，不含 VR 套裝）</li>
+          <li>• 全年有效稅率（Non-GAAP）：16%–18%</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Earnings call highlights -->
+    <section id="call-highlights">
+      <h2 class="text-xl font-semibold mb-4 flex items-center gap-2">
+        <span class="w-1 h-5 rounded bg-[#76b900] inline-block"></span>法說會深度解析
+      </h2>
+
+      <!-- Jensen closing quote -->
+      <div class="quote-card bg-white dark:bg-slate-900 border border-gray-200 dark:border-slate-700 rounded-xl p-5 mb-5">
+        <p class="text-sm italic text-gray-600 dark:text-gray-300 mb-2">
+          "Demand has gone parabolic. The reason is simple: agentic AI has arrived. AI can now do productive and valuable work. Tokens are now profitable."
+        </p>
+        <p class="text-xs text-gray-400">— Jensen Huang，法說會閉幕致詞</p>
+      </div>
+
+      <!-- Q&A breakdown collapsibles -->
+      <div class="space-y-3">
+
+        <details class="bg-white dark:bg-slate-900 border border-gray-200 dark:border-slate-700 rounded-xl">
+          <summary class="px-5 py-3.5 font-semibold text-sm">1. 新區段架構：為何改變？Hyperscale vs ACIE 的策略意義</summary>
+          <div class="px-5 pb-5 text-sm text-gray-700 dark:text-gray-300 space-y-2">
+            <p>Jensen 解釋：原有分類無法反映現在業務複雜度。新架構三個維度差異化：</p>
+            <ul class="list-disc pl-5 space-y-1">
+              <li><strong>Hyperscale</strong>：只有 5-6 家超大規模雲端，去市場簡單。支撐其內部 AI 服務、資料處理、以及雲端公開服務中的 NVIDIA 生態系</li>
+              <li><strong>ACIE</strong>：數千家企業、AI 原生雲、主權 AI、工業。去市場複雜（約 250,000 家企業），需要完整堆疊解決方案，NVIDIA 幾乎是唯一能提供端到端解決方案的</li>
+              <li><strong>Edge</strong>：汽車、機器人、基站、嵌入式裝置。Physical AI 的主戰場</li>
+            </ul>
+            <p class="mt-2 text-gray-500 dark:text-slate-400">關鍵洞察：ACIE 目前與 Hyperscale 規模相當（各約 $37-38B），且增速更快（QoQ +31% vs +12%）。長期來看 ACIE 規模將超過 Hyperscale。</p>
+          </div>
+        </details>
+
+        <details class="bg-white dark:bg-slate-900 border border-gray-200 dark:border-slate-700 rounded-xl">
+          <summary class="px-5 py-3.5 font-semibold text-sm">2. Vera CPU：$200B 全新 TAM，為何現在？</summary>
+          <div class="px-5 pb-5 text-sm text-gray-700 dark:text-gray-300 space-y-2">
+            <p>Jensen 解釋 CPU 在 Agentic AI 時代的角色：</p>
+            <div class="bg-gray-50 dark:bg-slate-800 rounded-lg p-3 my-2">
+              <p class="font-semibold mb-1">GPU vs CPU 工作切分：</p>
+              <ul class="list-disc pl-5 space-y-1">
+                <li><strong>GPU</strong>：所有的「思考」——推理、模型運算</li>
+                <li><strong>CPU</strong>：Agent harness 運行（Claude Code、OpenAI Codex 等框架）、工具調用（瀏覽器、編譯器）、IO、記憶體管理、Orchestration</li>
+              </ul>
+            </div>
+            <p>Vera 的 4 種用途：（1）Vera Rubin 套裝內 CPU（2）獨立 CPU（$20B 今年可見度）（3）Vera + CX9 儲存（4）Vera + CX9 機密運算</p>
+            <p class="text-gray-500 dark:text-slate-400">舊 CPU 設計目標是「多核心可出租」，新 Vera 設計目標是「token/秒最大化」，符合 AI 時代 dollar/token 的經濟模型。</p>
+            <p><strong>Vera vs x86：</strong> 最高 1.5x 每核心效能，2x 效能/瓦，4x 每機架密度。</p>
+          </div>
+        </details>
+
+        <details class="bg-white dark:bg-slate-900 border border-gray-200 dark:border-slate-700 rounded-xl">
+          <summary class="px-5 py-3.5 font-semibold text-sm">3. Vera Rubin 進展與時程</summary>
+          <div class="px-5 pb-5 text-sm text-gray-700 dark:text-gray-300 space-y-2">
+            <ul class="list-disc pl-5 space-y-1">
+              <li>Q3 FY27（2026 年底）：開始出貨（初始量產）</li>
+              <li>Q4 FY27：持續加速</li>
+              <li>Q1 FY28（2027 Q1）：Colette 表示「將非常大」</li>
+              <li>相較 Grace Blackwell：Jensen 認為 Vera Rubin 起步需求更強，「所有前沿模型廠商從一開始就會使用 Vera Rubin，這在 Blackwell 初期並非如此」</li>
+              <li>性能：相較 Blackwell，推理吞吐量 35x，AI 工廠收益 10x</li>
+            </ul>
+          </div>
+        </details>
+
+        <details class="bg-white dark:bg-slate-900 border border-gray-200 dark:border-slate-700 rounded-xl">
+          <summary class="px-5 py-3.5 font-semibold text-sm">4. 推理市場市占率：快速增長的多重來源</summary>
+          <div class="px-5 pb-5 text-sm text-gray-700 dark:text-gray-300 space-y-2">
+            <p>Jensen 分解推理市占提升的驅動因素：</p>
+            <ul class="list-disc pl-5 space-y-1">
+              <li>Anthropic 新加入合作（原本市占幾乎 0），跨 AWS / Azure / CoreWeave / SpaceXAI 大規模部署</li>
+              <li>前沿模型廠商數量增加：Cursor、Perplexity、TML、Reflection 等新玩家</li>
+              <li>ACIE 與 Physical AI 幾乎 100% 都在 NVIDIA 平台上</li>
+              <li>MLPerf 推理測試再次橫掃所有基準（GB300 每 6 個月吞吐量提升 2.7x，token 成本降低 60%）</li>
+            </ul>
+            <div class="bg-gray-50 dark:bg-slate-800 rounded-lg p-3 my-2">
+              <p class="font-semibold text-xs mb-1">LPX（低延遲 SRAM 加速器）定位：</p>
+              <p class="text-xs">Jensen 明確定義為 niche：高 token rate 但吞吐量低、context 處理能力受限。適合已有高溢價 token 服務的提供商附加使用，而非主流。市場份額預計 10-20% 天花板。</p>
+            </div>
+          </div>
+        </details>
+
+        <details class="bg-white dark:bg-slate-900 border border-gray-200 dark:border-slate-700 rounded-xl">
+          <summary class="px-5 py-3.5 font-semibold text-sm">5. 中國業務：H200 有牌照但尚無收入</summary>
+          <div class="px-5 pb-5 text-sm text-gray-700 dark:text-gray-300 space-y-2">
+            <p>美國政府已核准 H200 出口許可，但 NVIDIA 尚未產生任何中國 DC 計算收入，且「不確定是否允許進口」。</p>
+            <p><strong>Q2 指引排除任何中國 DC 收入。</strong></p>
+            <p class="text-gray-500 dark:text-slate-400">這是連續第二季指引不含中國，是一個重要的下行風險控制訊號，也是重大的潛在上行驚喜。</p>
+          </div>
+        </details>
+
+        <details class="bg-white dark:bg-slate-900 border border-gray-200 dark:border-slate-700 rounded-xl">
+          <summary class="px-5 py-3.5 font-semibold text-sm">6. $1 Trillion 之外的增量：Frontier AI + Vera CPU + LPX</summary>
+          <div class="px-5 pb-5 text-sm text-gray-700 dark:text-gray-300 space-y-2">
+            <p>James Schneider（Goldman Sachs）問：$1T Blackwell+Rubin 可見度之外的增量在哪？</p>
+            <p>Jensen 的優先序：</p>
+            <ol class="list-decimal pl-5 space-y-1">
+              <li>前沿 AI 模型份額持續提升（Anthropic、OpenAI、xAI 等）</li>
+              <li>Vera 獨立 CPU（$1T 計算中不含）</li>
+              <li>LPX（相對較小）</li>
+            </ol>
+          </div>
+        </details>
+
+        <details class="bg-white dark:bg-slate-900 border border-gray-200 dark:border-slate-700 rounded-xl">
+          <summary class="px-5 py-3.5 font-semibold text-sm">7. Jensen 的 Top 5 核心訊息（閉幕致詞）</summary>
+          <div class="px-5 pb-5 text-sm text-gray-700 dark:text-gray-300">
+            <ol class="list-decimal pl-5 space-y-2">
+              <li>NVIDIA 是唯一支援所有前沿 AI 模型的平台（Anthropic 加入後覆蓋更完整）</li>
+              <li>存在於每個超大規模雲端，支援其核心資料處理、ML 工作負載與公共雲服務</li>
+              <li>完整 AI 工廠解決方案，可獨特服務 AI 原生雲、主權 AI 雲、企業與工業 on-prem</li>
+              <li>CUDA 延伸至邊緣：機器人、自駕車、嵌入式醫療設備、AI-RAN 基站</li>
+              <li>Vera：世界上第一個專為 Agentic AI 打造的 CPU，開啟 $200B 全新 TAM</li>
+            </ol>
+          </div>
+        </details>
+
+      </div>
+    </section>
+
+    <!-- Risk factors -->
+    <section id="risks">
+      <h2 class="text-xl font-semibold mb-4 flex items-center gap-2">
+        <span class="w-1 h-5 rounded bg-[#76b900] inline-block"></span>風險因素
+      </h2>
+
+      <div class="grid sm:grid-cols-2 gap-4">
+        <div class="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-xl p-4 text-sm">
+          <p class="font-semibold text-red-700 dark:text-red-400 mb-2">短期風險</p>
+          <ul class="text-red-700 dark:text-red-400/80 space-y-1.5">
+            <li>• 中國出口管制：H200 許可獲批但收入不確定，H20 超庫存已計提 $4.5B 損失（Q1 FY26）</li>
+            <li>• 供應鏈集中風險：CoWoS 先進封裝高度依賴 TSMC，HBM 依賴 SK Hynix / Micron</li>
+            <li>• 毛利率承壓：Vera Rubin 系統複雜度更高，初期毛利率可能低於 Blackwell</li>
+            <li>• 單季序列成長持續難度：每季需新增 $10B+ 才能維持現有百分比增速</li>
+          </ul>
+        </div>
+        <div class="bg-orange-50 dark:bg-orange-900/20 border border-orange-200 dark:border-orange-800 rounded-xl p-4 text-sm">
+          <p class="font-semibold text-orange-700 dark:text-orange-400 mb-2">中長期風險</p>
+          <ul class="text-orange-700 dark:text-orange-400/80 space-y-1.5">
+            <li>• 超大規模客製晶片（Google TPU、Amazon Trainium、Microsoft Maia）持續擴大自研</li>
+            <li>• AMD MI400 系列與 Intel Gaudi 4 競爭加劇（推理端）</li>
+            <li>• LPX / Groq 等 SRAM 架構在特定高溢價推理場景取得市占</li>
+            <li>• Vera Rubin 量產期間的可靠性與 yield 風險（新架構新工藝）</li>
+            <li>• AI 資本支出預算週期性修正風險（若 AI ROI 未達預期）</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="pt-6 pb-8 border-t border-gray-200 dark:border-slate-800 text-xs text-gray-400 dark:text-slate-600">
+      <p>資料來源：NVIDIA Press Release、10-Q（2026-04-26）、Q1 FY27 Earnings Call Transcript（2026-05-20）。本報告僅供資訊參考，不構成投資建議。</p>
+    </footer>
+
+  </main>
+</div>
+
+<script>
+function toggleDark() {
+  const html = document.documentElement;
+  if (html.classList.contains('dark')) {
+    html.classList.remove('dark');
+    localStorage.theme = 'light';
+    document.getElementById('darkToggle').textContent = '🌙';
+  } else {
+    html.classList.add('dark');
+    localStorage.theme = 'dark';
+    document.getElementById('darkToggle').textContent = '☀️';
+  }
+  // Redraw charts for dark mode
+  setTimeout(initCharts, 50);
+}
+document.getElementById('darkToggle').textContent = document.documentElement.classList.contains('dark') ? '☀️' : '🌙';
+
+// Chart.js defaults
+function isDark() { return document.documentElement.classList.contains('dark'); }
+function gridColor() { return isDark() ? 'rgba(255,255,255,0.07)' : 'rgba(0,0,0,0.07)'; }
+function labelColor() { return isDark() ? '#94a3b8' : '#6b7280'; }
+
+let charts = {};
+function destroyCharts() {
+  Object.values(charts).forEach(c => c && c.destroy && c.destroy());
+  charts = {};
+}
+
+function initCharts() {
+  destroyCharts();
+
+  // Revenue trend chart
+  const rCtx = document.getElementById('revenueChart').getContext('2d');
+  charts.revenue = new Chart(rCtx, {
+    type: 'bar',
+    data: {
+      labels: ['Q1 FY26', 'Q4 FY26', 'Q1 FY27', 'Q2 FY27E'],
+      datasets: [
+        {
+          label: '營收 ($B)',
+          data: [44.1, 68.1, 81.6, 91.0],
+          backgroundColor: ['#22c55e88', '#22c55e88', '#76b900', '#76b90066'],
+          borderColor: ['#22c55e', '#22c55e', '#76b900', '#76b900'],
+          borderWidth: 2,
+          borderRadius: 6,
+          order: 2
+        },
+        {
+          label: 'Non-GAAP EPS ($)',
+          data: [0.78, 1.59, 1.87, null],
+          type: 'line',
+          yAxisID: 'y2',
+          borderColor: '#f59e0b',
+          backgroundColor: '#f59e0b22',
+          pointBackgroundColor: '#f59e0b',
+          tension: 0.4,
+          fill: false,
+          order: 1
+        }
+      ]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: {
+        legend: { labels: { color: labelColor(), font: { size: 11 } } },
+        tooltip: { mode: 'index', intersect: false }
+      },
+      scales: {
+        x: { grid: { color: gridColor() }, ticks: { color: labelColor() } },
+        y: {
+          grid: { color: gridColor() }, ticks: { color: labelColor(), callback: v => '$' + v + 'B' },
+          title: { display: true, text: '營收 ($B)', color: labelColor(), font: { size: 11 } }
+        },
+        y2: {
+          position: 'right', grid: { display: false },
+          ticks: { color: '#f59e0b', callback: v => '$' + v },
+          title: { display: true, text: 'EPS ($)', color: '#f59e0b', font: { size: 11 } }
+        }
+      }
+    }
+  });
+
+  // Segment pie
+  const spCtx = document.getElementById('segmentPieChart').getContext('2d');
+  charts.pie = new Chart(spCtx, {
+    type: 'doughnut',
+    data: {
+      labels: ['Hyperscale', 'ACIE', 'Edge Computing'],
+      datasets: [{
+        data: [37.9, 37.4, 6.4],
+        backgroundColor: ['#76b900', '#22c55e', '#86efac'],
+        borderColor: isDark() ? '#0f172a' : '#fff',
+        borderWidth: 3
+      }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: {
+        legend: { position: 'bottom', labels: { color: labelColor(), font: { size: 11 }, padding: 12 } },
+        tooltip: { callbacks: { label: ctx => ` ${ctx.label}: $${ctx.parsed}B` } }
+      },
+      cutout: '60%'
+    }
+  });
+
+  // DC segment YoY bar
+  const dcCtx = document.getElementById('dcSegmentChart').getContext('2d');
+  charts.dc = new Chart(dcCtx, {
+    type: 'bar',
+    data: {
+      labels: ['Hyperscale', 'ACIE', 'DC Networking', 'DC Compute'],
+      datasets: [
+        {
+          label: 'Q1 FY26 ($B)',
+          data: [17.6, 21.5, 4.95, 34.2],
+          backgroundColor: '#64748b88',
+          borderRadius: 4
+        },
+        {
+          label: 'Q1 FY27 ($B)',
+          data: [37.9, 37.4, 14.8, 60.4],
+          backgroundColor: '#76b900',
+          borderRadius: 4
+        }
+      ]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: {
+        legend: { labels: { color: labelColor(), font: { size: 11 } } }
+      },
+      scales: {
+        x: { grid: { color: gridColor() }, ticks: { color: labelColor(), font: { size: 10 } } },
+        y: { grid: { color: gridColor() }, ticks: { color: labelColor(), callback: v => '$' + v + 'B' } }
+      }
+    }
+  });
+
+  // FCF chart
+  const fcfCtx = document.getElementById('fcfChart').getContext('2d');
+  charts.fcf = new Chart(fcfCtx, {
+    type: 'bar',
+    data: {
+      labels: ['Q1 FY26', 'Q4 FY26', 'Q1 FY27'],
+      datasets: [{
+        label: '自由現金流 ($B)',
+        data: [26.1, 34.9, 48.6],
+        backgroundColor: ['#76b90066', '#76b90088', '#76b900'],
+        borderColor: '#76b900',
+        borderWidth: 2,
+        borderRadius: 8
+      }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { labels: { color: labelColor(), font: { size: 11 } } } },
+      scales: {
+        x: { grid: { color: gridColor() }, ticks: { color: labelColor() } },
+        y: { grid: { color: gridColor() }, ticks: { color: labelColor(), callback: v => '$' + v + 'B' } }
+      }
+    }
+  });
+}
+
+// TOC scroll-spy
+function setupScrollSpy() {
+  const sections = document.querySelectorAll('section[id]');
+  const links = document.querySelectorAll('.toc-link');
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        links.forEach(l => l.classList.remove('active'));
+        const active = document.querySelector(`.toc-link[href="#${entry.target.id}"]`);
+        if (active) active.classList.add('active');
+      }
+    });
+  }, { rootMargin: '-20% 0px -70% 0px' });
+  sections.forEach(s => observer.observe(s));
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  initCharts();
+  setupScrollSpy();
+});
+</script>
+</body>
+</html>
