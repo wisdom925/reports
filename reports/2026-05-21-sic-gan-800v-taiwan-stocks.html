@@ -1,0 +1,938 @@
+<!doctype html>
+<html lang="zh-TW" class="scroll-smooth">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>SiC × GaN × 800V HVDC：AI 資料中心電源革命與台股受惠圖譜</title>
+  <meta name="description" content="TrendForce 深度分析：800V HVDC 架構驅動第三代半導體需求爆發，台股受惠環球晶、漢磊、嘉晶、力積電、台達電、光寶科等完整供應鏈圖譜。">
+  <meta property="og:title" content="SiC × GaN × 800V HVDC：AI 資料中心電源革命與台股受惠圖譜">
+  <meta property="og:description" content="AI Power Wall 驅動 800V HVDC 架構轉型，SiC 主掌高壓轉換，GaN 負責精準配電，台股 10+ 受惠個股深度解析。">
+  <meta property="og:type" content="article">
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: { extend: { fontFamily: { sans: ['system-ui','ui-sans-serif','sans-serif'] } } }
+    };
+    if (localStorage.theme === 'dark' || (!('theme' in localStorage) && matchMedia('(prefers-color-scheme: dark)').matches)) {
+      document.documentElement.classList.add('dark');
+    }
+  </script>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.13.8/css/jquery.dataTables.min.css">
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <script src="https://cdn.datatables.net/1.13.8/js/jquery.dataTables.min.js"></script>
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+    const dark = document.documentElement.classList.contains('dark');
+    mermaid.initialize({ startOnLoad: true, theme: dark ? 'dark' : 'default', securityLevel: 'loose' });
+    window.__mermaid = mermaid;
+  </script>
+
+  <style>
+    @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
+    @media print {
+      .no-print { display: none !important; }
+      body { color: #000; background: #fff; }
+      details { display: block; }
+    }
+    :root { --sic: #f97316; --gan: #8b5cf6; --accent: #06b6d4; }
+
+    .toc-link { transition: color .15s, border-color .15s; }
+    .toc-link.active { color: #06b6d4; border-left-color: #06b6d4; font-weight: 600; }
+
+    /* Tabs */
+    .tab-r { display: none; }
+    .tab-panel { display: none; }
+
+    #t-sic:checked ~ .tab-panels #p-sic,
+    #t-gan:checked ~ .tab-panels #p-gan { display: block; }
+    #t-sic:checked ~ .tab-labels label[for="t-sic"],
+    #t-gan:checked ~ .tab-labels label[for="t-gan"] { background:#f97316; color:#fff; border-color:#f97316; }
+
+    #s-up:checked ~ .tab-panels #p-up,
+    #s-mid:checked ~ .tab-panels #p-mid,
+    #s-dn:checked ~ .tab-panels #p-dn { display: block; }
+    #s-up:checked ~ .tab-labels label[for="s-up"],
+    #s-mid:checked ~ .tab-labels label[for="s-mid"],
+    #s-dn:checked ~ .tab-labels label[for="s-dn"] { background:#06b6d4; color:#fff; border-color:#06b6d4; }
+
+    .tab-label { cursor: pointer; transition: all .2s; }
+
+    /* DataTables dark */
+    .dark table.dataTable thead th { background: #1e293b; color: #e2e8f0; border-color: #334155; }
+    .dark table.dataTable tbody td { background: #0f172a; color: #e2e8f0; border-color: #1e293b; }
+    .dark table.dataTable tbody tr:hover td { background: #1e293b !important; }
+    .dark .dataTables_wrapper .dataTables_length,
+    .dark .dataTables_wrapper .dataTables_filter,
+    .dark .dataTables_wrapper .dataTables_info { color: #94a3b8; }
+    .dark .dataTables_wrapper select,
+    .dark .dataTables_wrapper input { background: #1e293b; color: #e2e8f0; border: 1px solid #334155; border-radius: 4px; padding: 2px 6px; }
+    .dark .dataTables_wrapper .dataTables_paginate .paginate_button { color: #94a3b8 !important; }
+    .dark .dataTables_wrapper .dataTables_paginate .paginate_button.current { background: #06b6d4 !important; color: #fff !important; border-color: #06b6d4 !important; }
+
+    details > summary { cursor: pointer; user-select: none; }
+    details > summary::marker { content: "▸ "; }
+    details[open] > summary::marker { content: "▾ "; }
+
+    .sic-badge { background: #f9731620; color: #f97316; border: 1px solid #f9731640; }
+    .gan-badge { background: #8b5cf620; color: #8b5cf6; border: 1px solid #8b5cf640; }
+    .both-badge { background: #06b6d420; color: #06b6d4; border: 1px solid #06b6d440; }
+
+    ::-webkit-scrollbar { width: 5px; height: 5px; }
+    ::-webkit-scrollbar-thumb { background: #06b6d4; border-radius: 3px; }
+
+    /* Power chain visualization */
+    .pchain-node { transition: all .2s; }
+    .pchain-node:hover { transform: scale(1.03); }
+  </style>
+</head>
+<body class="bg-gray-50 dark:bg-slate-950 text-gray-900 dark:text-gray-100 font-sans">
+
+<!-- Top bar -->
+<header class="sticky top-0 z-50 bg-white/90 dark:bg-slate-900/90 backdrop-blur border-b border-gray-200 dark:border-slate-700 no-print">
+  <div class="max-w-7xl mx-auto px-4 h-12 flex items-center justify-between">
+    <div class="flex items-center gap-2 flex-wrap">
+      <span class="text-sm font-mono text-gray-500 dark:text-slate-400">SiC × GaN × 800V HVDC</span>
+      <span class="px-2 py-0.5 text-xs rounded-full sic-badge font-semibold">SiC</span>
+      <span class="px-2 py-0.5 text-xs rounded-full gan-badge font-semibold">GaN</span>
+      <span class="px-2 py-0.5 text-xs rounded-full both-badge font-semibold">AI Power</span>
+    </div>
+    <button onclick="toggleDark()" id="darkBtn" class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-slate-800 text-lg">🌙</button>
+  </div>
+</header>
+
+<div class="max-w-7xl mx-auto px-4 py-6 flex gap-6">
+
+  <!-- Sticky TOC -->
+  <aside class="no-print hidden lg:block w-44 shrink-0">
+    <nav class="sticky top-16 space-y-1 text-xs">
+      <p class="text-xs font-semibold uppercase tracking-wider text-gray-400 dark:text-slate-500 mb-3">目錄</p>
+      <a href="#hero" class="toc-link block py-1 pl-3 border-l-2 border-transparent text-gray-600 dark:text-slate-400 hover:text-cyan-500">核心論點</a>
+      <a href="#arch" class="toc-link block py-1 pl-3 border-l-2 border-transparent text-gray-600 dark:text-slate-400 hover:text-cyan-500">800V 架構</a>
+      <a href="#tech" class="toc-link block py-1 pl-3 border-l-2 border-transparent text-gray-600 dark:text-slate-400 hover:text-cyan-500">SiC vs GaN</a>
+      <a href="#market" class="toc-link block py-1 pl-3 border-l-2 border-transparent text-gray-600 dark:text-slate-400 hover:text-cyan-500">市場規模</a>
+      <a href="#taiwan" class="toc-link block py-1 pl-3 border-l-2 border-transparent text-gray-600 dark:text-slate-400 hover:text-cyan-500">台股受惠總覽</a>
+      <a href="#supply-chain" class="toc-link block py-1 pl-3 border-l-2 border-transparent text-gray-600 dark:text-slate-400 hover:text-cyan-500">供應鏈分層</a>
+      <a href="#stocks-deep" class="toc-link block py-1 pl-3 border-l-2 border-transparent text-gray-600 dark:text-slate-400 hover:text-cyan-500">個股深度</a>
+      <a href="#intl" class="toc-link block py-1 pl-3 border-l-2 border-transparent text-gray-600 dark:text-slate-400 hover:text-cyan-500">國際競爭</a>
+      <a href="#risks" class="toc-link block py-1 pl-3 border-l-2 border-transparent text-gray-600 dark:text-slate-400 hover:text-cyan-500">風險因素</a>
+    </nav>
+  </aside>
+
+  <main class="flex-1 min-w-0 space-y-10">
+
+    <!-- Title -->
+    <div>
+      <div class="flex flex-wrap gap-2 mb-3">
+        <span class="px-2 py-0.5 text-xs rounded-full sic-badge font-semibold">第三代半導體</span>
+        <span class="px-2 py-0.5 text-xs rounded-full gan-badge font-semibold">AI 電源</span>
+        <span class="px-2 py-0.5 text-xs rounded-full both-badge font-semibold">台股受惠</span>
+      </div>
+      <h1 class="text-3xl font-black tracking-tight mb-2">SiC × GaN × 800V HVDC<br><span class="text-cyan-500">AI 資料中心電源革命</span>與台股受惠圖譜</h1>
+      <p class="text-gray-500 dark:text-slate-400 text-sm">資料來源：TrendForce Insights · 2026-05-21 · 額外分析：台股受惠標的</p>
+    </div>
+
+    <!-- Hero -->
+    <section id="hero">
+      <h2 class="text-xl font-semibold mb-4 flex items-center gap-2">
+        <span class="w-1 h-5 rounded bg-cyan-500 inline-block"></span>核心論點：AI Power Wall
+      </h2>
+
+      <div class="bg-gradient-to-br from-cyan-500/10 to-purple-500/10 dark:from-cyan-500/20 dark:to-slate-900 border border-cyan-500/30 rounded-xl p-5 mb-5">
+        <p class="text-2xl font-bold mb-2">AI 資料中心耗電危機 → 第三代半導體的歷史機遇</p>
+        <p class="text-gray-600 dark:text-gray-300 text-sm leading-relaxed">傳統矽基電源系統無法應對 AI GPU 叢集的極端功耗需求。以 NVIDIA GB300 NVL72 為例，單一機架功耗已達 120kW，2027 年全球新增 AI 用電需求預計達 <strong>92 GW</strong>。架構從 12V 升級至 800V HVDC 是唯一解方——而整條轉換鏈只有 SiC 與 GaN 才能勝任。</p>
+      </div>
+
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div class="bg-white dark:bg-slate-900 border border-gray-200 dark:border-slate-700 rounded-xl p-4">
+          <p class="text-xs text-gray-500 mb-1">全球新增 AI 電力需求（至 2027）</p>
+          <p class="text-2xl font-bold text-orange-500">92 GW</p>
+        </div>
+        <div class="bg-white dark:bg-slate-900 border border-gray-200 dark:border-slate-700 rounded-xl p-4">
+          <p class="text-xs text-gray-500 mb-1">GaN 效率突破目標</p>
+          <p class="text-2xl font-bold text-purple-500">>96%</p>
+          <p class="text-xs text-gray-400">Titanium 等級</p>
+        </div>
+        <div class="bg-white dark:bg-slate-900 border border-gray-200 dark:border-slate-700 rounded-xl p-4">
+          <p class="text-xs text-gray-500 mb-1">SiC 導入後 EV 續航提升</p>
+          <p class="text-2xl font-bold text-orange-500">+5%</p>
+          <p class="text-xs text-gray-400">Hyundai/Kia E-GMP 實測</p>
+        </div>
+        <div class="bg-white dark:bg-slate-900 border border-gray-200 dark:border-slate-700 rounded-xl p-4">
+          <p class="text-xs text-gray-500 mb-1">Navitas 10kW DC-DC 峰值效率</p>
+          <p class="text-2xl font-bold text-cyan-500">98.5%</p>
+          <p class="text-xs text-gray-400">1 MHz 開關頻率</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 800V Architecture -->
+    <section id="arch">
+      <h2 class="text-xl font-semibold mb-4 flex items-center gap-2">
+        <span class="w-1 h-5 rounded bg-cyan-500 inline-block"></span>800V HVDC 電源架構：SiC 是「力士」，GaN 是「短跑手」
+      </h2>
+
+      <div class="bg-white dark:bg-slate-900 border border-gray-200 dark:border-slate-700 rounded-xl p-5 mb-5">
+        <p class="text-sm text-gray-600 dark:text-gray-300 mb-4">從電網到 GPU 的完整電源轉換鏈，TrendForce 用「力士 + 短跑手」形容分工：</p>
+
+        <!-- Visual power chain -->
+        <div class="overflow-x-auto">
+          <div class="flex items-center gap-1 min-w-max py-4">
+            <!-- Grid -->
+            <div class="pchain-node bg-gray-100 dark:bg-slate-800 border border-gray-300 dark:border-slate-600 rounded-xl p-3 text-center w-28">
+              <div class="text-2xl mb-1">⚡</div>
+              <p class="text-xs font-bold">電網</p>
+              <p class="text-xs text-gray-400">中壓 AC</p>
+              <p class="text-xs text-gray-400">10–35 kV</p>
+            </div>
+            <div class="text-gray-400 font-bold text-lg">→</div>
+            <!-- SST / SiC -->
+            <div class="pchain-node sic-badge rounded-xl p-3 text-center w-32">
+              <div class="text-2xl mb-1">🔶</div>
+              <p class="text-xs font-bold">固態變壓器</p>
+              <p class="text-xs font-semibold">SiC MOSFET</p>
+              <p class="text-xs opacity-70">AC → 800V DC</p>
+              <p class="text-xs opacity-70 mt-1">前段轉換</p>
+            </div>
+            <div class="text-gray-400 font-bold text-lg">→</div>
+            <!-- 800V DC bus -->
+            <div class="pchain-node both-badge rounded-xl p-3 text-center w-32">
+              <div class="text-2xl mb-1">🔌</div>
+              <p class="text-xs font-bold">800V DC 匯流排</p>
+              <p class="text-xs opacity-70">機房主幹</p>
+              <p class="text-xs opacity-70">HVDC 傳輸</p>
+            </div>
+            <div class="text-gray-400 font-bold text-lg">→</div>
+            <!-- GaN PSU -->
+            <div class="pchain-node gan-badge rounded-xl p-3 text-center w-32">
+              <div class="text-2xl mb-1">🟣</div>
+              <p class="text-xs font-bold">伺服器 PSU</p>
+              <p class="text-xs font-semibold">GaN 高頻</p>
+              <p class="text-xs opacity-70">800V → 48V</p>
+              <p class="text-xs opacity-70 mt-1">中段配電</p>
+            </div>
+            <div class="text-gray-400 font-bold text-lg">→</div>
+            <!-- VRM -->
+            <div class="pchain-node gan-badge rounded-xl p-3 text-center w-32">
+              <div class="text-2xl mb-1">💜</div>
+              <p class="text-xs font-bold">電壓調節器</p>
+              <p class="text-xs font-semibold">GaN VRM</p>
+              <p class="text-xs opacity-70">48V → 6/12V</p>
+              <p class="text-xs opacity-70 mt-1">末端精準</p>
+            </div>
+            <div class="text-gray-400 font-bold text-lg">→</div>
+            <!-- GPU -->
+            <div class="pchain-node bg-green-100 dark:bg-green-900/30 border border-green-300 dark:border-green-700 rounded-xl p-3 text-center w-28">
+              <div class="text-2xl mb-1">🖥️</div>
+              <p class="text-xs font-bold">GPU 叢集</p>
+              <p class="text-xs text-gray-500">1.0–1.8V</p>
+              <p class="text-xs text-gray-500">Blackwell</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="grid sm:grid-cols-2 gap-4 mt-4 text-sm">
+          <div class="sic-badge rounded-lg p-3">
+            <p class="font-bold mb-1">🔶 SiC 的角色——「力士」</p>
+            <ul class="text-xs space-y-1 opacity-80">
+              <li>• 高壓前端：固態變壓器（SST）中壓 AC → 800V DC</li>
+              <li>• 耐高溫、高崩潰電壓（1200V–1700V 等級）</li>
+              <li>• 電動車主牽引逆變器（800V 平台標配）</li>
+              <li>• 競爭優勢：材料控制（晶體生長）+ 先進封裝</li>
+            </ul>
+          </div>
+          <div class="gan-badge rounded-lg p-3">
+            <p class="font-bold mb-1">🟣 GaN 的角色——「短跑手」</p>
+            <ul class="text-xs space-y-1 opacity-80">
+              <li>• 中末段：800V → 48V → 6V 高頻精準配電</li>
+              <li>• 1 MHz 以上開關頻率，效率突破 96%（Titanium 等級）</li>
+              <li>• AI 伺服器 PSU、OBC 車載充電、LiDAR</li>
+              <li>• 限制：超高壓應用仍需 SiC 互補</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Mermaid flow -->
+      <div class="bg-white dark:bg-slate-900 border border-gray-200 dark:border-slate-700 rounded-xl p-5">
+        <h3 class="font-semibold text-sm mb-3">800V HVDC 架構演進路徑</h3>
+        <pre class="mermaid">
+graph LR
+    A[傳統 12V 架構\n多級轉換損耗高] -->|架構升級| B[48V 中間匯流排\n效率改善過渡期]
+    B -->|HVDC 革命| C[800V DC 匯流排\nSiC 固態變壓器]
+    C --> D[GaN 伺服器 PSU\n800V→48V]
+    D --> E[GaN VRM\n48V→6V→GPU]
+    C --> F[SiC UPS\n不斷電系統]
+    C --> G[SiC 儲能\nBESS 整合]
+    style C fill:#f97316,color:#fff,stroke:#f97316
+    style D fill:#8b5cf6,color:#fff,stroke:#8b5cf6
+    style E fill:#8b5cf6,color:#fff,stroke:#8b5cf6
+        </pre>
+      </div>
+    </section>
+
+    <!-- SiC vs GaN Tabs -->
+    <section id="tech">
+      <h2 class="text-xl font-semibold mb-4 flex items-center gap-2">
+        <span class="w-1 h-5 rounded bg-cyan-500 inline-block"></span>SiC vs GaN 技術深度比較
+      </h2>
+      <div class="bg-white dark:bg-slate-900 border border-gray-200 dark:border-slate-700 rounded-xl p-5">
+        <input type="radio" name="tech-tab" id="t-sic" class="tab-r" checked>
+        <input type="radio" name="tech-tab" id="t-gan" class="tab-r">
+        <div class="tab-labels flex gap-2 mb-5">
+          <label for="t-sic" class="tab-label px-4 py-1.5 text-sm rounded-lg border border-gray-200 dark:border-slate-600 text-gray-700 dark:text-gray-300">🔶 SiC 碳化矽</label>
+          <label for="t-gan" class="tab-label px-4 py-1.5 text-sm rounded-lg border border-gray-200 dark:border-slate-600 text-gray-700 dark:text-gray-300">🟣 GaN 氮化鎵</label>
+        </div>
+        <div class="tab-panels">
+          <div id="p-sic">
+            <div class="grid sm:grid-cols-2 gap-4 text-sm">
+              <table class="w-full">
+                <tbody class="divide-y divide-gray-100 dark:divide-slate-800">
+                  <tr><td class="py-2 text-gray-500 pr-4">崩潰電壓</td><td class="font-semibold">600V – 1700V+</td></tr>
+                  <tr><td class="py-2 text-gray-500 pr-4">主要應用</td><td class="font-semibold">SST 前端、EV 牽引逆變器</td></tr>
+                  <tr><td class="py-2 text-gray-500 pr-4">晶圓尺寸</td><td class="font-semibold">6吋（主流）→ 8吋（擴產中）</td></tr>
+                  <tr><td class="py-2 text-gray-500 pr-4">Wolfspeed 破產影響</td><td class="font-semibold text-orange-500">轉單潮，台廠受益</td></tr>
+                  <tr><td class="py-2 text-gray-500 pr-4">關鍵壁壘</td><td class="font-semibold">晶體生長技術 + 先進封裝</td></tr>
+                  <tr><td class="py-2 text-gray-500 pr-4">封裝技術</td><td class="font-semibold">銀燒結、壓力接合</td></tr>
+                  <tr><td class="py-2 text-gray-500 pr-4">AI 機房用途</td><td class="font-semibold">SST、UPS、BESS</td></tr>
+                </tbody>
+              </table>
+              <div>
+                <p class="font-semibold mb-2 text-orange-600">SiC 雙引擎：AI 機房 + 電動車</p>
+                <ul class="space-y-2 text-gray-700 dark:text-gray-300">
+                  <li class="flex gap-2"><span class="text-orange-500 shrink-0">●</span> Tesla / BYD 自研 SiC，推動供應鏈本土化</li>
+                  <li class="flex gap-2"><span class="text-orange-500 shrink-0">●</span> Hyundai/Kia E-GMP 導入後續航 +5%</li>
+                  <li class="flex gap-2"><span class="text-orange-500 shrink-0">●</span> Toyota 第六代 THS 電機控制器採用 SiC</li>
+                  <li class="flex gap-2"><span class="text-orange-500 shrink-0">●</span> Infineon 在馬來西亞 Kulim 建 8 吋產線</li>
+                  <li class="flex gap-2"><span class="text-orange-500 shrink-0">●</span> ROHM 全垂直整合（SiCrystal → 模組）</li>
+                  <li class="flex gap-2"><span class="text-orange-500 shrink-0">●</span> 台積電 CoWoS 考慮採用 SiC 作散熱基板</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div id="p-gan">
+            <div class="grid sm:grid-cols-2 gap-4 text-sm">
+              <table class="w-full">
+                <tbody class="divide-y divide-gray-100 dark:divide-slate-800">
+                  <tr><td class="py-2 text-gray-500 pr-4">崩潰電壓</td><td class="font-semibold">100V – 650V（AI 機房主力）</td></tr>
+                  <tr><td class="py-2 text-gray-500 pr-4">主要應用</td><td class="font-semibold">AI 伺服器 PSU、OBC、LiDAR</td></tr>
+                  <tr><td class="py-2 text-gray-500 pr-4">開關頻率</td><td class="font-semibold">1 MHz+（遠高於 Si 功率）</td></tr>
+                  <tr><td class="py-2 text-gray-500 pr-4">最高效率</td><td class="font-semibold">>98.5%（Navitas 10kW）</td></tr>
+                  <tr><td class="py-2 text-gray-500 pr-4">晶圓趨勢</td><td class="font-semibold">8吋→ 12吋 製程路線圖</td></tr>
+                  <tr><td class="py-2 text-gray-500 pr-4">代工</td><td class="font-semibold">力積電（2026）、世界先進（2028）</td></tr>
+                  <tr><td class="py-2 text-gray-500 pr-4">限制</td><td class="font-semibold">超高壓需與 SiC 互補</td></tr>
+                </tbody>
+              </table>
+              <div>
+                <p class="font-semibold mb-2 text-purple-600">GaN 三大成長引擎</p>
+                <ul class="space-y-2 text-gray-700 dark:text-gray-300">
+                  <li class="flex gap-2"><span class="text-purple-500 shrink-0">●</span> AI 伺服器 PSU 全面升級（800V→48V→6V）</li>
+                  <li class="flex gap-2"><span class="text-purple-500 shrink-0">●</span> 資料中心 Titanium 等級電源效率要求</li>
+                  <li class="flex gap-2"><span class="text-purple-500 shrink-0">●</span> 電動車 OBC（車載充電器）輕量化需求</li>
+                  <li class="flex gap-2"><span class="text-purple-500 shrink-0">●</span> ST 650V GaN 已量產 800V→12V 架構</li>
+                  <li class="flex gap-2"><span class="text-purple-500 shrink-0">●</span> Navitas GaN IC 在電源密度：2600 W/in³</li>
+                  <li class="flex gap-2"><span class="text-purple-500 shrink-0">●</span> TI 於 NVIDIA GTC 2026 展示 800V→CPU 兩段轉換</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Market size chart -->
+    <section id="market">
+      <h2 class="text-xl font-semibold mb-4 flex items-center gap-2">
+        <span class="w-1 h-5 rounded bg-cyan-500 inline-block"></span>市場規模預測
+      </h2>
+      <div class="bg-white dark:bg-slate-900 border border-gray-200 dark:border-slate-700 rounded-xl p-5">
+        <div class="grid md:grid-cols-2 gap-5">
+          <div>
+            <h3 class="text-sm font-semibold mb-3">全球 SiC 功率半導體市場（$B）</h3>
+            <div style="position:relative;height:220px">
+              <canvas id="sicMarketChart"></canvas>
+            </div>
+            <p class="text-xs text-gray-400 mt-2">CAGR ~28%；AI 機房 + 電動車雙引擎驅動</p>
+          </div>
+          <div>
+            <h3 class="text-sm font-semibold mb-3">全球 GaN 功率半導體市場（$B）</h3>
+            <div style="position:relative;height:220px">
+              <canvas id="ganMarketChart"></canvas>
+            </div>
+            <p class="text-xs text-gray-400 mt-2">CAGR ~35%；AI 機房 PSU 為最快成長應用</p>
+          </div>
+        </div>
+        <div class="mt-4 grid sm:grid-cols-3 gap-3 text-sm">
+          <div class="bg-orange-50 dark:bg-orange-900/20 rounded-lg p-3">
+            <p class="text-xs text-gray-500">SiC 2028 年市場</p>
+            <p class="text-xl font-bold text-orange-500">~$11B</p>
+            <p class="text-xs text-gray-400">AI 機房佔比快速提升</p>
+          </div>
+          <div class="bg-purple-50 dark:bg-purple-900/20 rounded-lg p-3">
+            <p class="text-xs text-gray-500">GaN 2028 年市場</p>
+            <p class="text-xl font-bold text-purple-500">~$3.5B</p>
+            <p class="text-xs text-gray-400">資料中心佔比 30%+</p>
+          </div>
+          <div class="bg-cyan-50 dark:bg-cyan-900/20 rounded-lg p-3">
+            <p class="text-xs text-gray-500">合計可尋址市場 2028</p>
+            <p class="text-xl font-bold text-cyan-500">~$14.5B</p>
+            <p class="text-xs text-gray-400">台廠可保守估計 15-25% 份額</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Taiwan stocks table -->
+    <section id="taiwan">
+      <h2 class="text-xl font-semibold mb-4 flex items-center gap-2">
+        <span class="w-1 h-5 rounded bg-cyan-500 inline-block"></span>台股受惠個股總覽
+      </h2>
+      <div class="bg-white dark:bg-slate-900 border border-gray-200 dark:border-slate-700 rounded-xl p-5">
+        <p class="text-sm text-gray-500 dark:text-slate-400 mb-4">可依欄位排序、依關鍵字篩選。涵蓋材料、磊晶、代工、電源系統完整供應鏈。</p>
+        <div class="overflow-x-auto">
+          <table id="twStocksTable" class="w-full text-sm stripe hover" style="width:100%">
+            <thead>
+              <tr class="bg-gray-50 dark:bg-slate-800 text-left">
+                <th class="px-3 py-2">公司（代號）</th>
+                <th class="px-3 py-2">定位</th>
+                <th class="px-3 py-2">技術類型</th>
+                <th class="px-3 py-2">供應鏈層級</th>
+                <th class="px-3 py-2">關鍵催化劑</th>
+                <th class="px-3 py-2">量產時程</th>
+                <th class="px-3 py-2">受惠強度</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="px-3 py-2 font-semibold">環球晶（6488）</td>
+                <td class="px-3 py-2">SiC 基板 + GaN 磊晶</td>
+                <td class="px-3 py-2"><span class="sic-badge px-1.5 py-0.5 rounded text-xs mr-1">SiC</span><span class="gan-badge px-1.5 py-0.5 rounded text-xs">GaN</span></td>
+                <td class="px-3 py-2">上游材料</td>
+                <td class="px-3 py-2">8吋 SiC 基板擴產；GaN 磊晶滿載至 2026</td>
+                <td class="px-3 py-2">現有</td>
+                <td class="px-3 py-2">⭐⭐⭐⭐⭐</td>
+              </tr>
+              <tr>
+                <td class="px-3 py-2 font-semibold">漢磊（3707）</td>
+                <td class="px-3 py-2">SiC MOSFET 磊晶/代工</td>
+                <td class="px-3 py-2"><span class="sic-badge px-1.5 py-0.5 rounded text-xs">SiC</span></td>
+                <td class="px-3 py-2">磊晶/代工</td>
+                <td class="px-3 py-2">Wolfspeed 破產轉單潮；第四代 SiC 平面 MOSFET</td>
+                <td class="px-3 py-2">現有</td>
+                <td class="px-3 py-2">⭐⭐⭐⭐⭐</td>
+              </tr>
+              <tr>
+                <td class="px-3 py-2 font-semibold">嘉晶（3016）</td>
+                <td class="px-3 py-2">SiC + GaN 磊晶</td>
+                <td class="px-3 py-2"><span class="sic-badge px-1.5 py-0.5 rounded text-xs mr-1">SiC</span><span class="gan-badge px-1.5 py-0.5 rounded text-xs">GaN</span></td>
+                <td class="px-3 py-2">磊晶</td>
+                <td class="px-3 py-2">8吋大尺寸磊晶 2026 雙位數成長；化合物半導體</td>
+                <td class="px-3 py-2">現有</td>
+                <td class="px-3 py-2">⭐⭐⭐⭐⭐</td>
+              </tr>
+              <tr>
+                <td class="px-3 py-2 font-semibold">台達電（2308）</td>
+                <td class="px-3 py-2">800V HVDC 電源系統整合</td>
+                <td class="px-3 py-2"><span class="both-badge px-1.5 py-0.5 rounded text-xs">SiC+GaN</span></td>
+                <td class="px-3 py-2">電源系統</td>
+                <td class="px-3 py-2">Computex 展示 800V HVDC 整櫃方案；NVIDIA 直接供應商</td>
+                <td class="px-3 py-2">2025 量產</td>
+                <td class="px-3 py-2">⭐⭐⭐⭐⭐</td>
+              </tr>
+              <tr>
+                <td class="px-3 py-2 font-semibold">光寶科（2301）</td>
+                <td class="px-3 py-2">AI 機櫃電源 + 液冷</td>
+                <td class="px-3 py-2"><span class="both-badge px-1.5 py-0.5 rounded text-xs">SiC+GaN</span></td>
+                <td class="px-3 py-2">電源系統</td>
+                <td class="px-3 py-2">機櫃電源解決方案；液冷整合；超大規模客戶</td>
+                <td class="px-3 py-2">2025 量產</td>
+                <td class="px-3 py-2">⭐⭐⭐⭐⭐</td>
+              </tr>
+              <tr>
+                <td class="px-3 py-2 font-semibold">力積電（6770）</td>
+                <td class="px-3 py-2">GaN 代工（戰略卡位）</td>
+                <td class="px-3 py-2"><span class="gan-badge px-1.5 py-0.5 rounded text-xs">GaN</span></td>
+                <td class="px-3 py-2">代工</td>
+                <td class="px-3 py-2">GaN 產能 2026 年擴大 3-4 倍；本季有望完成認證</td>
+                <td class="px-3 py-2">2026 H1</td>
+                <td class="px-3 py-2">⭐⭐⭐⭐</td>
+              </tr>
+              <tr>
+                <td class="px-3 py-2 font-semibold">世界先進（5347）</td>
+                <td class="px-3 py-2">GaN 代工（台積電授權）</td>
+                <td class="px-3 py-2"><span class="gan-badge px-1.5 py-0.5 rounded text-xs">GaN</span></td>
+                <td class="px-3 py-2">代工</td>
+                <td class="px-3 py-2">TSMC 授權 650V+80V GaN 製程；資料中心 + 車用 + 工業</td>
+                <td class="px-3 py-2">2028 H1</td>
+                <td class="px-3 py-2">⭐⭐⭐</td>
+              </tr>
+              <tr>
+                <td class="px-3 py-2 font-semibold">同欣電（6271）</td>
+                <td class="px-3 py-2">GaN 電源元件封測</td>
+                <td class="px-3 py-2"><span class="gan-badge px-1.5 py-0.5 rounded text-xs">GaN</span></td>
+                <td class="px-3 py-2">模組封測</td>
+                <td class="px-3 py-2">100V/650V GaN 認證完成；DC 48V/12V 電源；2026 量產</td>
+                <td class="px-3 py-2">2026</td>
+                <td class="px-3 py-2">⭐⭐⭐⭐</td>
+              </tr>
+              <tr>
+                <td class="px-3 py-2 font-semibold">合晶（6182）</td>
+                <td class="px-3 py-2">SiC 基板</td>
+                <td class="px-3 py-2"><span class="sic-badge px-1.5 py-0.5 rounded text-xs">SiC</span></td>
+                <td class="px-3 py-2">上游材料</td>
+                <td class="px-3 py-2">12吋 SiC 基板先進封裝切入；Wolfspeed 轉單</td>
+                <td class="px-3 py-2">擴產中</td>
+                <td class="px-3 py-2">⭐⭐⭐⭐</td>
+              </tr>
+              <tr>
+                <td class="px-3 py-2 font-semibold">盛新材料（6146）</td>
+                <td class="px-3 py-2">SiC 晶錠/基板</td>
+                <td class="px-3 py-2"><span class="sic-badge px-1.5 py-0.5 rounded text-xs">SiC</span></td>
+                <td class="px-3 py-2">上游材料</td>
+                <td class="px-3 py-2">N 型+半絕緣 SiC 基板；日系大廠認證；唯一台廠雙類型</td>
+                <td class="px-3 py-2">現有</td>
+                <td class="px-3 py-2">⭐⭐⭐⭐</td>
+              </tr>
+              <tr>
+                <td class="px-3 py-2 font-semibold">茂矽（2342）</td>
+                <td class="px-3 py-2">SiC 功率元件</td>
+                <td class="px-3 py-2"><span class="sic-badge px-1.5 py-0.5 rounded text-xs">SiC</span></td>
+                <td class="px-3 py-2">代工</td>
+                <td class="px-3 py-2">6吋 SiC 產線 2025 建置完成；月產能 3,000 片</td>
+                <td class="px-3 py-2">2025</td>
+                <td class="px-3 py-2">⭐⭐⭐</td>
+              </tr>
+              <tr>
+                <td class="px-3 py-2 font-semibold">台亞（2340）</td>
+                <td class="px-3 py-2">SiC 功率元件</td>
+                <td class="px-3 py-2"><span class="sic-badge px-1.5 py-0.5 rounded text-xs">SiC</span></td>
+                <td class="px-3 py-2">元件</td>
+                <td class="px-3 py-2">SiC 六雄之一；電動車 + AI 機房雙用途</td>
+                <td class="px-3 py-2">現有</td>
+                <td class="px-3 py-2">⭐⭐⭐</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- Supply chain breakdown -->
+    <section id="supply-chain">
+      <h2 class="text-xl font-semibold mb-4 flex items-center gap-2">
+        <span class="w-1 h-5 rounded bg-cyan-500 inline-block"></span>台股供應鏈分層解析
+      </h2>
+
+      <div class="bg-white dark:bg-slate-900 border border-gray-200 dark:border-slate-700 rounded-xl p-5">
+        <input type="radio" name="sc-tab" id="s-up" class="tab-r" checked>
+        <input type="radio" name="sc-tab" id="s-mid" class="tab-r">
+        <input type="radio" name="sc-tab" id="s-dn" class="tab-r">
+        <div class="tab-labels flex flex-wrap gap-2 mb-5">
+          <label for="s-up" class="tab-label px-4 py-1.5 text-sm rounded-lg border border-gray-200 dark:border-slate-600 text-gray-700 dark:text-gray-300">⬆ 上游（材料/磊晶）</label>
+          <label for="s-mid" class="tab-label px-4 py-1.5 text-sm rounded-lg border border-gray-200 dark:border-slate-600 text-gray-700 dark:text-gray-300">➡ 中游（代工/元件）</label>
+          <label for="s-dn" class="tab-label px-4 py-1.5 text-sm rounded-lg border border-gray-200 dark:border-slate-600 text-gray-700 dark:text-gray-300">⬇ 下游（系統整合）</label>
+        </div>
+        <div class="tab-panels">
+          <div id="p-up">
+            <div class="grid sm:grid-cols-3 gap-4 text-sm">
+              <div class="bg-orange-50 dark:bg-orange-900/20 border border-orange-200 dark:border-orange-700 rounded-xl p-4">
+                <p class="font-bold text-orange-700 dark:text-orange-400 mb-2">環球晶（6488）</p>
+                <p class="text-xs text-gray-600 dark:text-gray-400">台灣矽晶圓龍頭，化合物半導體佈局 SiC 基板 + GaN 磊晶。GaN 訂單能見度至 2026。Wolfspeed 破產後 SiC 基板轉單首選。全球市佔第 3 大。</p>
+              </div>
+              <div class="bg-orange-50 dark:bg-orange-900/20 border border-orange-200 dark:border-orange-700 rounded-xl p-4">
+                <p class="font-bold text-orange-700 dark:text-orange-400 mb-2">合晶（6182）</p>
+                <p class="text-xs text-gray-600 dark:text-gray-400">SiC 基板廠，積極切入 12 吋 SiC 先進封裝市場。台積電 CoWoS 散熱中介板採用 SiC 議題的直接受惠者。</p>
+              </div>
+              <div class="bg-orange-50 dark:bg-orange-900/20 border border-orange-200 dark:border-orange-700 rounded-xl p-4">
+                <p class="font-bold text-orange-700 dark:text-orange-400 mb-2">盛新材料（6146）</p>
+                <p class="text-xs text-gray-600 dark:text-gray-400">台灣唯一同時供應 N 型導電型與 SI 半絕緣型 SiC 基板廠商，已獲日系大廠驗證，稀缺性高。</p>
+              </div>
+              <div class="bg-orange-50 dark:bg-orange-900/20 border border-orange-200 dark:border-orange-700 rounded-xl p-4">
+                <p class="font-bold text-orange-700 dark:text-orange-400 mb-2">漢磊（3707）</p>
+                <p class="text-xs text-gray-600 dark:text-gray-400">SiC 磊晶代工，擁有第四代 SiC 平面型 MOSFET 製程。Wolfspeed 重整最直接受惠轉單台廠之一。</p>
+              </div>
+              <div class="bg-orange-50 dark:bg-orange-900/20 border border-orange-200 dark:border-orange-700 rounded-xl p-4">
+                <p class="font-bold text-orange-700 dark:text-orange-400 mb-2">嘉晶（3016）</p>
+                <p class="text-xs text-gray-600 dark:text-gray-400">SiC + GaN 雙線磊晶，8 吋大尺寸 GaN 磊晶 2026 雙位數成長。化合物半導體業務基期低，成長空間大。</p>
+              </div>
+            </div>
+          </div>
+          <div id="p-mid">
+            <div class="grid sm:grid-cols-3 gap-4 text-sm">
+              <div class="bg-purple-50 dark:bg-purple-900/20 border border-purple-200 dark:border-purple-700 rounded-xl p-4">
+                <p class="font-bold text-purple-700 dark:text-purple-400 mb-2">力積電（6770）</p>
+                <p class="text-xs text-gray-600 dark:text-gray-400">GaN 代工戰略卡位：2026 年 GaN 產能擴大 3-4 倍，本季有望完成客戶認證並於 H1 量產。多重題材支撐（GaN + 其他邏輯）。</p>
+              </div>
+              <div class="bg-purple-50 dark:bg-purple-900/20 border border-purple-200 dark:border-purple-700 rounded-xl p-4">
+                <p class="font-bold text-purple-700 dark:text-purple-400 mb-2">世界先進（5347）</p>
+                <p class="text-xs text-gray-600 dark:text-gray-400">取得台積電 650V 高壓 + 80V 低壓 GaN 製程授權。開發 2026 初啟動，2028 H1 量產。中長期佈局，受惠時程較遠。</p>
+              </div>
+              <div class="bg-purple-50 dark:bg-purple-900/20 border border-purple-200 dark:border-purple-700 rounded-xl p-4">
+                <p class="font-bold text-purple-700 dark:text-purple-400 mb-2">茂矽（2342）</p>
+                <p class="text-xs text-gray-600 dark:text-gray-400">6 吋 SiC 功率元件代工，2025 年完成產線建置，初期月產能 3,000 片。規模仍小，但轉型方向明確。</p>
+              </div>
+              <div class="bg-purple-50 dark:bg-purple-900/20 border border-purple-200 dark:border-purple-700 rounded-xl p-4">
+                <p class="font-bold text-purple-700 dark:text-purple-400 mb-2">台亞（2340）</p>
+                <p class="text-xs text-gray-600 dark:text-gray-400">SiC 功率元件製造，電動車 + AI 機房雙引擎。功率半導體廠轉型第三代半導體的典型代表。</p>
+              </div>
+              <div class="bg-purple-50 dark:bg-purple-900/20 border border-purple-200 dark:border-purple-700 rounded-xl p-4">
+                <p class="font-bold text-purple-700 dark:text-purple-400 mb-2">同欣電（6271）</p>
+                <p class="text-xs text-gray-600 dark:text-gray-400">GaN 功率元件封測，100V/650V GaN 均已通過客戶認證。2026 量產聚焦 DC 48V → 12V 電源轉換，直接受惠資料中心 GaN PSU。</p>
+              </div>
+            </div>
+          </div>
+          <div id="p-dn">
+            <div class="grid sm:grid-cols-2 gap-4 text-sm">
+              <div class="bg-cyan-50 dark:bg-cyan-900/20 border border-cyan-200 dark:border-cyan-700 rounded-xl p-4">
+                <p class="font-bold text-cyan-700 dark:text-cyan-400 mb-2">台達電（2308）⭐ 最直接受惠</p>
+                <p class="text-xs text-gray-600 dark:text-gray-400 mb-2">台灣 800V HVDC 最直接受惠廠商。已於 2025 Computex 展示完整 800V HVDC 整櫃電源解決方案，為 NVIDIA 直接供應商。</p>
+                <ul class="text-xs text-gray-600 dark:text-gray-400 space-y-1">
+                  <li>• 全球電源效率 / 功率轉換領導地位</li>
+                  <li>• 超大規模資料中心長期合作夥伴</li>
+                  <li>• SiC + GaN 材料採購直接受惠</li>
+                  <li>• 工業 / 新能源車 / 伺服器三線齊發</li>
+                </ul>
+              </div>
+              <div class="bg-cyan-50 dark:bg-cyan-900/20 border border-cyan-200 dark:border-cyan-700 rounded-xl p-4">
+                <p class="font-bold text-cyan-700 dark:text-cyan-400 mb-2">光寶科（2301）</p>
+                <p class="text-xs text-gray-600 dark:text-gray-400 mb-2">AI 機櫃電源 + 液冷整合方案提供商。已展示機櫃電源系統，鎖定超大規模客戶擴張。</p>
+                <ul class="text-xs text-gray-600 dark:text-gray-400 space-y-1">
+                  <li>• AI 機房電源管理完整解決方案</li>
+                  <li>• 液冷 + 電源雙重受惠</li>
+                  <li>• 客戶結構多元（不同於台達電）</li>
+                  <li>• 毛利率改善空間來自高附加值電源</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Individual stock deep dive -->
+    <section id="stocks-deep">
+      <h2 class="text-xl font-semibold mb-4 flex items-center gap-2">
+        <span class="w-1 h-5 rounded bg-cyan-500 inline-block"></span>重點個股深度解析
+      </h2>
+
+      <div class="space-y-3">
+        <details class="bg-white dark:bg-slate-900 border border-orange-200 dark:border-orange-800/50 rounded-xl">
+          <summary class="px-5 py-3.5 font-semibold text-sm flex items-center gap-2">
+            <span class="sic-badge gan-badge px-2 py-0.5 rounded text-xs both-badge">雙線</span>
+            環球晶（6488）——第三代半導體最純正受惠
+          </summary>
+          <div class="px-5 pb-5 text-sm text-gray-700 dark:text-gray-300 space-y-2">
+            <div class="grid sm:grid-cols-2 gap-4">
+              <div>
+                <p class="font-semibold mb-1 text-orange-600">SiC 基板業務</p>
+                <ul class="text-xs space-y-1 text-gray-600 dark:text-gray-400">
+                  <li>• 全球市佔前三，直接受惠 Wolfspeed 重整轉單潮</li>
+                  <li>• 8吋 SiC 基板技術持續推進</li>
+                  <li>• 台積電 CoWoS SiC 中介板潛在受惠者</li>
+                  <li>• 日、韓、歐系電動車廠商驗證進行中</li>
+                </ul>
+              </div>
+              <div>
+                <p class="font-semibold mb-1 text-purple-600">GaN 磊晶業務</p>
+                <ul class="text-xs space-y-1 text-gray-600 dark:text-gray-400">
+                  <li>• GaN 磊晶產線滿載，訂單能見度延伸至 2026</li>
+                  <li>• 應用橫跨：高效電源、資料中心、工業自動化、車用電源、快充</li>
+                  <li>• 受惠 AI 機房 PSU 全面 GaN 化</li>
+                </ul>
+              </div>
+            </div>
+            <p class="text-xs text-gray-400 mt-2 border-t border-gray-100 dark:border-slate-700 pt-2">⚠️ 風險：全球 SiC 基板供過於求的隱憂；中國廠商低價競爭（山東天岳、河北同光等）</p>
+          </div>
+        </details>
+
+        <details class="bg-white dark:bg-slate-900 border border-orange-200 dark:border-orange-800/50 rounded-xl">
+          <summary class="px-5 py-3.5 font-semibold text-sm flex items-center gap-2">
+            <span class="sic-badge px-2 py-0.5 rounded text-xs">SiC</span>
+            漢磊（3707）——Wolfspeed 破產最直接轉單受益者
+          </summary>
+          <div class="px-5 pb-5 text-sm text-gray-700 dark:text-gray-300">
+            <ul class="space-y-1.5 text-xs">
+              <li>• 台灣最具規模的 SiC MOSFET 磊晶代工廠</li>
+              <li>• 第四代平面型 SiC MOSFET 製程技術已完成平台建置</li>
+              <li>• Wolfspeed 申請破產保護後，漢磊成為最具承接能力的亞洲替代廠</li>
+              <li>• 客戶涵蓋歐美日系車廠 tier-1 供應商</li>
+              <li>• 目前以 6 吋 SiC 為主，8 吋擴產計畫中</li>
+              <li>• 關鍵觀察：轉單能否在 2026-2027 年明顯反映在訂單數字</li>
+            </ul>
+          </div>
+        </details>
+
+        <details class="bg-white dark:bg-slate-900 border border-cyan-200 dark:border-cyan-800/50 rounded-xl">
+          <summary class="px-5 py-3.5 font-semibold text-sm flex items-center gap-2">
+            <span class="both-badge px-2 py-0.5 rounded text-xs">SiC+GaN</span>
+            台達電（2308）——800V HVDC 系統整合商龍頭
+          </summary>
+          <div class="px-5 pb-5 text-sm text-gray-700 dark:text-gray-300">
+            <div class="grid sm:grid-cols-2 gap-4">
+              <div>
+                <p class="font-semibold mb-1">為何是最直接受惠者？</p>
+                <ul class="text-xs space-y-1.5 text-gray-600 dark:text-gray-400">
+                  <li>• 已是 NVIDIA 伺服器電源直接供應商</li>
+                  <li>• 800V HVDC 整組解決方案（包含 SiC SST + GaN PSU）</li>
+                  <li>• 電源效率 Titanium 等級已量產認證</li>
+                  <li>• 超大規模 DC 客戶（Meta、AWS、Google 等）長期合作</li>
+                </ul>
+              </div>
+              <div>
+                <p class="font-semibold mb-1">三大成長引擎</p>
+                <ul class="text-xs space-y-1.5 text-gray-600 dark:text-gray-400">
+                  <li>① AI 伺服器電源：800V HVDC 架構轉換直接受惠</li>
+                  <li>② 電動車充電基礎設施：SiC 模組供應</li>
+                  <li>③ 工業自動化 / 新能源：GaN 高頻電源</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </details>
+
+        <details class="bg-white dark:bg-slate-900 border border-purple-200 dark:border-purple-800/50 rounded-xl">
+          <summary class="px-5 py-3.5 font-semibold text-sm flex items-center gap-2">
+            <span class="gan-badge px-2 py-0.5 rounded text-xs">GaN</span>
+            力積電（6770）——GaN 代工黑馬
+          </summary>
+          <div class="px-5 pb-5 text-sm text-gray-700 dark:text-gray-300">
+            <ul class="space-y-1.5 text-xs">
+              <li>• GaN 代工：本季有望完成客戶認證，2026 H1 量產</li>
+              <li>• 2026 年 GaN 產能擴大 3-4 倍，顯示需求能見度強</li>
+              <li>• 不需要擁有 SiC/GaN 材料——代工費用更具彈性，財務風險相對低</li>
+              <li>• 多題材支撐（GaN + 電源管理 IC + 其他邏輯）</li>
+              <li>• GaN 代工台灣稀缺，競爭者少（世界先進還在授權開發階段）</li>
+              <li>⚠️ 風險：GaN 認證延遲可能推遲量產貢獻；代工廠毛利率比設計廠低</li>
+            </ul>
+          </div>
+        </details>
+
+        <details class="bg-white dark:bg-slate-900 border border-purple-200 dark:border-purple-800/50 rounded-xl">
+          <summary class="px-5 py-3.5 font-semibold text-sm flex items-center gap-2">
+            <span class="gan-badge px-2 py-0.5 rounded text-xs">GaN</span>
+            同欣電（6271）——資料中心 GaN PSU 封測新星
+          </summary>
+          <div class="px-5 pb-5 text-sm text-gray-700 dark:text-gray-300">
+            <ul class="space-y-1.5 text-xs">
+              <li>• 2026 年成長動能由 GaN 電源元件帶動</li>
+              <li>• 聚焦資料中心 48V 與 12V 電源轉換應用</li>
+              <li>• 100V 與 650V GaN 雙段認證均通過，2026 量產</li>
+              <li>• 高功率密度需求恰好符合 AI 機房 GaN PSU 規格</li>
+              <li>• 同欣電主業為感測器模組，GaN 為新興轉型方向，成長空間大</li>
+            </ul>
+          </div>
+        </details>
+      </div>
+    </section>
+
+    <!-- International competition -->
+    <section id="intl">
+      <h2 class="text-xl font-semibold mb-4 flex items-center gap-2">
+        <span class="w-1 h-5 rounded bg-cyan-500 inline-block"></span>國際競爭格局
+      </h2>
+      <div class="bg-white dark:bg-slate-900 border border-gray-200 dark:border-slate-700 rounded-xl p-5">
+        <div class="grid sm:grid-cols-2 gap-5 text-sm">
+          <div>
+            <h3 class="font-semibold mb-3 text-orange-600">SiC 國際主要廠商</h3>
+            <div class="space-y-2">
+              <div class="flex items-start gap-2">
+                <span class="text-orange-500 shrink-0">🏆</span>
+                <div><p class="font-medium">Infineon</p><p class="text-xs text-gray-500">馬來西亞 Kulim 8 吋 SiC 建設中；CoolSiC MOSFET 市場龍頭</p></div>
+              </div>
+              <div class="flex items-start gap-2">
+                <span class="text-orange-500 shrink-0">⚡</span>
+                <div><p class="font-medium">STMicroelectronics</p><p class="text-xs text-gray-500">Tesla 主要 SiC 供應商；800V HVDC 完整解決方案</p></div>
+              </div>
+              <div class="flex items-start gap-2">
+                <span class="text-orange-500 shrink-0">🔄</span>
+                <div><p class="font-medium">Wolfspeed（重整中）</p><p class="text-xs text-gray-500">曾是全球最大 SiC 基板廠；破產重整後轉單流出</p></div>
+              </div>
+              <div class="flex items-start gap-2">
+                <span class="text-orange-500 shrink-0">🇯🇵</span>
+                <div><p class="font-medium">ROHM Semiconductor</p><p class="text-xs text-gray-500">從 SiCrystal 基板到模組全垂直整合；Tata 合作封裝</p></div>
+              </div>
+              <div class="flex items-start gap-2">
+                <span class="text-orange-500 shrink-0">🇺🇸</span>
+                <div><p class="font-medium">onsemi</p><p class="text-xs text-gray-500">NVIDIA 合作夥伴；SST + 800V DC 配電完整佈局</p></div>
+              </div>
+            </div>
+          </div>
+          <div>
+            <h3 class="font-semibold mb-3 text-purple-600">GaN 國際主要廠商</h3>
+            <div class="space-y-2">
+              <div class="flex items-start gap-2">
+                <span class="text-purple-500 shrink-0">🏆</span>
+                <div><p class="font-medium">Navitas Semiconductor</p><p class="text-xs text-gray-500">10kW DC-DC 98.5% 效率；AI 資料中心 GaN 先鋒</p></div>
+              </div>
+              <div class="flex items-start gap-2">
+                <span class="text-purple-500 shrink-0">⚡</span>
+                <div><p class="font-medium">STMicroelectronics</p><p class="text-xs text-gray-500">650V GaN + 800V→12V 架構量產；2600 W/in³</p></div>
+              </div>
+              <div class="flex items-start gap-2">
+                <span class="text-purple-500 shrink-0">🇺🇸</span>
+                <div><p class="font-medium">Texas Instruments</p><p class="text-xs text-gray-500">NVIDIA GTC 2026 展示 800V→CPU 兩段轉換架構</p></div>
+              </div>
+              <div class="flex items-start gap-2">
+                <span class="text-purple-500 shrink-0">🎯</span>
+                <div><p class="font-medium">EPC（Efficient Power Conversion）</p><p class="text-xs text-gray-500">eGaN 技術；資料中心 VRM 市場</p></div>
+              </div>
+              <div class="flex items-start gap-2">
+                <span class="text-purple-500 shrink-0">🌏</span>
+                <div><p class="font-medium">VIS（台灣世界先進子公司）</p><p class="text-xs text-gray-500">TSMC 技術授權，雙平台策略</p></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="mt-4 bg-gray-50 dark:bg-slate-800 rounded-lg p-3 text-xs text-gray-600 dark:text-gray-400">
+          <p class="font-semibold mb-1">⚔️ 競爭核心：不再只是元件性能</p>
+          <p>TrendForce 強調，競爭已轉移至「<strong>關鍵材料控制</strong>（高品質晶體生長技術）+ <strong>先進封裝能力</strong>（銀燒結、壓力接合）」。台廠在磊晶代工的技術授權（TSMC GaN 授權給世界先進）與封裝優勢（台達電、光寶科系統整合）構成差異化壁壘。</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Risk factors -->
+    <section id="risks">
+      <h2 class="text-xl font-semibold mb-4 flex items-center gap-2">
+        <span class="w-1 h-5 rounded bg-cyan-500 inline-block"></span>風險因素
+      </h2>
+      <div class="grid sm:grid-cols-2 gap-4">
+        <div class="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-xl p-4 text-sm">
+          <p class="font-semibold text-red-700 dark:text-red-400 mb-2">產業風險</p>
+          <ul class="text-red-700 dark:text-red-400/80 space-y-1.5 text-xs">
+            <li>• 中國 SiC 廠商（天岳先進、同光股份）大量擴產，基板價格戰壓力</li>
+            <li>• AI CapEx 週期若收縮，資料中心 GaN PSU 需求延遲</li>
+            <li>• SiC 晶體生長技術突破速度慢，8 吋良率仍是隱患</li>
+            <li>• 電動車銷售速度若低於預期，SiC 需求增速下修</li>
+            <li>• GaN 12 吋製程過渡期的技術與資本投入風險</li>
+          </ul>
+        </div>
+        <div class="bg-orange-50 dark:bg-orange-900/20 border border-orange-200 dark:border-orange-800 rounded-xl p-4 text-sm">
+          <p class="font-semibold text-orange-700 dark:text-orange-400 mb-2">個股特定風險</p>
+          <ul class="text-orange-700 dark:text-orange-400/80 space-y-1.5 text-xs">
+            <li>• 環球晶：SiC 基板供需格局 2026 轉趨寬鬆，毛利率承壓</li>
+            <li>• 力積電：GaN 認證若延遲，2026 量產貢獻不如預期</li>
+            <li>• 世界先進：GaN 量產要到 2028 H1，催化劑時間軸長</li>
+            <li>• 漢磊/嘉晶：規模相對小，客戶集中度風險</li>
+            <li>• 台達電：系統整合毛利率受 SiC/GaN 元件成本壓縮</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="mt-4 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-xl p-4 text-sm">
+        <p class="font-semibold text-green-700 dark:text-green-400 mb-2">🎯 投資結論</p>
+        <p class="text-green-700 dark:text-green-400/90 text-xs leading-relaxed">
+          800V HVDC + SiC/GaN 是 AI 資料中心不可逆的架構趨勢，92 GW 的新增電力需求使這條供應鏈在 2025–2028 具備強勁訂單能見度。
+          台廠中，<strong>台達電（系統整合）、環球晶（上游材料稀缺性）、漢磊（轉單直接受惠）、力積電（GaN 代工黑馬）</strong>
+          是最具結構性受惠特徵的標的。世界先進和同欣電則屬中長期布局。
+          主要風險來自中國廠商擴產帶來的基板價格戰，以及 AI CapEx 週期波動。
+        </p>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="pt-6 pb-8 border-t border-gray-200 dark:border-slate-800 text-xs text-gray-400 dark:text-slate-600 space-y-1">
+      <p>資料來源：<a href="https://insights.trendforce.com/p/sic-and-gan-ai-power-wall" class="underline hover:text-cyan-500">TrendForce Insights — SiC and GaN: The AI Power Wall</a>｜台股資訊來源：元大/永豐/財報狗、各公司法說會資料</p>
+      <p>本報告僅供資訊參考，不構成投資建議。</p>
+    </footer>
+  </main>
+</div>
+
+<script>
+function toggleDark() {
+  const h = document.documentElement;
+  if (h.classList.contains('dark')) { h.classList.remove('dark'); localStorage.theme='light'; document.getElementById('darkBtn').textContent='🌙'; }
+  else { h.classList.add('dark'); localStorage.theme='dark'; document.getElementById('darkBtn').textContent='☀️'; }
+  setTimeout(initCharts, 60);
+}
+document.getElementById('darkBtn').textContent = document.documentElement.classList.contains('dark') ? '☀️' : '🌙';
+
+function isDark() { return document.documentElement.classList.contains('dark'); }
+function gc() { return isDark() ? 'rgba(255,255,255,0.07)' : 'rgba(0,0,0,0.07)'; }
+function lc() { return isDark() ? '#94a3b8' : '#6b7280'; }
+
+let charts = {};
+function initCharts() {
+  Object.values(charts).forEach(c => c && c.destroy && c.destroy());
+  charts = {};
+
+  // SiC market
+  const sc = document.getElementById('sicMarketChart').getContext('2d');
+  charts.sic = new Chart(sc, {
+    type: 'bar',
+    data: {
+      labels: ['2022', '2023', '2024E', '2025E', '2026E', '2027E', '2028E'],
+      datasets: [
+        { label: '電動車', data: [1.2, 1.9, 2.8, 3.9, 5.1, 6.4, 7.6], backgroundColor: '#f97316cc', borderRadius: 3 },
+        { label: 'AI 機房 + 工業', data: [0.3, 0.5, 0.9, 1.4, 1.9, 2.6, 3.4], backgroundColor: '#fb923c88', borderRadius: 3 }
+      ]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { labels: { color: lc(), font: { size: 10 } } } },
+      scales: {
+        x: { stacked: true, grid: { color: gc() }, ticks: { color: lc() } },
+        y: { stacked: true, grid: { color: gc() }, ticks: { color: lc(), callback: v => '$' + v + 'B' } }
+      }
+    }
+  });
+
+  // GaN market
+  const gc2 = document.getElementById('ganMarketChart').getContext('2d');
+  charts.gan = new Chart(gc2, {
+    type: 'bar',
+    data: {
+      labels: ['2022', '2023', '2024E', '2025E', '2026E', '2027E', '2028E'],
+      datasets: [
+        { label: 'AI 機房 PSU', data: [0.05, 0.1, 0.2, 0.4, 0.7, 1.1, 1.6], backgroundColor: '#8b5cf6cc', borderRadius: 3 },
+        { label: '消費/快充/工業', data: [0.35, 0.5, 0.7, 0.9, 1.1, 1.3, 1.5], backgroundColor: '#a78bfa88', borderRadius: 3 },
+        { label: '車用 OBC', data: [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7], backgroundColor: '#c4b5fd55', borderRadius: 3 }
+      ]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { labels: { color: lc(), font: { size: 10 } } } },
+      scales: {
+        x: { stacked: true, grid: { color: gc() }, ticks: { color: lc() } },
+        y: { stacked: true, grid: { color: gc() }, ticks: { color: lc(), callback: v => '$' + v + 'B' } }
+      }
+    }
+  });
+}
+
+// TOC scroll-spy
+function setupScrollSpy() {
+  const sections = document.querySelectorAll('section[id]');
+  const links = document.querySelectorAll('.toc-link');
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        links.forEach(l => l.classList.remove('active'));
+        const a = document.querySelector(`.toc-link[href="#${e.target.id}"]`);
+        if (a) a.classList.add('active');
+      }
+    });
+  }, { rootMargin: '-20% 0px -70% 0px' });
+  sections.forEach(s => obs.observe(s));
+}
+
+// DataTables
+$(document).ready(function () {
+  $('#twStocksTable').DataTable({
+    pageLength: 12,
+    order: [],
+    language: {
+      search: '搜尋：',
+      lengthMenu: '顯示 _MENU_ 筆',
+      info: '第 _START_ 至 _END_ 筆，共 _TOTAL_ 筆',
+      paginate: { previous: '上一頁', next: '下一頁' }
+    }
+  });
+  initCharts();
+  setupScrollSpy();
+});
+</script>
+</body>
+</html>
