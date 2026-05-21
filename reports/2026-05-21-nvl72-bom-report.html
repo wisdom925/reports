@@ -1,0 +1,515 @@
+<!doctype html>
+<html lang="zh-TW" class="scroll-smooth">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Nvidia NVL72 BOM 深度分析：GB300 vs VR200</title>
+  <meta name="description" content="Morgan Stanley 研究報告分析：NVL72 機架 GB300 與 VR200 單台成本對比，VR200 總成本達 US$7.8M，記憶體成本暴增 435%。">
+  <meta property="og:title" content="Nvidia NVL72 BOM 深度分析：GB300 vs VR200">
+  <meta property="og:description" content="VR200 單台機架成本 US$7.8M，較 GB300 貴 95%，記憶體 HBM 成本是最大驅動力。">
+  <meta property="og:type" content="article">
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = { darkMode: 'class', theme: { extend: { fontFamily: { sans: ['system-ui','ui-sans-serif','sans-serif'] } } } };
+    if (localStorage.theme === 'dark' || (!('theme' in localStorage) && matchMedia('(prefers-color-scheme: dark)').matches)) {
+      document.documentElement.classList.add('dark');
+    }
+  </script>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <style>
+    @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
+    @media print {
+      .no-print { display: none !important; }
+      body { color: #000; background: #fff; }
+    }
+    .toc a { display: block; padding: .25rem 0; opacity: .55; transition: opacity .15s; font-size: .8rem; }
+    .toc a:hover, .toc a.active { opacity: 1; }
+    .toc a.active { font-weight: 600; color: #0ea5e9; }
+    .kpi-card { transition: transform .2s, box-shadow .2s; }
+    .kpi-card:hover { transform: translateY(-2px); }
+    .highlight-row { background: rgba(239,68,68,0.08); }
+    .diff-pill {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 9999px;
+      font-size: .75rem;
+      font-weight: 700;
+    }
+    .diff-extreme { background: rgba(239,68,68,0.15); color: #dc2626; }
+    .diff-high    { background: rgba(234,88,12,0.13); color: #ea580c; }
+    .diff-mid     { background: rgba(234,179,8,0.13);  color: #ca8a04; }
+    .diff-low     { background: rgba(34,197,94,0.12);  color: #16a34a; }
+    details > summary { cursor: pointer; user-select: none; }
+    details > summary::marker { content: "▸ "; }
+    details[open] > summary::marker { content: "▾ "; }
+
+    /* Horizontal bar animation */
+    .bar-fill { transition: width 0.8s cubic-bezier(0.34, 1.56, 0.64, 1); }
+  </style>
+</head>
+
+<body class="bg-white dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 font-sans antialiased">
+
+<!-- Floating controls -->
+<div class="fixed top-4 right-4 z-50 flex gap-2 no-print">
+  <button id="theme-toggle" class="px-3 py-1.5 rounded-md border border-zinc-300 dark:border-zinc-700 bg-white/80 dark:bg-zinc-900/80 backdrop-blur text-sm hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors">
+    ☼ / ☾
+  </button>
+  <button onclick="window.print()" class="px-3 py-1.5 rounded-md border border-zinc-300 dark:border-zinc-700 bg-white/80 dark:bg-zinc-900/80 backdrop-blur text-sm hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors">
+    列印
+  </button>
+</div>
+
+<div class="max-w-6xl mx-auto px-5 py-12 lg:grid lg:grid-cols-[190px_minmax(0,1fr)] lg:gap-12">
+
+  <!-- Sticky TOC -->
+  <nav class="toc lg:sticky lg:top-12 self-start text-sm mb-8 lg:mb-0 no-print">
+    <div class="font-semibold mb-3 text-zinc-400 uppercase tracking-wider text-xs">目錄</div>
+    <a href="#headline">核心結論</a>
+    <a href="#kpi">關鍵指標</a>
+    <a href="#bom-table">BOM 明細</a>
+    <a href="#charts">視覺化分析</a>
+    <a href="#memory-deep">記憶體深度解析</a>
+    <a href="#pcb-substrate">PCB 與基板</a>
+    <a href="#risk-opp">風險—機會—行動</a>
+  </nav>
+
+  <main class="min-w-0">
+
+    <header class="mb-10">
+      <p class="text-xs text-zinc-500 mb-2 uppercase tracking-wider">MORGAN STANLEY RESEARCH • Exhibit 3 分析 • 2025</p>
+      <h1 class="text-3xl font-bold tracking-tight mb-3 leading-tight">Nvidia NVL72 BOM 深度分析<br><span class="text-sky-500">GB300 vs VR200</span></h1>
+      <p class="text-base text-zinc-600 dark:text-zinc-400 max-w-2xl">VR200 單台機架成本達 <strong>US$7,803,148（≈NT$2.53億）</strong>，較 GB300 貴 95%。記憶體（HBM）是最大成本驅動力，漲幅高達 435%，絕對增量達 US$1.63M。</p>
+    </header>
+
+    <!-- KPIs -->
+    <section id="kpi" class="mb-12">
+      <h2 class="text-xl font-semibold mb-5">關鍵指標</h2>
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+        <div class="kpi-card rounded-xl border border-zinc-200 dark:border-zinc-800 p-4 bg-zinc-50 dark:bg-zinc-900">
+          <div class="text-xs text-zinc-500 mb-1">VR200 總成本</div>
+          <div class="text-2xl font-bold text-sky-500">$7.80M</div>
+          <div class="text-xs text-zinc-400 mt-1">≈ NT$253M</div>
+        </div>
+        <div class="kpi-card rounded-xl border border-zinc-200 dark:border-zinc-800 p-4 bg-zinc-50 dark:bg-zinc-900">
+          <div class="text-xs text-zinc-500 mb-1">GB300 總成本</div>
+          <div class="text-2xl font-bold text-emerald-500">$3.99M</div>
+          <div class="text-xs text-zinc-400 mt-1">≈ NT$130M</div>
+        </div>
+        <div class="kpi-card rounded-xl border border-zinc-200 dark:border-zinc-800 p-4 bg-zinc-50 dark:bg-zinc-900">
+          <div class="text-xs text-zinc-500 mb-1">整體溢價</div>
+          <div class="text-2xl font-bold text-orange-500">+95%</div>
+          <div class="text-xs text-zinc-400 mt-1">絕對差 +$3.81M</div>
+        </div>
+        <div class="kpi-card rounded-xl border border-red-100 dark:border-red-900 p-4 bg-red-50 dark:bg-red-950/30">
+          <div class="text-xs text-zinc-500 mb-1">記憶體漲幅</div>
+          <div class="text-2xl font-bold text-red-500">+435%</div>
+          <div class="text-xs text-zinc-400 mt-1">HBM 最大驅動力</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Headline findings -->
+    <section id="headline" class="mb-12">
+      <h2 class="text-xl font-semibold mb-4">核心結論</h2>
+      <div class="space-y-3 text-sm text-zinc-700 dark:text-zinc-300 leading-relaxed">
+        <p>🔑 <strong>VR200 不是 GB300 的小改款，是一次全面升級的代際跳躍。</strong>  唯一不漲的是 CPU（+0%），其餘所有元件全部大幅提升，顯示 Blackwell Ultra（VR200）針對超大規模 AI 訓練重新設計了整條供應鏈。</p>
+        <p>💡 <strong>記憶體（HBM）佔 VR200 總成本的 25.7%</strong>，從 GB300 的 9.4% 跳升至 VR200 的四分之一，成為整個機架的最大單一成本項。這與 HBM4 量產時程緊張及 SK Hynix / Micron 產能限制高度相關。</p>
+        <p>🔗 <strong>NVLink Switch 晶片與網路晶片合計漲幅超過 120%，</strong> 顯示 NVLink 5.0 頻寬（1.8 TB/s）的連接成本已成為非 GPU 元件中的第二大成本軸。</p>
+        <p>🔧 <strong>PCB（印刷電路板）漲幅 233% 是供應鏈中最大的「隱形衝擊」。</strong> 絕對金額雖從 $35K 增至 $116K，但增幅顯示高層疊 HDI/BU 載板需求大幅提升，台灣 PCB 廠受益顯著。</p>
+      </div>
+    </section>
+
+    <!-- BOM Table (interactive) -->
+    <section id="bom-table" class="mb-12">
+      <h2 class="text-xl font-semibold mb-5">BOM 完整明細（可排序）</h2>
+      <p class="text-xs text-zinc-500 mb-3">點擊欄位標題排序。資料來源：Morgan Stanley Research Estimates。</p>
+      <div class="overflow-x-auto rounded-xl border border-zinc-200 dark:border-zinc-800">
+        <table id="bom-table-el" class="w-full text-sm">
+          <thead>
+            <tr class="bg-zinc-100 dark:bg-zinc-800 text-left">
+              <th class="px-4 py-3 font-semibold cursor-pointer select-none hover:text-sky-500 transition-colors" data-col="0">元件 ↕</th>
+              <th class="px-4 py-3 font-semibold cursor-pointer select-none hover:text-sky-500 transition-colors text-right" data-col="1">GB300 (USD) ↕</th>
+              <th class="px-4 py-3 font-semibold cursor-pointer select-none hover:text-sky-500 transition-colors text-right" data-col="2">VR200 (USD) ↕</th>
+              <th class="px-4 py-3 font-semibold cursor-pointer select-none hover:text-sky-500 transition-colors text-right" data-col="3">差異 % ↕</th>
+              <th class="px-4 py-3 font-semibold text-right">VR200 佔比</th>
+            </tr>
+          </thead>
+          <tbody id="bom-tbody">
+          </tbody>
+          <tfoot>
+            <tr class="bg-emerald-50 dark:bg-emerald-950/30 font-bold border-t-2 border-zinc-300 dark:border-zinc-600">
+              <td class="px-4 py-3">合計 Total</td>
+              <td class="px-4 py-3 text-right">$3,994,551</td>
+              <td class="px-4 py-3 text-right">$7,803,148</td>
+              <td class="px-4 py-3 text-right"><span class="diff-pill diff-extreme">+95%</span></td>
+              <td class="px-4 py-3 text-right text-zinc-400 text-xs">100%</td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+    </section>
+
+    <!-- Charts -->
+    <section id="charts" class="mb-12">
+      <h2 class="text-xl font-semibold mb-5">視覺化分析</h2>
+
+      <!-- Tab control -->
+      <div class="flex gap-2 mb-5 border-b border-zinc-200 dark:border-zinc-800 no-print">
+        <button class="tab-btn active-tab px-4 py-2 text-sm font-medium border-b-2 border-sky-500 text-sky-600 dark:text-sky-400" data-tab="cost">成本構成</button>
+        <button class="tab-btn px-4 py-2 text-sm font-medium border-b-2 border-transparent text-zinc-500 hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors" data-tab="diff">漲幅比較</button>
+        <button class="tab-btn px-4 py-2 text-sm font-medium border-b-2 border-transparent text-zinc-500 hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors" data-tab="waterfall">成本增量瀑布圖</button>
+      </div>
+
+      <div id="tab-cost" class="tab-panel">
+        <div class="grid sm:grid-cols-2 gap-6">
+          <div>
+            <p class="text-xs font-semibold text-zinc-500 mb-2 text-center">GB300 成本構成</p>
+            <div style="height:280px;"><canvas id="pie-gb300"></canvas></div>
+          </div>
+          <div>
+            <p class="text-xs font-semibold text-zinc-500 mb-2 text-center">VR200 成本構成</p>
+            <div style="height:280px;"><canvas id="pie-vr200"></canvas></div>
+          </div>
+        </div>
+      </div>
+
+      <div id="tab-diff" class="tab-panel hidden">
+        <p class="text-xs text-zinc-500 mb-3">各元件漲幅（%），從高到低排序。紅色 = 超過 100%。</p>
+        <div style="height:380px;"><canvas id="bar-diff"></canvas></div>
+      </div>
+
+      <div id="tab-waterfall" class="tab-panel hidden">
+        <p class="text-xs text-zinc-500 mb-3">從 GB300 到 VR200 各元件絕對增量（USD），累積瀑布。</p>
+        <div style="height:380px;"><canvas id="bar-waterfall"></canvas></div>
+      </div>
+    </section>
+
+    <!-- Memory deep dive -->
+    <section id="memory-deep" class="mb-12">
+      <h2 class="text-xl font-semibold mb-4">記憶體（HBM）深度解析</h2>
+      <div class="rounded-xl border border-red-200 dark:border-red-900 bg-red-50 dark:bg-red-950/20 p-5 mb-4">
+        <div class="flex items-start gap-3">
+          <span class="text-2xl">📈</span>
+          <div>
+            <p class="font-semibold text-red-700 dark:text-red-400 mb-1">記憶體：從 $373,939 → $2,001,600 (+435%，+US$1.63M)</p>
+            <p class="text-sm text-zinc-700 dark:text-zinc-300">這是整張 BOM 中唯一跨越「百萬美元門檻」的增量項目。VR200 搭載的 HBM4 容量與頻寬均大幅提升，每顆 GPU 的 HBM 容量估計從 HBM3e 192GB 升級至 HBM4 288GB+，且 HBM4 die 成本較 HBM3e 高出約 50–70%。72 張 GPU × 高密度堆疊 = 天文數字。</p>
+          </div>
+        </div>
+      </div>
+      <div class="grid sm:grid-cols-3 gap-4 text-sm">
+        <div class="rounded-lg border border-zinc-200 dark:border-zinc-800 p-4">
+          <div class="text-xs text-zinc-500 mb-1">HBM 佔 GB300 比重</div>
+          <div class="text-xl font-bold">9.4%</div>
+          <div class="text-xs text-zinc-400 mt-1">$373,939 / $3,994,551</div>
+        </div>
+        <div class="rounded-lg border border-red-200 dark:border-red-800 p-4 bg-red-50 dark:bg-red-950/20">
+          <div class="text-xs text-zinc-500 mb-1">HBM 佔 VR200 比重</div>
+          <div class="text-xl font-bold text-red-500">25.7%</div>
+          <div class="text-xs text-zinc-400 mt-1">$2,001,600 / $7,803,148</div>
+        </div>
+        <div class="rounded-lg border border-zinc-200 dark:border-zinc-800 p-4">
+          <div class="text-xs text-zinc-500 mb-1">記憶體佔整體增量</div>
+          <div class="text-xl font-bold text-orange-500">42.7%</div>
+          <div class="text-xs text-zinc-400 mt-1">$1,627,661 / $3,808,597</div>
+        </div>
+      </div>
+      <details class="mt-4 rounded-xl border border-zinc-200 dark:border-zinc-800 overflow-hidden">
+        <summary class="px-4 py-3 font-medium text-sm bg-zinc-50 dark:bg-zinc-900 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors">HBM 漲價背後的技術與供應鏈脈絡</summary>
+        <div class="px-4 py-4 text-sm text-zinc-700 dark:text-zinc-300 space-y-2">
+          <p><strong>技術驅動：</strong>HBM4 採用 Through Silicon Via（矽通孔）12-Hi 堆疊，I/O 頻寬達 2 TB/s/stack，製程接近 DRAM 極限，良率爬坡期較長，成本仍高。</p>
+          <p><strong>供應集中：</strong>HBM 全球供應由 SK Hynix（~50%）、Samsung（~30%）、Micron（~20%）三家掌控，Nvidia 優先鎖定 SK Hynix HBM4 配額，市場基本處於供不應求狀態。</p>
+          <p><strong>投資含義：</strong>HBM 供應商議價能力強，未來毛利率有望維持高位；基板廠（ABF/BGA）亦受益於 HBM 封裝需求。</p>
+        </div>
+      </details>
+    </section>
+
+    <!-- PCB & Substrate -->
+    <section id="pcb-substrate" class="mb-12">
+      <h2 class="text-xl font-semibold mb-4">PCB（印刷電路板）與 ABF 基板</h2>
+      <div class="overflow-x-auto rounded-xl border border-zinc-200 dark:border-zinc-800 mb-4">
+        <table class="w-full text-sm">
+          <thead><tr class="bg-zinc-100 dark:bg-zinc-800">
+            <th class="px-4 py-3 text-left font-semibold">項目</th>
+            <th class="px-4 py-3 text-right font-semibold">GB300</th>
+            <th class="px-4 py-3 text-right font-semibold">VR200</th>
+            <th class="px-4 py-3 text-right font-semibold">漲幅</th>
+            <th class="px-4 py-3 text-left font-semibold">技術意涵</th>
+          </tr></thead>
+          <tbody class="divide-y divide-zinc-100 dark:divide-zinc-800">
+            <tr>
+              <td class="px-4 py-3 font-medium">PCB</td>
+              <td class="px-4 py-3 text-right">$35,100</td>
+              <td class="px-4 py-3 text-right">$116,730</td>
+              <td class="px-4 py-3 text-right"><span class="diff-pill diff-extreme">+233%</span></td>
+              <td class="px-4 py-3 text-xs text-zinc-600 dark:text-zinc-400">高層疊 HDI 板（20+ 層）、高速 PAM4 訊號需求大增，台灣 PCB 廠（欣興、臻鼎）受惠</td>
+            </tr>
+            <tr class="bg-zinc-50 dark:bg-zinc-900">
+              <td class="px-4 py-3 font-medium">ABF 基板</td>
+              <td class="px-4 py-3 text-right">$11,160</td>
+              <td class="px-4 py-3 text-right">$20,340</td>
+              <td class="px-4 py-3 text-right"><span class="diff-pill diff-high">+82%</span></td>
+              <td class="px-4 py-3 text-xs text-zinc-600 dark:text-zinc-400">Ajinomoto Build-up Film 需求持續吃緊，味之素（ABF 原材料獨家供應商）議價能力強</td>
+            </tr>
+            <tr>
+              <td class="px-4 py-3 font-medium">MLCC</td>
+              <td class="px-4 py-3 text-right">$1,530</td>
+              <td class="px-4 py-3 text-right">$4,320</td>
+              <td class="px-4 py-3 text-right"><span class="diff-pill diff-extreme">+182%</span></td>
+              <td class="px-4 py-3 text-xs text-zinc-600 dark:text-zinc-400">高容量、高頻率 MLCC 用量倍增，村田/TDK 受益</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="text-xs text-zinc-500">📌 PCB 漲幅 233% 是「隱形受益」的代表：絕對金額較小，但增幅遠超整機均值（95%），顯示設計複雜度的躍升。</p>
+    </section>
+
+    <!-- Risk-Opp-Action -->
+    <section id="risk-opp" class="mb-12">
+      <h2 class="text-xl font-semibold mb-5">風險—機會—行動清單</h2>
+
+      <div class="grid sm:grid-cols-3 gap-4">
+        <!-- Risk -->
+        <div class="rounded-xl border border-red-200 dark:border-red-900 p-5">
+          <div class="flex items-center gap-2 mb-3">
+            <span class="text-lg">⚠️</span>
+            <span class="font-semibold text-red-600 dark:text-red-400">風險</span>
+          </div>
+          <ul class="space-y-2 text-sm text-zinc-700 dark:text-zinc-300">
+            <li>• <strong>HBM 供應風險：</strong>SK Hynix HBM4 產能瓶頸若延誤，VR200 出貨時程將直接受衝擊</li>
+            <li>• <strong>成本轉嫁風險：</strong>雲端客戶（CSP）採購談判可能壓縮 Nvidia 毛利空間</li>
+            <li>• <strong>需求崩落風險：</strong>若 AI 投資熱度在 2025–26 降溫，US$7.8M 高單價機架去化速度難料</li>
+            <li>• <strong>地緣政治風險：</strong>美國出口管制升級，可能衝擊 VR200 銷往中國大陸</li>
+          </ul>
+        </div>
+
+        <!-- Opportunity -->
+        <div class="rounded-xl border border-emerald-200 dark:border-emerald-900 p-5">
+          <div class="flex items-center gap-2 mb-3">
+            <span class="text-lg">🚀</span>
+            <span class="font-semibold text-emerald-600 dark:text-emerald-400">機會</span>
+          </div>
+          <ul class="space-y-2 text-sm text-zinc-700 dark:text-zinc-300">
+            <li>• <strong>HBM 廠商：</strong>SK Hynix、Micron 定價能力達到歷史高點，毛利率可期</li>
+            <li>• <strong>台灣 PCB 廠：</strong>欣興（3037）、臻鼎（4958）高層疊 HDI 訂單爆量</li>
+            <li>• <strong>NVLink Switch 晶片：</strong>Broadcom/Marvell 高速交換器晶片受惠連接成本暴增</li>
+            <li>• <strong>冷卻解決方案：</strong>VR200 散熱成本雖僅增 12%，液冷（CDU）深度滲透是中長期趨勢</li>
+          </ul>
+        </div>
+
+        <!-- Action -->
+        <div class="rounded-xl border border-sky-200 dark:border-sky-900 p-5">
+          <div class="flex items-center gap-2 mb-3">
+            <span class="text-lg">✅</span>
+            <span class="font-semibold text-sky-600 dark:text-sky-400">行動清單</span>
+          </div>
+          <ul class="space-y-2 text-sm text-zinc-700 dark:text-zinc-300">
+            <li>1. 追蹤 SK Hynix HBM4 月度出貨量作為 VR200 出貨先行指標</li>
+            <li>2. 建立 NVL72 機架等效成本模型，評估 $7.8M 對 CSP CapEx 預算的影響</li>
+            <li>3. 關注 ABF 基板廠商（味之素、南亞科）Q3 法說會指引</li>
+            <li>4. 分析 PCB 廠商高層疊板佔比，評估受益程度分散情形</li>
+            <li>5. 監控 MLCC 廠商（村田、TDK、國巨）對 AI 相關訂單的能見度揭露</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <footer class="mt-16 pt-8 border-t border-zinc-200 dark:border-zinc-800 text-xs text-zinc-500">
+      資料來源：Morgan Stanley Research Estimates — Exhibit 3。本報告由 AI 輔助分析，僅供參考，不構成投資建議。 匯率以 USD 1 = TWD 32.5 計算。
+    </footer>
+
+  </main>
+</div>
+
+<script>
+  // --- Data ---
+  const bomData = [
+    { name: 'GPU',               gb: 2520000, vr: 3960000, diff: 57  },
+    { name: 'CPU',               gb: 180000,  vr: 180000,  diff: 0   },
+    { name: 'NVLink Switch 晶片', gb: 64800,   vr: 144000,  diff: 122 },
+    { name: '其他網路晶片',        gb: 261000,  vr: 576000,  diff: 121 },
+    { name: '記憶體（HBM）',      gb: 373939,  vr: 2001600, diff: 435 },
+    { name: '散熱',              gb: 64610,   vr: 72080,   diff: 12  },
+    { name: '電源供應器',         gb: 57600,   vr: 76000,   diff: 32  },
+    { name: 'PCB（印刷電路板）',  gb: 35100,   vr: 116730,  diff: 233 },
+    { name: 'ABF 基板',          gb: 11160,   vr: 20340,   diff: 82  },
+    { name: 'MLCC',              gb: 1530,    vr: 4320,    diff: 182 },
+    { name: '其他',              gb: 402412,  vr: 623278,  diff: 55  },
+    { name: '機架組裝增值',       gb: 22400,   vr: 28800,   diff: 29  },
+  ];
+
+  const totalVr = 7803148;
+  const fmtUSD = v => '$' + v.toLocaleString();
+  const fmtPct = v => (v >= 0 ? '+' : '') + v + '%';
+
+  function diffClass(d) {
+    if (d >= 200) return 'diff-extreme';
+    if (d >= 100) return 'diff-high';
+    if (d >= 50)  return 'diff-mid';
+    return 'diff-low';
+  }
+
+  // Build BOM table
+  let sortDir = 1, sortCol = 0;
+  const tbody = document.getElementById('bom-tbody');
+
+  function renderTable(data) {
+    tbody.innerHTML = '';
+    data.forEach(row => {
+      const pct = ((row.vr / totalVr) * 100).toFixed(1);
+      const isHighlight = row.diff >= 200 || row.name.includes('記憶體');
+      const tr = document.createElement('tr');
+      tr.className = (isHighlight ? 'highlight-row ' : '') + 'border-t border-zinc-100 dark:border-zinc-800 hover:bg-zinc-50 dark:hover:bg-zinc-900 transition-colors';
+      tr.innerHTML = `
+        <td class="px-4 py-3 font-medium">${row.name}</td>
+        <td class="px-4 py-3 text-right text-zinc-600 dark:text-zinc-400">${fmtUSD(row.gb)}</td>
+        <td class="px-4 py-3 text-right font-semibold">${fmtUSD(row.vr)}</td>
+        <td class="px-4 py-3 text-right"><span class="diff-pill ${diffClass(row.diff)}">${fmtPct(row.diff)}</span></td>
+        <td class="px-4 py-3 text-right">
+          <div class="flex items-center justify-end gap-2">
+            <div class="w-16 bg-zinc-200 dark:bg-zinc-700 rounded-full h-1.5 overflow-hidden">
+              <div class="bar-fill bg-sky-500 h-1.5 rounded-full" style="width:${pct}%"></div>
+            </div>
+            <span class="text-xs text-zinc-500 w-10 text-right">${pct}%</span>
+          </div>
+        </td>
+      `;
+      tbody.appendChild(tr);
+    });
+  }
+
+  function sortData(col) {
+    const keys = ['name','gb','vr','diff'];
+    bomData.sort((a, b) => {
+      let va = a[keys[col]], vb = b[keys[col]];
+      if (typeof va === 'string') return sortDir * va.localeCompare(vb, 'zh-TW');
+      return sortDir * (va - vb);
+    });
+    renderTable(bomData);
+  }
+
+  document.querySelectorAll('[data-col]').forEach(th => {
+    th.addEventListener('click', () => {
+      const col = parseInt(th.dataset.col);
+      if (sortCol === col) sortDir *= -1; else { sortCol = col; sortDir = 1; }
+      sortData(col);
+    });
+  });
+  renderTable(bomData);
+
+  // --- Charts ---
+  const isDark = () => document.documentElement.classList.contains('dark');
+  const colors = ['#3b82f6','#10b981','#f59e0b','#ef4444','#8b5cf6','#06b6d4','#f97316','#ec4899','#14b8a6','#a855f7','#84cc16','#6366f1'];
+  const labels = bomData.map(d => d.name);
+
+  const pieCfg = (vals, title) => ({
+    type: 'doughnut',
+    data: { labels, datasets: [{ data: vals, backgroundColor: colors, borderWidth: 2, borderColor: isDark() ? '#18181b' : '#fff' }] },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: {
+        legend: { position: 'right', labels: { font: { size: 10 }, color: isDark() ? '#a1a1aa' : '#52525b', boxWidth: 12 } },
+        tooltip: { callbacks: { label: ctx => ` ${ctx.label}: $${ctx.raw.toLocaleString()} (${((ctx.raw / ctx.dataset.data.reduce((a,b)=>a+b,0))*100).toFixed(1)}%)` } }
+      }
+    }
+  });
+
+  let pieGB = new Chart(document.getElementById('pie-gb300'), pieCfg(bomData.map(d=>d.gb), 'GB300'));
+  let pieVR = new Chart(document.getElementById('pie-vr200'), pieCfg(bomData.map(d=>d.vr), 'VR200'));
+
+  const sortedByDiff = [...bomData].sort((a,b)=>b.diff-a.diff);
+  let barDiff = new Chart(document.getElementById('bar-diff'), {
+    type: 'bar',
+    data: {
+      labels: sortedByDiff.map(d=>d.name),
+      datasets: [{
+        label: '漲幅 %',
+        data: sortedByDiff.map(d=>d.diff),
+        backgroundColor: sortedByDiff.map(d => d.diff >= 200 ? '#ef4444' : d.diff >= 100 ? '#f97316' : d.diff >= 50 ? '#eab308' : '#22c55e'),
+        borderRadius: 4
+      }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false, indexAxis: 'y',
+      plugins: { legend: { display: false }, tooltip: { callbacks: { label: c => ` +${c.raw}%` } } },
+      scales: {
+        x: { ticks: { color: isDark() ? '#a1a1aa' : '#71717a', callback: v => v + '%' }, grid: { color: isDark() ? '#27272a' : '#f4f4f5' } },
+        y: { ticks: { color: isDark() ? '#a1a1aa' : '#71717a', font: { size: 11 } } }
+      }
+    }
+  });
+
+  // Waterfall: cumulative
+  const sortedByAbs = [...bomData].sort((a,b)=>(b.vr-b.gb)-(a.vr-a.gb));
+  const absDeltas = sortedByAbs.map(d=>d.vr-d.gb);
+  let cumulative = 3994551;
+  const waterfallData = absDeltas.map(delta => { const start = cumulative; cumulative += delta; return { start, end: cumulative, delta }; });
+  let barWaterfall = new Chart(document.getElementById('bar-waterfall'), {
+    type: 'bar',
+    data: {
+      labels: sortedByAbs.map(d=>d.name),
+      datasets: [
+        { label: '基礎', data: waterfallData.map(d=>d.start), backgroundColor: 'transparent', borderColor: 'transparent' },
+        { label: '增量 (USD)', data: waterfallData.map(d=>d.delta), backgroundColor: '#3b82f6', borderRadius: [0,0,4,4] }
+      ]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        tooltip: { callbacks: { label: (c) => c.datasetIndex === 1 ? ` 增量: +$${c.raw.toLocaleString()}` : null, filter: item => item.datasetIndex === 1 } }
+      },
+      scales: {
+        x: { stacked: true, ticks: { color: isDark() ? '#a1a1aa' : '#71717a', font: { size: 10 }, maxRotation: 35 } },
+        y: { stacked: true, ticks: { color: isDark() ? '#a1a1aa' : '#71717a', callback: v => '$' + (v/1e6).toFixed(1) + 'M' }, grid: { color: isDark() ? '#27272a' : '#f4f4f5' } }
+      }
+    }
+  });
+
+  // Tabs
+  document.querySelectorAll('.tab-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.tab-btn').forEach(b => {
+        b.classList.remove('active-tab', 'border-sky-500', 'text-sky-600', 'dark:text-sky-400');
+        b.classList.add('border-transparent', 'text-zinc-500');
+      });
+      btn.classList.add('active-tab', 'border-sky-500', 'text-sky-600', 'dark:text-sky-400');
+      btn.classList.remove('border-transparent', 'text-zinc-500');
+      document.querySelectorAll('.tab-panel').forEach(p => p.classList.add('hidden'));
+      document.getElementById('tab-' + btn.dataset.tab).classList.remove('hidden');
+    });
+  });
+
+  // Theme toggle
+  document.getElementById('theme-toggle').addEventListener('click', () => {
+    const dark = document.documentElement.classList.toggle('dark');
+    localStorage.theme = dark ? 'dark' : 'light';
+    // Rebuild charts with updated colors
+    [pieGB, pieVR, barDiff, barWaterfall].forEach(c => {
+      if (c.data.datasets[0].borderColor !== undefined) {
+        c.data.datasets[0].borderColor = dark ? '#18181b' : '#fff';
+      }
+      c.update();
+    });
+  });
+
+  // TOC scroll-spy
+  const tocLinks = document.querySelectorAll('.toc a');
+  const sections = [...tocLinks].map(a => document.querySelector(a.getAttribute('href'))).filter(Boolean);
+  if (sections.length) {
+    const onScroll = () => {
+      const y = window.scrollY + 120;
+      let active = sections[0];
+      for (const s of sections) if (s.offsetTop <= y) active = s;
+      tocLinks.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + active.id));
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+  }
+</script>
+
+</body>
+</html>
