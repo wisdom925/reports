@@ -1,0 +1,531 @@
+<!doctype html>
+<html lang="zh-Hant-TW" class="scroll-smooth">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>NVIDIA NVL72 VR200：日本供應鏈地圖與美台股對照</title>
+  <meta name="description" content="解析 NVIDIA NVL72 VR200 機櫃的成本結構與日本供應鏈公司，並整理美股與台股的功能對照標的。">
+  <meta property="og:title" content="NVIDIA NVL72 VR200：日本供應鏈地圖與美台股對照">
+  <meta property="og:description" content="解析 NVL72 VR200 機櫃成本結構，並整理美股與台股的功能對照標的。">
+  <meta property="og:type" content="article">
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = { darkMode: 'class', theme: { extend: { fontFamily: { sans: ['system-ui', 'ui-sans-serif', 'sans-serif'] } } } };
+    if (localStorage.theme === 'dark' || (!('theme' in localStorage) && matchMedia('(prefers-color-scheme: dark)').matches)) {
+      document.documentElement.classList.add('dark');
+    }
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <style>
+    :root { --accent: #4f46e5; }
+    @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; scroll-behavior: auto !important; } }
+    @media print {
+      .no-print { display: none !important; }
+      body { color: #000; background: #fff; }
+      a { color: inherit; text-decoration: underline; }
+    }
+    .card { border: 1px solid rgb(228 228 231); }
+    .dark .card { border-color: rgb(39 39 42); }
+    .soft-shadow { box-shadow: 0 10px 30px rgba(0,0,0,.08); }
+    .dark .soft-shadow { box-shadow: 0 10px 30px rgba(0,0,0,.28); }
+    .toc a { display: block; padding: .2rem 0; opacity: .65; transition: opacity .15s, transform .15s; }
+    .toc a:hover, .toc a.active { opacity: 1; transform: translateX(2px); }
+    .toc a.active { font-weight: 700; color: var(--accent); }
+    .badge { display: inline-flex; align-items: center; gap: .3rem; padding: .15rem .55rem; border-radius: 999px; font-size: .75rem; font-weight: 700; }
+    .peer-chip { display: inline-flex; align-items: center; gap: .35rem; padding: .2rem .55rem; border-radius: .5rem; font-size: .8rem; font-weight: 700; border: 1px solid transparent; }
+    .us-chip { background: #dbeafe; color: #1e40af; }
+    .dark .us-chip { background: #1e3a5f; color: #bfdbfe; }
+    .tw-chip { background: #dcfce7; color: #166534; }
+    .dark .tw-chip { background: #14532d; color: #bbf7d0; }
+    .muted { color: rgb(82 82 91); }
+    .dark .muted { color: rgb(161 161 170); }
+    details > summary { cursor: pointer; user-select: none; }
+    details > summary::marker { content: "▸ "; }
+    details[open] > summary::marker { content: "▾ "; }
+    .tab-btn { padding: .55rem 1rem; border-radius: .65rem; font-size: .9rem; font-weight: 700; }
+    .tab-btn[aria-selected="true"] { background: var(--accent); color: #fff; }
+    .tab-btn[aria-selected="false"] { background: rgb(228 228 231); color: rgb(63 63 70); }
+    .dark .tab-btn[aria-selected="false"] { background: rgb(39 39 42); color: rgb(212 212 216); }
+    .tab-panel { display: none; }
+    .tab-panel.active { display: block; }
+    .table-wrap { overflow-x: auto; }
+    table { border-collapse: separate; border-spacing: 0; }
+    th, td { border-bottom: 1px solid rgb(228 228 231); }
+    .dark th, .dark td { border-bottom-color: rgb(39 39 42); }
+    th { position: sticky; top: 0; background: rgba(250,250,250,.92); backdrop-filter: blur(8px); }
+    .dark th { background: rgba(9,9,11,.92); }
+    .highlight-row { background: rgb(238 242 255); }
+    .dark .highlight-row { background: rgba(79,70,229,.16); }
+    .small-note { font-size: .85rem; line-height: 1.55; }
+  </style>
+</head>
+
+<body class="bg-zinc-50 dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 font-sans antialiased">
+  <div class="fixed top-4 right-4 z-50 flex gap-2 no-print">
+    <button id="theme-toggle" class="px-3 py-1.5 rounded-md border border-zinc-300 dark:border-zinc-700 bg-white/75 dark:bg-zinc-900/75 backdrop-blur text-sm hover:bg-zinc-100 dark:hover:bg-zinc-800">☼ / ☾</button>
+    <button onclick="window.print()" class="px-3 py-1.5 rounded-md border border-zinc-300 dark:border-zinc-700 bg-white/75 dark:bg-zinc-900/75 backdrop-blur text-sm hover:bg-zinc-100 dark:hover:bg-zinc-800">列印</button>
+  </div>
+
+  <div class="max-w-7xl mx-auto px-5 py-10 lg:grid lg:grid-cols-[230px_minmax(0,1fr)] lg:gap-10">
+    <nav class="toc lg:sticky lg:top-10 self-start text-sm mb-8 lg:mb-0 no-print">
+      <div class="font-bold mb-3 text-zinc-500 uppercase tracking-wider text-xs">目錄</div>
+      <a href="#summary">重點摘要</a>
+      <a href="#cost">成本結構</a>
+      <a href="#map">日本供應鏈地圖</a>
+      <a href="#stocks">美股與台股對照</a>
+      <a href="#source">來源與註記</a>
+    </nav>
+
+    <main class="min-w-0">
+      <header class="mb-10 rounded-3xl bg-gradient-to-br from-indigo-700 via-violet-700 to-zinc-900 text-white p-8 soft-shadow">
+        <p class="text-sm text-indigo-200 mb-3">REPORT • 2026-05-23</p>
+        <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight leading-tight mb-3">NVIDIA NVL72 VR200：日本供應鏈地圖與美台股對照</h1>
+        <p class="text-indigo-100 text-lg max-w-3xl">這張圖的重點很直接：NVL72 VR200 的成本大宗在 GPU 與記憶體，日本企業的價值集中在基板、材料、MLCC、電源、散熱、光通訊與檢測設備。下面把圖意拆開，並同步整理美股與台股的功能對照標的。</p>
+        <div class="mt-6 flex flex-wrap gap-3">
+          <span class="rounded-full bg-white/15 px-3 py-1 text-sm">GPU + HBM 合計 76.3%</span>
+          <span class="rounded-full bg-white/15 px-3 py-1 text-sm">日本廠商偏向關鍵零組件</span>
+          <span class="rounded-full bg-white/15 px-3 py-1 text-sm">美股／台股功能對照</span>
+        </div>
+      </header>
+
+      <section id="summary" class="mb-12">
+        <h2 class="text-2xl font-bold mb-4">重點摘要</h2>
+        <div class="grid md:grid-cols-3 gap-4">
+          <div class="card rounded-2xl bg-white dark:bg-zinc-900 p-5 soft-shadow">
+            <span class="badge bg-indigo-100 text-indigo-700 dark:bg-indigo-900/40 dark:text-indigo-200">成本重心</span>
+            <p class="mt-3 text-sm leading-6 muted">GPU 50.7% 與 Memory 25.6% 佔去 76.3%，其他零件雖然單項不大，卻是機櫃能否穩定運作的關鍵。</p>
+          </div>
+          <div class="card rounded-2xl bg-white dark:bg-zinc-900 p-5 soft-shadow">
+            <span class="badge bg-amber-100 text-amber-700 dark:bg-amber-900/40 dark:text-amber-200">日本供應鏈位置</span>
+            <p class="mt-3 text-sm leading-6 muted">圖中的日本企業主要落在基板、材料、MLCC、散熱、電源、光通訊與檢測設備，不是 GPU 本體，但都卡在不可或缺的環節。</p>
+          </div>
+          <div class="card rounded-2xl bg-white dark:bg-zinc-900 p-5 soft-shadow">
+            <span class="badge bg-emerald-100 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-200">投資視角</span>
+            <p class="mt-3 text-sm leading-6 muted">若把這張圖當成選股地圖，最值得盯的不是最亮眼的核心晶片，而是容易被忽略、卻能放大供應鏈瓶頸的中下游零組件。</p>
+          </div>
+        </div>
+      </section>
+
+      <section id="cost" class="mb-12">
+        <h2 class="text-2xl font-bold mb-4">左側成本結構</h2>
+        <div class="grid lg:grid-cols-[1.15fr_.85fr] gap-6">
+          <div class="card rounded-2xl bg-white dark:bg-zinc-900 p-5 soft-shadow">
+            <div class="flex items-center justify-between gap-4 mb-4">
+              <div>
+                <p class="text-sm text-zinc-500">NVL72 VR200 rack 成本佔比</p>
+                <p class="font-bold text-lg">以 GPU 與 HBM 為核心，其餘項目分散但不可少</p>
+              </div>
+              <div class="text-right text-sm text-zinc-500">
+                <div>GPU + Memory</div>
+                <div class="font-bold text-zinc-900 dark:text-zinc-100">76.3%</div>
+              </div>
+            </div>
+            <div class="h-80 md:h-96">
+              <canvas id="costChart"></canvas>
+            </div>
+          </div>
+
+          <div class="card rounded-2xl bg-white dark:bg-zinc-900 p-5 soft-shadow">
+            <h3 class="font-bold text-lg mb-3">圖上的成本排序</h3>
+            <ol class="space-y-2 text-sm leading-6">
+              <li><span class="font-bold">1.</span> GPU 50.7%</li>
+              <li><span class="font-bold">2.</span> Memory (HBM 等) 25.6%</li>
+              <li><span class="font-bold">3.</span> Other networking chips 7.4%</li>
+              <li><span class="font-bold">4.</span> CPU 2.3%</li>
+              <li><span class="font-bold">5.</span> NVLink Switch chip 1.8%</li>
+              <li><span class="font-bold">6.</span> PCB 1.5%</li>
+              <li><span class="font-bold">7.</span> Power supply 1.0%</li>
+              <li><span class="font-bold">8.</span> Cooling 0.9%</li>
+              <li><span class="font-bold">9.</span> Others 8.0%</li>
+              <li><span class="font-bold">10.</span> Rack assembly value add 0.4%</li>
+              <li><span class="font-bold">11.</span> ABF Substrate 0.3%</li>
+              <li><span class="font-bold">12.</span> MLCC 0.1%</li>
+            </ol>
+            <div class="mt-5 rounded-xl bg-zinc-100 dark:bg-zinc-800 p-4 text-sm leading-6 muted">
+              <div class="font-bold text-zinc-900 dark:text-zinc-100 mb-2">快速解讀</div>
+              <p>成本重心已經非常清楚：最貴的是核心算力與記憶體，最容易被忽略的，是那些單項占比小、但會直接決定整櫃可靠度的零組件。</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="map" class="mb-12">
+        <h2 class="text-2xl font-bold mb-4">右側日本供應鏈地圖</h2>
+        <div class="card rounded-2xl bg-white dark:bg-zinc-900 p-5 soft-shadow">
+          <div class="flex flex-col md:flex-row md:items-end gap-3 md:justify-between mb-4">
+            <div>
+              <p class="text-sm text-zinc-500">依功能整理，不做 1:1 股權對位</p>
+              <p class="font-bold text-lg">把圖中的日本企業，翻成更容易理解的供應鏈功能</p>
+            </div>
+            <input id="peerFilter" type="search" placeholder="搜尋公司、功能、美股或台股" class="w-full md:w-80 px-3 py-2 rounded-lg border border-zinc-300 dark:border-zinc-700 bg-transparent outline-none focus:ring-2 focus:ring-indigo-500">
+          </div>
+
+          <div class="table-wrap rounded-xl border border-zinc-200 dark:border-zinc-800">
+            <table class="min-w-full text-sm">
+              <thead>
+                <tr class="text-left text-zinc-500">
+                  <th class="px-4 py-3 font-semibold w-40">供應鏈區塊</th>
+                  <th class="px-4 py-3 font-semibold w-56">圖中的日本公司</th>
+                  <th class="px-4 py-3 font-semibold w-64">功能</th>
+                  <th class="px-4 py-3 font-semibold w-72">美股對照</th>
+                  <th class="px-4 py-3 font-semibold w-72">台股對照</th>
+                  <th class="px-4 py-3 font-semibold">觀察</th>
+                </tr>
+              </thead>
+              <tbody id="peerTableBody">
+                <tr>
+                  <td class="px-4 py-4 font-semibold">光通訊／連接器</td>
+                  <td class="px-4 py-4">Fujikura、Sumitomo Electric</td>
+                  <td class="px-4 py-4">光纖電纜、光連接器、光傳輸部件</td>
+                  <td class="px-4 py-4">
+                    <span class="peer-chip us-chip">GLW Corning</span>
+                    <span class="peer-chip us-chip">APH Amphenol</span>
+                    <span class="peer-chip us-chip">TEL TE Connectivity</span>
+                  </td>
+                  <td class="px-4 py-4">
+                    <span class="peer-chip tw-chip">3163 波若威</span>
+                    <span class="peer-chip tw-chip">3363 上詮</span>
+                    <span class="peer-chip tw-chip">4979 華星光</span>
+                  </td>
+                  <td class="px-4 py-4 muted">這一塊的核心不是 AI 晶片，而是把高速資料順利送進機櫃的「管路」。</td>
+                </tr>
+                <tr>
+                  <td class="px-4 py-4 font-semibold">散熱／馬達</td>
+                  <td class="px-4 py-4">Nidec</td>
+                  <td class="px-4 py-4">冷卻風扇、馬達、液冷周邊</td>
+                  <td class="px-4 py-4">
+                    <span class="peer-chip us-chip">VRT Vertiv</span>
+                    <span class="peer-chip us-chip">RRX Regal Rexnord</span>
+                  </td>
+                  <td class="px-4 py-4">
+                    <span class="peer-chip tw-chip">3017 奇鋐</span>
+                    <span class="peer-chip tw-chip">2421 建準</span>
+                    <span class="peer-chip tw-chip">3324 雙鴻</span>
+                  </td>
+                  <td class="px-4 py-4 muted">AI 機櫃越密，熱管理越重要，這是最直接吃到擴產效益的環節之一。</td>
+                </tr>
+                <tr>
+                  <td class="px-4 py-4 font-semibold">電源模組</td>
+                  <td class="px-4 py-4">TDK-Lambda、Cosel</td>
+                  <td class="px-4 py-4">電源模組、AC/DC 轉換器</td>
+                  <td class="px-4 py-4">
+                    <span class="peer-chip us-chip">VRT Vertiv</span>
+                    <span class="peer-chip us-chip">ETN Eaton</span>
+                    <span class="peer-chip us-chip">AEIS Advanced Energy</span>
+                  </td>
+                  <td class="px-4 py-4">
+                    <span class="peer-chip tw-chip">2308 台達電</span>
+                    <span class="peer-chip tw-chip">2301 光寶科</span>
+                  </td>
+                  <td class="px-4 py-4 muted">電源是資料中心的生命線，AI 訂單一旦放大，這一段通常不會缺席。</td>
+                </tr>
+                <tr>
+                  <td class="px-4 py-4 font-semibold">PCB</td>
+                  <td class="px-4 py-4">Meiko、CMK</td>
+                  <td class="px-4 py-4">多層印刷基板、高密度基板</td>
+                  <td class="px-4 py-4">
+                    <span class="peer-chip us-chip">TTMI TTM Technologies</span>
+                    <span class="peer-chip us-chip">SANM Sanmina</span>
+                    <span class="peer-chip us-chip">JBL Jabil</span>
+                  </td>
+                  <td class="px-4 py-4">
+                    <span class="peer-chip tw-chip">3037 欣興</span>
+                    <span class="peer-chip tw-chip">8046 南電</span>
+                    <span class="peer-chip tw-chip">3044 健鼎</span>
+                    <span class="peer-chip tw-chip">2368 金像電</span>
+                  </td>
+                  <td class="px-4 py-4 muted">高速 PCB 是 AI 伺服器的基礎盤，量放大後通常會比市場想像更有彈性。</td>
+                </tr>
+                <tr>
+                  <td class="px-4 py-4 font-semibold">ABF 載板</td>
+                  <td class="px-4 py-4">Ibiden、Shinko</td>
+                  <td class="px-4 py-4">ABF 基板、封裝載板</td>
+                  <td class="px-4 py-4">
+                    <span class="peer-chip us-chip">AMKR Amkor</span>
+                    <span class="peer-chip us-chip">JBL Jabil</span>
+                  </td>
+                  <td class="px-4 py-4">
+                    <span class="peer-chip tw-chip">3037 欣興</span>
+                    <span class="peer-chip tw-chip">8046 南電</span>
+                    <span class="peer-chip tw-chip">3189 景碩</span>
+                  </td>
+                  <td class="px-4 py-4 muted">美股純 ABF 載板標的很少，台股反而是更直接的對標市場。</td>
+                </tr>
+                <tr>
+                  <td class="px-4 py-4 font-semibold">MLCC</td>
+                  <td class="px-4 py-4">Murata、Taiyo Yuden、TDK</td>
+                  <td class="px-4 py-4">積層陶瓷電容</td>
+                  <td class="px-4 py-4">
+                    <span class="peer-chip us-chip">VSH Vishay</span>
+                  </td>
+                  <td class="px-4 py-4">
+                    <span class="peer-chip tw-chip">2327 國巨</span>
+                    <span class="peer-chip tw-chip">2492 華新科</span>
+                    <span class="peer-chip tw-chip">6173 信昌電</span>
+                  </td>
+                  <td class="px-4 py-4 muted">這一段在美股市場沒有很純的公開標的，台股的被動元件族群更容易找到對照。</td>
+                </tr>
+                <tr>
+                  <td class="px-4 py-4 font-semibold">玻纖布／材料</td>
+                  <td class="px-4 py-4">Nittobo、Ajinomoto</td>
+                  <td class="px-4 py-4">玻璃布、ABF 材料</td>
+                  <td class="px-4 py-4">
+                    <span class="peer-chip us-chip">OC Owens Corning</span>
+                    <span class="peer-chip us-chip">GLW Corning</span>
+                  </td>
+                  <td class="px-4 py-4">
+                    <span class="peer-chip tw-chip">1802 台玻</span>
+                    <span class="peer-chip tw-chip">1815 富喬</span>
+                  </td>
+                  <td class="px-4 py-4 muted">材料層通常最不顯眼，但只要需求上來，定價與稼動率變化會很快。</td>
+                </tr>
+                <tr>
+                  <td class="px-4 py-4 font-semibold">金屬／檢測／自動化</td>
+                  <td class="px-4 py-4">Nippon Steel、Hitachi Metals、Hitachi、KEYENCE</td>
+                  <td class="px-4 py-4">金屬材料、檢測設備、感測器、自動化機器</td>
+                  <td class="px-4 py-4">
+                    <span class="peer-chip us-chip">NUE Nucor</span>
+                    <span class="peer-chip us-chip">CGNX Cognex</span>
+                    <span class="peer-chip us-chip">TER Teradyne</span>
+                  </td>
+                  <td class="px-4 py-4">
+                    <span class="peer-chip tw-chip">2002 中鋼</span>
+                    <span class="peer-chip tw-chip">2395 研華</span>
+                    <span class="peer-chip tw-chip">2464 盟立</span>
+                  </td>
+                  <td class="px-4 py-4 muted">這些公司在機櫃裡存在感低，但對良率、精度與製程穩定度很關鍵。</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <details class="mt-5 rounded-xl border border-zinc-200 dark:border-zinc-800 p-4">
+            <summary class="font-semibold">我怎麼看這張圖</summary>
+            <div class="mt-3 small-note muted space-y-2">
+              <p>1. 這不是單純的 NVIDIA 機櫃 BOM 圖，而是把 <span class="font-semibold text-zinc-900 dark:text-zinc-100">成本結構</span> 與 <span class="font-semibold text-zinc-900 dark:text-zinc-100">日本供應鏈公司</span> 疊在一起看。</p>
+              <p>2. 圖中真正值錢的地方，不在最顯眼的 GPU，而在一整串「讓 GPU 跑得快、跑得穩、能量產」的中游零組件。</p>
+              <p>3. 這也是為什麼日本企業常出現在基板、材料、MLCC、電源與檢測設備，而不是出現在最上層的 AI 晶片標籤上。</p>
+            </div>
+          </details>
+        </div>
+      </section>
+
+      <section id="stocks" class="mb-12">
+        <h2 class="text-2xl font-bold mb-4">美股與台股對照</h2>
+        <div class="card rounded-2xl bg-white dark:bg-zinc-900 p-5 soft-shadow">
+          <div class="flex flex-wrap gap-2 mb-4 no-print" role="tablist" aria-label="標的對照切換">
+            <button class="tab-btn" role="tab" aria-selected="true" data-tab="us-tab" aria-controls="us-tab">美股對照</button>
+            <button class="tab-btn" role="tab" aria-selected="false" data-tab="tw-tab" aria-controls="tw-tab">台股對照</button>
+          </div>
+
+          <div id="us-tab" class="tab-panel active" role="tabpanel">
+            <div class="grid md:grid-cols-2 xl:grid-cols-3 gap-4">
+              <div class="rounded-2xl border border-zinc-200 dark:border-zinc-800 p-4">
+                <div class="font-bold mb-2">光通訊／連接器</div>
+                <div class="flex flex-wrap gap-2">
+                  <span class="peer-chip us-chip">GLW Corning</span>
+                  <span class="peer-chip us-chip">APH Amphenol</span>
+                  <span class="peer-chip us-chip">TEL TE Connectivity</span>
+                </div>
+              </div>
+              <div class="rounded-2xl border border-zinc-200 dark:border-zinc-800 p-4">
+                <div class="font-bold mb-2">散熱／馬達</div>
+                <div class="flex flex-wrap gap-2">
+                  <span class="peer-chip us-chip">VRT Vertiv</span>
+                  <span class="peer-chip us-chip">RRX Regal Rexnord</span>
+                </div>
+              </div>
+              <div class="rounded-2xl border border-zinc-200 dark:border-zinc-800 p-4">
+                <div class="font-bold mb-2">電源模組</div>
+                <div class="flex flex-wrap gap-2">
+                  <span class="peer-chip us-chip">ETN Eaton</span>
+                  <span class="peer-chip us-chip">VRT Vertiv</span>
+                  <span class="peer-chip us-chip">AEIS Advanced Energy</span>
+                </div>
+              </div>
+              <div class="rounded-2xl border border-zinc-200 dark:border-zinc-800 p-4">
+                <div class="font-bold mb-2">PCB／載板</div>
+                <div class="flex flex-wrap gap-2">
+                  <span class="peer-chip us-chip">TTMI TTM Technologies</span>
+                  <span class="peer-chip us-chip">SANM Sanmina</span>
+                  <span class="peer-chip us-chip">JBL Jabil</span>
+                  <span class="peer-chip us-chip">AMKR Amkor</span>
+                </div>
+              </div>
+              <div class="rounded-2xl border border-zinc-200 dark:border-zinc-800 p-4">
+                <div class="font-bold mb-2">MLCC／被動元件</div>
+                <div class="flex flex-wrap gap-2">
+                  <span class="peer-chip us-chip">VSH Vishay</span>
+                  <span class="text-xs text-zinc-500">純 MLCC 公開標的較少，這裡列最接近的上市公司</span>
+                </div>
+              </div>
+              <div class="rounded-2xl border border-zinc-200 dark:border-zinc-800 p-4">
+                <div class="font-bold mb-2">材料／檢測／自動化</div>
+                <div class="flex flex-wrap gap-2">
+                  <span class="peer-chip us-chip">OC Owens Corning</span>
+                  <span class="peer-chip us-chip">NUE Nucor</span>
+                  <span class="peer-chip us-chip">CGNX Cognex</span>
+                  <span class="peer-chip us-chip">TER Teradyne</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div id="tw-tab" class="tab-panel" role="tabpanel">
+            <div class="grid md:grid-cols-2 xl:grid-cols-3 gap-4">
+              <div class="rounded-2xl border border-zinc-200 dark:border-zinc-800 p-4">
+                <div class="font-bold mb-2">光通訊／連接器</div>
+                <div class="flex flex-wrap gap-2">
+                  <span class="peer-chip tw-chip">3163 波若威</span>
+                  <span class="peer-chip tw-chip">3363 上詮</span>
+                  <span class="peer-chip tw-chip">4979 華星光</span>
+                </div>
+              </div>
+              <div class="rounded-2xl border border-zinc-200 dark:border-zinc-800 p-4">
+                <div class="font-bold mb-2">散熱／馬達</div>
+                <div class="flex flex-wrap gap-2">
+                  <span class="peer-chip tw-chip">3017 奇鋐</span>
+                  <span class="peer-chip tw-chip">2421 建準</span>
+                  <span class="peer-chip tw-chip">3324 雙鴻</span>
+                </div>
+              </div>
+              <div class="rounded-2xl border border-zinc-200 dark:border-zinc-800 p-4">
+                <div class="font-bold mb-2">電源模組</div>
+                <div class="flex flex-wrap gap-2">
+                  <span class="peer-chip tw-chip">2308 台達電</span>
+                  <span class="peer-chip tw-chip">2301 光寶科</span>
+                </div>
+              </div>
+              <div class="rounded-2xl border border-zinc-200 dark:border-zinc-800 p-4">
+                <div class="font-bold mb-2">PCB／載板</div>
+                <div class="flex flex-wrap gap-2">
+                  <span class="peer-chip tw-chip">3037 欣興</span>
+                  <span class="peer-chip tw-chip">8046 南電</span>
+                  <span class="peer-chip tw-chip">3044 健鼎</span>
+                  <span class="peer-chip tw-chip">2368 金像電</span>
+                  <span class="peer-chip tw-chip">3189 景碩</span>
+                </div>
+              </div>
+              <div class="rounded-2xl border border-zinc-200 dark:border-zinc-800 p-4">
+                <div class="font-bold mb-2">MLCC／被動元件</div>
+                <div class="flex flex-wrap gap-2">
+                  <span class="peer-chip tw-chip">2327 國巨</span>
+                  <span class="peer-chip tw-chip">2492 華新科</span>
+                  <span class="peer-chip tw-chip">6173 信昌電</span>
+                </div>
+              </div>
+              <div class="rounded-2xl border border-zinc-200 dark:border-zinc-800 p-4">
+                <div class="font-bold mb-2">材料／檢測／自動化</div>
+                <div class="flex flex-wrap gap-2">
+                  <span class="peer-chip tw-chip">1802 台玻</span>
+                  <span class="peer-chip tw-chip">1815 富喬</span>
+                  <span class="peer-chip tw-chip">2002 中鋼</span>
+                  <span class="peer-chip tw-chip">2395 研華</span>
+                  <span class="peer-chip tw-chip">2464 盟立</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="mt-5 rounded-xl bg-zinc-100 dark:bg-zinc-800 p-4 text-sm leading-6 muted">
+            <div class="font-bold text-zinc-900 dark:text-zinc-100 mb-1">提醒</div>
+            <p>上面的美股與台股是「功能對照」，不是 1:1 供應商名單。尤其是 MLCC 與 ABF 載板，美股純對標較少，台股通常更直接。</p>
+          </div>
+        </div>
+      </section>
+
+      <section id="source" class="mb-8">
+        <h2 class="text-2xl font-bold mb-4">來源與註記</h2>
+        <div class="card rounded-2xl bg-white dark:bg-zinc-900 p-5 soft-shadow space-y-4">
+          <div>
+            <div class="font-bold mb-2">原圖標題</div>
+            <p class="muted">NVIDIA NVL72 ラックの製品構成と日本の有力メーカー（関連マップ）</p>
+          </div>
+          <div>
+            <div class="font-bold mb-2">原圖底部重點</div>
+            <div class="small-note space-y-2 muted">
+              <p>• <span class="font-semibold text-zinc-900 dark:text-zinc-100">まとめ：日本企業の強みポイント</span></p>
+              <p>　1. 基板・材料系（PCB / ABF / ガラスクロス）で世界トップクラスのシェア</p>
+              <p>　2. 電子部品（MLCC / 電源 / 冷却 / コネクタ）で非常に高い技術力</p>
+              <p>　3. NVIDIA のラック構成の「隠れた中核部材」を広く支える日本企業群</p>
+              <p>• <span class="font-semibold text-zinc-900 dark:text-zinc-100">投資テーマとしての注目ポイント</span></p>
+              <p>　1. AIインフラ投資拡大に伴い、サプライチェーン全体で日本企業の存在感が拡大</p>
+              <p>　2. 特に「基板・材料」「電子部品」「光通信」「冷却」「電源」分野が有望</p>
+              <p>　3. 中長期的なAIデータセンター需要の拡大が追い風</p>
+            </div>
+          </div>
+          <div class="text-xs text-zinc-500 leading-6">
+            這份報告根據使用者提供的圖片整理，並以功能對照方式補上美股與台股的代表性標的。若純美股標的稀少，則以最接近的上市公司代替。
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    const toggle = document.getElementById('theme-toggle');
+    toggle?.addEventListener('click', () => {
+      const isDark = document.documentElement.classList.toggle('dark');
+      localStorage.theme = isDark ? 'dark' : 'light';
+    });
+
+    const sections = document.querySelectorAll('main section[id]');
+    const tocLinks = document.querySelectorAll('.toc a');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          tocLinks.forEach(link => link.classList.toggle('active', link.getAttribute('href') === '#' + entry.target.id));
+        }
+      });
+    }, { rootMargin: '-20% 0px -60% 0px', threshold: 0.1 });
+    sections.forEach(s => observer.observe(s));
+
+    const chartCtx = document.getElementById('costChart');
+    if (chartCtx) {
+      new Chart(chartCtx, {
+        type: 'doughnut',
+        data: {
+          labels: ['GPU', 'Memory', 'Other networking chips', 'CPU', 'NVLink Switch', 'PCB', 'Power supply', 'Cooling', 'ABF Substrate', 'MLCC', 'Others', 'Rack assembly value add'],
+          datasets: [{
+            data: [50.7, 25.6, 7.4, 2.3, 1.8, 1.5, 1.0, 0.9, 0.3, 0.1, 8.0, 0.4],
+            borderWidth: 0,
+            backgroundColor: [
+              '#4f46e5', '#7c3aed', '#2563eb', '#0ea5e9', '#14b8a6', '#22c55e', '#84cc16', '#eab308', '#f97316', '#ef4444', '#a1a1aa', '#64748b'
+            ]
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          cutout: '60%',
+          plugins: {
+            legend: { position: 'bottom', labels: { boxWidth: 10, boxHeight: 10, usePointStyle: true } },
+            tooltip: { callbacks: { label: (ctx) => `${ctx.label}: ${ctx.formattedValue}%` } }
+          }
+        }
+      });
+    }
+
+    const buttons = document.querySelectorAll('[data-tab]');
+    const panels = document.querySelectorAll('.tab-panel');
+    buttons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        buttons.forEach(b => b.setAttribute('aria-selected', String(b === btn)));
+        panels.forEach(p => p.classList.toggle('active', p.id === btn.dataset.tab));
+      });
+    });
+
+    const filter = document.getElementById('peerFilter');
+    const rows = Array.from(document.querySelectorAll('#peerTableBody tr'));
+    filter?.addEventListener('input', () => {
+      const q = filter.value.trim().toLowerCase();
+      rows.forEach(row => {
+        const hit = row.textContent.toLowerCase().includes(q);
+        row.style.display = hit ? '' : 'none';
+      });
+    });
+  </script>
+</body>
+</html>
