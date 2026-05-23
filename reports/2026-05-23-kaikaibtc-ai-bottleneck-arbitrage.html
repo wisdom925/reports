@@ -1,0 +1,408 @@
+<!doctype html>
+<html lang="zh-Hant-TW" class="scroll-smooth">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>K三凱貼文整理：AI 驅動的全球供應鏈瓶頸套利</title>
+  <meta name="description" content="整理 K三凱 @kaikaibtc 的 X 貼文重點：5 個半月 32 倍報酬的核心敘事、AI 研究流程、第二與第三層供應鏈瓶頸，以及可複製的方法論。">
+  <meta property="og:title" content="K三凱貼文整理：AI 驅動的全球供應鏈瓶頸套利">
+  <meta property="og:description" content="把一則 X 貼文拆成可閱讀的分析頁：績效敘事、AI 投研流程、供應鏈瓶頸地圖、風險與用語轉換。">
+  <meta property="og:type" content="article">
+  <meta property="og:image" content="https://pbs.twimg.com/media/HI_uP91bwAAqhZe?format=jpg&name=small">
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = { darkMode: 'class', theme: { extend: { fontFamily: { sans: ['system-ui', 'ui-sans-serif', 'sans-serif'] } } } };
+    if (localStorage.theme === 'dark' || (!('theme' in localStorage) && matchMedia('(prefers-color-scheme: dark)').matches)) {
+      document.documentElement.classList.add('dark');
+    }
+  </script>
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11/build/styles/github-dark.min.css">
+  <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11/build/highlight.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+    const isDark = document.documentElement.classList.contains('dark');
+    mermaid.initialize({ startOnLoad: true, theme: isDark ? 'dark' : 'default', securityLevel: 'loose' });
+    window.__mermaid = mermaid;
+  </script>
+
+  <style>
+    :root { --accent: #2563eb; }
+    @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; scroll-behavior: auto !important; } }
+    @media print {
+      .no-print { display: none !important; }
+      body { color: #000; background: #fff; }
+      a { color: inherit; text-decoration: underline; }
+      details { display: block; }
+      details > summary { display: none; }
+    }
+    .glass { background: rgba(255,255,255,.78); backdrop-filter: blur(14px); }
+    .dark .glass { background: rgba(24,24,27,.72); }
+    .toc a { display: block; padding: .24rem 0; opacity: .66; transition: opacity .15s, transform .15s; }
+    .toc a:hover, .toc a.active { opacity: 1; transform: translateX(2px); }
+    .toc a.active { font-weight: 700; color: var(--accent); }
+    .badge { display: inline-flex; align-items: center; gap: .35rem; padding: .2rem .6rem; border-radius: 999px; font-size: .72rem; font-weight: 700; }
+    .card { border: 1px solid rgb(228 228 231); }
+    .dark .card { border-color: rgb(39 39 42); }
+    details > summary { cursor: pointer; user-select: none; }
+    details > summary::marker { content: "▸ "; }
+    details[open] > summary::marker { content: "▾ "; }
+    .tab-btn[aria-selected="true"] { background: #2563eb; color: #fff; }
+    .chart-box { position: relative; height: 320px; }
+    @media (max-width: 640px) { .chart-box { height: 260px; } }
+    .soft-shadow { box-shadow: 0 10px 30px rgba(0,0,0,.08); }
+  </style>
+</head>
+
+<body class="bg-zinc-50 dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 font-sans antialiased">
+  <div class="fixed top-4 right-4 z-50 flex gap-2 no-print">
+    <button id="theme-toggle" class="px-3 py-1.5 rounded-md border border-zinc-300 dark:border-zinc-700 glass text-sm hover:bg-zinc-100 dark:hover:bg-zinc-800">☼ / ☾</button>
+    <button onclick="window.print()" class="px-3 py-1.5 rounded-md border border-zinc-300 dark:border-zinc-700 glass text-sm hover:bg-zinc-100 dark:hover:bg-zinc-800">列印</button>
+  </div>
+
+  <div class="max-w-7xl mx-auto px-5 py-10 lg:grid lg:grid-cols-[240px_minmax(0,1fr)] lg:gap-10">
+    <nav class="toc lg:sticky lg:top-10 self-start text-sm mb-8 lg:mb-0 no-print">
+      <div class="font-bold mb-3 text-zinc-500 uppercase tracking-wider text-xs">Contents</div>
+      <a href="#summary">一句話結論</a>
+      <a href="#performance">績效敘事</a>
+      <a href="#workflow">AI 投研流程</a>
+      <a href="#bottlenecks">供應鏈瓶頸地圖</a>
+      <a href="#translation">台灣用語整理</a>
+      <a href="#risk">風險與盲點</a>
+      <a href="#source">來源</a>
+    </nav>
+
+    <main class="min-w-0">
+      <header class="mb-10 rounded-3xl bg-gradient-to-br from-blue-700 via-indigo-700 to-zinc-900 text-white p-8 soft-shadow">
+        <p class="text-sm text-blue-100 mb-3">REPORT • 2026-05-23 • X 貼文整理</p>
+        <h1 class="text-3xl md:text-5xl font-extrabold tracking-tight leading-tight mb-4">K三凱貼文整理：AI 驅動的全球供應鏈瓶頸套利</h1>
+        <p class="text-lg md:text-xl text-blue-100 max-w-3xl">這則貼文真正要傳達的，不是單純炫耀報酬，而是把「研究」拆成一套可重複的流程：先看長線趨勢，再往下挖供應鏈瓶頸，最後用 AI 放大檢索與交叉驗證能力。</p>
+        <div class="mt-6 grid grid-cols-2 lg:grid-cols-4 gap-3">
+          <div class="rounded-2xl bg-white/12 p-4 border border-white/10">
+            <div class="text-xs text-blue-100">2026 年以來報酬</div>
+            <div class="text-2xl font-bold">+3,152.77%</div>
+            <div class="text-xs text-blue-100">貼文主張</div>
+          </div>
+          <div class="rounded-2xl bg-white/12 p-4 border border-white/10">
+            <div class="text-xs text-blue-100">持有標的數</div>
+            <div class="text-2xl font-bold">23 檔</div>
+            <div class="text-xs text-blue-100">都屬小眾供應鏈股</div>
+          </div>
+          <div class="rounded-2xl bg-white/12 p-4 border border-white/10">
+            <div class="text-xs text-blue-100">最少漲幅</div>
+            <div class="text-2xl font-bold">+100%</div>
+            <div class="text-xs text-blue-100">貼文主張</div>
+          </div>
+          <div class="rounded-2xl bg-white/12 p-4 border border-white/10">
+            <div class="text-xs text-blue-100">最大漲幅</div>
+            <div class="text-2xl font-bold">84 倍</div>
+            <div class="text-xs text-blue-100">貼文主張</div>
+          </div>
+        </div>
+      </header>
+
+      <section id="summary" class="mb-12">
+        <h2 class="text-2xl font-bold mb-4">一句話結論</h2>
+        <div class="grid md:grid-cols-3 gap-4">
+          <div class="card rounded-2xl bg-white dark:bg-zinc-900 p-5 soft-shadow">
+            <span class="badge bg-blue-100 text-blue-700 dark:bg-blue-900/40 dark:text-blue-200">核心</span>
+            <h3 class="font-bold text-lg mt-3">把投研外包給 AI，不等於讓 AI 直接選股</h3>
+            <p class="text-zinc-600 dark:text-zinc-400 mt-2">貼文的重點是把 AI 當成研究助理群，用來拆解產業鏈、找供應商、做交叉驗證，再由人決定倉位。</p>
+          </div>
+          <div class="card rounded-2xl bg-white dark:bg-zinc-900 p-5 soft-shadow">
+            <span class="badge bg-emerald-100 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-200">方法</span>
+            <h3 class="font-bold text-lg mt-3">目標不是明星股，是被忽略的瓶頸股</h3>
+            <p class="text-zinc-600 dark:text-zinc-400 mt-2">他鎖定的是光通訊、材料、封裝、測試、電力等卡脖子環節，因為這些位置更容易出現超額報酬。</p>
+          </div>
+          <div class="card rounded-2xl bg-white dark:bg-zinc-900 p-5 soft-shadow">
+            <span class="badge bg-amber-100 text-amber-700 dark:bg-amber-900/40 dark:text-amber-200">觀察</span>
+            <h3 class="font-bold text-lg mt-3">真正值錢的是問題，不是答案</h3>
+            <p class="text-zinc-600 dark:text-zinc-400 mt-2">貼文反覆強調：如果大家問的是同一題，AI 給的答案也差不多；差別在於你問對了哪個問題。</p>
+          </div>
+        </div>
+      </section>
+
+      <section id="performance" class="mb-12">
+        <h2 class="text-2xl font-bold mb-4">績效敘事：這篇貼文在講什麼</h2>
+        <div class="grid lg:grid-cols-[1.1fr_.9fr] gap-6">
+          <div class="card rounded-2xl bg-white dark:bg-zinc-900 p-5 soft-shadow">
+            <h3 class="font-bold text-lg mb-3">貼文主軸拆解</h3>
+            <ul class="list-disc pl-6 space-y-2 text-zinc-700 dark:text-zinc-300">
+              <li>這位交易員在 2026 年以來的報酬被描述為 <strong>+3,152.77%</strong>。</li>
+              <li>他在 2025 年 7 月才註冊帳號，到年底的半年內，貼文聲稱已做到 <strong>630%</strong> 報酬。</li>
+              <li>貼文提到他買了 <strong>23 檔股票</strong>，而且沒有一檔漲幅低於 <strong>100%</strong>。</li>
+              <li>最高漲幅那檔被描述為 <strong>84 倍</strong>。</li>
+              <li>貼文想傳達的不是「猜對一檔」，而是「整組研究框架都對準了供應鏈瓶頸」。</li>
+            </ul>
+          </div>
+          <div class="card rounded-2xl bg-white dark:bg-zinc-900 p-5 soft-shadow">
+            <div class="flex items-center justify-between gap-3 mb-4">
+              <h3 class="font-bold text-lg">敘事重點強度</h3>
+              <span class="text-xs text-zinc-500">依貼文脈絡整理</span>
+            </div>
+            <div class="chart-box"><canvas id="priorityChart"></canvas></div>
+          </div>
+        </div>
+      </section>
+
+      <section id="workflow" class="mb-12">
+        <h2 class="text-2xl font-bold mb-4">AI 投研流程：他怎麼做</h2>
+        <div class="grid lg:grid-cols-[1fr_1fr] gap-6 items-start">
+          <div class="card rounded-2xl bg-white dark:bg-zinc-900 p-5 soft-shadow">
+            <h3 class="font-bold text-lg mb-3">流程圖</h3>
+            <pre class="mermaid text-sm rounded-xl bg-zinc-50 dark:bg-zinc-800 p-4">
+flowchart LR
+  A[先確認超級趨勢] --> B[把趨勢拆成產業鏈地圖]
+  B --> C[找第二層、第三層瓶頸]
+  C --> D[沿著每個環節找供應商]
+  D --> E[用 AI 做交叉驗證]
+  E --> F[由人決定風險與倉位]
+            </pre>
+          </div>
+          <div class="card rounded-2xl bg-white dark:bg-zinc-900 p-5 soft-shadow">
+            <h3 class="font-bold text-lg mb-3">方法論重點</h3>
+            <ol class="list-decimal pl-6 space-y-2 text-zinc-700 dark:text-zinc-300">
+              <li>先問大方向，確認是不是結構性成長，而不是短線題材。</li>
+              <li>把大方向往下拆成實體供應鏈，不停留在概念層。</li>
+              <li>優先找第二層、第三層瓶頸，避開已被市場充分定價的龍頭。</li>
+              <li>讓 AI 擴大搜尋、整理、比對與反證的速度。</li>
+              <li>最後仍要回到人的判斷，避免把風險控制交給模型。</li>
+            </ol>
+          </div>
+        </div>
+      </section>
+
+      <section id="bottlenecks" class="mb-12">
+        <h2 class="text-2xl font-bold mb-4">供應鏈瓶頸地圖：他在找哪一層</h2>
+        <div class="grid lg:grid-cols-2 gap-6">
+          <div class="card rounded-2xl bg-white dark:bg-zinc-900 p-5 soft-shadow">
+            <h3 class="font-bold text-lg mb-3">瓶頸層級表</h3>
+            <div class="overflow-x-auto">
+              <table id="bottleneckTable" class="w-full text-sm">
+                <thead class="text-left text-zinc-500 border-b border-zinc-200 dark:border-zinc-800">
+                  <tr>
+                    <th class="py-2 cursor-pointer select-none" data-sort="layer">層級</th>
+                    <th class="py-2 cursor-pointer select-none" data-sort="example">代表環節</th>
+                    <th class="py-2">為什麼重要</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-zinc-100 dark:divide-zinc-800"></tbody>
+              </table>
+            </div>
+          </div>
+          <div class="card rounded-2xl bg-white dark:bg-zinc-900 p-5 soft-shadow">
+            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-3">
+              <h3 class="font-bold text-lg">快速搜尋</h3>
+              <input id="bottleneckFilter" class="no-print px-3 py-2 rounded-lg border border-zinc-300 dark:border-zinc-700 bg-transparent text-sm" placeholder="搜尋環節或關鍵字…">
+            </div>
+            <div class="grid sm:grid-cols-2 gap-3 text-sm" id="bottleneckCards"></div>
+          </div>
+        </div>
+      </section>
+
+      <section id="translation" class="mb-12">
+        <h2 class="text-2xl font-bold mb-4">台灣用語整理：我幫你轉成好讀版本</h2>
+        <div class="card rounded-2xl bg-white dark:bg-zinc-900 p-5 soft-shadow">
+          <div class="overflow-x-auto">
+            <table class="w-full text-sm">
+              <thead class="text-left text-zinc-500 border-b border-zinc-200 dark:border-zinc-800">
+                <tr>
+                  <th class="py-2">原貼文用語</th>
+                  <th class="py-2">台灣用語</th>
+                  <th class="py-2">整理後意思</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-zinc-100 dark:divide-zinc-800">
+                <tr><td class="py-3">投研</td><td class="py-3">研究與投資判讀</td><td class="py-3">把研究流程拆開再重組，不是單純看新聞。</td></tr>
+                <tr><td class="py-3">收益截图</td><td class="py-3">報酬截圖</td><td class="py-3">用績效畫面強化故事張力。</td></tr>
+                <tr><td class="py-3">咽喉位置</td><td class="py-3">關鍵瓶頸</td><td class="py-3">整條產業鏈中最容易卡住的一段。</td></tr>
+                <tr><td class="py-3">外包給 AI</td><td class="py-3">交給 AI 當研究助理</td><td class="py-3">AI 負責整理、搜尋、比對，人負責判斷。</td></tr>
+                <tr><td class="py-3">回撤之後</td><td class="py-3">拉回後</td><td class="py-3">績效中間有波動，不是一路直線上去。</td></tr>
+                <tr><td class="py-3">基本面研究</td><td class="py-3">基本面分析</td><td class="py-3">比較公司獲利、產能、供應鏈位置與估值。</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <section id="risk" class="mb-12">
+        <h2 class="text-2xl font-bold mb-4">風險與盲點</h2>
+        <div class="grid md:grid-cols-2 gap-4">
+          <details open class="card rounded-2xl bg-white dark:bg-zinc-900 p-5 soft-shadow">
+            <summary class="font-bold">這篇貼文最容易被忽略的地方</summary>
+            <ul class="list-disc pl-6 mt-3 space-y-2 text-zinc-700 dark:text-zinc-300">
+              <li>它不是在教你追熱門題材，而是在教你找供應鏈卡點。</li>
+              <li>它不是在說 AI 可以取代人，而是在說 AI 可以放大研究量。</li>
+              <li>它不是單一標的故事，而是一套選股框架。</li>
+            </ul>
+          </details>
+          <details open class="card rounded-2xl bg-white dark:bg-zinc-900 p-5 soft-shadow">
+            <summary class="font-bold">要小心的地方</summary>
+            <ul class="list-disc pl-6 mt-3 space-y-2 text-zinc-700 dark:text-zinc-300">
+              <li>貼文敘事很強，但報酬數字仍屬單方主張，不能直接當成可驗證結論。</li>
+              <li>這種做法很吃前期研究能力，沒有產業理解，AI 只會放大錯誤。</li>
+              <li>瓶頸股的流動性、估值與事件風險通常都不低。</li>
+            </ul>
+          </details>
+        </div>
+      </section>
+
+      <section class="mb-12">
+        <h2 class="text-2xl font-bold mb-4">原文配圖</h2>
+        <div class="card rounded-2xl bg-white dark:bg-zinc-900 p-5 soft-shadow">
+          <img src="https://pbs.twimg.com/media/HI_uP91bwAAqhZe?format=jpg&name=small" alt="X 貼文配圖" class="w-full rounded-xl border border-zinc-200 dark:border-zinc-800">
+        </div>
+      </section>
+
+      <footer id="source" class="mt-16 pt-8 border-t border-zinc-200 dark:border-zinc-800 text-sm text-zinc-500 space-y-2">
+        <div>來源：X 帳號 <a class="underline" href="https://x.com/kaikaibtc/status/2058126504689811527?s=46">@kaikaibtc</a> 的貼文。</div>
+        <div>貼文時間：2026-05-23 10:02 AM（貼文頁面顯示）。</div>
+        <div>整理方式：將原文簡體用語轉為繁體與台灣常用說法，並把敘事拆成績效、方法論、供應鏈與風險四部分。</div>
+        <div>Generated with the <code>html-report</code> skill.</div>
+      </footer>
+    </main>
+  </div>
+
+  <script>
+    const priorityData = {
+      labels: ['研究流程', '供應鏈瓶頸', '交叉驗證', '人為判斷', '績效敘事'],
+      values: [5, 5, 4, 4, 3]
+    };
+
+    const bottlenecks = [
+      { layer: '第一層', example: 'GPU、HBM、電力、資料中心', why: '最早被市場盯上，但也最容易被擠壓估值。' },
+      { layer: '第二層', example: '光通訊、雷射、InP 基板', why: '卡在更底層的材料與元件，市場關注常常晚一拍。' },
+      { layer: '第三層', example: 'SOI 晶圓、外延設備、晶圓級測試', why: '屬於更少人研究的供應鏈深處，資訊差較大。' },
+      { layer: '延伸層', example: 'IC 載板、特殊玻纖', why: '當 AI 建置加速時，這些材料常成為擴產瓶頸。' }
+    ];
+
+    const cards = [
+      { title: '先看超級趨勢', text: '先確定 AI 與算力擴張是不是結構性方向。' },
+      { title: '拆成產業鏈地圖', text: '把概念變成實體流程與零組件。' },
+      { title: '找次級瓶頸', text: '優先找第二層、第三層，而不是只看龍頭。' },
+      { title: '做交叉驗證', text: '看產能、客戶、供應鏈驗證與地緣風險。' },
+      { title: '最後看風險紀律', text: '由人決定倉位與退出規則。' },
+      { title: '放大研究量', text: 'AI 主要是把搜尋、整理、比對的速度拉高。' }
+    ];
+
+    const rows = [
+      ['第一層', 'GPU、HBM、電力、資料中心', '最早被市場盯上，但也最容易被擠壓估值。'],
+      ['第二層', '光通訊、雷射、InP 基板', '更底層的材料與元件，市場常常晚一拍。'],
+      ['第三層', 'SOI 晶圓、外延設備、晶圓級測試', '更少人研究的供應鏈深處，資訊差較大。'],
+      ['延伸層', 'IC 載板、特殊玻纖', 'AI 建置加速時，這些材料常成為擴產瓶頸。']
+    ];
+
+    function buildRows(tbody, data) {
+      tbody.innerHTML = data.map(r => `
+        <tr>
+          <td class="py-3 pr-3 align-top">${r[0]}</td>
+          <td class="py-3 pr-3 align-top">${r[1]}</td>
+          <td class="py-3 align-top text-zinc-700 dark:text-zinc-300">${r[2]}</td>
+        </tr>
+      `).join('');
+    }
+
+    function renderCards(filterText = '') {
+      const grid = document.getElementById('bottleneckCards');
+      const q = filterText.trim().toLowerCase();
+      grid.innerHTML = cards
+        .filter(c => !q || `${c.title} ${c.text}`.toLowerCase().includes(q))
+        .map(c => `
+          <div class="rounded-xl bg-zinc-50 dark:bg-zinc-800 p-4 border border-zinc-200 dark:border-zinc-700">
+            <div class="font-bold mb-1">${c.title}</div>
+            <div class="text-zinc-600 dark:text-zinc-400 text-sm leading-relaxed">${c.text}</div>
+          </div>
+        `).join('');
+    }
+
+    function setupSortTable(tableId, initialRows) {
+      const table = document.getElementById(tableId);
+      const tbody = table.querySelector('tbody');
+      const headers = [...table.querySelectorAll('th[data-sort]')];
+      let rowsData = initialRows.map(r => [...r]);
+      let sortKey = headers[0].dataset.sort;
+      let asc = true;
+
+      const render = () => {
+        const idx = headers.findIndex(h => h.dataset.sort === sortKey);
+        rowsData.sort((a, b) => {
+          const av = a[idx].toString();
+          const bv = b[idx].toString();
+          return asc ? av.localeCompare(bv, 'zh-Hant', { numeric: true }) : bv.localeCompare(av, 'zh-Hant', { numeric: true });
+        });
+        tbody.innerHTML = rowsData.map(r => `
+          <tr>
+            <td class="py-3 pr-3 align-top">${r[0]}</td>
+            <td class="py-3 pr-3 align-top">${r[1]}</td>
+            <td class="py-3 align-top text-zinc-700 dark:text-zinc-300">${r[2]}</td>
+          </tr>
+        `).join('');
+      };
+
+      headers.forEach(h => h.addEventListener('click', () => {
+        if (sortKey === h.dataset.sort) asc = !asc; else { sortKey = h.dataset.sort; asc = true; }
+        render();
+      }));
+      render();
+    }
+
+    // Theme toggle
+    document.getElementById('theme-toggle').addEventListener('click', () => {
+      const dark = document.documentElement.classList.toggle('dark');
+      localStorage.theme = dark ? 'dark' : 'light';
+      if (window.__mermaid) {
+        document.querySelectorAll('.mermaid[data-processed]').forEach(el => { el.removeAttribute('data-processed'); el.innerHTML = el.dataset.src || el.textContent; });
+        window.__mermaid.initialize({ startOnLoad: false, theme: dark ? 'dark' : 'default', securityLevel: 'loose' });
+        window.__mermaid.run();
+      }
+    });
+
+    // Priority chart
+    new Chart(document.getElementById('priorityChart'), {
+      type: 'bar',
+      data: {
+        labels: priorityData.labels,
+        datasets: [{
+          label: '重點程度',
+          data: priorityData.values,
+          borderWidth: 0,
+          backgroundColor: ['#2563eb', '#4f46e5', '#0f766e', '#ca8a04', '#6b7280']
+        }]
+      },
+      options: {
+        maintainAspectRatio: false,
+        responsive: true,
+        indexAxis: 'y',
+        plugins: { legend: { display: false }, tooltip: { callbacks: { label: (ctx) => ` 重點程度：${ctx.parsed.x}/5` } } },
+        scales: {
+          x: { min: 0, max: 5, ticks: { stepSize: 1 }, grid: { color: document.documentElement.classList.contains('dark') ? '#27272a' : '#e4e4e7' } },
+          y: { grid: { display: false } }
+        }
+      }
+    });
+
+    buildRows(document.querySelector('#bottleneckTable tbody'), rows);
+    setupSortTable('bottleneckTable', rows);
+    renderCards('');
+    document.getElementById('bottleneckFilter').addEventListener('input', (e) => renderCards(e.target.value));
+
+    // Sticky TOC scroll-spy
+    const tocLinks = document.querySelectorAll('.toc a');
+    const sections = [...tocLinks].map(a => document.querySelector(a.getAttribute('href'))).filter(Boolean);
+    if (sections.length) {
+      const onScroll = () => {
+        const y = window.scrollY + 120;
+        let active = sections[0];
+        for (const s of sections) if (s.offsetTop <= y) active = s;
+        tocLinks.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + active.id));
+      };
+      window.addEventListener('scroll', onScroll, { passive: true });
+      onScroll();
+    }
+
+    hljs.highlightAll();
+  </script>
+</body>
+</html>
