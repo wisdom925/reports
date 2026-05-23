@@ -3,7 +3,7 @@
     "file": "2026-05-23-rubin-rack-bom-odm-analysis.html",
     "title": "NVIDIA Rubin \u6a5f\u6ac3 BOM\u3001\u96f6\u7d44\u4ef6\u542b\u91cf\u8207 ODM \u50f9\u503c\u9644\u52a0\u5206\u6790",
     "date": "2026-05-23",
-    "description": "\u4f7f\u7528 requestAnimationFrame \u78ba\u4fdd Mermaid \u5728 DOM \u53ef\u898b\u5f8c\u624d\u6e32\u67d3\u8907\u96dc\u5ea6\u6d41\u7a0b\u5716"
+    "description": "\u5c07 Mermaid \u91cd\u7e6a\u6642\u6a5f\u5f9e requestAnimationFrame \u6539\u70ba setTimeout 60ms\uff0c\u78ba\u4fdd\u700f\u89bd\u5668\u5df2\u5b8c\u6210 layout \u8a08\u7b97"
   },
   {
     "file": "2026-05-21-sic-gan-800v-taiwan-stocks.html",

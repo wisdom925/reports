@@ -325,10 +325,10 @@ flowchart LR
     const panel = document.getElementById('tab-' + btn.dataset.tab);
     panel.classList.remove('hidden');
     if (btn.dataset.tab === 'complexity' && window.__mermaid) {
-      requestAnimationFrame(() => {
+      setTimeout(() => {
         panel.querySelectorAll('.mermaid[data-processed]').forEach(el => { el.removeAttribute('data-processed'); el.innerHTML = el.textContent; });
         window.__mermaid.run({ nodes: [...panel.querySelectorAll('.mermaid')] });
-      });
+      }, 60);
     }
   }));
 
