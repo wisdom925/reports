@@ -9,7 +9,7 @@ Generate a self-contained, polished, interactive HTML report and publish it to t
 
 ## Default target
 
-- Local repo: auto-detected from this skill path when installed as a symlink from `/Users/wisdom/reports/.claude/skills/html-report`.
+- Local repo: auto-detected from this skill path when installed as a symlink from `/Users/wisdom/reports/.hermes/skills/html-report`.
 - Report output directory: `reports/`.
 - Public base URL: auto-detected from Git remote, normally `https://wisdom925.github.io/reports`.
 - Publish command: `python3 <skill-dir>/scripts/publish.py <html-path-relative-to-repo> "<title>" "<one-line description>"`.
@@ -54,7 +54,7 @@ If none of these fit, write a normal answer instead of forcing an HTML page.
 
 3. Publish.
    ```bash
-   python3 /Users/wisdom/reports/.claude/skills/html-report/scripts/publish.py reports/<YYYY-MM-DD>-<slug>.html "<title>" "<one-line description>"
+   python3 /Users/wisdom/reports/.hermes/skills/html-report/scripts/publish.py reports/<YYYY-MM-DD>-<slug>.html "<title>" "<one-line description>"
    ```
 
    The script updates `reports/manifest.json`, commits, pushes, and prints the public URL.
@@ -66,7 +66,7 @@ If none of these fit, write a normal answer instead of forcing an HTML page.
 If the user says the report is a draft, should not be pushed, or needs local review first, pass `--draft`:
 
 ```bash
-python3 /Users/wisdom/reports/.claude/skills/html-report/scripts/publish.py reports/<YYYY-MM-DD>-<slug>.html "<title>" "<one-line description>" --draft
+python3 /Users/wisdom/reports/.hermes/skills/html-report/scripts/publish.py reports/<YYYY-MM-DD>-<slug>.html "<title>" "<one-line description>" --draft
 ```
 
 Draft mode updates the manifest locally and prints the local file path. Revert or commit the draft intentionally afterward.
