@@ -1,0 +1,481 @@
+<!doctype html>
+<html lang="zh-Hant-TW" class="scroll-smooth">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>AI 供應鏈瓶頸與台美股對照</title>
+  <meta name="description" content="根據 K三凱推文整理的 AI 驅動全球供應鏈瓶頸圖譜，系統性列出美股與台股對應標的。">
+  <meta property="og:title" content="AI 供應鏈瓶頸與台美股對照">
+  <meta property="og:description" content="根據 K三凱推文整理的 AI 驅動全球供應鏈瓶頸圖譜，系統性列出美股與台股對應標的。">
+  <meta property="og:type" content="article">
+  <meta property="og:image" content="https://pbs.twimg.com/media/HI_uP91bwAAqhZe?format=jpg&name=small">
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = { darkMode: 'class', theme: { extend: { fontFamily: { sans: ['system-ui','ui-sans-serif','sans-serif'] } } } };
+    if (localStorage.theme === 'dark' || (!('theme' in localStorage) && matchMedia('(prefers-color-scheme: dark)').matches)) {
+      document.documentElement.classList.add('dark');
+    }
+  </script>
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11/build/styles/github-dark.min.css">
+  <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11/build/highlight.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <style>
+    :root { --accent: #4f46e5; }
+    @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
+    @media print { .no-print { display: none !important; } body { color: #000; background: #fff; } a { color: inherit; } }
+    .toc a { display: block; padding: .2rem 0; opacity: .6; transition: opacity .15s, transform .15s; }
+    .toc a:hover, .toc a.active { opacity: 1; transform: translateX(2px); }
+    .toc a.active { font-weight: 600; color: var(--accent); }
+    .card { border: 1px solid rgb(228 228 231); }
+    .dark .card { border-color: rgb(39 39 42); }
+    .badge { display: inline-flex; align-items: center; gap: .3rem; padding: .15rem .5rem; border-radius: 999px; font-size: .7rem; font-weight: 600; }
+    .layer-card { transition: transform .15s, box-shadow .15s; }
+    .layer-card:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,.1); }
+    .dark .layer-card:hover { box-shadow: 0 8px 24px rgba(0,0,0,.4); }
+    .stock-tag { display: inline-flex; align-items: center; gap: .25rem; padding: .2rem .5rem; border-radius: 6px; font-size: .78rem; font-weight: 600; }
+    .us-tag { background: #dbeafe; color: #1e40af; }
+    .dark .us-tag { background: #1e3a5f; color: #93c5fd; }
+    .tw-tag { background: #dcfce7; color: #166534; }
+    .dark .tw-tag { background: #14532d; color: #86efac; }
+    details > summary { cursor: pointer; user-select: none; }
+    details > summary::marker { content: "▸ "; }
+    details[open] > summary::marker { content: "▾ "; }
+    .tab-btn { padding: .5rem 1.2rem; border-radius: .5rem; font-size: .85rem; font-weight: 500; cursor: pointer; transition: background .15s; }
+    .tab-btn[aria-selected="true"] { background: var(--accent); color: #fff; }
+    .tab-btn[aria-selected="false"] { background: rgb(228 228 231); color: rgb(63 63 70); }
+    .dark .tab-btn[aria-selected="false"] { background: rgb(39 39 42); color: rgb(212 212 216); }
+    .soft-shadow { box-shadow: 0 4px 20px rgba(0,0,0,.07); }
+    .dark .soft-shadow { box-shadow: 0 4px 20px rgba(0,0,0,.3); }
+    /* Tab panels */
+    .tab-group input[type="radio"] { display: none; }
+    .tab-group .tab-panel { display: none; }
+    .tab-group input:nth-of-type(1):checked ~ .tab-panel:nth-of-type(1),
+    .tab-group input:nth-of-type(2):checked ~ .tab-panel:nth-of-type(2) { display: block; }
+    .legend-dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; flex-shrink: 0; }
+  </style>
+</head>
+
+<body class="bg-zinc-50 dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 font-sans antialiased">
+
+  <!-- Theme toggle -->
+  <div class="fixed top-4 right-4 z-50 flex gap-2 no-print">
+    <button id="theme-toggle" class="px-3 py-1.5 rounded-md border border-zinc-300 dark:border-zinc-700 text-sm hover:bg-zinc-100 dark:hover:bg-zinc-800">☼ / ☾</button>
+    <button onclick="window.print()" class="px-3 py-1.5 rounded-md border border-zinc-300 dark:border-zinc-700 text-sm hover:bg-zinc-100 dark:hover:bg-zinc-800">列印</button>
+  </div>
+
+  <div class="max-w-7xl mx-auto px-5 py-10 lg:grid lg:grid-cols-[220px_minmax(0,1fr)] lg:gap-10">
+
+    <!-- Sticky TOC -->
+    <nav class="toc lg:sticky lg:top-10 self-start text-sm mb-8 lg:mb-0 no-print">
+      <div class="font-bold mb-3 text-zinc-500 uppercase tracking-wider text-xs">目錄</div>
+      <a href="#core-idea">核心邏輯</a>
+      <a href="#layer-map">供應鏈層級圖</a>
+      <a href="#bottleneck-list">瓶頸對照表</a>
+      <a href="#us-stocks">美股標的</a>
+      <a href="#tw-stocks">台股標的</a>
+      <a href="#source">來源</a>
+    </nav>
+
+    <main class="min-w-0">
+
+      <!-- Header -->
+      <header class="mb-10 rounded-3xl bg-gradient-to-br from-indigo-700 via-purple-700 to-zinc-900 text-white p-8 soft-shadow">
+        <p class="text-sm text-indigo-200 mb-3">REPORT • 2026-05-23</p>
+        <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight leading-tight mb-3">AI 驅動的全球供應鏈瓶頸與台美股對照</h1>
+        <p class="text-indigo-100 text-lg max-w-2xl">根據 K三凱 @kaikaibtc 推文整理，將第二層、第三層供應鏈瓶頸與美股、台股掛鉤，找出可能被市場忽略的「咽喉位置」標的。</p>
+        <div class="mt-6 flex flex-wrap gap-3">
+          <span class="rounded-full bg-white/15 px-3 py-1 text-sm">23 檔瓶頸股</span>
+          <span class="rounded-full bg-white/15 px-3 py-1 text-sm">Layer 2 / 3 聚焦</span>
+          <span class="rounded-full bg-white/15 px-3 py-1 text-sm">台美股對照</span>
+        </div>
+      </header>
+
+      <!-- Core Idea -->
+      <section id="core-idea" class="mb-12">
+        <h2 class="text-2xl font-bold mb-4">核心邏輯：為何要往第二、第三層挖</h2>
+        <div class="grid md:grid-cols-3 gap-4 mb-6">
+          <div class="card rounded-2xl bg-white dark:bg-zinc-900 p-5 soft-shadow">
+            <span class="badge bg-red-100 text-red-700 dark:bg-red-900/40 dark:text-red-200">Layer 1 已過度擁擠</span>
+            <p class="text-zinc-600 dark:text-zinc-400 mt-3 text-sm">GPU、HBM、電力、資料中心——這些早就被所有機構盯上，估值充分反映預期，超額報酬難尋。</p>
+          </div>
+          <div class="card rounded-2xl bg-white dark:bg-zinc-900 p-5 soft-shadow">
+            <span class="badge bg-amber-100 text-amber-700 dark:bg-amber-900/40 dark:text-amber-200">Layer 2 / 3 是藍海</span>
+            <p class="text-zinc-600 dark:text-zinc-400 mt-3 text-sm">光模組、激光器、化合物半導體基板、特殊材料——市場研究覆蓋少，資訊差大，定價往往落後基本面。</p>
+          </div>
+          <div class="card rounded-2xl bg-white dark:bg-zinc-900 p-5 soft-shadow">
+            <span class="badge bg-emerald-100 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-200">「咽喉位置」特徵</span>
+            <p class="text-zinc-600 dark:text-zinc-400 mt-3 text-sm">只要一個環節斷貨，整條AI供應鏈就會停擺。這種「單點失效」的公司，漲幅往往最為誇張。</p>
+          </div>
+        </div>
+
+        <div class="card rounded-2xl bg-white dark:bg-zinc-900 p-5 soft-shadow">
+          <h3 class="font-bold mb-3">推文原文關鍵句</h3>
+          <blockquote class="text-zinc-600 dark:text-zinc-400 italic border-l-4 border-indigo-400 pl-4">
+            「這些公司都不是什麼明星股，全是你可能從沒聽過名字的公司。但恰好是這些沒人注意的公司，每一隻都精準地卡在AI產業鏈的『咽喉』位置——一旦斷貨，整個行業都得停下來。」
+          </blockquote>
+          <p class="text-sm text-zinc-500 mt-3">—— K三凱整理，2026-05-23</p>
+        </div>
+      </section>
+
+      <!-- Layer Map -->
+      <section id="layer-map" class="mb-12">
+        <h2 class="text-2xl font-bold mb-4">供應鏈層級結構圖</h2>
+        <div class="card rounded-2xl bg-white dark:bg-zinc-900 p-6 soft-shadow">
+          <pre class="mermaid">
+flowchart TB
+  subgraph L1["第一層（擁擠）"]
+    L1A["GPU / HBM"]
+    L1B["電力基礎設施"]
+    L1C["資料中心"]
+  end
+
+  subgraph L2["第二層（套利區）"]
+    L2A["光模組"]
+    L2B["雷射器"]
+    L2C["InP / GaAs 襯底"]
+    L2D["化合物半導體"]
+  end
+
+  subgraph L3["第三層（深水區）"]
+    L3A["SOI 晶圓"]
+    L3B["外延設備"]
+    L3C["晶圓級測試"]
+    L3D["IC 載板 / ABF"]
+    L3E["特殊玻纖"]
+  end
+
+  subgraph PACK["封裝"]
+    PAC["CoWoS / SoIC"]
+    PAC2["測試介面"]
+  end
+
+  L1A --> L2A --> L2B --> L2C --> L2D --> L3A
+  L3A --> L3B --> L3C --> L3D --> L3E
+  L3E --> PAC
+  PAC --> PAC2
+
+  style L1 fill:#fee2e2,stroke:#ef4444,color:#991b1b
+  style L2 fill:#fef3c7,stroke:#f59e0b,color:#92400e
+  style L3 fill:#d1fae5,stroke:#10b981,color:#065f46
+  style PACK fill:#e0e7ff,stroke:#6366f1,color:#3730a3
+          </pre>
+          <p class="text-sm text-zinc-500 mt-3">📌 推文明確以 <strong>AXTI（Coherent）</strong>為例：這檔股票上漲不是因為名字響亮，而是因為 InP 襯底與上游材料卡在光通訊、矽光子、CPO 這條線上。</p>
+        </div>
+      </section>
+
+      <!-- Full bottleneck table -->
+      <section id="bottleneck-list" class="mb-12">
+        <h2 class="text-2xl font-bold mb-4">瓶頸項目與台美股對照總表</h2>
+        <div class="card rounded-2xl bg-white dark:bg-zinc-900 p-5 soft-shadow overflow-x-auto">
+          <table id="bottleneckTable" class="w-full text-sm min-w-[800px]">
+            <thead class="text-left border-b border-zinc-200 dark:border-zinc-800">
+              <tr>
+                <th class="py-2 pr-4 cursor-pointer select-none" data-sort="layer">層級</th>
+                <th class="py-2 pr-4 cursor-pointer select-none" data-sort="component">瓶頸環節</th>
+                <th class="py-2 pr-4 cursor-pointer select-none" data-sort="us">美股對應</th>
+                <th class="py-2 cursor-pointer select-none" data-sort="tw">台股對應</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-zinc-100 dark:divide-zinc-800"></tbody>
+          </table>
+          <div class="mt-3 flex gap-4 text-xs text-zinc-500">
+            <span class="flex items-center gap-1"><span class="legend-dot" style="background:#93c5fd"></span>美股</span>
+            <span class="flex items-center gap-1"><span class="legend-dot" style="background:#86efac"></span>台股</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- US stocks -->
+      <section id="us-stocks" class="mb-12">
+        <h2 class="text-2xl font-bold mb-4">美股標的（Tab 檢視）</h2>
+        <div class="tabs tab-group card rounded-2xl bg-white dark:bg-zinc-900 p-5 soft-shadow">
+          <input type="radio" name="us-tab" id="us-tab-optical" checked>
+          <label for="us-tab-optical" class="tab-btn" onclick="">光通訊 / 雷射</label>
+          <input type="radio" name="us-tab" id="us-tab-semimat">
+          <label for="us-tab-semimat" class="tab-btn" onclick="">半導體材料</label>
+          <input type="radio" name="us-tab" id="us-tab-equip">
+          <label for="us-tab-equip" class="tab-btn" onclick="">設備 / 測試</label>
+
+          <div class="tab-panel">
+            <h3 class="font-semibold mb-3">光通訊 / 雷射供應鏈</h3>
+            <div class="space-y-4">
+              <div class="rounded-xl bg-zinc-50 dark:bg-zinc-800 p-4">
+                <div class="font-semibold mb-2">Coherent Corp <span class="text-zinc-500 font-normal text-sm">(COHR)</span> <span class="stock-tag us-tag ml-2">⚠️ 推文明示</span></div>
+                <p class="text-zinc-600 dark:text-zinc-400 text-sm mb-2">全球最大光通訊元件廠，涵蓋雷射器、光調變器、InP 襯底技術。也是少數同時掌握 VCSEL 與 DFB 雷射能力的公司。AI CPO 趨勢直接受益。</p>
+                <div class="text-xs text-zinc-500">業務：光通訊元件 / 雷射 / InP 襯底 | 營收區塊：網路與消費電子</div>
+              </div>
+              <div class="rounded-xl bg-zinc-50 dark:bg-zinc-800 p-4">
+                <div class="font-semibold mb-2">Lumentum Holdings <span class="text-zinc-500 font-normal text-sm">(LITE)</span></div>
+                <p class="text-zinc-600 dark:text-zinc-400 text-sm mb-2">光學元件領導廠，雲端與電信客戶佔營收高達 75%。具備規模化光學設計與製造垂直整合能力，在 800G 以上光模組趨勢中居關鍵地位。</p>
+                <div class="text-xs text-zinc-500">業務：光學元件 / 3D 感測 / 雲端光學 | 營收區塊：雲端與電信</div>
+              </div>
+              <div class="rounded-xl bg-zinc-50 dark:bg-zinc-800 p-4">
+                <div class="font-semibold mb-2">IPG Photonics <span class="text-zinc-500 font-normal text-sm">(IPGP)</span></div>
+                <p class="text-zinc-600 dark:text-zinc-400 text-sm mb-2">全球最大光纖雷射廠，主供工業加工與通信領域。高功率雷射技術領先，產品用於半導體先進封裝中的雷射切割與微加工。</p>
+                <div class="text-xs text-zinc-500">業務：光纖雷射 / 高功率雷射 | 營收區塊：工業 / 通訊</div>
+              </div>
+              <div class="rounded-xl bg-zinc-50 dark:bg-zinc-800 p-4">
+                <div class="font-semibold mb-2">Axcelis Technologies <span class="text-zinc-500 font-normal text-sm">(ACLS)</span></div>
+                <p class="text-zinc-600 dark:text-zinc-400 text-sm mb-2">離子植入設備廠，專注於功率半導體與化合物半導體加工製程。受惠於 SiC、GaN 功率元件與化合物半導體需求成長。</p>
+                <div class="text-xs text-zinc-500">業務：離子植入設備 / 功率半導體 | 營收區塊：先進封裝</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="tab-panel">
+            <h3 class="font-semibold mb-3">半導體材料供應鏈</h3>
+            <div class="space-y-4">
+              <div class="rounded-xl bg-zinc-50 dark:bg-zinc-800 p-4">
+                <div class="font-semibold mb-2">AXT Inc / 朝日玻璃子公司 <span class="text-zinc-500 font-normal text-sm">(AXTI)</span> <span class="stock-tag us-tag ml-2">⚠️ 推文明示</span></div>
+                <p class="text-zinc-600 dark:text-zinc-400 text-sm mb-2">主營化合物半導體襯底（GaAs、InP），是光通訊上游關鍵材料。Coherent（前 II-VI）是其最大客戶之一，供應關係具有戰略價值。</p>
+                <div class="text-xs text-zinc-500">業務：GaAs / InP 襯底 | 營收區塊：光通訊 / 射頻</div>
+              </div>
+              <div class="rounded-xl bg-zinc-50 dark:bg-zinc-800 p-4">
+                <div class="font-semibold mb-2">GlobalFoundries <span class="text-zinc-500 font-normal text-sm">(GFS)</span></div>
+                <p class="text-zinc-600 dark:text-zinc-400 text-sm mb-2">美國最大晶圓代工廠，具備 SOI 技術與射頻/類比製程能力。供應美國國防與汽車電子晶片，也是少數在美 EUV-free 先進節點的廠商。</p>
+                <div class="text-xs text-zinc-500">業務：特用晶圓代工 / SOI / RF SOI | 營收區塊：行動 / 汽車 / 國防</div>
+              </div>
+              <div class="rounded-xl bg-zinc-50 dark:bg-zinc-800 p-4">
+                <div class="font-semibold mb-2">SkyWater Technology <span class="text-zinc-500 font-normal text-sm">(SKYT)</span></div>
+                <p class="text-zinc-600 dark:text-zinc-400 text-sm mb-2">專注於化合物半導體、先進封裝與特用晶圓代工服務。擁有 imec、PsiQuantum 等關鍵合作關係，受惠於光子積體電路（PIC）趨勢。</p>
+                <div class="text-xs text-zinc-500">業務：特用代工 / 先進封裝 / 光子技術 | 營收區塊：國防 / 運算</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="tab-panel">
+            <h3 class="font-semibold mb-3">設備 / 測試供應鏈</h3>
+            <div class="space-y-4">
+              <div class="rounded-xl bg-zinc-50 dark:bg-zinc-800 p-4">
+                <div class="font-semibold mb-2">Cohu Inc <span class="text-zinc-500 font-normal text-sm">(COHU)</span></div>
+                <p class="text-zinc-600 dark:text-zinc-400 text-sm mb-2">半導體最終測試設備領導廠，涵蓋 IC 最終測試、雷射修復與檢測設備。晶圓級測試為先进封装的关键步骤，受惠於 AI 晶片測試需求暴增。</p>
+                <div class="text-xs text-zinc-500">業務：半導體最終測試設備 / 檢測 | 營收區塊：消費電子 / 汽車 / AI</div>
+              </div>
+              <div class="rounded-xl bg-zinc-50 dark:bg-zinc-800 p-4">
+                <div class="font-semibold mb-2">FormFactor <span class="text-zinc-500 font-normal text-sm">(FORM)</span></div>
+                <p class="text-zinc-600 dark:text-zinc-400 text-sm mb-2">探針卡（Probe Card）龍頭，供半導體晶圓測試用。HBM、先進製程與光電晶片都需要探針卡驗證，供應關係具剛性。</p>
+                <div class="text-xs text-zinc-500">業務：探針卡 / 失效分析 | 營收區塊：HBM / 先進製程</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Taiwan stocks -->
+      <section id="tw-stocks" class="mb-12">
+        <h2 class="text-2xl font-bold mb-4">台股對應標的（Tab 檢視）</h2>
+        <div class="tabs tab-group card rounded-2xl bg-white dark:bg-zinc-900 p-5 soft-shadow">
+          <input type="radio" name="tw-tab" id="tw-tab-optic" checked>
+          <label for="tw-tab-optic" class="tab-btn" onclick="">光通訊 / 精密光學</label>
+          <input type="radio" name="tw-tab" id="tw-tab-material">
+          <label for="tw-tab-material" class="tab-btn" onclick="">材料 / 化工</label>
+          <input type="radio" name="tw-tab" id="tw-tab-pack">
+          <label for="tw-tab-pack" class="tab-btn" onclick="">封裝 / PCB</label>
+          <input type="radio" name="tw-tab" id="tw-tab-test">
+          <label for="tw-tab-test" class="tab-btn" onclick="">測試 / 設備</label>
+
+          <div class="tab-panel">
+            <h3 class="font-semibold mb-3">光通訊與精密光學</h3>
+            <div class="space-y-4">
+              <div class="rounded-xl bg-zinc-50 dark:bg-zinc-800 p-4">
+                <div class="font-semibold mb-2">聯亞光電 <span class="text-zinc-500 font-normal text-sm">(3081)</span></div>
+                <p class="text-zinc-600 dark:text-zinc-400 text-sm mb-2">PA (Photonic Integrated Circuit) 與光子晶片製造商，主力供應光通訊上游磊晶片。掌握 InP、GaAs 磊晶製造能力，為少數具備化合物半導體光子技術的台廠。</p>
+                <div class="text-xs text-zinc-500">業務：光子積體電路 / 光通訊磊晶 | 營收：光通訊近 100%</div>
+              </div>
+              <div class="rounded-xl bg-zinc-50 dark:bg-zinc-800 p-4">
+                <div class="font-semibold mb-2">光環科技 <span class="text-zinc-500 font-normal text-sm">(3234)</span></div>
+                <p class="text-zinc-600 dark:text-zinc-400 text-sm mb-2">光被動元件廠，供應光纖到府與資料中心用濾波片、耦合器。5G 與資料中心擴建帶動光被動元件需求，為光通訊基礎建設的耗材供應商。</p>
+                <div class="text-xs text-zinc-500">業務：光纖被動元件 / DWDM 元件 | 營收：電信基礎建設</div>
+              </div>
+              <div class="rounded-xl bg-zinc-50 dark:bg-zinc-800 p-4">
+                <div class="font-semibold mb-2">波若威光纖通訊 <span class="text-zinc-500 font-normal text-sm">(3163)</span></div>
+                <p class="text-zinc-600 dark:text-zinc-400 text-sm mb-2">光纖放大器與光被動元件製造，直接服務中國與全球電信運營商。光放大器是長距離資料傳輸的關鍵硬體。</p>
+                <div class="text-xs text-zinc-500">業務：光纖放大器 / 光被動元件 | 營收：電信 / 資料中心</div>
+              </div>
+              <div class="rounded-xl bg-zinc-50 dark:bg-zinc-800 p-4">
+                <div class="font-semibold mb-2">華星光通 <span class="text-zinc-500 font-normal text-sm">(4979)</span></div>
+                <p class="text-zinc-600 dark:text-zinc-400 text-sm mb-2">光主動元件廠，專注於光纖收發模組 (SFP/QSFP)。資料中心 400G/800G 光模組升級需求是近期營運動能。</p>
+                <div class="text-xs text-zinc-500">業務：光纖收發模組 / 10G~800G 光元件 | 營收：雲端 / 電信</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="tab-panel">
+            <h3 class="font-semibold mb-3">特用材料與化工</h3>
+            <div class="space-y-4">
+              <div class="rounded-xl bg-zinc-50 dark:bg-zinc-800 p-4">
+                <div class="font-semibold mb-2">長興材料 <span class="text-zinc-500 font-normal text-sm">(1717)</span></div>
+                <p class="text-zinc-600 dark:text-zinc-400 text-sm mb-2">亞洲最大合成材料廠，涵蓋電子級環氧樹酯與封裝材料。先進封裝用 EMC (環氧樹酯封裝材料) 為關鍵耗材，同時供應光學膠與半導體膠。</p>
+                <div class="text-xs text-zinc-500">業務：合成材料 / 包裝材料 / 特化學品 | 營收：電子材料 / 工業</div>
+              </div>
+              <div class="rounded-xl bg-zinc-50 dark:bg-zinc-800 p-4">
+                <div class="font-semibold mb-2">永光化學 <span class="text-zinc-500 font-normal text-sm">(1711)</span></div>
+                <p class="text-zinc-600 dark:text-zinc-400 text-sm mb-2">電子級化學品供應商，特用染料與光學相關化學品。子公司永光電子專注於光阻劑與相關化學品，供應半導體前段製程。</p>
+                <div class="text-xs text-zinc-500">業務：特用化學品 / 染料 / 電子化學 | 營收：電子材料</div>
+              </div>
+              <div class="rounded-xl bg-zinc-50 dark:bg-zinc-800 p-4">
+                <div class="font-semibold mb-2">耀華電子 <span class="text-zinc-500 font-normal text-sm">(2367)</span></div>
+                <p class="text-zinc-600 dark:text-zinc-400 text-sm mb-2">HDI 與任意層高密度連接板 (Anylayer HDI) 廠，專注於類載板 (SLP) 與半導體載板。供應智慧型手機與 AI 伺服器用的基層板。</p>
+                <div class="text-xs text-zinc-500">業務：HDI 板 / 類載板 / 半導體載板 | 營收：行動 / 網通 / 半導體</div>
+              </div>
+              <div class="rounded-xl bg-zinc-50 dark:bg-zinc-800 p-4">
+                <div class="font-semibold mb-2">南亞電路板 <span class="text-zinc-500 font-normal text-sm">(8046)</span></div>
+                <p class="text-zinc-600 dark:text-zinc-400 text-sm mb-2">台塑集團旗下 PCB 與IC 載板廠。載板業務供應國際主要 IDM 與封測廠，ABF 載板為 AI 先進封裝核心材料，需求結構性暢旺。</p>
+                <div class="text-xs text-zinc-500">業務：PCB / ABF 載板 / 類載板 | 營收：半導體封裝 / 網通</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="tab-panel">
+            <h3 class="font-semibold mb-3">先進封裝與 PCB</h3>
+            <div class="space-y-4">
+              <div class="rounded-xl bg-zinc-50 dark:bg-zinc-800 p-4">
+                <div class="font-semibold mb-2">台積電 <span class="text-zinc-500 font-normal text-sm">(2330)</span></div>
+                <p class="text-zinc-600 dark:text-zinc-400 text-sm mb-2">全球最關鍵的 AI 先進封裝據點：CoWoS（ Chip on Wafer on Substrate）與 SoIC 技術，是少數能承接 2.5D/3D 封裝且具量產規模的廠商。輝達 H100/H200/GB200 全數使用 CoWoS。</p>
+                <div class="text-xs text-zinc-500">業務：先進製程代工 / CoWoS / SoIC 先進封裝 | 營收：HPC / 智慧型手機</div>
+              </div>
+              <div class="rounded-xl bg-zinc-50 dark:bg-zinc-800 p-4">
+                <div class="font-semibold mb-2">日月光半導體 <span class="text-zinc-500 font-normal text-sm">(3711)</span></div>
+                <p class="text-zinc-600 dark:text-zinc-400 text-2m mb-2">全球最大 IC 封測廠，涵蓋先進封裝 (FOCoS、SiP) 與傳統封測。先進封裝營收逐年提升，受惠於 AI 晶片外包封測需求。</p>
+                <div class="text-xs text-zinc-500">業務：IC 封測 / 先進封裝 / SiP | 營收：運算 / 通訊 / 消費電子</div>
+              </div>
+              <div class="rounded-xl bg-zinc-50 dark:bg-zinc-800 p-4">
+                <div class="font-semibold mb-2">景碩科技 <span class="text-zinc-500 font-normal text-sm">(3189)</span></div>
+                <p class="text-zinc-600 dark:text-zinc-400 text-sm mb-2">華碩集團旗下 IC 載板廠，ABF 載板與 BT 載板並進。景碩為少數同時具備 ABF 與 BT 能力的台廠，受惠於先進封裝載板需求。</p>
+                <div class="text-xs text-zinc-500">業務：ABF 載板 / BT 載板 / PCB | 營收：半導體封裝 / 網通</div>
+              </div>
+              <div class="rounded-xl bg-zinc-50 dark:bg-zinc-800 p-4">
+                <div class="font-semibold mb-2">欣興電子 <span class="text-zinc-500 font-normal text-sm">(3037)</span></div>
+                <p class="text-zinc-600 dark:text-zinc-400 text-sm mb-2">全球最大 PCB 與載板廠之一，ABF 載板佔營收比重持續提升。為輝達、超微等 AI GPU 供應商的 PCB 與載板供應鏈核心成員。</p>
+                <div class="text-xs text-zinc-500">業務：PCB / ABF 載板 / HDI | 營收：半導體封裝 / 消費電子</div>
+              </div>
+              <div class="rounded-xl bg-zinc-50 dark:bg-zinc-800 p-4">
+                <div class="font-semibold mb-2">京元電子 <span class="text-zinc-500 font-normal text-sm">(2449)</span></div>
+                <p class="text-zinc-600 dark:text-zinc-400 text-sm mb-2">亞洲最大 IC 測試廠，提供成品測試 (FT) 與晶圓測試 (CP) 服務。AI 晶片測試時間長且単価高，是先進製程的剛性需求。</p>
+                <div class="text-xs text-zinc-500">業務：IC 測試 / 成品測試 / 晶圓測試 | 營收：高效能運算 / 通訊</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="tab-panel">
+            <h3 class="font-semibold mb-3">測試 / 設備 / 玻璃纖維</h3>
+            <div class="space-y-4">
+              <div class="rounded-xl bg-zinc-50 dark:bg-zinc-800 p-4">
+                <div class="font-semibold mb-2">精測科技 <span class="text-zinc-500 font-normal text-sm">(6510)</span></div>
+                <p class="text-zinc-600 dark:text-zinc-400 text-sm mb-2">半導體測試介面與探針卡廠，提供高速探針卡與老化測試板。服務輝達、蘋果、高通等主要晶片廠，為晶圓級測試關鍵供應商。</p>
+                <div class="text-xs text-zinc-500">業務：探針卡 / 測試介面 / 工程測試 | 營收：高效能運算 / 行動</div>
+              </div>
+              <div class="rounded-xl bg-zinc-50 dark:bg-zinc-800 p-4">
+                <div class="font-semibold mb-2">旺矽科技 <span class="text-zinc-500 font-normal text-sm">(6223)</span></div>
+                <p class="text-zinc-600 dark:text-zinc-400 text-sm mb-2">LED 與半導體測試設備廠，提供高速機台與光電測試系統。化合物半導體檢測需求随著光通訊擴張而增加。</p>
+                <div class="text-xs text-zinc-500">業務：半導體測試設備 / 光電檢測 | 營收：LED / 半導體 / 光通訊</div>
+              </div>
+              <div class="rounded-xl bg-zinc-50 dark:bg-zinc-800 p-4">
+                <div class="font-semibold mb-2">閎康科技 <span class="text-zinc-500 font-normal text-sm">(3587)</span></div>
+                <p class="text-zinc-600 dark:text-zinc-400 text-sm mb-2">半導體材料分析與可靠度測試實驗室，為 AI 晶片與化合物半導體提供材料分析（MA）和故障分析（FA）服務。</p>
+                <div class="text-xs text-zinc-500">業務：材料分析 / 故障分析 / 可靠度測試 | 營收：半導體 / 光電</div>
+              </div>
+              <div class="rounded-xl bg-zinc-50 dark:bg-zinc-800 p-4">
+                <div class="font-semibold mb-2">台灣玻璃 <span class="text-zinc-500 font-normal text-sm">(1802)</span></div>
+                <p class="text-zinc-600 dark:text-zinc-400 text-sm mb-2">台灣最大玻璃製品廠，電子級玻璃纖維布是 PCB 與 CCL 的關鍵材料。AI 伺服器用高階 CCL 需求增加，帶動電子級玻纖需求。</p>
+                <div class="text-xs text-zinc-500">業務：電子級玻璃纖維 / 平板玻璃 / 容器 | 營收：電子材料 / 建築</div>
+              </div>
+              <div class="rounded-xl bg-zinc-50 dark:bg-zinc-800 p-4">
+                <div class="font-semibold mb-2">達億機械 <span class="text-zinc-500 font-normal text-sm">(1521)</span></div>
+                <p class="text-zinc-600 dark:text-zinc-400 text-sm mb-2">半導體後段封測設備廠，主力產品為自動光學檢測 (AOI) 與雷射切割設備。先進封裝良率要求提升，AOI 設備需求結構性增加。</p>
+                <div class="text-xs text-zinc-500">業務：AOI 設備 / 雷射切割 / 封測設備 | 營收：半導體封測 / PCB</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Source -->
+      <footer id="source" class="mt-16 pt-8 border-t border-zinc-200 dark:border-zinc-800 text-sm text-zinc-500 space-y-2">
+        <div>推文來源：<a class="underline" href="https://x.com/kaikaibtc/status/2058126504689811527">@kaikaibtc</a>，2026-05-23</div>
+        <div>說明：圖中 Serenity 的 23 檔具體持股代號非公開資訊，無法直接確認。以上台美股對照是根據推文提到的供應鏈環節與已知公開掛牌公司所做的系統性對照，供研究參考，不構成投資建議。</div>
+        <div>Generated with the <code>html-report</code> skill.</div>
+      </footer>
+
+    </main>
+  </div>
+
+  <script>
+    // Bottleneck table data
+    const rows = [
+      ["第二層", "光模組 / 光收發模組", "Lumentum (LITE)、Coherent (COHR)", "華星光通 (4979)、光環科技 (3234)"],
+      ["第二層", "雷射器", "IPG Photonics (IPGP)、Coherent (COHR)、Lumentum (LITE)", "聯亞光電 (3081磊晶)、波若威 (3163)"],
+      ["第二層", "InP / GaAs 襯底", "AXTI (AXTI)、Coherent (COHR)襯底部門", "聯亞光電 (3081) 為主要襯底/磊晶整合廠"],
+      ["第二層", "化合物半導體", "GlobalFoundries (GFS) RF SOI、Axcelis (ACLS)", "閎康科技 (3587) 材料分析服務"],
+      ["第三層", "SOI 晶圓 / RF SOI", "GlobalFoundries (GFS)", "世界先進 (5347) 具有 SOI 相關製程"],
+      ["第三層", "外延設備", "Axcelis (ACLS) 離子植入、Lam Research (LRCX)", "漢微科 (3653) 提供電漿蝕刻設備"],
+      ["第三層", "晶圓級測試", "Cohu (COHU)、FormFactor (FORM)", "精測科技 (6510)、京元電子 (2449)"],
+      ["第三層", "IC 載板 / ABF", "Unimicron 子公司 (台灣)", "南亞電路板 (8046)、欣興電子 (3037)、景碩 (3189)、耀華 (2367)"],
+      ["第三層", "特殊玻纖 / CCL", "Rogers (ROG)", "台灣玻璃 (1802) 電子級玻纖、長興 (1717) 環氧樹酯"],
+      ["封裝", "CoWoS / 先進封裝", "なし（台積電為核心）", "台積電 (2330) CoWoS、日月光 (3711) 先進封裝"],
+    ];
+
+    function setupSortTable(tableId, initialRows) {
+      const table = document.getElementById(tableId);
+      const tbody = table.querySelector('tbody');
+      const headers = [...table.querySelectorAll('th[data-sort]')];
+      let rowsData = initialRows.map(r => [...r]);
+      let sortKey = headers[0].dataset.sort;
+      let asc = true;
+
+      const render = () => {
+        const idx = headers.findIndex(h => h.dataset.sort === sortKey);
+        rowsData.sort((a, b) => {
+          const av = a[idx].toString();
+          const bv = b[idx].toString();
+          return asc ? av.localeCompare(bv, 'zh-Hant', { numeric: true }) : bv.localeCompare(av, 'zh-Hant', { numeric: true });
+        });
+        tbody.innerHTML = rowsData.map(r => `
+          <tr class="align-top">
+            <td class="py-3 pr-4">
+              <span class="${r[0] === '第二層' ? 'bg-amber-100 text-amber-700 dark:bg-amber-900/40 dark:text-amber-200' : r[0] === '第三層' ? 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-200' : 'bg-purple-100 text-purple-700 dark:bg-purple-900/40 dark:text-purple-200'} rounded px-2 py-0.5 text-xs font-semibold">${r[0]}</span>
+            </td>
+            <td class="py-3 pr-4 font-medium text-sm">${r[1]}</td>
+            <td class="py-3 pr-4 text-sm text-zinc-700 dark:text-zinc-300">${r[2]}</td>
+            <td class="py-3 text-sm text-zinc-700 dark:text-zinc-300">${r[3]}</td>
+          </tr>
+        `).join('');
+      };
+
+      headers.forEach(h => h.addEventListener('click', () => {
+        if (sortKey === h.dataset.sort) asc = !asc;
+        else { sortKey = h.dataset.sort; asc = true; }
+        render();
+      }));
+      render();
+    }
+
+    // Theme toggle
+    document.getElementById('theme-toggle').addEventListener('click', () => {
+      document.documentElement.classList.toggle('dark');
+      localStorage.theme = document.documentElement.classList.contains('dark') ? 'dark' : 'light';
+    });
+
+    setupSortTable('bottleneckTable', rows);
+
+    // TOC scroll-spy
+    const tocLinks = document.querySelectorAll('.toc a');
+    const sections = [...tocLinks].map(a => document.querySelector(a.getAttribute('href'))).filter(Boolean);
+    if (sections.length) {
+      const onScroll = () => {
+        const y = window.scrollY + 120;
+        let active = sections[0];
+        for (const s of sections) if (s.offsetTop <= y) active = s;
+        tocLinks.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + active.id));
+      };
+      window.addEventListener('scroll', onScroll, { passive: true });
+      onScroll();
+    }
+
+    hljs.highlightAll();
+  </script>
+</body>
+</html>
