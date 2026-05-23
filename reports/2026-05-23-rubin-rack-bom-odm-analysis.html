@@ -322,7 +322,11 @@ flowchart LR
     document.querySelectorAll('.tab-btn').forEach(b => b.setAttribute('aria-selected', 'false'));
     btn.setAttribute('aria-selected', 'true');
     document.querySelectorAll('.tab-panel').forEach(p => p.classList.add('hidden'));
-    document.getElementById('tab-' + btn.dataset.tab).classList.remove('hidden');
+    const panel = document.getElementById('tab-' + btn.dataset.tab);
+    panel.classList.remove('hidden');
+    if (btn.dataset.tab === 'complexity' && window.__mermaid) {
+      panel.querySelectorAll('.mermaid:not([data-processed])').forEach(el => window.__mermaid.run({ nodes: [el] }));
+    }
   }));
 
   const tocLinks = document.querySelectorAll('.toc a');
