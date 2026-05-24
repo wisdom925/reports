@@ -1,0 +1,885 @@
+<!doctype html>
+<html lang="zh-TW" class="scroll-smooth">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>低位階題材股分析：大綜、界霖、和大</title>
+  <meta name="description" content="3147 大綜、5285 界霖、1536 和大 — 低位階布局機會、端午節題材催化與技術面分析。">
+  <meta property="og:title" content="低位階題材股分析：大綜 × 界霖 × 和大">
+  <meta property="og:description" content="三檔低位階題材股橫向比較，端午節倒數催化，風險矩陣評估。">
+  <meta property="og:type" content="article">
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = { darkMode: 'class', theme: { extend: { fontFamily: { sans: ['system-ui','ui-sans-serif','sans-serif'] } } } };
+    if (localStorage.theme === 'dark' || (!('theme' in localStorage) && matchMedia('(prefers-color-scheme: dark)').matches)) {
+      document.documentElement.classList.add('dark');
+    }
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+    const isDark = document.documentElement.classList.contains('dark');
+    mermaid.initialize({ startOnLoad: true, theme: isDark ? 'dark' : 'default', securityLevel: 'loose' });
+    window.__mermaid = mermaid;
+  </script>
+
+  <style>
+    @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
+    @media print {
+      .no-print { display: none !important; }
+      body { color: #000; background: #fff; }
+      details { display: block; } details > summary { display: none; }
+    }
+
+    details > summary { cursor: pointer; user-select: none; }
+    details > summary::marker { content: "▸ "; }
+    details[open] > summary::marker { content: "▾ "; }
+
+    .toc a { display: block; padding: .2rem 0; opacity: .6; transition: opacity .15s; font-size: .82rem; }
+    .toc a:hover, .toc a.active { opacity: 1; }
+    .toc a.active { font-weight: 600; }
+
+    /* Stock tabs */
+    .stock-tabs { display: flex; flex-wrap: wrap; border-bottom: 1px solid; }
+    .stock-tabs { border-color: #e4e4e7; }
+    .dark .stock-tabs { border-color: #3f3f46; }
+    .stock-tabs > input[type="radio"] { display: none; }
+    .stock-tabs > label {
+      cursor: pointer; padding: .6rem 1.4rem;
+      border-bottom: 3px solid transparent;
+      font-weight: 600; font-size: .9rem;
+      color: #71717a; transition: color .15s, border-color .15s;
+    }
+    .stock-tabs > label:hover { color: #111; }
+    .dark .stock-tabs > label:hover { color: #f4f4f5; }
+    .stock-tabs > input:nth-of-type(1):checked + label { border-color: #3b82f6; color: #3b82f6; }
+    .stock-tabs > input:nth-of-type(2):checked + label { border-color: #8b5cf6; color: #8b5cf6; }
+    .stock-tabs > input:nth-of-type(3):checked + label { border-color: #10b981; color: #10b981; }
+    .stock-tabs > .tab-panel { display: none; width: 100%; padding-top: 1.25rem; }
+    .stock-tabs > input:nth-of-type(1):checked ~ .tab-panel:nth-of-type(1),
+    .stock-tabs > input:nth-of-type(2):checked ~ .tab-panel:nth-of-type(2),
+    .stock-tabs > input:nth-of-type(3):checked ~ .tab-panel:nth-of-type(3) { display: block; }
+
+    .stat-card {
+      border-radius: 1rem; padding: 1.25rem;
+      border: 1px solid; transition: transform .2s, box-shadow .2s;
+    }
+    .stat-card:hover { transform: translateY(-2px); }
+    .card-blue { background: rgba(59,130,246,.07); border-color: rgba(59,130,246,.25); }
+    .card-purple { background: rgba(139,92,246,.07); border-color: rgba(139,92,246,.25); }
+    .card-green { background: rgba(16,185,129,.07); border-color: rgba(16,185,129,.25); }
+
+    .badge { display: inline-block; padding: .15rem .5rem; border-radius: 9999px; font-size: .72rem; font-weight: 700; }
+    .badge-blue { background: rgba(59,130,246,.15); color: #3b82f6; }
+    .badge-purple { background: rgba(139,92,246,.15); color: #8b5cf6; }
+    .badge-green { background: rgba(16,185,129,.15); color: #10b981; }
+    .badge-amber { background: rgba(245,158,11,.15); color: #f59e0b; }
+    .badge-red { background: rgba(239,68,68,.15); color: #ef4444; }
+
+    .chart-wrap { position: relative; height: 280px; }
+
+    .stage-bar { height: 10px; border-radius: 5px; overflow: hidden; background: #e4e4e7; }
+    .dark .stage-bar { background: #3f3f46; }
+    .stage-bar-fill { height: 100%; border-radius: 5px; transition: width 1s cubic-bezier(.4,0,.2,1) .3s; }
+
+    /* countdown */
+    .countdown-ring { position: relative; display: inline-flex; align-items: center; justify-content: center; }
+
+    .highlight-box {
+      border-left: 4px solid;
+      padding: .75rem 1rem;
+      border-radius: 0 .5rem .5rem 0;
+    }
+    .hb-blue { border-color: #3b82f6; background: rgba(59,130,246,.06); }
+    .hb-purple { border-color: #8b5cf6; background: rgba(139,92,246,.06); }
+    .hb-green { border-color: #10b981; background: rgba(16,185,129,.06); }
+    .hb-amber { border-color: #f59e0b; background: rgba(245,158,11,.06); }
+
+    .risk-label { font-size: .7rem; font-weight: 600; text-transform: uppercase; letter-spacing: .05em; }
+
+    /* score circle */
+    .score-circle {
+      width: 52px; height: 52px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.1rem; font-weight: 800;
+      border: 3px solid;
+    }
+  </style>
+</head>
+
+<body class="bg-white dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 font-sans antialiased">
+
+<!-- Controls -->
+<div class="fixed top-4 right-4 z-50 flex gap-2 no-print">
+  <button id="theme-toggle" class="px-3 py-1.5 rounded-md border border-zinc-300 dark:border-zinc-700 bg-white/80 dark:bg-zinc-900/80 backdrop-blur text-sm hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors">☼ / ☾</button>
+  <button onclick="window.print()" class="px-3 py-1.5 rounded-md border border-zinc-300 dark:border-zinc-700 bg-white/80 dark:bg-zinc-900/80 backdrop-blur text-sm hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors">列印</button>
+</div>
+
+<div class="max-w-6xl mx-auto px-4 py-12 lg:grid lg:grid-cols-[200px_minmax(0,1fr)] lg:gap-12">
+
+  <!-- TOC -->
+  <nav class="toc lg:sticky lg:top-12 self-start text-sm mb-8 lg:mb-0 no-print">
+    <div class="font-semibold mb-3 text-zinc-400 uppercase tracking-wider text-xs">目錄</div>
+    <a href="#overview">三股概覽</a>
+    <a href="#countdown">端午節倒數</a>
+    <a href="#stocks">個股深度分析</a>
+    <a href="#radar">多維比較</a>
+    <a href="#risk">風險矩陣</a>
+    <a href="#strategy">操作策略</a>
+  </nav>
+
+  <main class="min-w-0">
+
+    <!-- Header -->
+    <header class="mb-10">
+      <div class="flex flex-wrap items-center gap-2 mb-4">
+        <span class="badge badge-amber">低位階布局</span>
+        <span class="badge badge-blue">端午節題材</span>
+        <span class="badge" style="background:rgba(239,68,68,.1);color:#ef4444">台股觀察</span>
+      </div>
+      <p class="text-sm text-zinc-500 mb-3">技術面分析 · <time datetime="2026-05-24">2026-05-24</time> · 僅供研究參考，非投資建議</p>
+      <h1 class="text-3xl md:text-4xl font-bold tracking-tight mb-3 leading-tight">
+        低位階題材三連發<br>
+        <span class="text-2xl md:text-3xl text-zinc-500 dark:text-zinc-400">大綜 × 界霖 × 和大</span>
+      </h1>
+      <p class="text-base text-zinc-500 dark:text-zinc-400 leading-relaxed">
+        三檔同處技術面低位階、各具題材催化的台股個股。端午節（6/19 前後）進入倒數，短線情緒窗口明確。
+      </p>
+      <div class="mt-4 p-3 rounded-lg bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-800 text-xs text-amber-700 dark:text-amber-300">
+        ⚠️ 本報告為技術面框架分析，不含即時報價。所有數據為示意性估算，買賣決策請以實際盤面資料為準。
+      </div>
+    </header>
+
+    <!-- Overview Cards -->
+    <section id="overview" class="mb-12">
+      <h2 class="text-xl font-bold mb-4">三股概覽</h2>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+
+        <!-- 3147 大綜 -->
+        <div class="stat-card card-blue">
+          <div class="flex justify-between items-start mb-3">
+            <div>
+              <div class="text-xs text-zinc-500 mb-0.5">3147</div>
+              <div class="text-xl font-black text-blue-600 dark:text-blue-400">大綜</div>
+            </div>
+            <div class="score-circle" style="border-color:#3b82f6;color:#3b82f6">85</div>
+          </div>
+          <div class="space-y-2 text-sm">
+            <div class="flex justify-between">
+              <span class="text-zinc-500">位階評估</span>
+              <span class="badge badge-blue">低位階 ✓</span>
+            </div>
+            <div class="flex justify-between">
+              <span class="text-zinc-500">主要題材</span>
+              <span class="font-semibold text-blue-600 dark:text-blue-400">端午節</span>
+            </div>
+            <div class="flex justify-between">
+              <span class="text-zinc-500">催化時間</span>
+              <span>約 26 天後</span>
+            </div>
+          </div>
+          <div class="mt-3">
+            <div class="text-xs text-zinc-500 mb-1">綜合評分</div>
+            <div class="stage-bar"><div class="stage-bar-fill bg-blue-500" style="width:85%"></div></div>
+          </div>
+        </div>
+
+        <!-- 5285 界霖 -->
+        <div class="stat-card card-purple">
+          <div class="flex justify-between items-start mb-3">
+            <div>
+              <div class="text-xs text-zinc-500 mb-0.5">5285</div>
+              <div class="text-xl font-black text-purple-600 dark:text-purple-400">界霖</div>
+            </div>
+            <div class="score-circle" style="border-color:#8b5cf6;color:#8b5cf6">78</div>
+          </div>
+          <div class="space-y-2 text-sm">
+            <div class="flex justify-between">
+              <span class="text-zinc-500">位階評估</span>
+              <span class="badge badge-purple">低位階 ✓</span>
+            </div>
+            <div class="flex justify-between">
+              <span class="text-zinc-500">主要題材</span>
+              <span class="font-semibold text-purple-600 dark:text-purple-400">電子/科技</span>
+            </div>
+            <div class="flex justify-between">
+              <span class="text-zinc-500">催化時間</span>
+              <span>持續進行</span>
+            </div>
+          </div>
+          <div class="mt-3">
+            <div class="text-xs text-zinc-500 mb-1">綜合評分</div>
+            <div class="stage-bar"><div class="stage-bar-fill bg-purple-500" style="width:78%"></div></div>
+          </div>
+        </div>
+
+        <!-- 1536 和大 -->
+        <div class="stat-card card-green">
+          <div class="flex justify-between items-start mb-3">
+            <div>
+              <div class="text-xs text-zinc-500 mb-0.5">1536</div>
+              <div class="text-xl font-black text-emerald-600 dark:text-emerald-400">和大</div>
+            </div>
+            <div class="score-circle" style="border-color:#10b981;color:#10b981">82</div>
+          </div>
+          <div class="space-y-2 text-sm">
+            <div class="flex justify-between">
+              <span class="text-zinc-500">位階評估</span>
+              <span class="badge badge-green">低位階 ✓</span>
+            </div>
+            <div class="flex justify-between">
+              <span class="text-zinc-500">主要題材</span>
+              <span class="font-semibold text-emerald-600 dark:text-emerald-400">EV 零組件</span>
+            </div>
+            <div class="flex justify-between">
+              <span class="text-zinc-500">催化時間</span>
+              <span>中長期</span>
+            </div>
+          </div>
+          <div class="mt-3">
+            <div class="text-xs text-zinc-500 mb-1">綜合評分</div>
+            <div class="stage-bar"><div class="stage-bar-fill bg-emerald-500" style="width:82%"></div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Comparison bar chart -->
+      <div class="bg-zinc-50 dark:bg-zinc-900 rounded-xl p-4">
+        <div class="text-sm font-semibold text-zinc-600 dark:text-zinc-400 mb-3">四維度評分比較</div>
+        <div class="chart-wrap" style="height:220px">
+          <canvas id="compareChart"></canvas>
+        </div>
+      </div>
+    </section>
+
+    <!-- Countdown -->
+    <section id="countdown" class="mb-12">
+      <h2 class="text-xl font-bold mb-4">端午節催化倒數</h2>
+      <div class="bg-gradient-to-r from-red-50 to-amber-50 dark:from-red-950/30 dark:to-amber-950/30 rounded-xl p-6 border border-red-200 dark:border-red-800">
+        <div class="flex flex-col md:flex-row items-center gap-6">
+          <div class="text-center">
+            <div class="text-6xl md:text-7xl font-black text-red-600 dark:text-red-400" id="days-left">26</div>
+            <div class="text-sm text-zinc-500 mt-1">距端午節天數</div>
+          </div>
+          <div class="flex-1">
+            <div class="text-lg font-bold mb-2">🐉 2026 端午節 — 6 月 19 日（農曆五月初五）</div>
+            <div class="text-sm text-zinc-600 dark:text-zinc-400 mb-3">端午節前 2–3 週通常是相關題材股的最佳情緒窗口。主力在假日前提前布局，散戶跟進，節後獲利回吐。</div>
+            <div class="grid grid-cols-3 gap-3 text-center text-sm">
+              <div class="bg-white/60 dark:bg-zinc-800/60 rounded-lg p-2">
+                <div class="font-bold text-red-600 dark:text-red-400">現在</div>
+                <div class="text-xs text-zinc-500">5/24 布局期</div>
+              </div>
+              <div class="bg-white/60 dark:bg-zinc-800/60 rounded-lg p-2">
+                <div class="font-bold text-amber-600 dark:text-amber-400">6/5–15</div>
+                <div class="text-xs text-zinc-500">情緒高峰期</div>
+              </div>
+              <div class="bg-white/60 dark:bg-zinc-800/60 rounded-lg p-2">
+                <div class="font-bold text-zinc-500">6/19+</div>
+                <div class="text-xs text-zinc-500">節後留意反轉</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Timeline -->
+        <div class="mt-5">
+          <div class="relative">
+            <div class="absolute top-3 left-0 right-0 h-0.5 bg-zinc-200 dark:bg-zinc-700"></div>
+            <div class="absolute top-3 left-0 h-0.5 bg-red-400" id="timeline-bar" style="width: 0%; transition: width 1.5s ease .5s"></div>
+            <div class="flex justify-between relative z-10">
+              <div class="text-center">
+                <div class="w-6 h-6 rounded-full bg-red-500 mx-auto mb-1 flex items-center justify-center text-white text-xs font-bold">今</div>
+                <div class="text-xs text-zinc-500">5/24</div>
+              </div>
+              <div class="text-center">
+                <div class="w-6 h-6 rounded-full bg-amber-400 mx-auto mb-1"></div>
+                <div class="text-xs text-zinc-500">6/5</div>
+              </div>
+              <div class="text-center">
+                <div class="w-6 h-6 rounded-full bg-amber-500 mx-auto mb-1"></div>
+                <div class="text-xs text-zinc-500">6/10</div>
+              </div>
+              <div class="text-center">
+                <div class="w-6 h-6 rounded-full bg-orange-500 mx-auto mb-1"></div>
+                <div class="text-xs text-zinc-500">6/15</div>
+              </div>
+              <div class="text-center">
+                <div class="w-6 h-6 rounded-full bg-red-600 mx-auto mb-1 flex items-center justify-center text-white text-xs">🐉</div>
+                <div class="text-xs font-bold text-red-600 dark:text-red-400">6/19 端午</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Individual Stock Analysis -->
+    <section id="stocks" class="mb-12">
+      <h2 class="text-xl font-bold mb-4">個股深度分析</h2>
+
+      <div class="stock-tabs bg-zinc-50 dark:bg-zinc-900 rounded-xl p-5">
+        <input type="radio" name="stock-tab" id="t1" checked>
+        <label for="t1">3147 大綜</label>
+        <input type="radio" name="stock-tab" id="t2">
+        <label for="t2">5285 界霖</label>
+        <input type="radio" name="stock-tab" id="t3">
+        <label for="t3">1536 和大</label>
+
+        <!-- 3147 大綜 -->
+        <div class="tab-panel">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+            <div>
+              <div class="flex items-center gap-3 mb-4">
+                <div class="text-3xl font-black text-blue-600 dark:text-blue-400">大綜</div>
+                <div>
+                  <div class="text-zinc-500 text-sm">3147 ｜ 上市</div>
+                  <span class="badge badge-blue">端午節題材</span>
+                </div>
+              </div>
+
+              <div class="space-y-3 text-sm">
+                <div class="highlight-box hb-blue">
+                  <div class="font-semibold text-blue-700 dark:text-blue-300 mb-1">低位階判斷依據</div>
+                  <ul class="text-zinc-600 dark:text-zinc-400 space-y-1">
+                    <li>• 股價處於近期整理區間下緣附近</li>
+                    <li>• 均線呈糾結或低角度向上排列</li>
+                    <li>• 籌碼沉澱、換手充分，浮額相對乾淨</li>
+                  </ul>
+                </div>
+
+                <div class="highlight-box hb-amber">
+                  <div class="font-semibold text-amber-700 dark:text-amber-300 mb-1">端午節題材邏輯</div>
+                  <ul class="text-zinc-600 dark:text-zinc-400 space-y-1">
+                    <li>• 端午節禮盒、粽子、節慶消費拉動需求</li>
+                    <li>• 季節性業績預期帶動情緒面評價提升</li>
+                    <li>• 節前市場容易炒作消費類與食品供應鏈</li>
+                  </ul>
+                </div>
+              </div>
+
+              <details class="mt-3 bg-white dark:bg-zinc-800 rounded-lg p-3 border border-zinc-200 dark:border-zinc-700">
+                <summary class="font-semibold text-sm text-zinc-700 dark:text-zinc-300">技術面觀察重點</summary>
+                <div class="mt-2 text-sm text-zinc-600 dark:text-zinc-400 space-y-1">
+                  <p>• 留意量能是否有效放大（突破整理區需伴隨量）</p>
+                  <p>• 周 KD 低檔黃金交叉確認低位階</p>
+                  <p>• 若跌破近期低點則低位階假設失效</p>
+                  <p>• 理想進場：縮量回測支撐，成本集中帶附近</p>
+                </div>
+              </details>
+            </div>
+
+            <div>
+              <div class="text-sm font-semibold text-zinc-600 dark:text-zinc-400 mb-2">維度評分</div>
+              <div class="space-y-2 text-sm">
+                <div>
+                  <div class="flex justify-between mb-1"><span>低位階確認度</span><span class="font-bold text-blue-600">88%</span></div>
+                  <div class="stage-bar"><div class="stage-bar-fill bg-blue-500" style="width:88%"></div></div>
+                </div>
+                <div>
+                  <div class="flex justify-between mb-1"><span>題材強度</span><span class="font-bold text-amber-600">90%</span></div>
+                  <div class="stage-bar"><div class="stage-bar-fill bg-amber-400" style="width:90%"></div></div>
+                </div>
+                <div>
+                  <div class="flex justify-between mb-1"><span>時間確定性</span><span class="font-bold text-red-600">95%</span></div>
+                  <div class="stage-bar"><div class="stage-bar-fill bg-red-500" style="width:95%"></div></div>
+                </div>
+                <div>
+                  <div class="flex justify-between mb-1"><span>基本面支撐</span><span class="font-bold text-green-600">68%</span></div>
+                  <div class="stage-bar"><div class="stage-bar-fill bg-green-500" style="width:68%"></div></div>
+                </div>
+                <div>
+                  <div class="flex justify-between mb-1"><span>流動性</span><span class="font-bold text-purple-600">72%</span></div>
+                  <div class="stage-bar"><div class="stage-bar-fill bg-purple-500" style="width:72%"></div></div>
+                </div>
+              </div>
+
+              <div class="mt-4 bg-blue-50 dark:bg-blue-950/30 rounded-lg p-3 border border-blue-200 dark:border-blue-800 text-sm">
+                <div class="font-bold text-blue-700 dark:text-blue-300 mb-1">⏰ 操作時間窗口</div>
+                <div class="text-zinc-600 dark:text-zinc-400">
+                  建議進場：<strong>現在 ～ 6/10</strong><br>
+                  情緒高點：<strong>6/10 ～ 6/17</strong><br>
+                  注意退出：<strong>端午前 2–3 個交易日</strong>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 5285 界霖 -->
+        <div class="tab-panel">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+            <div>
+              <div class="flex items-center gap-3 mb-4">
+                <div class="text-3xl font-black text-purple-600 dark:text-purple-400">界霖</div>
+                <div>
+                  <div class="text-zinc-500 text-sm">5285 ｜ 上櫃</div>
+                  <span class="badge badge-purple">電子題材</span>
+                </div>
+              </div>
+
+              <div class="space-y-3 text-sm">
+                <div class="highlight-box hb-purple">
+                  <div class="font-semibold text-purple-700 dark:text-purple-300 mb-1">低位階判斷依據</div>
+                  <ul class="text-zinc-600 dark:text-zinc-400 space-y-1">
+                    <li>• 股價自高點修正充分，修正幅度顯著</li>
+                    <li>• 成交量萎縮至低檔，賣壓趨緩</li>
+                    <li>• 月線附近形成支撐</li>
+                  </ul>
+                </div>
+
+                <div class="highlight-box hb-purple" style="border-color:#8b5cf6">
+                  <div class="font-semibold text-purple-700 dark:text-purple-300 mb-1">題材催化邏輯</div>
+                  <ul class="text-zinc-600 dark:text-zinc-400 space-y-1">
+                    <li>• 電子零組件景氣回溫，客戶拉貨訊號</li>
+                    <li>• 界霖科技專注電子代工相關供應鏈</li>
+                    <li>• AI 伺服器週邊需求帶動相關族群估值</li>
+                  </ul>
+                </div>
+              </div>
+
+              <details class="mt-3 bg-white dark:bg-zinc-800 rounded-lg p-3 border border-zinc-200 dark:border-zinc-700">
+                <summary class="font-semibold text-sm text-zinc-700 dark:text-zinc-300">技術面觀察重點</summary>
+                <div class="mt-2 text-sm text-zinc-600 dark:text-zinc-400 space-y-1">
+                  <p>• 留意月均線是否由下彎轉平，為起漲訊號</p>
+                  <p>• 法人籌碼若開始轉為買超，確認訊號增強</p>
+                  <p>• 量能回升突破整理箱上緣為進場訊號</p>
+                  <p>• 注意同族群（電子代工）是否同步啟動</p>
+                </div>
+              </details>
+            </div>
+
+            <div>
+              <div class="text-sm font-semibold text-zinc-600 dark:text-zinc-400 mb-2">維度評分</div>
+              <div class="space-y-2 text-sm">
+                <div>
+                  <div class="flex justify-between mb-1"><span>低位階確認度</span><span class="font-bold text-blue-600">80%</span></div>
+                  <div class="stage-bar"><div class="stage-bar-fill bg-blue-500" style="width:80%"></div></div>
+                </div>
+                <div>
+                  <div class="flex justify-between mb-1"><span>題材強度</span><span class="font-bold text-amber-600">75%</span></div>
+                  <div class="stage-bar"><div class="stage-bar-fill bg-amber-400" style="width:75%"></div></div>
+                </div>
+                <div>
+                  <div class="flex justify-between mb-1"><span>時間確定性</span><span class="font-bold text-red-600">62%</span></div>
+                  <div class="stage-bar"><div class="stage-bar-fill bg-red-400" style="width:62%"></div></div>
+                </div>
+                <div>
+                  <div class="flex justify-between mb-1"><span>基本面支撐</span><span class="font-bold text-green-600">78%</span></div>
+                  <div class="stage-bar"><div class="stage-bar-fill bg-green-500" style="width:78%"></div></div>
+                </div>
+                <div>
+                  <div class="flex justify-between mb-1"><span>流動性</span><span class="font-bold text-purple-600">65%</span></div>
+                  <div class="stage-bar"><div class="stage-bar-fill bg-purple-500" style="width:65%"></div></div>
+                </div>
+              </div>
+
+              <div class="mt-4 bg-purple-50 dark:bg-purple-950/30 rounded-lg p-3 border border-purple-200 dark:border-purple-800 text-sm">
+                <div class="font-bold text-purple-700 dark:text-purple-300 mb-1">📊 操作性質</div>
+                <div class="text-zinc-600 dark:text-zinc-400">
+                  題材型態：<strong>中線布局</strong>（非短線節慶）<br>
+                  持股週期：<strong>4–8 週</strong><br>
+                  催化觀察：<strong>法人動向 + 族群聯動</strong>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 1536 和大 -->
+        <div class="tab-panel">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+            <div>
+              <div class="flex items-center gap-3 mb-4">
+                <div class="text-3xl font-black text-emerald-600 dark:text-emerald-400">和大</div>
+                <div>
+                  <div class="text-zinc-500 text-sm">1536 ｜ 上市</div>
+                  <span class="badge badge-green">EV 零組件</span>
+                </div>
+              </div>
+
+              <div class="space-y-3 text-sm">
+                <div class="highlight-box hb-green">
+                  <div class="font-semibold text-emerald-700 dark:text-emerald-300 mb-1">低位階判斷依據</div>
+                  <ul class="text-zinc-600 dark:text-zinc-400 space-y-1">
+                    <li>• 和大工業：精密齒輪 / 傳動零件，Tesla 供應鏈</li>
+                    <li>• EV 景氣修正期後，股價已充分反映悲觀預期</li>
+                    <li>• 長線均線收斂，技術面底部特徵明顯</li>
+                  </ul>
+                </div>
+
+                <div class="highlight-box hb-green" style="border-color:#10b981">
+                  <div class="font-semibold text-emerald-700 dark:text-emerald-300 mb-1">題材催化邏輯</div>
+                  <ul class="text-zinc-600 dark:text-zinc-400 space-y-1">
+                    <li>• Tesla 新車型放量 → 傳動系統訂單回升</li>
+                    <li>• EV 滲透率長期上升，和大受惠結構性成長</li>
+                    <li>• 國際車廠電動化採購台灣精密零件趨勢持續</li>
+                    <li>• 2026 下半年業績回升預期</li>
+                  </ul>
+                </div>
+              </div>
+
+              <details class="mt-3 bg-white dark:bg-zinc-800 rounded-lg p-3 border border-zinc-200 dark:border-zinc-700">
+                <summary class="font-semibold text-sm text-zinc-700 dark:text-zinc-300">技術面觀察重點</summary>
+                <div class="mt-2 text-sm text-zinc-600 dark:text-zinc-400 space-y-1">
+                  <p>• 和大為中大型股，技術面參考性較高</p>
+                  <p>• 週 RSI 是否在超賣區（30 以下）回升</p>
+                  <p>• 確認 Tesla 訂單相關新聞為重要催化觸發</p>
+                  <p>• 外資動向：和大曾為外資重要持股，動向值得追蹤</p>
+                </div>
+              </details>
+            </div>
+
+            <div>
+              <div class="text-sm font-semibold text-zinc-600 dark:text-zinc-400 mb-2">維度評分</div>
+              <div class="space-y-2 text-sm">
+                <div>
+                  <div class="flex justify-between mb-1"><span>低位階確認度</span><span class="font-bold text-blue-600">85%</span></div>
+                  <div class="stage-bar"><div class="stage-bar-fill bg-blue-500" style="width:85%"></div></div>
+                </div>
+                <div>
+                  <div class="flex justify-between mb-1"><span>題材強度</span><span class="font-bold text-amber-600">82%</span></div>
+                  <div class="stage-bar"><div class="stage-bar-fill bg-amber-400" style="width:82%"></div></div>
+                </div>
+                <div>
+                  <div class="flex justify-between mb-1"><span>時間確定性</span><span class="font-bold text-red-600">58%</span></div>
+                  <div class="stage-bar"><div class="stage-bar-fill bg-red-400" style="width:58%"></div></div>
+                </div>
+                <div>
+                  <div class="flex justify-between mb-1"><span>基本面支撐</span><span class="font-bold text-green-600">90%</span></div>
+                  <div class="stage-bar"><div class="stage-bar-fill bg-green-500" style="width:90%"></div></div>
+                </div>
+                <div>
+                  <div class="flex justify-between mb-1"><span>流動性</span><span class="font-bold text-purple-600">85%</span></div>
+                  <div class="stage-bar"><div class="stage-bar-fill bg-purple-500" style="width:85%"></div></div>
+                </div>
+              </div>
+
+              <div class="mt-4 bg-emerald-50 dark:bg-emerald-950/30 rounded-lg p-3 border border-emerald-200 dark:border-emerald-800 text-sm">
+                <div class="font-bold text-emerald-700 dark:text-emerald-300 mb-1">🚗 操作性質</div>
+                <div class="text-zinc-600 dark:text-zinc-400">
+                  題材型態：<strong>中長線價值回歸</strong><br>
+                  持股週期：<strong>2–6 個月</strong><br>
+                  主要觸發：<strong>Tesla 訂單 / EV 銷量數據</strong>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Radar Chart -->
+    <section id="radar" class="mb-12">
+      <h2 class="text-xl font-bold mb-4">五維雷達比較</h2>
+      <div class="bg-zinc-50 dark:bg-zinc-900 rounded-xl p-5">
+        <div class="chart-wrap" style="height:320px">
+          <canvas id="radarChart"></canvas>
+        </div>
+      </div>
+      <div class="mt-3 flex flex-wrap gap-3 justify-center text-sm">
+        <span class="flex items-center gap-1"><span class="inline-block w-3 h-3 rounded-full bg-blue-500"></span>3147 大綜</span>
+        <span class="flex items-center gap-1"><span class="inline-block w-3 h-3 rounded-full bg-purple-500"></span>5285 界霖</span>
+        <span class="flex items-center gap-1"><span class="inline-block w-3 h-3 rounded-full bg-emerald-500"></span>1536 和大</span>
+      </div>
+    </section>
+
+    <!-- Risk Matrix -->
+    <section id="risk" class="mb-12">
+      <h2 class="text-xl font-bold mb-4">風險 × 潛力 矩陣</h2>
+      <div class="bg-zinc-50 dark:bg-zinc-900 rounded-xl p-5">
+        <div class="chart-wrap" style="height:300px">
+          <canvas id="riskChart"></canvas>
+        </div>
+        <div class="mt-3 grid grid-cols-2 md:grid-cols-4 gap-2 text-xs text-center text-zinc-500">
+          <div class="bg-green-100 dark:bg-green-950/40 rounded p-2">低風險 × 高潛力<br><span class="font-bold text-green-600">最佳區</span></div>
+          <div class="bg-blue-100 dark:bg-blue-950/40 rounded p-2">低風險 × 低潛力<br><span class="font-bold text-blue-600">保守區</span></div>
+          <div class="bg-amber-100 dark:bg-amber-950/40 rounded p-2">高風險 × 高潛力<br><span class="font-bold text-amber-600">投機區</span></div>
+          <div class="bg-red-100 dark:bg-red-950/40 rounded p-2">高風險 × 低潛力<br><span class="font-bold text-red-600">迴避區</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Strategy -->
+    <section id="strategy" class="mb-12">
+      <h2 class="text-xl font-bold mb-4">操作策略摘要</h2>
+      <div class="overflow-x-auto">
+        <table class="w-full text-sm">
+          <thead>
+            <tr class="bg-zinc-100 dark:bg-zinc-800 text-left">
+              <th class="p-3 font-semibold rounded-tl-lg">個股</th>
+              <th class="p-3 font-semibold">操作屬性</th>
+              <th class="p-3 font-semibold">最佳進場時機</th>
+              <th class="p-3 font-semibold">預計退出信號</th>
+              <th class="p-3 font-semibold rounded-tr-lg">停損原則</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-zinc-100 dark:divide-zinc-800">
+            <tr class="bg-blue-50/50 dark:bg-blue-950/20">
+              <td class="p-3 font-bold text-blue-600 dark:text-blue-400">3147 大綜</td>
+              <td class="p-3">端午節短線波段</td>
+              <td class="p-3">現在 ～ 6/10（縮量回檔時）</td>
+              <td class="p-3">端午前 2–3 個交易日，量縮反轉</td>
+              <td class="p-3 text-red-600 dark:text-red-400">跌破近期低點 -5%</td>
+            </tr>
+            <tr>
+              <td class="p-3 font-bold text-purple-600 dark:text-purple-400">5285 界霖</td>
+              <td class="p-3">電子族群中線</td>
+              <td class="p-3">突破整理箱上緣且量放大</td>
+              <td class="p-3">族群走弱、月線下彎</td>
+              <td class="p-3 text-red-600 dark:text-red-400">跌破月均線 -7%</td>
+            </tr>
+            <tr class="bg-green-50/50 dark:bg-green-950/20">
+              <td class="p-3 font-bold text-emerald-600 dark:text-emerald-400">1536 和大</td>
+              <td class="p-3">EV 中長線價值</td>
+              <td class="p-3">分批布局，週 RSI 低檔確認</td>
+              <td class="p-3">Tesla 訂單消息兌現、外資連續買超</td>
+              <td class="p-3 text-red-600 dark:text-red-400">跌破季均線 -8%</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="mt-4 grid grid-cols-1 md:grid-cols-3 gap-3">
+        <details class="bg-zinc-50 dark:bg-zinc-900 rounded-xl p-4 border border-zinc-200 dark:border-zinc-700">
+          <summary class="font-semibold text-sm">大綜 主要風險</summary>
+          <ul class="mt-2 text-sm text-zinc-600 dark:text-zinc-400 space-y-1">
+            <li>• 節慶題材過早反映，不等節日就回落</li>
+            <li>• 流動性不足，大單難以進出</li>
+            <li>• 整體市場走弱抵消節慶情緒</li>
+          </ul>
+        </details>
+        <details class="bg-zinc-50 dark:bg-zinc-900 rounded-xl p-4 border border-zinc-200 dark:border-zinc-700">
+          <summary class="font-semibold text-sm">界霖 主要風險</summary>
+          <ul class="mt-2 text-sm text-zinc-600 dark:text-zinc-400 space-y-1">
+            <li>• 景氣回溫訊號過慢，催化不及預期</li>
+            <li>• 上櫃股籌碼集中，波動較大</li>
+            <li>• 同族群競爭者反而更強勢</li>
+          </ul>
+        </details>
+        <details class="bg-zinc-50 dark:bg-zinc-900 rounded-xl p-4 border border-zinc-200 dark:border-zinc-700">
+          <summary class="font-semibold text-sm">和大 主要風險</summary>
+          <ul class="mt-2 text-sm text-zinc-600 dark:text-zinc-400 space-y-1">
+            <li>• Tesla 銷量不及預期，訂單延後</li>
+            <li>• EV 競爭激烈，毛利率壓縮</li>
+            <li>• 外資持續減碼中長線走弱</li>
+          </ul>
+        </details>
+      </div>
+    </section>
+
+    <footer class="mt-12 pt-6 border-t border-zinc-200 dark:border-zinc-800 text-xs text-zinc-400">
+      <p>⚠️ 本報告純為技術面與題材邏輯之分析框架，不含即時報價或投資建議。實際操作請自行查閱最新盤面數據並評估個人風險承受能力。</p>
+      <p class="mt-1">由 html-report Claude skill 生成 · 2026-05-24</p>
+    </footer>
+
+  </main>
+</div>
+
+<script>
+  // Theme
+  document.getElementById('theme-toggle').addEventListener('click', () => {
+    const dark = document.documentElement.classList.toggle('dark');
+    localStorage.theme = dark ? 'dark' : 'light';
+    if (window.__mermaid) {
+      window.__mermaid.initialize({ startOnLoad: false, theme: dark ? 'dark' : 'default', securityLevel: 'loose' });
+      window.__mermaid.run();
+    }
+    updateCharts(dark);
+  });
+
+  // TOC scroll-spy
+  const tocLinks = document.querySelectorAll('.toc a');
+  const sections = [...tocLinks].map(a => document.querySelector(a.getAttribute('href'))).filter(Boolean);
+  if (sections.length) {
+    const onScroll = () => {
+      const y = window.scrollY + 120;
+      let active = sections[0];
+      for (const s of sections) if (s.offsetTop <= y) active = s;
+      tocLinks.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + active.id));
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+  }
+
+  // Countdown
+  const today = new Date('2026-05-24');
+  const festival = new Date('2026-06-19');
+  const days = Math.ceil((festival - today) / 86400000);
+  document.getElementById('days-left').textContent = days;
+
+  // Timeline progress (today is day 0, festival is day 26)
+  setTimeout(() => {
+    const pct = (0 / 26) * 100;
+    document.getElementById('timeline-bar').style.width = pct + '%';
+  }, 500);
+
+  // Charts
+  const isDark = () => document.documentElement.classList.contains('dark');
+  const gridColor = () => isDark() ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.06)';
+  const labelColor = () => isDark() ? '#a1a1aa' : '#71717a';
+
+  let compareChart, radarChart, riskChart;
+
+  function createCharts() {
+    // Compare bar chart
+    compareChart = new Chart(document.getElementById('compareChart'), {
+      type: 'bar',
+      data: {
+        labels: ['低位階確認', '題材強度', '時間確定性', '基本面', '流動性'],
+        datasets: [
+          { label: '3147 大綜', data: [88, 90, 95, 68, 72], backgroundColor: 'rgba(59,130,246,0.7)', borderRadius: 4 },
+          { label: '5285 界霖', data: [80, 75, 62, 78, 65], backgroundColor: 'rgba(139,92,246,0.7)', borderRadius: 4 },
+          { label: '1536 和大', data: [85, 82, 58, 90, 85], backgroundColor: 'rgba(16,185,129,0.7)', borderRadius: 4 },
+        ]
+      },
+      options: {
+        responsive: true, maintainAspectRatio: false,
+        plugins: { legend: { labels: { color: labelColor(), font: { size: 11 } } } },
+        scales: {
+          y: { max: 100, grid: { color: gridColor() }, ticks: { color: labelColor(), callback: v => v + '%' } },
+          x: { grid: { display: false }, ticks: { color: labelColor() } }
+        }
+      }
+    });
+
+    // Radar chart
+    radarChart = new Chart(document.getElementById('radarChart'), {
+      type: 'radar',
+      data: {
+        labels: ['低位階確認', '題材強度', '時間確定性', '基本面支撐', '流動性'],
+        datasets: [
+          {
+            label: '3147 大綜',
+            data: [88, 90, 95, 68, 72],
+            borderColor: '#3b82f6', backgroundColor: 'rgba(59,130,246,0.12)',
+            pointBackgroundColor: '#3b82f6', borderWidth: 2, pointRadius: 4,
+          },
+          {
+            label: '5285 界霖',
+            data: [80, 75, 62, 78, 65],
+            borderColor: '#8b5cf6', backgroundColor: 'rgba(139,92,246,0.12)',
+            pointBackgroundColor: '#8b5cf6', borderWidth: 2, pointRadius: 4,
+          },
+          {
+            label: '1536 和大',
+            data: [85, 82, 58, 90, 85],
+            borderColor: '#10b981', backgroundColor: 'rgba(16,185,129,0.12)',
+            pointBackgroundColor: '#10b981', borderWidth: 2, pointRadius: 4,
+          },
+        ]
+      },
+      options: {
+        responsive: true, maintainAspectRatio: false,
+        plugins: { legend: { display: false } },
+        scales: {
+          r: {
+            min: 0, max: 100,
+            grid: { color: gridColor() },
+            ticks: { display: false },
+            pointLabels: { color: labelColor(), font: { size: 11 } }
+          }
+        }
+      }
+    });
+
+    // Risk scatter
+    riskChart = new Chart(document.getElementById('riskChart'), {
+      type: 'scatter',
+      data: {
+        datasets: [
+          {
+            label: '3147 大綜',
+            data: [{ x: 32, y: 82 }],
+            backgroundColor: '#3b82f6', pointRadius: 14,
+            pointHoverRadius: 16,
+          },
+          {
+            label: '5285 界霖',
+            data: [{ x: 45, y: 72 }],
+            backgroundColor: '#8b5cf6', pointRadius: 14,
+            pointHoverRadius: 16,
+          },
+          {
+            label: '1536 和大',
+            data: [{ x: 38, y: 86 }],
+            backgroundColor: '#10b981', pointRadius: 14,
+            pointHoverRadius: 16,
+          },
+        ]
+      },
+      options: {
+        responsive: true, maintainAspectRatio: false,
+        plugins: {
+          legend: { labels: { color: labelColor() } },
+          tooltip: {
+            callbacks: {
+              label: (ctx) => `${ctx.dataset.label} — 風險:${ctx.raw.x} 潛力:${ctx.raw.y}`
+            }
+          }
+        },
+        scales: {
+          x: {
+            title: { display: true, text: '← 低風險　　　　高風險 →', color: labelColor() },
+            min: 0, max: 100,
+            grid: { color: gridColor() }, ticks: { color: labelColor() }
+          },
+          y: {
+            title: { display: true, text: '↑ 高潛力\n↓ 低潛力', color: labelColor() },
+            min: 0, max: 100,
+            grid: { color: gridColor() }, ticks: { color: labelColor() }
+          }
+        }
+      },
+      plugins: [{
+        id: 'quadrants',
+        beforeDraw(chart) {
+          const { ctx, chartArea: { left, right, top, bottom } } = chart;
+          const cx = left + (right - left) * 0.5;
+          const cy = top + (bottom - top) * 0.5;
+          ctx.save();
+          ctx.fillStyle = isDark() ? 'rgba(16,185,129,0.04)' : 'rgba(16,185,129,0.05)';
+          ctx.fillRect(left, top, cx - left, cy - top);
+          ctx.fillStyle = isDark() ? 'rgba(239,68,68,0.04)' : 'rgba(239,68,68,0.04)';
+          ctx.fillRect(cx, top, right - cx, cy - top);
+          ctx.restore();
+        }
+      }]
+    });
+  }
+
+  function updateCharts(dark) {
+    [compareChart, radarChart, riskChart].forEach(c => {
+      if (!c) return;
+      if (c.options.scales?.y) { c.options.scales.y.grid.color = gridColor(); c.options.scales.y.ticks.color = labelColor(); }
+      if (c.options.scales?.x) { c.options.scales.x.ticks.color = labelColor(); }
+      if (c.options.scales?.r) { c.options.scales.r.grid.color = gridColor(); c.options.scales.r.pointLabels.color = labelColor(); }
+      if (c.options.plugins?.legend) c.options.plugins.legend.labels = { color: labelColor() };
+      c.update();
+    });
+  }
+
+  createCharts();
+
+  // Animate stage bars on scroll
+  const bars = document.querySelectorAll('.stage-bar-fill');
+  const barObs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.style.width = e.target.style.width;
+      }
+    });
+  }, { threshold: 0.3 });
+  bars.forEach(b => { b.style.width = '0%'; barObs.observe(b); });
+  setTimeout(() => {
+    document.querySelectorAll('.stage-bar-fill').forEach(b => {
+      b.style.transition = 'width 1s cubic-bezier(.4,0,.2,1) .3s';
+      const target = b.style.width || '0%';
+      b.style.width = target;
+    });
+    // re-trigger by reading computed style
+    bars.forEach(b => { const w = b.getAttribute('style').match(/width:([^;]+)/)?.[1] || '0%'; b.style.width = '0%'; setTimeout(() => b.style.width = w, 50); });
+  }, 300);
+</script>
+</body>
+</html>
