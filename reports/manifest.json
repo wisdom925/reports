@@ -1,80 +1,86 @@
-[
+﻿[
+  {
+    "file": "2026-05-24-retimer-ai-era.html",
+    "title": "Retimer：AI 時代的隱形核心元件",
+    "date": "2026-05-24",
+    "description": "深度分析 Retimer 在 AI 伺服器時代崛起：PCIe 信號衰減、技術差異、Astera Labs 營收爆發與市場展望"
+  },
   {
     "file": "2026-05-24-sive-photonics-thesis-check.html",
-    "title": "SIVE \u6df1\u5ea6\u7522\u696d\u8207\u6280\u8853\u5206\u6790\uff1aCPO\u3001ELS\u3001DFB \u96f7\u5c04\u8207\u5149\u5b50\u5b78\u4f9b\u61c9\u93c8",
+    "title": "SIVE 深度產業與技術分析：CPO、ELS、DFB 雷射與光子學供應鏈",
     "date": "2026-05-24",
-    "description": "\u4fee\u6b63\u7248\uff1a\u6539\u5584\u624b\u6a5f\u8207\u5e73\u677f\u6392\u7248\uff0c\u907f\u514d\u5716\u8868\u8207\u8868\u683c\u9020\u6210\u6a6b\u5411\u6ea2\u51fa\u3002"
+    "description": "修正版：改善手機與平板排版，避免圖表與表格造成橫向溢出。"
   },
   {
     "file": "2026-05-23-nvl72-vr200-japan-supply-chain-us-tw-peers.html",
-    "title": "NVIDIA NVL72 VR200\uff1a\u65e5\u672c\u4f9b\u61c9\u93c8\u5730\u5716\u8207\u7f8e\u53f0\u80a1\u5c0d\u7167",
+    "title": "NVIDIA NVL72 VR200：日本供應鏈地圖與美台股對照",
     "date": "2026-05-23",
-    "description": "\u89e3\u6790 NVL72 VR200 \u6a5f\u6ac3\u6210\u672c\u7d50\u69cb\uff0c\u4e26\u6574\u7406\u7f8e\u80a1\u8207\u53f0\u80a1\u7684\u529f\u80fd\u5c0d\u7167\u6a19\u7684\u3002"
+    "description": "解析 NVL72 VR200 機櫃成本結構，並整理美股與台股的功能對照標的。"
   },
   {
     "file": "2026-05-23-ai-supply-chain-bottleneck-us-tw-stocks.html",
-    "title": "AI \u9a45\u52d5\u7684\u5168\u7403\u4f9b\u61c9\u93c8\u74f6\u9838\u8207\u53f0\u7f8e\u80a1\u5c0d\u7167",
+    "title": "AI 驅動的全球供應鏈瓶頸與台美股對照",
     "date": "2026-05-23",
-    "description": "\u6839\u64da K\u4e09\u51f1\u63a8\u6587\u6574\u7406\u4f9b\u61c9\u93c8\u7b2c\u4e8c\u5c64\u3001\u7b2c\u4e09\u5c64\u74f6\u9838\uff0c\u7cfb\u7d71\u6027\u5c0d\u7167\u7f8e\u80a1\u8207\u53f0\u80a1\u639b\u724c\u6a19\u7684\u3002"
+    "description": "根據 K三凱推文整理供應鏈第二層、第三層瓶頸，系統性對照美股與台股掛牌標的。"
   },
   {
     "file": "2026-05-23-kaikaibtc-ai-bottleneck-arbitrage.html",
-    "title": "K\u4e09\u51f1\u8cbc\u6587\u6574\u7406\uff1aAI \u9a45\u52d5\u7684\u5168\u7403\u4f9b\u61c9\u93c8\u74f6\u9838\u5957\u5229",
+    "title": "K三凱貼文整理：AI 驅動的全球供應鏈瓶頸套利",
     "date": "2026-05-23",
-    "description": "\u6574\u7406 K\u4e09\u51f1 @kaikaibtc \u7684 X \u8cbc\u6587\u91cd\u9ede\uff1a5 \u500b\u534a\u6708 32 \u500d\u5831\u916c\u3001AI \u6295\u7814\u6d41\u7a0b\u3001\u4f9b\u61c9\u93c8\u74f6\u9838\u8207\u53f0\u7063\u7528\u8a9e\u8f49\u63db\u3002"
+    "description": "整理 K三凱 @kaikaibtc 的 X 貼文重點：5 個半月 32 倍報酬、AI 投研流程、供應鏈瓶頸與台灣用語轉換。"
   },
   {
     "file": "2026-05-23-rubin-rack-bom-odm-analysis.html",
-    "title": "NVIDIA Rubin \u6a5f\u6ac3 BOM\u3001\u96f6\u7d44\u4ef6\u542b\u91cf\u8207 ODM \u50f9\u503c\u9644\u52a0\u5206\u6790",
+    "title": "NVIDIA Rubin 機櫃 BOM、零組件含量與 ODM 價值附加分析",
     "date": "2026-05-23",
-    "description": "\u5c07 Mermaid \u91cd\u7e6a\u6642\u6a5f\u5f9e requestAnimationFrame \u6539\u70ba setTimeout 60ms\uff0c\u78ba\u4fdd\u700f\u89bd\u5668\u5df2\u5b8c\u6210 layout \u8a08\u7b97"
+    "description": "將 Mermaid 重繪時機從 requestAnimationFrame 改為 setTimeout 60ms，確保瀏覽器已完成 layout 計算"
   },
   {
     "file": "2026-05-21-sic-gan-800v-taiwan-stocks.html",
-    "title": "SiC \u00d7 GaN \u00d7 800V HVDC\uff1aAI \u8cc7\u6599\u4e2d\u5fc3\u96fb\u6e90\u9769\u547d\u8207\u53f0\u80a1\u53d7\u60e0\u5716\u8b5c",
+    "title": "SiC × GaN × 800V HVDC：AI 資料中心電源革命與台股受惠圖譜",
     "date": "2026-05-21",
-    "description": "fix: \u79fb\u9664\u76db\u65b0\u6750\u6599\u932f\u8aa4\u8cc7\u6599\uff1b\u4fee\u6b63 SiC/GaN tab CSS \u5207\u63db bug"
+    "description": "fix: 移除盛新材料錯誤資料；修正 SiC/GaN tab CSS 切換 bug"
   },
   {
     "file": "2026-05-21-nvda-q1fy27-earnings.html",
-    "title": "NVIDIA Q1 FY2027 \u8ca1\u5831\u6df1\u5ea6\u5206\u6790",
+    "title": "NVIDIA Q1 FY2027 財報深度分析",
     "date": "2026-05-21",
-    "description": "\u71df\u6536 .6B +85% YoY\uff0cData Center .2B\uff0cVera Rubin Q3 \u91cf\u7522\uff0c \u56de\u8cfc\uff0cAgentic AI \u6642\u4ee3\u5168\u9762\u7206\u767c"
+    "description": "營收 .6B +85% YoY，Data Center .2B，Vera Rubin Q3 量產，回購，Agentic AI 時代全面爆發"
   },
   {
     "file": "2026-05-21-nvl72-bom-report.html",
-    "title": "Nvidia NVL72 BOM \u6df1\u5ea6\u5206\u6790\uff1aGB300 vs VR200",
+    "title": "Nvidia NVL72 BOM 深度分析：GB300 vs VR200",
     "date": "2026-05-21",
-    "description": "VR200 \u55ae\u53f0\u6a5f\u67b6\u6210\u672c US.8M\uff0c\u8f03 GB300 \u8cb4 95%"
+    "description": "VR200 單台機架成本 US.8M，較 GB300 貴 95%"
   },
   {
     "file": "2026-05-20-intel-ceo-cnbc-interview.html",
-    "title": "Intel CEO Lip-Bu Tan CNBC \u5c08\u8a2a\u6df1\u5ea6\u5206\u6790",
+    "title": "Intel CEO Lip-Bu Tan CNBC 專訪深度分析",
     "date": "2026-05-20",
-    "description": "14A \u88fd\u7a0b\u3001CPU:GPU \u6bd4\u4f8b\u7ffb\u8f49\u300118A \u826f\u7387\u7a81\u7834\u2014\u2014Lip-Bu Tan \u91cb\u51fa\u7684\u4e94\u5927\u6295\u8cc7\u4fe1\u865f\u9010\u689d\u62c6\u89e3"
+    "description": "14A 製程、CPU:GPU 比例翻轉、18A 良率突破——Lip-Bu Tan 釋出的五大投資信號逐條拆解"
   },
   {
     "file": "2026-05-19-analyst-reports-digest.html",
-    "title": "\u5238\u5546\u7814\u7a76\u5831\u544a\u6574\u7406 - 8\u6a94\u500b\u80a1\u76e4\u9ede",
+    "title": "券商研究報告整理 - 8檔個股點位",
     "date": "2026-05-19",
-    "description": "Morgan Stanley\u3001Goldman Sachs\u3001\u5ee3\u767c\u8b49\u5238 7\u4efd\u5831\u544a\u6574\u7406\uff1a\u5143\u592a\u3001\u4e9e\u5fb7\u5ba2\u3001\u4e0a\u9280\u3001Nvidia\u3001\u5168\u65b0\u5149\u96fb\u3001\u65fa\u77fd\u3001\u77fd\u529b\u6770\u3001\u842c\u6f64\u2014\u2014\u76ee\u6a19\u50f9\u3001\u8a55\u7d1a\u3001\u4e0a\u6f32\u7a7a\u9593\u8207\u96b1\u85cf\u6d1e\u5bdf"
+    "description": "Morgan Stanley、Goldman Sachs、廣發證券 7份報告整理：元太、亞德客、上銀、Nvidia、全新光電、旺矽、矽力傑、萬潤——目標價、評級、上漲空間與隱含洞察"
   },
   {
     "file": "2026-05-17-ai-beneficiaries-fundamentals.html",
-    "title": "AI \u53d7\u76ca\u8005\u64c1\u6709\u5f37\u52c1\u57fa\u672c\u9762\uff1a\u71df\u6536\u6210\u9577 vs. \u71df\u696d\u5229\u76ca\u7387\u5206\u6790",
+    "title": "AI 受益者擁有強勁基本面：營收成長 vs. 營業利益率分析",
     "date": "2026-05-17",
-    "description": "\u5206\u6790 AI \u76f8\u95dc\u4f01\u696d\u7684 YoY \u71df\u6536\u6210\u9577\u8207\u8abf\u6574\u5f8c\u71df\u696d\u5229\u76ca\u7387\uff0c\u4ee5 Rule of 40/80 \u6846\u67b6\u8a55\u4f30\u57fa\u672c\u9762\u5f37\u5ea6"
+    "description": "分析 AI 相關企業的 YoY 營收成長與調整後營業利益率，以 Rule of 40/80 框架評估基本面強度"
   },
   {
     "file": "2026-05-16-tsmc-taiwan-suppliers.html",
-    "title": "\u53f0\u7a4d\u96fb\u64f4\u7522\u6d6a\u6f6e\uff1a\u53f0\u7063\u5ee0\u5546\u53d7\u76ca\u5206\u6790",
+    "title": "台積電擴產浪潮：台灣廠商受益分析",
     "date": "2026-05-16",
-    "description": "\u53f0\u7a4d\u96fb\u6280\u8853\u8ad6\u58c7\u91cd\u9ede\u6574\u7406\uff1a\u5168\u7403\u5efa\u5ee0\u52a0\u901f\u3001\u5148\u9032\u88fd\u7a0b\u91cf\u7522\u3001\u53f0\u7063\u4f9b\u61c9\u93c8\u6a5f\u6703\u5168\u89e3\u6790"
+    "description": "台積電技術論壇重點整理：全球建廠加速、先進製程量產、台灣供應鏈機會全解析"
   },
   {
     "file": "2026-05-10-example-showcase.html",
     "title": "Example: what an html-report looks like",
     "date": "2026-05-10",
-    "description": "Demo of every interactive feature the skill encourages \u2014 charts, sortable tables, tabs, code, diagrams, math, dark mode."
+    "description": "Demo of every interactive feature the skill encourages — charts, sortable tables, tabs, code, diagrams, math, dark mode."
   }
 ]

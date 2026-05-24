@@ -1,0 +1,735 @@
+<!doctype html>
+<html lang="zh-TW" class="scroll-smooth">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Retimer：AI 時代的隱形核心元件</title>
+  <meta name="description" content="深度分析 Retimer 元件在 AI 伺服器時代的崛起：PCIe 信號衰減、Retimer vs Redriver 技術差異、Astera Labs 營收爆發與市場展望。">
+  <meta property="og:title" content="Retimer：AI 時代的隱形核心元件">
+  <meta property="og:description" content="隨 PCIe 每代速度翻倍，信號傳輸距離劇降，Retimer 需求將呈指數成長。Astera Labs Q1 2026 營收年增近 100%。">
+  <meta property="og:type" content="article">
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = { darkMode: 'class', theme: { extend: { fontFamily: { sans: ['system-ui', 'ui-sans-serif', 'sans-serif'] } } } };
+    if (localStorage.theme === 'dark' || (!('theme' in localStorage) && matchMedia('(prefers-color-scheme: dark)').matches)) {
+      document.documentElement.classList.add('dark');
+    }
+  </script>
+
+  <link id="hljs-theme" rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11/build/styles/github-dark.min.css">
+  <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11/build/highlight.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+    const isDark = document.documentElement.classList.contains('dark');
+    mermaid.initialize({ startOnLoad: true, theme: isDark ? 'dark' : 'default', securityLevel: 'loose' });
+    window.__mermaid = mermaid;
+  </script>
+
+  <style>
+    @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
+    @media print {
+      .no-print { display: none !important; }
+      body { color: #000; background: #fff; }
+      a { color: inherit; text-decoration: underline; }
+      details { display: block; } details > summary { display: none; }
+    }
+
+    details > summary { cursor: pointer; user-select: none; }
+    details > summary::marker { content: "▸ "; }
+    details[open] > summary::marker { content: "▾ "; }
+
+    .toc a { display: block; padding: .2rem 0; opacity: .6; transition: opacity .15s; }
+    .toc a:hover, .toc a.active { opacity: 1; }
+    .toc a.active { font-weight: 600; }
+
+    /* Tab pattern */
+    .tabs { display: flex; flex-wrap: wrap; }
+    .tabs > input[type="radio"] { display: none; }
+    .tabs > label {
+      cursor: pointer; padding: .5rem 1.25rem;
+      border-bottom: 2px solid transparent;
+      font-size: .9rem; font-weight: 500;
+      color: #6b7280; transition: color .15s, border-color .15s;
+    }
+    .tabs > label:hover { color: #111; }
+    .dark .tabs > label:hover { color: #f4f4f5; }
+    .tabs > input:checked + label { border-color: #6366f1; color: #6366f1; }
+    .tabs > .tab-panel { display: none; width: 100%; padding-top: 1.25rem; }
+    .tabs > input:nth-of-type(1):checked ~ .tab-panel:nth-of-type(1),
+    .tabs > input:nth-of-type(2):checked ~ .tab-panel:nth-of-type(2),
+    .tabs > input:nth-of-type(3):checked ~ .tab-panel:nth-of-type(3) { display: block; }
+
+    .stat-card {
+      background: linear-gradient(135deg, rgba(99,102,241,0.08) 0%, rgba(139,92,246,0.05) 100%);
+      border: 1px solid rgba(99,102,241,0.2);
+      border-radius: 1rem;
+      padding: 1.5rem;
+      transition: transform .2s, box-shadow .2s;
+    }
+    .stat-card:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(99,102,241,0.12); }
+
+    .signal-bar {
+      height: 8px;
+      border-radius: 4px;
+      background: linear-gradient(90deg, #22c55e, #eab308, #ef4444);
+      position: relative;
+      overflow: hidden;
+    }
+    .signal-bar::after {
+      content: '';
+      position: absolute;
+      top: 0; right: 0;
+      height: 100%;
+      background: #18181b;
+      transition: width .8s cubic-bezier(.4,0,.2,1);
+    }
+    .dark .signal-bar::after { background: #09090b; }
+
+    .chip-node {
+      display: inline-flex; align-items: center; justify-content: center;
+      padding: .5rem 1rem; border-radius: .5rem; font-size: .85rem; font-weight: 600;
+    }
+
+    .tag { display: inline-block; padding: .2rem .6rem; border-radius: 9999px; font-size: .75rem; font-weight: 600; }
+
+    .chart-wrap { position: relative; height: 300px; }
+
+    /* Animated counter */
+    .counter { font-variant-numeric: tabular-nums; }
+
+    .highlight-box {
+      border-left: 4px solid #6366f1;
+      padding: .75rem 1rem;
+      background: rgba(99,102,241,0.06);
+      border-radius: 0 .5rem .5rem 0;
+    }
+
+    /* Gradient text */
+    .grad-text {
+      background: linear-gradient(135deg, #6366f1, #8b5cf6, #a855f7);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+  </style>
+</head>
+
+<body class="bg-white dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 font-sans antialiased">
+
+<!-- Floating controls -->
+<div class="fixed top-4 right-4 z-50 flex gap-2 no-print">
+  <button id="theme-toggle" class="px-3 py-1.5 rounded-md border border-zinc-300 dark:border-zinc-700 bg-white/80 dark:bg-zinc-900/80 backdrop-blur text-sm hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors">
+    ☼ / ☾
+  </button>
+  <button onclick="window.print()" class="px-3 py-1.5 rounded-md border border-zinc-300 dark:border-zinc-700 bg-white/80 dark:bg-zinc-900/80 backdrop-blur text-sm hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors">
+    列印
+  </button>
+</div>
+
+<div class="max-w-6xl mx-auto px-6 py-12 lg:grid lg:grid-cols-[200px_minmax(0,1fr)] lg:gap-12">
+
+  <!-- Sticky TOC -->
+  <nav class="toc lg:sticky lg:top-12 self-start text-sm mb-8 lg:mb-0 no-print">
+    <div class="font-semibold mb-3 text-zinc-400 uppercase tracking-wider text-xs">目錄</div>
+    <a href="#overview">核心指標</a>
+    <a href="#what-is">什麼是 Retimer</a>
+    <a href="#vs-redriver">vs Redriver</a>
+    <a href="#pcie-chart">PCIe 世代分析</a>
+    <a href="#signal-path">信號傳遞路徑</a>
+    <a href="#market">市場數據</a>
+    <a href="#investment">投資視角</a>
+    <a href="#outlook">展望</a>
+  </nav>
+
+  <main class="min-w-0">
+
+    <!-- Header -->
+    <header class="mb-12">
+      <div class="flex items-center gap-3 mb-4">
+        <span class="tag bg-indigo-100 dark:bg-indigo-900/40 text-indigo-700 dark:text-indigo-300">半導體</span>
+        <span class="tag bg-purple-100 dark:bg-purple-900/40 text-purple-700 dark:text-purple-300">AI 基礎設施</span>
+        <span class="tag bg-emerald-100 dark:bg-emerald-900/40 text-emerald-700 dark:text-emerald-300">PCIe 5.0</span>
+      </div>
+      <p class="text-sm text-zinc-500 mb-3">深度分析 · <time datetime="2026-05-24">2026-05-24</time> · 來源：ZDNet Korea</p>
+      <h1 class="text-4xl font-bold tracking-tight mb-4 leading-tight">
+        AI 時代的<span class="grad-text">隱形核心</span><br>Retimer 的崛起
+      </h1>
+      <p class="text-lg text-zinc-600 dark:text-zinc-400 leading-relaxed">
+        PCIe 每代速度翻倍，信號傳輸距離劇降——夾在晶片之間「復活信號」的 Retimer，正從配角躍升為 AI 伺服器不可或缺的關鍵元件。
+      </p>
+    </header>
+
+    <!-- Key Stats -->
+    <section id="overview" class="mb-14">
+      <h2 class="text-2xl font-semibold mb-6">核心指標</h2>
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div class="stat-card">
+          <div class="text-xs text-zinc-500 mb-1 uppercase tracking-wide">Astera Labs Q1 YoY</div>
+          <div class="text-3xl font-bold text-emerald-500 counter" data-target="99">0</div>
+          <div class="text-xs text-zinc-400 mt-1">% 年增率</div>
+        </div>
+        <div class="stat-card">
+          <div class="text-xs text-zinc-500 mb-1 uppercase tracking-wide">Q1 2026 營收</div>
+          <div class="text-3xl font-bold text-indigo-400 counter" data-target="308" data-suffix="M">0</div>
+          <div class="text-xs text-zinc-400 mt-1">美元</div>
+        </div>
+        <div class="stat-card">
+          <div class="text-xs text-zinc-500 mb-1 uppercase tracking-wide">PCIe 5.0 速度</div>
+          <div class="text-3xl font-bold text-purple-400">32</div>
+          <div class="text-xs text-zinc-400 mt-1">GT/s 每通道</div>
+        </div>
+        <div class="stat-card">
+          <div class="text-xs text-zinc-500 mb-1 uppercase tracking-wide">信號復原能力</div>
+          <div class="text-3xl font-bold text-amber-400">100</div>
+          <div class="text-xs text-zinc-400 mt-1">% 完整重建</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- What is a Retimer -->
+    <section id="what-is" class="mb-14">
+      <h2 class="text-2xl font-semibold mb-4">什麼是 Retimer？</h2>
+      <p class="text-zinc-600 dark:text-zinc-400 leading-relaxed mb-6">
+        Retimer 是一種坐落在晶片之間的半導體元件，負責接收因長距離傳輸而衰減、波形失真的信號，完整重建後再重新傳送。隨著 AI 伺服器中 CPU-to-CPU 和 CPU-to-GPU 的通訊量暴增，Retimer 的角色從「可選配件」躍升為「必要基礎設施」。
+      </p>
+
+      <!-- Signal degradation visual -->
+      <div class="bg-zinc-50 dark:bg-zinc-900 rounded-xl p-6 mb-6">
+        <div class="text-sm font-semibold text-zinc-600 dark:text-zinc-400 mb-4">PCIe 信號沿距離衰減示意</div>
+        <div class="space-y-4">
+          <div>
+            <div class="flex justify-between text-xs text-zinc-500 mb-1">
+              <span>發送端（CPU）</span>
+              <span>信號強度：100%</span>
+            </div>
+            <div class="signal-bar" id="bar-start" style="--decay: 0%"></div>
+          </div>
+          <div>
+            <div class="flex justify-between text-xs text-zinc-500 mb-1">
+              <span>傳輸中途（無 Retimer）</span>
+              <span id="mid-label">信號強度：衰減中…</span>
+            </div>
+            <div class="signal-bar" id="bar-mid"></div>
+          </div>
+          <div>
+            <div class="flex justify-between text-xs text-zinc-500 mb-1">
+              <span>Retimer 介入後</span>
+              <span>信號強度：完整恢復</span>
+            </div>
+            <div class="signal-bar" id="bar-after"></div>
+          </div>
+          <div>
+            <div class="flex justify-between text-xs text-zinc-500 mb-1">
+              <span>接收端（GPU）</span>
+              <span>信號強度：100%</span>
+            </div>
+            <div class="signal-bar" id="bar-end"></div>
+          </div>
+        </div>
+        <div class="mt-4 text-xs text-zinc-400 flex gap-4">
+          <span>🟢 強</span><span>🟡 弱</span><span>🔴 失真/不可用</span>
+        </div>
+      </div>
+
+      <div class="highlight-box">
+        <p class="text-sm text-zinc-700 dark:text-zinc-300">
+          <strong>關鍵物理限制：</strong>PCIe 5.0（32 GT/s）下，即便使用超低損耗 PCB，信號能完整到達的距離極短。隨著每代 PCIe 速度翻倍，這個距離進一步縮短，每縮短一次，伺服器板上就需要更多 Retimer 節點。
+        </p>
+      </div>
+    </section>
+
+    <!-- Retimer vs Redriver -->
+    <section id="vs-redriver" class="mb-14">
+      <h2 class="text-2xl font-semibold mb-4">Retimer vs Redriver：關鍵差異</h2>
+      <div class="tabs border-b border-zinc-200 dark:border-zinc-800 mb-2">
+        <input type="radio" name="vs-tabs" id="tab-compare" checked>
+        <label for="tab-compare">技術對比</label>
+        <input type="radio" name="vs-tabs" id="tab-retimer">
+        <label for="tab-retimer">Retimer 詳解</label>
+        <input type="radio" name="vs-tabs" id="tab-redriver">
+        <label for="tab-redriver">Redriver 詳解</label>
+
+        <div class="tab-panel">
+          <div class="overflow-x-auto">
+            <table class="w-full text-sm">
+              <thead>
+                <tr class="bg-zinc-100 dark:bg-zinc-800">
+                  <th class="text-left p-3 rounded-tl-lg font-semibold">特性</th>
+                  <th class="text-left p-3 font-semibold text-indigo-600 dark:text-indigo-400">Retimer ✦</th>
+                  <th class="text-left p-3 rounded-tr-lg font-semibold text-zinc-500">Redriver</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-zinc-100 dark:divide-zinc-800">
+                <tr>
+                  <td class="p-3 font-medium">信號處理方式</td>
+                  <td class="p-3 text-emerald-600 dark:text-emerald-400 font-medium">完整重建（Re-clock）</td>
+                  <td class="p-3 text-zinc-500">僅放大（Amplify）</td>
+                </tr>
+                <tr class="bg-zinc-50/50 dark:bg-zinc-900/30">
+                  <td class="p-3 font-medium">抖動（Jitter）清除</td>
+                  <td class="p-3 text-emerald-600 dark:text-emerald-400 font-medium">✓ 完全消除</td>
+                  <td class="p-3 text-red-500">✗ 同時放大抖動</td>
+                </tr>
+                <tr>
+                  <td class="p-3 font-medium">PCIe 5.0+ 適用性</td>
+                  <td class="p-3 text-emerald-600 dark:text-emerald-400 font-medium">✓ 完全適用</td>
+                  <td class="p-3 text-amber-500">△ 效果有限</td>
+                </tr>
+                <tr class="bg-zinc-50/50 dark:bg-zinc-900/30">
+                  <td class="p-3 font-medium">功耗</td>
+                  <td class="p-3 text-amber-500">較高（主動元件）</td>
+                  <td class="p-3 text-emerald-500">較低（被動放大）</td>
+                </tr>
+                <tr>
+                  <td class="p-3 font-medium">成本</td>
+                  <td class="p-3 text-amber-500">較高</td>
+                  <td class="p-3 text-emerald-500">較低</td>
+                </tr>
+                <tr class="bg-zinc-50/50 dark:bg-zinc-900/30">
+                  <td class="p-3 font-medium">AI 伺服器需求趨勢</td>
+                  <td class="p-3 text-emerald-600 dark:text-emerald-400 font-bold">📈 指數成長</td>
+                  <td class="p-3 text-red-500 font-medium">📉 被取代</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="tab-panel">
+          <div class="space-y-4">
+            <div class="bg-indigo-50 dark:bg-indigo-950/40 rounded-xl p-5 border border-indigo-200 dark:border-indigo-800">
+              <h3 class="font-bold text-indigo-700 dark:text-indigo-300 mb-2">核心機制：CDR（Clock-Data Recovery）</h3>
+              <p class="text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed">
+                Retimer 內建時脈資料恢復電路，能從衰減信號中重新提取時脈，完全消除傳輸抖動，以乾淨的全新信號重新驅動後段電路。這使得長距離、高速 PCIe 佈線成為可能。
+              </p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+              <div class="bg-zinc-50 dark:bg-zinc-900 rounded-lg p-4 text-sm">
+                <div class="font-semibold mb-1 text-indigo-600 dark:text-indigo-400">① 接收</div>
+                <div class="text-zinc-600 dark:text-zinc-400">接收衰減、失真的 PCIe 差分信號</div>
+              </div>
+              <div class="bg-zinc-50 dark:bg-zinc-900 rounded-lg p-4 text-sm">
+                <div class="font-semibold mb-1 text-indigo-600 dark:text-indigo-400">② 重建</div>
+                <div class="text-zinc-600 dark:text-zinc-400">CDR 電路完整恢復時脈與資料</div>
+              </div>
+              <div class="bg-zinc-50 dark:bg-zinc-900 rounded-lg p-4 text-sm">
+                <div class="font-semibold mb-1 text-indigo-600 dark:text-indigo-400">③ 重發</div>
+                <div class="text-zinc-600 dark:text-zinc-400">以全新驅動力重新傳送，如同從晶片直出</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="tab-panel">
+          <div class="bg-zinc-50 dark:bg-zinc-900 rounded-xl p-5 border border-zinc-200 dark:border-zinc-800">
+            <h3 class="font-bold text-zinc-600 dark:text-zinc-400 mb-2">Redriver 的限制</h3>
+            <p class="text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed mb-4">
+              Redriver 是一種被動式線性放大器，對信號進行增益（Gain）和等化（Equalization），但無法恢復時脈，抖動（Jitter）會隨之同步放大。在 PCIe 4.0 時代尚可應付，但到了 PCIe 5.0 的 32 GT/s，信號眼圖（Eye Diagram）已極度窄縮，Redriver 的放大反而可能加劇信號惡化。
+            </p>
+            <div class="highlight-box">
+              <p class="text-sm text-zinc-600 dark:text-zinc-300">
+                這正是業界從 Redriver 全面轉向 Retimer 的根本原因——<strong>不是價格，而是物理極限。</strong>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PCIe Generation Chart -->
+    <section id="pcie-chart" class="mb-14">
+      <h2 class="text-2xl font-semibold mb-2">PCIe 世代演進：速度 vs 信號距離</h2>
+      <p class="text-zinc-500 dark:text-zinc-400 text-sm mb-6">每代速度翻倍，信號完整傳輸距離相應縮短，Retimer 需求密度同步上升</p>
+
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+        <div class="bg-zinc-50 dark:bg-zinc-900 rounded-xl p-5">
+          <div class="text-sm font-semibold text-zinc-600 dark:text-zinc-400 mb-3">傳輸速度（GT/s）</div>
+          <div class="chart-wrap">
+            <canvas id="speedChart"></canvas>
+          </div>
+        </div>
+        <div class="bg-zinc-50 dark:bg-zinc-900 rounded-xl p-5">
+          <div class="text-sm font-semibold text-zinc-600 dark:text-zinc-400 mb-3">每單位面積需要的 Retimer 數量（相對值）</div>
+          <div class="chart-wrap">
+            <canvas id="demandChart"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <!-- PCIe table -->
+      <div class="overflow-x-auto">
+        <table class="w-full text-sm">
+          <thead>
+            <tr class="bg-zinc-100 dark:bg-zinc-800 text-left">
+              <th class="p-3 font-semibold rounded-tl-lg">PCIe 世代</th>
+              <th class="p-3 font-semibold">速度</th>
+              <th class="p-3 font-semibold">帶寬（×16）</th>
+              <th class="p-3 font-semibold">信號限制距離（估算）</th>
+              <th class="p-3 font-semibold rounded-tr-lg">Retimer 必要性</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-zinc-100 dark:divide-zinc-800">
+            <tr class="bg-zinc-50/30 dark:bg-zinc-900/20">
+              <td class="p-3 font-medium">PCIe 3.0</td>
+              <td class="p-3">8 GT/s</td>
+              <td class="p-3">16 GB/s</td>
+              <td class="p-3 text-emerald-600 dark:text-emerald-400">~60 cm</td>
+              <td class="p-3"><span class="tag bg-zinc-200 dark:bg-zinc-700 text-zinc-600 dark:text-zinc-300">選配</span></td>
+            </tr>
+            <tr>
+              <td class="p-3 font-medium">PCIe 4.0</td>
+              <td class="p-3">16 GT/s</td>
+              <td class="p-3">32 GB/s</td>
+              <td class="p-3 text-amber-600 dark:text-amber-400">~30 cm</td>
+              <td class="p-3"><span class="tag bg-amber-100 dark:bg-amber-900/40 text-amber-700 dark:text-amber-300">建議</span></td>
+            </tr>
+            <tr class="bg-zinc-50/30 dark:bg-zinc-900/20">
+              <td class="p-3 font-medium">PCIe 5.0</td>
+              <td class="p-3 font-bold text-indigo-600 dark:text-indigo-400">32 GT/s</td>
+              <td class="p-3">64 GB/s</td>
+              <td class="p-3 text-red-600 dark:text-red-400">~10 cm</td>
+              <td class="p-3"><span class="tag bg-red-100 dark:bg-red-900/40 text-red-700 dark:text-red-300 font-bold">必須</span></td>
+            </tr>
+            <tr>
+              <td class="p-3 font-medium">PCIe 6.0 <span class="text-xs text-zinc-400">(upcoming)</span></td>
+              <td class="p-3 font-bold text-purple-600 dark:text-purple-400">64 GT/s</td>
+              <td class="p-3">128 GB/s</td>
+              <td class="p-3 text-red-700 dark:text-red-300 font-bold">~3–5 cm</td>
+              <td class="p-3"><span class="tag bg-purple-100 dark:bg-purple-900/40 text-purple-700 dark:text-purple-300 font-bold">多節點</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Signal Path Diagram -->
+    <section id="signal-path" class="mb-14">
+      <h2 class="text-2xl font-semibold mb-4">AI 伺服器 PCIe 信號傳遞路徑</h2>
+      <div class="bg-zinc-50 dark:bg-zinc-900 rounded-xl p-6">
+        <pre class="mermaid">
+graph LR
+    CPU1["🔲 CPU 1"] -->|PCIe 5.0| RT1["⚡ Retimer"]
+    RT1 -->|信號重建| CPU2["🔲 CPU 2"]
+    CPU2 -->|PCIe 5.0| RT2["⚡ Retimer"]
+    RT2 -->|信號重建| GPU1["🟩 GPU A100/H100"]
+    CPU2 -->|PCIe 5.0| RT3["⚡ Retimer"]
+    RT3 -->|信號重建| GPU2["🟩 GPU A100/H100"]
+
+    style RT1 fill:#6366f1,color:#fff,stroke:#6366f1
+    style RT2 fill:#6366f1,color:#fff,stroke:#6366f1
+    style RT3 fill:#6366f1,color:#fff,stroke:#6366f1
+    style CPU1 fill:#3b82f6,color:#fff,stroke:#3b82f6
+    style CPU2 fill:#3b82f6,color:#fff,stroke:#3b82f6
+    style GPU1 fill:#22c55e,color:#fff,stroke:#22c55e
+    style GPU2 fill:#22c55e,color:#fff,stroke:#22c55e
+        </pre>
+        <p class="text-xs text-zinc-400 mt-3 text-center">一台高效能 AI 伺服器中可能包含 8–16 個以上的 Retimer 節點</p>
+      </div>
+    </section>
+
+    <!-- Market Data -->
+    <section id="market" class="mb-14">
+      <h2 class="text-2xl font-semibold mb-4">市場數據：Astera Labs</h2>
+      <p class="text-zinc-500 dark:text-zinc-400 text-sm mb-6">Astera Labs 是全球 Retimer 市場領導者，其營收成長直接反映 AI 伺服器需求爆發</p>
+
+      <div class="bg-zinc-50 dark:bg-zinc-900 rounded-xl p-5 mb-6">
+        <div class="text-sm font-semibold text-zinc-600 dark:text-zinc-400 mb-3">Astera Labs 季營收（百萬美元）</div>
+        <div class="chart-wrap" style="height:260px">
+          <canvas id="revenueChart"></canvas>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div class="stat-card">
+          <div class="text-xs text-zinc-500 mb-1">Q1 2025 營收</div>
+          <div class="text-2xl font-bold text-zinc-600 dark:text-zinc-300">~$154M</div>
+          <div class="text-xs text-zinc-400 mt-1">基期</div>
+        </div>
+        <div class="stat-card">
+          <div class="text-xs text-zinc-500 mb-1">Q1 2026 營收</div>
+          <div class="text-2xl font-bold text-emerald-500">$308.4M</div>
+          <div class="text-xs text-zinc-400 mt-1">年增近 100%</div>
+        </div>
+        <div class="stat-card">
+          <div class="text-xs text-zinc-500 mb-1">成長驅動</div>
+          <div class="text-2xl font-bold text-indigo-400">AI 伺服器</div>
+          <div class="text-xs text-zinc-400 mt-1">PCIe Retimer + CXL</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Investment Angle -->
+    <section id="investment" class="mb-14">
+      <h2 class="text-2xl font-semibold mb-4">投資視角</h2>
+
+      <details class="mb-3 bg-zinc-50 dark:bg-zinc-900 rounded-xl p-5 border border-zinc-200 dark:border-zinc-800">
+        <summary class="font-semibold text-zinc-700 dark:text-zinc-300">全球主要 Retimer 廠商</summary>
+        <div class="mt-4 space-y-3">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-sm">
+            <div class="bg-white dark:bg-zinc-800 rounded-lg p-4">
+              <div class="font-bold text-indigo-600 dark:text-indigo-400 mb-1">Astera Labs（ALAB）</div>
+              <div class="text-zinc-600 dark:text-zinc-400">全球 PCIe Retimer 市佔最大，同時布局 CXL memory controller。Q1 YoY +~100%。</div>
+            </div>
+            <div class="bg-white dark:bg-zinc-800 rounded-lg p-4">
+              <div class="font-bold text-indigo-600 dark:text-indigo-400 mb-1">Montage Technology（蒙太奇）</div>
+              <div class="text-zinc-600 dark:text-zinc-400">中國最大 PCIe Retimer 供應商，受惠於國內 AI 伺服器建設。</div>
+            </div>
+            <div class="bg-white dark:bg-zinc-800 rounded-lg p-4">
+              <div class="font-bold text-indigo-600 dark:text-indigo-400 mb-1">Texas Instruments</div>
+              <div class="text-zinc-600 dark:text-zinc-400">傳統 SerDes 廠，亦有 PCIe 5.0 Retimer 產品線。</div>
+            </div>
+            <div class="bg-white dark:bg-zinc-800 rounded-lg p-4">
+              <div class="font-bold text-indigo-600 dark:text-indigo-400 mb-1">Parade Technologies</div>
+              <div class="text-zinc-600 dark:text-zinc-400">台灣廠商，PCIe / DisplayPort Retimer，受益 AI PC 及伺服器需求。</div>
+            </div>
+          </div>
+        </div>
+      </details>
+
+      <details class="mb-3 bg-zinc-50 dark:bg-zinc-900 rounded-xl p-5 border border-zinc-200 dark:border-zinc-800">
+        <summary class="font-semibold text-zinc-700 dark:text-zinc-300">需求驅動結構：為何是指數成長而非線性？</summary>
+        <div class="mt-4 text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed space-y-3">
+          <p>Retimer 需求的指數特性來自三重疊加效應：</p>
+          <ol class="list-decimal list-inside space-y-2 ml-2">
+            <li><strong>速度效應：</strong>每代 PCIe 速度翻倍 → 信號可達距離減半 → 同等板面積需要更多 Retimer</li>
+            <li><strong>規模效應：</strong>AI 伺服器的 GPU 數量從 4 顆增至 8 顆、16 顆（NVL72 等）→ 連接拓樸複雜度非線性增加</li>
+            <li><strong>密度效應：</strong>機架功率密度提升 → 空間有限 → 信號路徑更加迂迴 → 每條鏈路需要更多中繼節點</li>
+          </ol>
+          <div class="highlight-box mt-3">
+            三者疊加，業界人士預測下一代伺服器所需 Retimer 數量將是目前的「數倍」。
+          </div>
+        </div>
+      </details>
+
+      <details class="bg-zinc-50 dark:bg-zinc-900 rounded-xl p-5 border border-zinc-200 dark:border-zinc-800">
+        <summary class="font-semibold text-zinc-700 dark:text-zinc-300">風險因素</summary>
+        <div class="mt-4 text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed space-y-2">
+          <p>⚠️ <strong>整合風險：</strong>NVIDIA 等晶片廠若將 Retimer 功能整合進 SoC，外掛式 Retimer 市場將受壓縮。</p>
+          <p>⚠️ <strong>PCIe 6.0 過渡期：</strong>新一代規格切換期間可能出現短暫需求空窗。</p>
+          <p>⚠️ <strong>競爭加劇：</strong>高利潤市場吸引更多玩家進入，可能壓縮 ASP。</p>
+          <p>⚠️ <strong>CXL 替代：</strong>長期來看 CXL 協議的普及可能改變互連架構，影響純 PCIe Retimer 需求結構。</p>
+        </div>
+      </details>
+    </section>
+
+    <!-- Outlook -->
+    <section id="outlook" class="mb-14">
+      <h2 class="text-2xl font-semibold mb-4">展望</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div class="bg-emerald-50 dark:bg-emerald-950/30 border border-emerald-200 dark:border-emerald-800 rounded-xl p-5">
+          <div class="text-emerald-700 dark:text-emerald-400 font-bold mb-3">📈 順風因素</div>
+          <ul class="text-sm text-zinc-700 dark:text-zinc-300 space-y-2">
+            <li>• PCIe 5.0 普及化仍在初期，Retimer 滲透率持續拉升</li>
+            <li>• PCIe 6.0 路線圖確立，需求再翻倍</li>
+            <li>• AI 伺服器出貨量加速，NVIDIA GB300、Intel 等均採用</li>
+            <li>• Astera Labs 等龍頭已在技術護城河上建立優勢</li>
+          </ul>
+        </div>
+        <div class="bg-blue-50 dark:bg-blue-950/30 border border-blue-200 dark:border-blue-800 rounded-xl p-5">
+          <div class="text-blue-700 dark:text-blue-400 font-bold mb-3">🔭 中長期觀察點</div>
+          <ul class="text-sm text-zinc-700 dark:text-zinc-300 space-y-2">
+            <li>• CXL 2.0/3.0 生態系發展速度</li>
+            <li>• 光互連（CPO）能否在中短距離取代電氣連接</li>
+            <li>• AI 伺服器 GPU 配比演變（影響拓樸複雜度）</li>
+            <li>• 台灣系統廠（廣達、緯穎）採購動態</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="mt-6 highlight-box">
+        <p class="text-sm text-zinc-700 dark:text-zinc-300 leading-relaxed">
+          <strong>核心論點：</strong>Retimer 不是選配件，而是 PCIe 5.0 以上高速互連的物理必需品。只要 AI 算力持續擴張、PCIe 繼續往更高速演進，Retimer 的需求就不會停止成長。Astera Labs Q1 近 100% 的年增率，只是這個趨勢的早期預演。
+        </p>
+      </div>
+    </section>
+
+    <footer class="mt-16 pt-8 border-t border-zinc-200 dark:border-zinc-800 text-sm text-zinc-500">
+      <div class="flex flex-wrap justify-between gap-4">
+        <div>
+          來源：<a href="https://zdnet.co.kr/view/?no=20260523163812" class="underline hover:text-zinc-900 dark:hover:text-zinc-100" target="_blank" rel="noopener">ZDNet Korea 2026-05-23</a>
+        </div>
+        <div>由 <code class="text-xs">html-report</code> Claude skill 生成 · 2026-05-24</div>
+      </div>
+    </footer>
+
+  </main>
+</div>
+
+<script>
+  // Theme toggle
+  document.getElementById('theme-toggle').addEventListener('click', () => {
+    const dark = document.documentElement.classList.toggle('dark');
+    localStorage.theme = dark ? 'dark' : 'light';
+    if (window.__mermaid) {
+      document.querySelectorAll('.mermaid[data-processed]').forEach(el => {
+        el.removeAttribute('data-processed');
+        el.innerHTML = el.dataset.src || el.textContent;
+      });
+      window.__mermaid.initialize({ startOnLoad: false, theme: dark ? 'dark' : 'default', securityLevel: 'loose' });
+      window.__mermaid.run();
+    }
+    updateCharts(dark);
+  });
+
+  // Scroll-spy TOC
+  const tocLinks = document.querySelectorAll('.toc a');
+  const sections = [...tocLinks].map(a => document.querySelector(a.getAttribute('href'))).filter(Boolean);
+  if (sections.length) {
+    const onScroll = () => {
+      const y = window.scrollY + 120;
+      let active = sections[0];
+      for (const s of sections) if (s.offsetTop <= y) active = s;
+      tocLinks.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + active.id));
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+  }
+
+  // Animated counters
+  function animateCounters() {
+    document.querySelectorAll('.counter[data-target]').forEach(el => {
+      const target = parseInt(el.dataset.target);
+      const suffix = el.dataset.suffix || '';
+      let current = 0;
+      const step = target / 60;
+      const timer = setInterval(() => {
+        current = Math.min(current + step, target);
+        el.textContent = Math.round(current) + suffix;
+        if (current >= target) clearInterval(timer);
+      }, 16);
+    });
+  }
+  const obs = new IntersectionObserver(entries => {
+    if (entries[0].isIntersecting) { animateCounters(); obs.disconnect(); }
+  }, { threshold: 0.3 });
+  const statsSection = document.querySelector('#overview');
+  if (statsSection) obs.observe(statsSection);
+
+  // Signal bars animation
+  setTimeout(() => {
+    document.getElementById('bar-start').style.setProperty('--decay', '0%');
+    document.getElementById('bar-mid').style.cssText += '; position:relative; overflow:hidden;';
+    // bar-mid: animate decay effect
+    const midBar = document.getElementById('bar-mid');
+    midBar.innerHTML = '<div style="position:absolute;top:0;right:0;width:55%;height:100%;background:var(--bar-bg, #18181b);transition:width 1.5s ease-in-out 0.5s"></div>';
+    const barBg = document.documentElement.classList.contains('dark') ? '#09090b' : '#f4f4f5';
+    midBar.querySelector('div').style.background = barBg;
+    document.getElementById('mid-label').textContent = '信號強度：~45%（衰減）';
+    // bar-after: full recovery
+    const afterBar = document.getElementById('bar-after');
+    afterBar.innerHTML = '<div style="position:absolute;top:0;right:0;width:0%;height:100%;background:var(--bar-bg);transition:width 1s ease-in-out 2s"></div>';
+    afterBar.querySelector('div').style.background = barBg;
+    // bar-end: full
+    document.getElementById('bar-end');
+  }, 500);
+
+  // Charts
+  const isDark = () => document.documentElement.classList.contains('dark');
+  const gridColor = () => isDark() ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.06)';
+  const labelColor = () => isDark() ? '#a1a1aa' : '#71717a';
+
+  const pcieLables = ['PCIe 3.0\n8 GT/s', 'PCIe 4.0\n16 GT/s', 'PCIe 5.0\n32 GT/s', 'PCIe 6.0\n64 GT/s'];
+
+  let speedChart, demandChart, revenueChart;
+
+  function createCharts() {
+    // Speed chart
+    speedChart = new Chart(document.getElementById('speedChart'), {
+      type: 'bar',
+      data: {
+        labels: ['PCIe 3.0', 'PCIe 4.0', 'PCIe 5.0', 'PCIe 6.0'],
+        datasets: [{
+          label: '速度 (GT/s)',
+          data: [8, 16, 32, 64],
+          backgroundColor: ['#94a3b8', '#60a5fa', '#6366f1', '#a855f7'],
+          borderRadius: 6,
+        }]
+      },
+      options: {
+        responsive: true, maintainAspectRatio: false,
+        plugins: { legend: { display: false } },
+        scales: {
+          y: { grid: { color: gridColor() }, ticks: { color: labelColor() } },
+          x: { grid: { display: false }, ticks: { color: labelColor() } }
+        }
+      }
+    });
+
+    // Demand chart
+    demandChart = new Chart(document.getElementById('demandChart'), {
+      type: 'line',
+      data: {
+        labels: ['PCIe 3.0', 'PCIe 4.0', 'PCIe 5.0', 'PCIe 6.0'],
+        datasets: [{
+          label: 'Retimer 需求指數',
+          data: [1, 3, 8, 20],
+          borderColor: '#6366f1',
+          backgroundColor: 'rgba(99,102,241,0.15)',
+          fill: true,
+          tension: 0.4,
+          pointBackgroundColor: '#6366f1',
+          pointRadius: 5,
+        }]
+      },
+      options: {
+        responsive: true, maintainAspectRatio: false,
+        plugins: { legend: { display: false } },
+        scales: {
+          y: { grid: { color: gridColor() }, ticks: { color: labelColor() } },
+          x: { grid: { display: false }, ticks: { color: labelColor() } }
+        }
+      }
+    });
+
+    // Revenue chart
+    revenueChart = new Chart(document.getElementById('revenueChart'), {
+      type: 'bar',
+      data: {
+        labels: ['Q3 2025\n(est)', 'Q4 2025\n(est)', 'Q1 2026'],
+        datasets: [{
+          label: '季營收 $M',
+          data: [154, 220, 308.4],
+          backgroundColor: (ctx) => {
+            const idx = ctx.dataIndex;
+            return ['rgba(99,102,241,0.4)', 'rgba(99,102,241,0.6)', 'rgba(99,102,241,1)'][idx] || '#6366f1';
+          },
+          borderRadius: 8,
+        }]
+      },
+      options: {
+        responsive: true, maintainAspectRatio: false,
+        plugins: {
+          legend: { display: false },
+          tooltip: {
+            callbacks: {
+              label: (ctx) => ` $${ctx.raw}M`
+            }
+          }
+        },
+        scales: {
+          y: {
+            grid: { color: gridColor() },
+            ticks: { color: labelColor(), callback: v => '$' + v + 'M' }
+          },
+          x: { grid: { display: false }, ticks: { color: labelColor() } }
+        }
+      }
+    });
+  }
+
+  function updateCharts(dark) {
+    [speedChart, demandChart, revenueChart].forEach(chart => {
+      if (!chart) return;
+      chart.options.scales.y.grid.color = gridColor();
+      chart.options.scales.y.ticks.color = labelColor();
+      chart.options.scales.x.ticks.color = labelColor();
+      chart.update();
+    });
+  }
+
+  createCharts();
+</script>
+</body>
+</html>
