@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SIVE 光子學投資論述檢核：chokepoint、產能分配與 2027 ramp</title>
+  <meta name="description" content="以公開資料檢核 Sivers Semiconductors（SIVE）在 CPO/光子學供應鏈中的 chokepoint 論述，拆解架構差異、產能分配、資格驗證週期與財務建模盲點。" />
+  <meta property="og:title" content="SIVE 光子學投資論述檢核" />
+  <meta property="og:description" content="公開資料可支持的部分、被放大的部分、以及投資模型應該怎麼看。" />
+  <meta property="og:type" content="article" />
+  <meta property="og:locale" content="zh_TW" />
+  <meta name="theme-color" content="#0f172a" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+  <style>
+    :root {
+      --bg: #f8fafc;
+      --panel: #ffffff;
+      --panel-2: #eef2ff;
+      --text: #0f172a;
+      --muted: #475569;
+      --border: rgba(15, 23, 42, 0.12);
+      --accent: #2563eb;
+      --accent-2: #7c3aed;
+      --good: #16a34a;
+      --warn: #d97706;
+      --bad: #dc2626;
+      --shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
+    }
+    html[data-theme="dark"] {
+      --bg: #0b1220;
+      --panel: #111827;
+      --panel-2: #172033;
+      --text: #e5e7eb;
+      --muted: #94a3b8;
+      --border: rgba(148, 163, 184, 0.18);
+      --accent: #60a5fa;
+      --accent-2: #a78bfa;
+      --good: #4ade80;
+      --warn: #fbbf24;
+      --bad: #f87171;
+      --shadow: 0 12px 34px rgba(0, 0, 0, 0.35);
+    }
+    @media (prefers-reduced-motion: reduce) {
+      * { scroll-behavior: auto !important; transition: none !important; animation: none !important; }
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: radial-gradient(1200px 800px at 15% -10%, rgba(37, 99, 235, 0.12), transparent 45%),
+                  radial-gradient(900px 700px at 95% 0%, rgba(124, 58, 237, 0.10), transparent 40%),
+                  var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", sans-serif;
+      line-height: 1.65;
+      letter-spacing: 0.01em;
+      scroll-behavior: smooth;
+    }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .wrap { max-width: 1240px; margin: 0 auto; padding: 24px 16px 56px; }
+    .hero {
+      background: linear-gradient(135deg, rgba(37,99,235,0.14), rgba(124,58,237,0.12));
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      padding: 28px;
+      box-shadow: var(--shadow);
+    }
+    .hero-top { display: flex; justify-content: space-between; gap: 16px; align-items: start; flex-wrap: wrap; }
+    .eyebrow { font-size: 13px; text-transform: uppercase; letter-spacing: 0.12em; color: var(--accent-2); font-weight: 700; }
+    h1 { margin: 8px 0 10px; font-size: clamp(28px, 4vw, 46px); line-height: 1.12; }
+    .subtitle { margin: 0; font-size: 16px; color: var(--muted); max-width: 900px; }
+    .meta-row { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 18px; }
+    .pill {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 8px 12px; border-radius: 999px; background: var(--panel);
+      border: 1px solid var(--border); color: var(--muted); font-size: 13px;
+    }
+    .pill strong { color: var(--text); }
+    .toolbar { display: flex; gap: 10px; align-items: center; }
+    .btn {
+      border: 1px solid var(--border); background: var(--panel); color: var(--text);
+      padding: 10px 14px; border-radius: 12px; cursor: pointer; font-weight: 700;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.03);
+    }
+    .btn:hover { border-color: var(--accent); }
+    .layout { display: grid; grid-template-columns: 270px minmax(0, 1fr); gap: 18px; margin-top: 18px; align-items: start; }
+    .toc {
+      position: sticky; top: 16px;
+      background: rgba(255,255,255,0.5);
+      backdrop-filter: blur(12px);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 16px;
+      box-shadow: var(--shadow);
+    }
+    html[data-theme="dark"] .toc { background: rgba(17,24,39,0.66); }
+    .toc h2 { font-size: 15px; margin: 0 0 10px; }
+    .toc a {
+      display: block; color: var(--muted); padding: 8px 10px; border-radius: 10px; font-size: 14px;
+    }
+    .toc a.active, .toc a:hover { background: var(--panel-2); color: var(--text); text-decoration: none; }
+    main { min-width: 0; }
+    section.card {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 22px;
+      box-shadow: var(--shadow);
+      margin-bottom: 18px;
+    }
+    section.card h2, section.card h3 { margin-top: 0; }
+    h2 { font-size: 24px; margin-bottom: 12px; }
+    h3 { font-size: 18px; margin-bottom: 10px; }
+    .kpi-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; margin: 16px 0 4px; }
+    .kpi {
+      background: linear-gradient(180deg, var(--panel), var(--panel-2));
+      border: 1px solid var(--border); border-radius: 16px; padding: 16px;
+    }
+    .kpi .label { font-size: 13px; color: var(--muted); margin-bottom: 8px; }
+    .kpi .value { font-size: 22px; font-weight: 800; }
+    .kpi .hint { font-size: 12px; color: var(--muted); margin-top: 6px; }
+    .grid-2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+    .grid-3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
+    .note-box, .quote-box {
+      border: 1px solid var(--border); border-radius: 16px; padding: 16px; background: var(--panel-2);
+    }
+    .quote-box { font-size: 15px; color: var(--muted); }
+    .badges { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+    .badge { font-size: 12px; font-weight: 700; padding: 6px 10px; border-radius: 999px; border: 1px solid var(--border); background: var(--panel); }
+    .badge.good { color: var(--good); }
+    .badge.warn { color: var(--warn); }
+    .badge.bad { color: var(--bad); }
+    .tabs { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 14px; }
+    .tab-btn {
+      border: 1px solid var(--border); background: var(--panel);
+      color: var(--text); padding: 10px 14px; border-radius: 999px; cursor: pointer; font-weight: 700;
+    }
+    .tab-btn.active { background: var(--accent); color: white; border-color: transparent; }
+    .tab-panel { display: none; }
+    .tab-panel.active { display: block; }
+    .table-wrap { overflow-x: auto; border-radius: 16px; border: 1px solid var(--border); }
+    table { width: 100%; border-collapse: collapse; min-width: 860px; background: var(--panel); }
+    th, td { padding: 14px 14px; border-bottom: 1px solid var(--border); vertical-align: top; text-align: left; }
+    th { position: sticky; top: 0; background: var(--panel); cursor: pointer; white-space: nowrap; }
+    tr:hover td { background: rgba(37,99,235,0.04); }
+    .tag { display: inline-flex; padding: 4px 8px; border-radius: 999px; background: rgba(37,99,235,0.10); color: var(--accent); font-size: 12px; font-weight: 700; margin-right: 6px; margin-bottom: 6px; }
+    .bar {
+      height: 10px; border-radius: 999px; background: rgba(100,116,139,0.18); overflow: hidden; margin-top: 6px;
+    }
+    .bar > span { display: block; height: 100%; border-radius: inherit; background: linear-gradient(90deg, var(--accent), var(--accent-2)); }
+    details {
+      border: 1px solid var(--border); border-radius: 16px; padding: 12px 14px; background: var(--panel);
+      margin-top: 12px;
+    }
+    details summary { cursor: pointer; font-weight: 700; }
+    ul { padding-left: 1.2em; }
+    .source-list li { margin-bottom: 12px; }
+    .chart-box { height: 380px; margin-top: 14px; }
+    .footnote { color: var(--muted); font-size: 13px; }
+    .divider { height: 1px; background: var(--border); margin: 18px 0; }
+    .mt-14 { margin-top: 14px; }
+    .timeline { display: grid; gap: 12px; margin-top: 12px; }
+    .event { display: grid; grid-template-columns: 110px 1fr; gap: 14px; align-items: start; }
+    .event .date { font-weight: 800; color: var(--accent); }
+    .callout {
+      border-left: 4px solid var(--accent);
+      padding: 14px 16px;
+      background: var(--panel-2);
+      border-radius: 0 14px 14px 0;
+      margin: 14px 0;
+    }
+    .mini-list { display: grid; gap: 10px; }
+    .mini-item { display: flex; gap: 10px; align-items: flex-start; }
+    .mini-item .dot { margin-top: 10px; width: 8px; height: 8px; border-radius: 999px; background: var(--accent); flex: 0 0 auto; }
+    .mini-item .text { flex: 1; }
+    .topline { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
+    .topline .score { font-weight: 800; font-size: 18px; color: var(--accent); }
+    .small { font-size: 13px; color: var(--muted); }
+    @media (max-width: 980px) {
+      .layout { grid-template-columns: 1fr; }
+      .toc { position: static; }
+      .kpi-grid, .grid-2, .grid-3 { grid-template-columns: 1fr; }
+      .event { grid-template-columns: 1fr; gap: 6px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header class="hero">
+      <div class="hero-top">
+        <div>
+          <div class="eyebrow">Investment thesis check</div>
+          <h1>SIVE 光子學投資論述檢核</h1>
+          <p class="subtitle">這份報告直接判讀你貼的論述：哪一段有公開資料支撐，哪一段把「設計點稀缺」放大成「整體供應鏈 chokepoint」，哪一段又把資格驗證週期和 TTM 收入看錯了。</p>
+        </div>
+        <div class="toolbar">
+          <button class="btn" id="themeToggle">切換深色模式</button>
+        </div>
+      </div>
+      <div class="meta-row">
+        <div class="pill"><strong>標的：</strong>Sivers Semiconductors AB（STO:SIVE）</div>
+        <div class="pill"><strong>主題：</strong>CPO / ELS / DFB laser / 光子學供應鏈</div>
+        <div class="pill"><strong>重點：</strong>chokepoint、capacity allocation、qualification cycle</div>
+        <div class="pill"><strong>資料基準：</strong>公開新聞稿與公司頁面</div>
+      </div>
+      <div class="kpi-grid">
+        <div class="kpi">
+          <div class="label">核心結論</div>
+          <div class="value">方向對，幅度偏大</div>
+          <div class="hint">架構差異成立，永久壟斷不成立。</div>
+        </div>
+        <div class="kpi">
+          <div class="label">最重要的盲點</div>
+          <div class="value">把 design win 當成 supply control</div>
+          <div class="hint">單一設計點不等於全市場供給控制。</div>
+        </div>
+        <div class="kpi">
+          <div class="label">財務建模重心</div>
+          <div class="value">資格驗證而非 TTM</div>
+          <div class="hint">2024–2026 看 NRE / 量產準備。</div>
+        </div>
+        <div class="kpi">
+          <div class="label">公開驗證到的時間軸</div>
+          <div class="value">2024 → 2026</div>
+          <div class="hint">Ayar、POET、Jabil 依序落在不同階段。</div>
+        </div>
+      </div>
+    </header>
+
+    <div class="layout">
+      <aside class="toc">
+        <h2>目錄</h2>
+        <a href="#summary">結論</a>
+        <a href="#what-works">哪些判斷站得住腳</a>
+        <a href="#what-breaks">哪些地方超線</a>
+        <a href="#modeling">財務建模要怎麼看</a>
+        <a href="#timeline">公開時間軸</a>
+        <a href="#claims">逐條檢核</a>
+        <a href="#watchlist">接下來要盯什麼</a>
+        <a href="#sources">來源</a>
+      </aside>
+
+      <main>
+        <section class="card" id="summary">
+          <h2>結論</h2>
+          <div class="callout">
+            <strong>這份論述的核心有兩個地方是對的：</strong>
+            <ul>
+              <li>光子學不是可隨便替換的 commodity；Sivers 的公開文件明確寫的是高功率 DFB 雷射、high precision laser arrays、ELS / CPO 方案。</li>
+              <li>在 qualification 與 capacity allocation 階段，單一供應商會出現短期 bottleneck，甚至被設計案綁成供給瓶頸的一部分。</li>
+            </ul>
+            <strong>但它把這件事講得太滿：</strong>
+            <ul>
+              <li>「有設計點稀缺」不等於「市場 chokepoint 已經永久成立」。</li>
+              <li>「客戶要排產能」不等於「Sivers 控制了輸出供給」。</li>
+              <li>2024–2026 的主要變數是 NRE、產品驗證、量產準備，不是拿 TTM revenue 去硬套成熟零組件估值。</li>
+            </ul>
+          </div>
+          <div class="badges">
+            <span class="badge good">架構差異：成立</span>
+            <span class="badge warn">市場 chokepoint：需更強證據</span>
+            <span class="badge bad">TTM revenue 套用：不對</span>
+            <span class="badge good">資格驗證週期：關鍵</span>
+          </div>
+        </section>
+
+        <section class="card" id="what-works">
+          <h2>哪些判斷站得住腳</h2>
+          <div class="grid-2">
+            <div class="note-box">
+              <h3>1) 這不是一般可替換零件</h3>
+              <p>公開資料不是在說「CW laser 都一樣」。Sivers 與 POET 的合作明確寫到 <strong>customized high-power DFB laser technology</strong>，與 optical interposer / ELS / CPO 組合在一起。這代表的是特定架構、特定熱設計、特定整合方式，不是拿任何雷射都能直接替上。</p>
+              <p class="small">判讀：這點支撐你的「架構護城河」論述。</p>
+            </div>
+            <div class="note-box">
+              <h3>2) 產能分配真的會改變供給結構</h3>
+              <p>當客戶已經進到 NRE、預採購、產品驗證與量產準備，供應商的產能就不再只是「供應商自己要不要做」，而是會變成設計案的一部分。這就是你講的 capacity allocation nuance。</p>
+              <p class="small">判讀：你在「單一設計點 + 排產能」這段是對的。</p>
+            </div>
+          </div>
+          <div class="grid-2 mt-14">
+            <div class="note-box">
+              <h3>3) 2024–2026 的本質是 qualification cycle</h3>
+              <p>Sivers 與 Ayar 的公開說法是「product qualification and manufacturing readiness」；POET 的公開說法是 2026 上半年出 prototype、年底前 production readiness。這兩個時間點都指向同一件事：目前的價值核心在驗證，不在既有收入。</p>
+            </div>
+            <div class="note-box">
+              <h3>4) 你抓到的是「設計點鎖定」，不是單純的終端市場需求</h3>
+              <p>對 AI / CPO 供應鏈來說，真正難的是把特定架構塞進量產與散熱限制裡。這也是為什麼你拿「規格」對比會失真，因為比較單位錯了。</p>
+            </div>
+          </div>
+        </section>
+
+        <section class="card" id="what-breaks">
+          <h2>哪些地方超線</h2>
+          <div class="tabs" role="tablist" aria-label="論述分頁">
+            <button class="tab-btn active" data-tab="tab1">chokepoint</button>
+            <button class="tab-btn" data-tab="tab2">bottleneck</button>
+            <button class="tab-btn" data-tab="tab3">估值</button>
+            <button class="tab-btn" data-tab="tab4">可替代性</button>
+          </div>
+
+          <div id="tab1" class="tab-panel active">
+            <div class="grid-2">
+              <div class="quote-box">
+                <strong>你的說法：</strong>「去掉 Sivers，很多產品根本做不出來，roadmap 會延後好幾年。」
+              </div>
+              <div class="note-box">
+                <strong>我的判讀：</strong>這句話只有在 <em>sole source + design lock-in + 產能沒有第二供應</em> 都成立時才完整。公開資料目前支持「強 design-in」與「合作深化」，還不足以直接跳到「幾年延遲」這個結論。
+              </div>
+            </div>
+          </div>
+          <div id="tab2" class="tab-panel">
+            <div class="quote-box">
+              <strong>你的說法：</strong>「Win Semi 是 bottleneck，但拿到未來幾年產能後，Sivers 也變成 bottleneck 的一部分。」
+            </div>
+            <div class="note-box">
+              <strong>我的判讀：</strong>這個動態是對的。只是要把語言修正成「供給鏈上的配額瓶頸」而不是「公司永久掌控瓶頸」。前者是產業結構，後者是過度推論。
+            </div>
+          </div>
+          <div id="tab3" class="tab-panel">
+            <div class="quote-box">
+              <strong>你的說法：</strong>「2024–2025 是 development contracts，TTM revenue 與舊 P/S 完全錯。」
+            </div>
+            <div class="note-box">
+              <strong>我的判讀：</strong>
+              <p>這段很關鍵，也最對。這類公司要看的是 milestone discounting：NRE、樣品、qualification、預採購、量產準備、量產爬坡。TTM revenue 在這一段通常只會誤導。</p>
+            </div>
+          </div>
+          <div id="tab4" class="tab-panel">
+            <div class="quote-box">
+              <strong>你的說法：</strong>「CW lasers 不是跟 Sumitomo / Furukawa 那種 plug-and-play 的東西。」
+            </div>
+            <div class="note-box">
+              <strong>我的判讀：</strong>
+              <p>對。公開資料已經清楚把 Sivers 的 DFB laser、high precision laser arrays、ELS module、optical interposer 綁在一起。這不是拿到相同波長就能無痛替代的規格問題，而是架構整合問題。</p>
+            </div>
+          </div>
+        </section>
+
+        <section class="card" id="modeling">
+          <h2>財務建模要怎麼看</h2>
+          <div class="grid-3">
+            <div class="note-box">
+              <h3>正確權重</h3>
+              <div class="mini-list">
+                <div class="mini-item"><span class="dot"></span><div class="text">NRE / development contracts</div></div>
+                <div class="mini-item"><span class="dot"></span><div class="text">產品驗證與 qualification 節點</div></div>
+                <div class="mini-item"><span class="dot"></span><div class="text">capacity reservation 與 pre-purchase</div></div>
+                <div class="mini-item"><span class="dot"></span><div class="text">2026–2027 的量產 readiness</div></div>
+              </div>
+            </div>
+            <div class="note-box">
+              <h3>錯誤權重</h3>
+              <div class="mini-list">
+                <div class="mini-item"><span class="dot"></span><div class="text">用 TTM revenue 套成熟零組件 P/S</div></div>
+                <div class="mini-item"><span class="dot"></span><div class="text">把設計案稀缺直接推成市場壟斷</div></div>
+                <div class="mini-item"><span class="dot"></span><div class="text">把規格數字當成架構相容性</div></div>
+                <div class="mini-item"><span class="dot"></span><div class="text">把 2024–2025 當成成熟出貨期</div></div>
+              </div>
+            </div>
+            <div class="note-box">
+              <h3>最實際的估值語言</h3>
+              <p>把 SIVE 當成「受惠於特定架構上游卡位的期權」，比把它當成熟雷射零件供應商更準。值多少，取決於量產節點、替代來源、客戶擴單、以及是否能延伸到 ELS / optical engine / pluggable transceiver。</p>
+            </div>
+          </div>
+          <div class="divider"></div>
+          <div class="chart-box">
+            <canvas id="thesisChart" aria-label="論述強度圖表"></canvas>
+          </div>
+          <p class="footnote">圖表分數是編輯判讀：分數越高代表該命題越接近公開資料可直接支持的結論。</p>
+        </section>
+
+        <section class="card" id="timeline">
+          <h2>公開時間軸</h2>
+          <div class="timeline">
+            <div class="event">
+              <div class="date">2024-12</div>
+              <div>
+                <strong>Sivers × Ayar</strong>
+                <div>公開說法聚焦在 product qualification、manufacturing readiness、NRE 與 pre-purchase；這是從開發走向可量產的第一層訊號。</div>
+              </div>
+            </div>
+            <div class="event">
+              <div class="date">2025-09</div>
+              <div>
+                <strong>Sivers × POET</strong>
+                <div>公開說法把 Sivers 的高功率 DFB 雷射與 POET 的 optical interposer 結合，並提到 H1 2026 早期 prototype、2026 年底 production readiness。</div>
+              </div>
+            </div>
+            <div class="event">
+              <div class="date">2026-04</div>
+              <div>
+                <strong>Sivers × Jabil</strong>
+                <div>公開說法改成 1.6T LRO optical transceiver module，明確點名使用 Sivers 的高性能 DFB lasers，並把 power efficiency 與 hyperscale AI data centers 綁在一起。</div>
+              </div>
+            </div>
+          </div>
+          <div class="callout">
+            <strong>這條時間軸說明的不是「已經全面放量」，而是「public evidence 正在一路往量產前端推進」。</strong> 這正是你說的 qualification cycle。市場如果只看當期收入，就會把整段價值曲線看扁。
+          </div>
+        </section>
+
+        <section class="card" id="claims">
+          <h2>逐條檢核</h2>
+          <p class="small">下面這張表把你的核心命題拆成五個層次，左邊是原始說法，中間是公開資料能支持到哪裡，右邊是投資上該怎麼看。</p>
+          <div class="table-wrap">
+            <table id="claimTable">
+              <thead>
+                <tr>
+                  <th data-sort="text">命題</th>
+                  <th data-sort="text">公開資料支持度</th>
+                  <th data-sort="text">我給的判讀</th>
+                  <th data-sort="num">強度</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>「SIVE 是 chokepoint」</td>
+                  <td>高 design-in + 特定架構合作成立</td>
+                  <td>可成立於特定客戶與特定產品線，不足以直接推成全市場 chokepoint。</td>
+                  <td>3</td>
+                </tr>
+                <tr>
+                  <td>「去掉 Sivers，roadmap 會延後好幾年」</td>
+                  <td>目前只看到合作深化與量產準備</td>
+                  <td>需要 sole-source、第二供應不成立、替代驗證失敗，否則太滿。</td>
+                  <td>2</td>
+                </tr>
+                <tr>
+                  <td>「CW lasers 不可互換」</td>
+                  <td>DFB / ELS / optical interposer 的架構綁定成立</td>
+                  <td>成立。比較單位不能只看 power spec。</td>
+                  <td>5</td>
+                </tr>
+                <tr>
+                  <td>「TTM revenue / 舊 P/S 完全錯」</td>
+                  <td>公開資料顯示仍在 qualification 與 production readiness</td>
+                  <td>成立。這階段應用 milestone model，不應套成熟零件估值。</td>
+                  <td>5</td>
+                </tr>
+                <tr>
+                  <td>「capacity allocation 會讓供應商變成 bottleneck」</td>
+                  <td>有 NRE、pre-purchase、量產準備的敘述</td>
+                  <td>成立，但要說成 supply-chain bottleneck，不要說成永久控制權。</td>
+                  <td>4</td>
+                </tr>
+                <tr>
+                  <td>「2027 volume ramp」</td>
+                  <td>從公開節點看，2026 年才到 production readiness</td>
+                  <td>方向合理，仍要看 prototype、qualification、採購與良率數據。</td>
+                  <td>3</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="footnote">可直接點欄位標題排序。</p>
+        </section>
+
+        <section class="card" id="watchlist">
+          <h2>接下來要盯什麼</h2>
+          <div class="grid-2">
+            <div class="note-box">
+              <h3>最重要的驗證點</h3>
+              <ul>
+                <li>是否出現明確的量產訂單、預採購與產能保留公告。</li>
+                <li>是否有第二供應商認證失敗或替代方案無法通過驗證。</li>
+                <li>是否從 NRE / prototype 進一步走到可重複出貨。</li>
+                <li>毛利率與營收結構是否開始反映 production mix，而不是只剩開發收入。</li>
+              </ul>
+            </div>
+            <div class="note-box">
+              <h3>如果這些沒出現，代表什麼</h3>
+              <ul>
+                <li>代表「設計點稀缺」仍然成立，但市場 chokepoint 還沒有固化。</li>
+                <li>代表估值應該維持在事件驅動與節點驅動，而不是直接進入成熟供應商定價。</li>
+                <li>代表論述可以看多，但不能拿「全市場必然壟斷」去當唯一結論。</li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <section class="card" id="sources">
+          <h2>來源</h2>
+          <details open>
+            <summary>公開資料節點</summary>
+            <ul class="source-list">
+              <li>
+                <strong>Sivers Semiconductors and Ayar Labs to expand their partnership on enabling high volume manufacturing of optical I/O solutions for scalable cost-effective AI infrastructure</strong><br />
+                PR Newswire，2024-12-19。重點：product qualification、manufacturing readiness、NRE、pre-purchase、Ayar 的 strategic customer 關係。<br />
+                <a href="https://www.prnewswire.com/news-releases/sivers-semiconductors-and-ayar-labs-to-expand-their-partnership-on-enabling-high-volume-manufacturing-of-optical-io-solutions-for-scalable-cost-effective-ai-infrastructure-302335984.html" target="_blank" rel="noopener">原文連結</a>
+              </li>
+              <li>
+                <strong>POET Technologies and Sivers Semiconductors Collaborate on External Light Sources for Co-Packaged Optics and Next-Generation AI Market</strong><br />
+                POET 官方新聞，2025-09-29。重點：Sivers 的 customized high-power DFB laser technology、ELS modules、prototype 時程、production readiness。<br />
+                <a href="https://www.poet-technologies.com/news/poet-technologies-and-sivers-semiconductors-collaborate-on-external-light-sources-for-co-packaged-optics-and-next-generation-ai-market" target="_blank" rel="noopener">原文連結</a>
+              </li>
+              <li>
+                <strong>Sivers Semiconductors Collaborates With Jabil on Energy Efficient 1.6T Pluggable Optical Transceiver Module</strong><br />
+                PR Newswire，2026-04-15。重點：1.6T LRO transceiver、Sivers 的 high-performance DFB lasers、AI data center 的能效要求。<br />
+                <a href="https://www.prnewswire.com/news-releases/sivers-semiconductors-collaborates-with-jabil-on-energy-efficient-1-6t-pluggable-optical-transceiver-module-302742761.html" target="_blank" rel="noopener">原文連結</a>
+              </li>
+            </ul>
+          </details>
+          <details>
+            <summary>補充說明</summary>
+            <p class="footnote">這份報告只用公開可驗證資料去拆解論述，不把貼文中的主觀判斷直接當成事實。正文保留直球判讀，來源集中放在這裡。</p>
+          </details>
+        </section>
+      </main>
+    </div>
+  </div>
+
+  <script>
+    (function() {
+      const root = document.documentElement;
+      const saved = localStorage.getItem('theme');
+      const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+      const initial = saved || (prefersDark ? 'dark' : 'light');
+      root.dataset.theme = initial;
+
+      const toggle = document.getElementById('themeToggle');
+      toggle.addEventListener('click', () => {
+        const next = root.dataset.theme === 'dark' ? 'light' : 'dark';
+        root.dataset.theme = next;
+        localStorage.setItem('theme', next);
+        if (window.thesisChart) { window.thesisChart.update(); }
+      });
+
+      const tabs = document.querySelectorAll('.tab-btn');
+      const panels = document.querySelectorAll('.tab-panel');
+      tabs.forEach(btn => btn.addEventListener('click', () => {
+        tabs.forEach(b => b.classList.remove('active'));
+        panels.forEach(p => p.classList.remove('active'));
+        btn.classList.add('active');
+        document.getElementById(btn.dataset.tab).classList.add('active');
+      }));
+
+      const links = Array.from(document.querySelectorAll('.toc a'));
+      const sections = links.map(a => document.querySelector(a.getAttribute('href'))).filter(Boolean);
+      const io = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            const id = '#' + entry.target.id;
+            links.forEach(a => a.classList.toggle('active', a.getAttribute('href') === id));
+          }
+        });
+      }, { rootMargin: '-30% 0px -60% 0px', threshold: 0.01 });
+      sections.forEach(sec => io.observe(sec));
+
+      const chartEl = document.getElementById('thesisChart');
+      const dark = root.dataset.theme === 'dark';
+      const grid = dark ? 'rgba(148,163,184,0.18)' : 'rgba(15,23,42,0.10)';
+      const fontColor = getComputedStyle(root).getPropertyValue('--muted').trim();
+      window.thesisChart = new Chart(chartEl, {
+        type: 'bar',
+        data: {
+          labels: [
+            '架構不可替代性',
+            '供給鏈 chokepoint',
+            'capacity allocation',
+            'TTM revenue 失真',
+            '2027 ramp 可信度',
+            '永久壟斷敘事'
+          ],
+          datasets: [{
+            label: '公開資料支持度 / 投資重要性',
+            data: [5, 3, 4, 5, 3, 2],
+            backgroundColor: [
+              'rgba(37, 99, 235, 0.78)',
+              'rgba(124, 58, 237, 0.78)',
+              'rgba(16, 185, 129, 0.78)',
+              'rgba(245, 158, 11, 0.78)',
+              'rgba(14, 165, 233, 0.78)',
+              'rgba(220, 38, 38, 0.78)'
+            ],
+            borderWidth: 0,
+            borderRadius: 10,
+            barPercentage: 0.76,
+            categoryPercentage: 0.72
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { display: false },
+            tooltip: {
+              callbacks: {
+                label: (ctx) => ` 分數：${ctx.raw}/5`
+              }
+            }
+          },
+          scales: {
+            x: {
+              ticks: { color: fontColor, maxRotation: 0, autoSkip: false },
+              grid: { display: false }
+            },
+            y: {
+              min: 0,
+              max: 5,
+              ticks: { stepSize: 1, color: fontColor },
+              grid: { color: grid }
+            }
+          }
+        }
+      });
+
+      // simple sortable table
+      const table = document.getElementById('claimTable');
+      const headers = table.querySelectorAll('th');
+      headers.forEach((th, index) => {
+        th.addEventListener('click', () => {
+          const type = th.dataset.sort || 'text';
+          const tbody = table.tBodies[0];
+          const rows = Array.from(tbody.rows);
+          const asc = th.dataset.dir !== 'asc';
+          headers.forEach(h => delete h.dataset.dir);
+          th.dataset.dir = asc ? 'asc' : 'desc';
+          rows.sort((a, b) => {
+            const ta = a.cells[index].innerText.trim();
+            const tb = b.cells[index].innerText.trim();
+            let va = ta, vb = tb;
+            if (type === 'num') {
+              va = parseFloat(ta) || 0;
+              vb = parseFloat(tb) || 0;
+              return asc ? va - vb : vb - va;
+            }
+            return asc ? va.localeCompare(vb, 'zh-Hant') : vb.localeCompare(va, 'zh-Hant');
+          });
+          rows.forEach(r => tbody.appendChild(r));
+        });
+      });
+    })();
+  </script>
+</body>
+</html>
