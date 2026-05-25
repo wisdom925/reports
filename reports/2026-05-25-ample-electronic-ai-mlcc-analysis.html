@@ -1,0 +1,391 @@
+<!doctype html>
+<html lang="zh-TW" class="scroll-smooth">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>4760 勤凱：AI 拉動 MLCC 材料需求的先行訊號</title>
+  <meta name="description" content="分析 4760 勤凱受 AI 帶動 MLCC 導電漿料需求、客戶補庫存、長約鎖料、毛利率與擴產動作，判讀被動元件上游材料的投資訊號。">
+  <meta property="og:title" content="4760 勤凱：AI 拉動 MLCC 材料需求的先行訊號">
+  <meta property="og:description" content="1–4 月累計營收新台幣 8.56 億元、年增 54.9%；1Q26 毛利率 19.74%、EPS 新台幣 2.55 元，銅漿與銀漿需求同步轉強。">
+  <meta property="og:type" content="article">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script>
+    if (localStorage.theme === 'dark' || (!('theme' in localStorage) && matchMedia('(prefers-color-scheme: dark)').matches)) {
+      document.documentElement.classList.add('dark');
+    }
+  </script>
+  <style>
+    :root {
+      color-scheme: light;
+      --bg: #f8fafc;
+      --panel: #ffffff;
+      --panel-soft: #eef2ff;
+      --text: #0f172a;
+      --muted: #64748b;
+      --line: #dbe4f0;
+      --brand: #2563eb;
+      --brand-2: #7c3aed;
+      --accent: #f97316;
+      --green: #16a34a;
+      --red: #dc2626;
+      --shadow: 0 22px 60px rgba(15, 23, 42, .10);
+    }
+    html.dark {
+      color-scheme: dark;
+      --bg: #020617;
+      --panel: #0f172a;
+      --panel-soft: #111827;
+      --text: #e5e7eb;
+      --muted: #94a3b8;
+      --line: #1e293b;
+      --brand: #60a5fa;
+      --brand-2: #a78bfa;
+      --accent: #fb923c;
+      --green: #4ade80;
+      --red: #f87171;
+      --shadow: 0 22px 60px rgba(0, 0, 0, .35);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans TC", "PingFang TC", sans-serif;
+      background:
+        radial-gradient(circle at 10% 0%, rgba(37, 99, 235, .18), transparent 30rem),
+        radial-gradient(circle at 88% 5%, rgba(249, 115, 22, .16), transparent 28rem),
+        var(--bg);
+      color: var(--text);
+      line-height: 1.68;
+    }
+    a { color: var(--brand); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .wrap { max-width: 1200px; margin: 0 auto; padding: 28px 20px 72px; }
+    .topbar { display: flex; justify-content: space-between; align-items: center; gap: 16px; margin-bottom: 28px; }
+    .badge { display: inline-flex; align-items: center; gap: 8px; border: 1px solid var(--line); background: color-mix(in srgb, var(--panel) 84%, transparent); color: var(--muted); border-radius: 999px; padding: 7px 12px; font-size: 13px; }
+    .theme-toggle { border: 1px solid var(--line); background: var(--panel); color: var(--text); border-radius: 999px; padding: 8px 13px; cursor: pointer; box-shadow: var(--shadow); }
+    .hero { border: 1px solid var(--line); border-radius: 30px; padding: 34px; background: linear-gradient(135deg, rgba(37, 99, 235, .12), rgba(124, 58, 237, .10) 48%, rgba(249, 115, 22, .10)); box-shadow: var(--shadow); }
+    .hero-grid { display: grid; grid-template-columns: 1.45fr .9fr; gap: 24px; align-items: end; }
+    h1 { font-size: clamp(34px, 5vw, 60px); line-height: 1.05; letter-spacing: -.04em; margin: 14px 0 18px; }
+    .subtitle { color: var(--muted); font-size: 19px; max-width: 850px; margin: 0; }
+    .score-card { border: 1px solid var(--line); background: var(--panel); border-radius: 22px; padding: 20px; }
+    .score-card strong { display: block; color: var(--accent); font-size: 42px; line-height: 1; letter-spacing: -.04em; margin-bottom: 8px; }
+    .layout { display: grid; grid-template-columns: 250px minmax(0, 1fr); gap: 28px; margin-top: 28px; }
+    nav { position: sticky; top: 18px; align-self: start; background: var(--panel); border: 1px solid var(--line); border-radius: 20px; padding: 18px; box-shadow: var(--shadow); }
+    nav h2 { font-size: 13px; color: var(--muted); letter-spacing: .12em; text-transform: uppercase; margin: 0 0 10px; }
+    nav a { display: block; padding: 7px 0; color: var(--muted); font-size: 14px; }
+    nav a.active { color: var(--brand); font-weight: 800; }
+    section { background: var(--panel); border: 1px solid var(--line); border-radius: 24px; padding: 28px; margin-bottom: 24px; box-shadow: var(--shadow); }
+    h2 { font-size: clamp(24px, 3vw, 34px); line-height: 1.18; letter-spacing: -.025em; margin: 0 0 14px; }
+    h3 { font-size: 19px; margin: 22px 0 8px; }
+    .lead { color: var(--muted); font-size: 17px; margin-top: 0; }
+    .metric-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; margin-top: 20px; }
+    .metric { border: 1px solid var(--line); border-radius: 18px; padding: 18px; background: linear-gradient(180deg, var(--panel), var(--panel-soft)); }
+    .metric .num { display: block; font-size: 28px; font-weight: 850; color: var(--brand); line-height: 1.12; }
+    .metric .label { color: var(--muted); font-size: 13px; margin-top: 7px; }
+    .upside { border-color: rgba(22, 163, 74, .28); background: rgba(22, 163, 74, .07); }
+    .upside .num { color: var(--green); }
+    .risk { border-color: rgba(220, 38, 38, .28); background: rgba(220, 38, 38, .07); }
+    .risk .num { color: var(--red); }
+    .callout { border-left: 5px solid var(--accent); background: rgba(249, 115, 22, .08); padding: 16px 18px; border-radius: 16px; margin: 18px 0; }
+    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    .chart-box { height: 340px; margin-top: 18px; }
+    .flow { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; margin-top: 18px; }
+    .flow div { border: 1px solid var(--line); border-radius: 16px; padding: 14px; background: var(--panel-soft); text-align: center; font-weight: 800; }
+    .flow span { display: block; color: var(--muted); font-size: 12px; font-weight: 500; margin-top: 4px; }
+    table { width: 100%; border-collapse: collapse; margin-top: 16px; font-size: 15px; }
+    th, td { border-bottom: 1px solid var(--line); padding: 12px 10px; text-align: left; vertical-align: top; }
+    th { color: var(--muted); font-size: 12px; letter-spacing: .08em; text-transform: uppercase; cursor: pointer; }
+    tr:hover td { background: rgba(37, 99, 235, .05); }
+    .pill { display: inline-flex; align-items: center; border-radius: 999px; padding: 3px 9px; font-size: 12px; font-weight: 800; background: rgba(37, 99, 235, .10); color: var(--brand); }
+    details { border: 1px solid var(--line); border-radius: 16px; padding: 14px 16px; margin-top: 14px; background: var(--panel-soft); }
+    summary { cursor: pointer; font-weight: 800; }
+    blockquote { margin: 14px 0 0; padding: 14px 16px; border-left: 4px solid var(--brand); background: var(--panel-soft); border-radius: 12px; white-space: pre-wrap; color: var(--muted); }
+    .source-box { color: var(--muted); font-size: 14px; }
+    .footnote { color: var(--muted); font-size: 13px; }
+    @media (max-width: 920px) {
+      .hero-grid, .layout, .two-col { grid-template-columns: 1fr; }
+      nav { position: static; }
+      .metric-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .flow { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 540px) {
+      .wrap { padding: 18px 12px 44px; }
+      .hero, section { padding: 20px; border-radius: 20px; }
+      .metric-grid { grid-template-columns: 1fr; }
+      .chart-box { height: 300px; }
+      table { font-size: 13px; }
+      th, td { padding: 10px 6px; }
+    }
+    @media print {
+      .theme-toggle, nav { display: none; }
+      body { background: #fff; color: #000; }
+      .wrap { max-width: none; padding: 0; }
+      .hero, section { box-shadow: none; break-inside: avoid; }
+      a { color: #000; text-decoration: underline; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation: none !important; scroll-behavior: auto !important; transition: none !important; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="topbar">
+      <span class="badge">台股｜MLCC 材料｜AI 伺服器供應鏈</span>
+      <button class="theme-toggle" type="button" id="themeToggle">切換深色模式</button>
+    </div>
+
+    <header class="hero">
+      <div class="hero-grid">
+        <div>
+          <span class="badge">結論先行</span>
+          <h1>4760 勤凱是被動元件缺料週期裡，更靠上游的材料槓桿。</h1>
+          <p class="subtitle">AI 伺服器拉動 MLCC 與相關被動元件需求後，最先反映的不是只有終端電容廠，也會外溢到銅漿、銀漿等導電材料供應商。4760 勤凱的訊號是：客戶補庫存、部分轉向長約鎖料、毛利率創高、並開始用土地取得來準備擴產。</p>
+        </div>
+        <div class="score-card">
+          <strong>+54.9%</strong>
+          <div>4760 勤凱 2026 年 1–4 月累計營收新台幣 8.56 億元，年增 54.9%。</div>
+        </div>
+      </div>
+    </header>
+
+    <div class="layout">
+      <nav aria-label="報告目錄">
+        <h2>目錄</h2>
+        <a href="#summary">一頁結論</a>
+        <a href="#signals">關鍵訊號</a>
+        <a href="#chain">供應鏈位置</a>
+        <a href="#financials">財務與擴產</a>
+        <a href="#risks">風險與盲點</a>
+        <a href="#source">來源與限制</a>
+      </nav>
+
+      <main>
+        <section id="summary">
+          <h2>一頁結論</h2>
+          <p class="lead">4760 勤凱的投資重點不只是「AI 概念」，而是 MLCC 導電漿料需求轉強後，客戶開始從短期補庫存，往長期原料供應協議移動。這代表供應鏈對未來需求的能見度正在拉長。</p>
+          <div class="metric-grid">
+            <div class="metric upside">
+              <span class="num">4760 勤凱</span>
+              <div class="label">Ample Electronic，台灣 MLCC 原材料與導電漿料供應商。</div>
+            </div>
+            <div class="metric upside">
+              <span class="num">新台幣 8.56 億</span>
+              <div class="label">2026 年 1–4 月累計營收，年增 54.9%。</div>
+            </div>
+            <div class="metric upside">
+              <span class="num">19.74%</span>
+              <div class="label">1Q26 毛利率，創單季新高。</div>
+            </div>
+            <div class="metric upside">
+              <span class="num">新台幣 2.55 元</span>
+              <div class="label">1Q26 每股盈餘，同創單季新高。</div>
+            </div>
+          </div>
+          <div class="callout">判讀：這篇報導與 Jukan 貼文共同指向同一件事，AI 伺服器帶來的 MLCC 需求，已經從被動元件成品端往上游材料端傳導。若銅漿月訂單增幅與長約鎖料持續，4760 勤凱可能成為被動元件上游供需吃緊的高敏感度觀察股。</div>
+        </section>
+
+        <section id="signals">
+          <h2>關鍵訊號：補庫存轉向鎖料</h2>
+          <p class="lead">真正重要的變化，是客戶行為從「庫存偏低後的回補」升級為「長期原料供應安排」。這通常代表客戶擔心後續供應更緊，願意用合約換穩定供貨。</p>
+          <div class="two-col">
+            <div>
+              <h3>數字訊號</h3>
+              <div class="chart-box"><canvas id="signalChart" aria-label="勤凱關鍵指標圖"></canvas></div>
+            </div>
+            <div>
+              <h3>需求路徑</h3>
+              <div class="flow" aria-label="需求傳導路徑">
+                <div>AI 伺服器<span>高功率與高密度設計</span></div>
+                <div>MLCC 用量上升<span>高階被動元件吃緊</span></div>
+                <div>銅漿需求轉強<span>部分月訂單增逾 20%</span></div>
+                <div>客戶補庫存<span>庫存偏低後回補</span></div>
+                <div>長約鎖料<span>供應能見度拉長</span></div>
+              </div>
+            </div>
+          </div>
+          <table id="signalTable">
+            <thead>
+              <tr>
+                <th>訊號</th>
+                <th>報導內容</th>
+                <th>投資解讀</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td><span class="pill">AI 需求</span></td><td>AI 終端客戶需求推動 MLCC 與相關被動元件市場轉強。</td><td>需求主因來自結構升級，不只是一般電子庫存循環。</td></tr>
+              <tr><td><span class="pill">銅漿</span></td><td>MLCC 製造用銅漿需求最強，部分客戶月訂單提高超過 20%。</td><td>銅漿是 4760 勤凱目前最直接的放大器。</td></tr>
+              <tr><td><span class="pill">銀漿</span></td><td>電感、電阻等元件用銀漿出貨動能也逐步改善。</td><td>產品組合不只靠單一材料，需求擴散到多種被動元件。</td></tr>
+              <tr><td><span class="pill">長約</span></td><td>部分客戶不只補庫存，也開始簽訂較長期的原材料供應協議。</td><td>若長約占比提升，營收與稼動率能見度會改善。</td></tr>
+            </tbody>
+          </table>
+        </section>
+
+        <section id="chain">
+          <h2>供應鏈位置：4760 勤凱吃的是 MLCC 上游材料缺口</h2>
+          <p class="lead">4760 勤凱不是直接銷售 MLCC 成品，而是供應 MLCC、電感、電阻等元件所需導電材料。這讓它的位置更靠前，常會比終端需求確認更早反映客戶備料行為。</p>
+          <div class="metric-grid">
+            <div class="metric upside">
+              <span class="num">上游</span>
+              <div class="label">銅漿、銀漿屬於被動元件製造材料。</div>
+            </div>
+            <div class="metric upside">
+              <span class="num">高階 MLCC</span>
+              <div class="label">AI 伺服器推升 MLCC 規格與數量需求。</div>
+            </div>
+            <div class="metric risk">
+              <span class="num">原料成本</span>
+              <div class="label">金屬價格與匯率可能影響毛利率穩定性。</div>
+            </div>
+            <div class="metric risk">
+              <span class="num">客戶節奏</span>
+              <div class="label">若補庫存結束，訂單成長需由真實拉貨接棒。</div>
+            </div>
+          </div>
+          <details>
+            <summary>為什麼上游材料值得看？</summary>
+            <p>當下游 MLCC 廠預期交期拉長或原料供應吃緊時，通常會提前鎖定關鍵材料。這會讓材料供應商先看到訂單成長與長約需求，再逐步反映到下游出貨。若 4760 勤凱後續能維持毛利率與接單動能，就代表這波需求可能不只是短期補庫存。</p>
+          </details>
+        </section>
+
+        <section id="financials">
+          <h2>財務與擴產：毛利率創高後，開始準備產能</h2>
+          <p class="lead">報導中的財務與擴產訊號，顯示 4760 勤凱已經不只是在接單回溫，而是用資本支出準備中期需求。</p>
+          <div class="two-col">
+            <div class="chart-box"><canvas id="financeChart" aria-label="勤凱財務與擴產指標圖"></canvas></div>
+            <div>
+              <table>
+                <thead>
+                  <tr>
+                    <th>指標</th>
+                    <th>數字</th>
+                    <th>意義</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr><td>1–4 月累計營收</td><td>新台幣 8.56 億元</td><td>年增 54.9%，優於產業平均。</td></tr>
+                  <tr><td>1Q26 毛利率</td><td>19.74%</td><td>產品組合改善，創單季新高。</td></tr>
+                  <tr><td>1Q26 EPS</td><td>新台幣 2.55 元</td><td>獲利同步創單季新高。</td></tr>
+                  <tr><td>高雄大寮土地</td><td>約 497 坪</td><td>準備興建新產線與擴充產能。</td></tr>
+                  <tr><td>土地取得金額</td><td>新台幣 1.12 億元</td><td>對中期需求做產能配置。</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div class="callout">重點不是買地本身，而是買地時間點。若公司在需求轉強、毛利率創高後啟動產能準備，代表管理層對 2026 下半年產業條件有正向判斷。</div>
+        </section>
+
+        <section id="risks">
+          <h2>風險與盲點</h2>
+          <p class="lead">4760 勤凱的題材清楚，但需要避免把「補庫存」直接推論成「長循環成長」。後續驗證要看訂單品質、毛利率持續性與擴產轉化效率。</p>
+          <table>
+            <thead>
+              <tr>
+                <th>觀察面向</th>
+                <th>正向訊號</th>
+                <th>風險訊號</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td><span class="pill">訂單品質</span></td><td>長約比例提高，客戶月訂單增幅維持。</td><td>補庫存結束後訂單快速回落。</td></tr>
+              <tr><td><span class="pill">毛利率</span></td><td>產品組合改善讓毛利率維持高檔。</td><td>金屬成本、匯率或價格競爭侵蝕毛利。</td></tr>
+              <tr><td><span class="pill">產能</span></td><td>新產線如期開出，且有明確訂單支撐。</td><td>擴產後需求不如預期，稼動率下降。</td></tr>
+              <tr><td><span class="pill">AI 拉貨</span></td><td>AI 伺服器 MLCC 需求持續外溢到上游材料。</td><td>AI 平台時程延後，材料備貨提前透支需求。</td></tr>
+            </tbody>
+          </table>
+        </section>
+
+        <section id="source">
+          <h2>來源與限制</h2>
+          <p class="source-box">來源一：Jukan（@jukan05）於 X 發布之貼文，時間為 2026-05-25 10:21:28 UTC。原文連結：<a href="https://x.com/jukan05/status/2058855965768958325" target="_blank" rel="noopener">https://x.com/jukan05/status/2058855965768958325</a>。擷取時互動資料約為 12,018 瀏覽、59 讚、8 轉發、31 收藏、4 則回覆。</p>
+          <p class="source-box">來源二：DIGITIMES，Flora Wang，Taipei，發布時間 2026-05-25 11:42:26 +08:00，標題為 <a href="https://www.digitimes.com/news/a20260525PD220/ample-electronic-demand-passive-market-supplier.html" target="_blank" rel="noopener">Ample Electronic says AI demand is boosting MLCC-related passive components</a>。</p>
+          <p class="footnote">限制：本報告根據公開報導與社群貼文整理。文中涉及 4760 勤凱的展望、長約、擴產與 AI 需求連動，仍需搭配公司公告、月營收、法說會、財報與客戶拉貨狀況驗證，不構成投資建議。</p>
+          <details>
+            <summary>原始主張摘錄</summary>
+            <blockquote>4760 勤凱（Ample Electronic）表示，AI 終端需求推動 MLCC 與相關被動元件市場轉強，訂單成長伴隨客戶同步補庫存。部分客戶不只確保庫存，也開始簽訂長期原材料供應協議，並對 2026 下半年產業條件抱持正向看法。
+
+2026 年 1–4 月累計營收為新台幣 8.56 億元，年增 54.9%。MLCC 製造用銅漿需求最強，部分客戶月訂單提高超過 20%。銀漿用於電感與電阻等元件，出貨動能也逐步改善。1Q26 毛利率 19.74%、EPS 新台幣 2.55 元，均創單季新高。公司取得高雄大寮約 497 坪土地，金額新台幣 1.12 億元，規劃興建新產線。</blockquote>
+          </details>
+        </section>
+      </main>
+    </div>
+  </div>
+
+  <script>
+    const root = document.documentElement;
+    const toggle = document.getElementById('themeToggle');
+    toggle.addEventListener('click', () => {
+      root.classList.toggle('dark');
+      localStorage.theme = root.classList.contains('dark') ? 'dark' : 'light';
+      location.reload();
+    });
+
+    const css = getComputedStyle(document.documentElement);
+    const brand = css.getPropertyValue('--brand').trim();
+    const accent = css.getPropertyValue('--accent').trim();
+    const green = css.getPropertyValue('--green').trim();
+    const red = css.getPropertyValue('--red').trim();
+    const muted = css.getPropertyValue('--muted').trim();
+    Chart.defaults.color = muted;
+    Chart.defaults.borderColor = css.getPropertyValue('--line').trim();
+
+    new Chart(document.getElementById('signalChart'), {
+      type: 'bar',
+      data: {
+        labels: ['1–4 月營收年增', '部分銅漿月訂單增幅', '1Q26 毛利率', '1Q26 EPS'],
+        datasets: [{
+          label: '指標值',
+          data: [54.9, 20, 19.74, 2.55],
+          backgroundColor: [green, accent, brand, '#7c3aed'],
+          borderRadius: 10
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: { legend: { display: false }, tooltip: { callbacks: { label: ctx => ctx.dataIndex === 3 ? `新台幣 ${ctx.raw} 元` : `${ctx.raw}%` } } },
+        scales: { y: { beginAtZero: true } }
+      }
+    });
+
+    new Chart(document.getElementById('financeChart'), {
+      type: 'bar',
+      data: {
+        labels: ['1–4 月營收', '土地取得金額'],
+        datasets: [{
+          label: '新台幣億元',
+          data: [8.56, 1.12],
+          backgroundColor: [brand, accent],
+          borderRadius: 10
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: { legend: { display: false }, tooltip: { callbacks: { label: ctx => `新台幣 ${ctx.raw} 億元` } } },
+        scales: { y: { beginAtZero: true, title: { display: true, text: '新台幣億元' } } }
+      }
+    });
+
+    document.querySelectorAll('th').forEach((header, index) => {
+      header.addEventListener('click', () => {
+        const table = header.closest('table');
+        const body = table.querySelector('tbody');
+        const rows = Array.from(body.querySelectorAll('tr'));
+        rows.sort((a, b) => a.children[index].innerText.localeCompare(b.children[index].innerText, 'zh-TW', { numeric: true }));
+        rows.forEach(row => body.appendChild(row));
+      });
+    });
+
+    const sections = Array.from(document.querySelectorAll('main section'));
+    const navLinks = Array.from(document.querySelectorAll('nav a'));
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          navLinks.forEach(link => link.classList.toggle('active', link.getAttribute('href') === `#${entry.target.id}`));
+        }
+      });
+    }, { rootMargin: '-30% 0px -55% 0px', threshold: 0 });
+    sections.forEach(section => observer.observe(section));
+  </script>
+</body>
+</html>
