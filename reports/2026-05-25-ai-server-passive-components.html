@@ -1,0 +1,376 @@
+<!doctype html>
+<html lang="zh-TW" class="scroll-smooth">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>AI 伺服器拉緊被動元件供應：台廠份額上升的結構訊號</title>
+  <meta name="description" content="根據 DIGITIMES 與日電貿觀察，AI 伺服器與電源系統需求推升高階 MLCC、電解電容與混合鋁電解電容交期，台灣供應商份額有望提升。">
+  <meta property="og:title" content="AI 伺服器拉緊被動元件供應：台廠份額上升的結構訊號">
+  <meta property="og:description" content="交期由 1.5–2 個月拉長至 3–4 個月，部分料號達半年至一年以上；垂直供電架構讓單櫃被動元件需求升至數十萬顆。">
+  <meta property="og:type" content="article">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script>
+    if (localStorage.theme === 'dark' || (!('theme' in localStorage) && matchMedia('(prefers-color-scheme: dark)').matches)) {
+      document.documentElement.classList.add('dark');
+    }
+  </script>
+  <style>
+    :root {
+      color-scheme: light;
+      --bg: #f8fafc;
+      --panel: #ffffff;
+      --panel-2: #eef2ff;
+      --text: #0f172a;
+      --muted: #64748b;
+      --line: #dbe3ef;
+      --brand: #2563eb;
+      --brand-2: #7c3aed;
+      --accent: #f97316;
+      --green: #16a34a;
+      --red: #dc2626;
+      --shadow: 0 18px 50px rgba(15, 23, 42, .10);
+    }
+    html.dark {
+      color-scheme: dark;
+      --bg: #020617;
+      --panel: #0f172a;
+      --panel-2: #111827;
+      --text: #e5e7eb;
+      --muted: #94a3b8;
+      --line: #1e293b;
+      --brand: #60a5fa;
+      --brand-2: #a78bfa;
+      --accent: #fb923c;
+      --green: #4ade80;
+      --red: #f87171;
+      --shadow: 0 18px 50px rgba(0, 0, 0, .35);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans TC", "PingFang TC", sans-serif;
+      background:
+        radial-gradient(circle at top left, rgba(37, 99, 235, .18), transparent 34rem),
+        radial-gradient(circle at top right, rgba(249, 115, 22, .14), transparent 28rem),
+        var(--bg);
+      color: var(--text);
+      line-height: 1.65;
+    }
+    a { color: var(--brand); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .wrap { max-width: 1180px; margin: 0 auto; padding: 28px 20px 64px; }
+    .topbar { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 28px; }
+    .badge { display: inline-flex; align-items: center; gap: 8px; border: 1px solid var(--line); background: rgba(255, 255, 255, .6); color: var(--muted); border-radius: 999px; padding: 7px 12px; font-size: 13px; }
+    .dark .badge { background: rgba(15, 23, 42, .75); }
+    .theme-toggle { border: 1px solid var(--line); background: var(--panel); color: var(--text); border-radius: 999px; padding: 8px 12px; cursor: pointer; box-shadow: var(--shadow); }
+    .hero { background: linear-gradient(135deg, rgba(37, 99, 235, .12), rgba(124, 58, 237, .10) 48%, rgba(249, 115, 22, .10)); border: 1px solid var(--line); border-radius: 28px; padding: 34px; box-shadow: var(--shadow); }
+    h1 { font-size: clamp(34px, 5vw, 62px); line-height: 1.05; letter-spacing: -.04em; margin: 14px 0 18px; }
+    .subtitle { max-width: 830px; color: var(--muted); font-size: 19px; margin: 0; }
+    .hero-grid { display: grid; grid-template-columns: 1.5fr .9fr; gap: 24px; align-items: end; }
+    .key-card { background: var(--panel); border: 1px solid var(--line); border-radius: 22px; padding: 20px; }
+    .key-card strong { display: block; font-size: 44px; line-height: 1; letter-spacing: -.04em; color: var(--accent); margin-bottom: 8px; }
+    .layout { display: grid; grid-template-columns: 250px 1fr; gap: 28px; margin-top: 28px; }
+    nav { position: sticky; top: 18px; align-self: start; background: var(--panel); border: 1px solid var(--line); border-radius: 20px; padding: 18px; box-shadow: var(--shadow); }
+    nav h2 { font-size: 13px; color: var(--muted); margin: 0 0 10px; letter-spacing: .12em; text-transform: uppercase; }
+    nav a { display: block; color: var(--muted); padding: 7px 0; font-size: 14px; }
+    nav a.active { color: var(--brand); font-weight: 700; }
+    main { min-width: 0; }
+    section { background: var(--panel); border: 1px solid var(--line); border-radius: 24px; padding: 28px; margin-bottom: 24px; box-shadow: var(--shadow); }
+    h2 { font-size: clamp(24px, 3vw, 34px); line-height: 1.2; letter-spacing: -.025em; margin: 0 0 14px; }
+    h3 { font-size: 19px; margin: 22px 0 8px; }
+    .lead { color: var(--muted); font-size: 17px; margin-top: 0; }
+    .metric-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; margin-top: 22px; }
+    .metric { border: 1px solid var(--line); border-radius: 18px; padding: 18px; background: linear-gradient(180deg, var(--panel), var(--panel-2)); }
+    .metric .num { display: block; font-size: 28px; font-weight: 800; color: var(--brand); line-height: 1.1; }
+    .metric .label { color: var(--muted); font-size: 13px; margin-top: 7px; }
+    .callout { border-left: 5px solid var(--accent); background: rgba(249, 115, 22, .08); padding: 16px 18px; border-radius: 16px; margin: 18px 0; }
+    .chart-box { height: 330px; margin-top: 18px; }
+    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    .flow { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; margin-top: 18px; }
+    .flow div { border: 1px solid var(--line); border-radius: 16px; padding: 14px; background: var(--panel-2); text-align: center; font-weight: 700; }
+    .flow span { display: block; color: var(--muted); font-weight: 500; font-size: 12px; margin-top: 4px; }
+    table { width: 100%; border-collapse: collapse; margin-top: 16px; font-size: 15px; }
+    th, td { border-bottom: 1px solid var(--line); padding: 12px 10px; text-align: left; vertical-align: top; }
+    th { color: var(--muted); font-size: 12px; letter-spacing: .08em; text-transform: uppercase; cursor: pointer; }
+    tr:hover td { background: rgba(37, 99, 235, .05); }
+    .pill { display: inline-flex; border-radius: 999px; padding: 3px 9px; font-size: 12px; font-weight: 700; background: rgba(37, 99, 235, .10); color: var(--brand); }
+    .risk { background: rgba(220, 38, 38, .08); border-color: rgba(220, 38, 38, .25); }
+    .risk .num { color: var(--red); }
+    .upside { background: rgba(22, 163, 74, .08); border-color: rgba(22, 163, 74, .25); }
+    .upside .num { color: var(--green); }
+    details { border: 1px solid var(--line); border-radius: 16px; padding: 14px 16px; margin-top: 14px; background: var(--panel-2); }
+    summary { cursor: pointer; font-weight: 700; }
+    .source-list { color: var(--muted); font-size: 14px; }
+    .footnote { color: var(--muted); font-size: 13px; }
+    @media (max-width: 900px) {
+      .hero-grid, .layout, .two-col { grid-template-columns: 1fr; }
+      nav { position: static; }
+      .metric-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .flow { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 520px) {
+      .wrap { padding: 18px 12px 40px; }
+      .hero, section { padding: 20px; border-radius: 20px; }
+      .metric-grid { grid-template-columns: 1fr; }
+      .chart-box { height: 280px; }
+      table { font-size: 13px; }
+      th, td { padding: 10px 6px; }
+    }
+    @media print {
+      .theme-toggle, nav { display: none; }
+      body { background: #fff; color: #000; }
+      .wrap { max-width: none; padding: 0; }
+      section, .hero { box-shadow: none; break-inside: avoid; }
+      a { color: #000; text-decoration: underline; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation: none !important; scroll-behavior: auto !important; transition: none !important; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="topbar">
+      <span class="badge">產業快報｜被動元件｜AI 伺服器</span>
+      <button class="theme-toggle" type="button" id="themeToggle">切換深色模式</button>
+    </div>
+
+    <header class="hero">
+      <div class="hero-grid">
+        <div>
+          <span class="badge">結論先行</span>
+          <h1>AI 伺服器把被動元件從景氣循環，推向結構性吃緊。</h1>
+          <p class="subtitle">日電貿指出，高階多層陶瓷電容（Multilayer Ceramic Capacitor, MLCC）、大型電解電容與混合鋁電解電容交期已快速拉長。日韓大廠產能優先但供給不足，台灣供應商的補位空間正在打開。</p>
+        </div>
+        <div class="key-card">
+          <strong>60 萬顆以上</strong>
+          <div>Google TPU v8 單櫃被動元件需求估算，高於 NVIDIA VR300 約 33 萬顆的水準。</div>
+        </div>
+      </div>
+    </header>
+
+    <div class="layout">
+      <nav aria-label="報告目錄">
+        <h2>目錄</h2>
+        <a href="#summary">一頁結論</a>
+        <a href="#data">關鍵數據</a>
+        <a href="#why">供應吃緊原因</a>
+        <a href="#winners">台廠份額訊號</a>
+        <a href="#watch">追蹤指標</a>
+        <a href="#source">來源與限制</a>
+      </nav>
+
+      <main>
+        <section id="summary">
+          <h2>一頁結論</h2>
+          <p class="lead">這不是單純庫存回補。AI 機櫃功率密度升高、垂直供電架構導入、單櫃元件用量跳升，三個因素同時把被動元件需求曲線往上抬。</p>
+          <div class="metric-grid">
+            <div class="metric">
+              <span class="num">3–4 個月</span>
+              <div class="label">典型交期，原先約 1.5–2 個月</div>
+            </div>
+            <div class="metric risk">
+              <span class="num">6–12+ 個月</span>
+              <div class="label">部分 AI 相關料號已拉長至半年，甚至超過一年</div>
+            </div>
+            <div class="metric upside">
+              <span class="num">+11%</span>
+              <div class="label">2026 年 MLCC 需求年增估算</div>
+            </div>
+            <div class="metric upside">
+              <span class="num">+30%</span>
+              <div class="label">整體電容需求可能再擴張幅度</div>
+            </div>
+          </div>
+          <div class="callout">投資判讀：若 AI 伺服器量產節奏如期進入 2026 下半年至 2027 年，被動元件議價權可能從客戶端逐步轉回供應端，尤其是能打入 AI 電源與高階規格料號的台廠。</div>
+        </section>
+
+        <section id="data">
+          <h2>關鍵數據：交期與單櫃用量同時上升</h2>
+          <div class="two-col">
+            <div>
+              <h3>交期拉長</h3>
+              <p class="lead">供給緊張已從一般交期拉長，擴散到部分料號暫停接新單。</p>
+              <div class="chart-box"><canvas id="leadTimeChart" aria-label="被動元件交期變化圖"></canvas></div>
+            </div>
+            <div>
+              <h3>單櫃需求跳升</h3>
+              <p class="lead">垂直供電讓運算節點與配電區同步增加被動元件數量。</p>
+              <div class="chart-box"><canvas id="rackChart" aria-label="AI 伺服器單櫃被動元件需求圖"></canvas></div>
+            </div>
+          </div>
+          <table id="dataTable">
+            <thead>
+              <tr>
+                <th>指標</th>
+                <th>數字</th>
+                <th>解讀</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>典型交期</td><td>3–4 個月</td><td>較過去 1.5–2 個月明顯拉長，代表需求已超過一般備料緩衝。</td></tr>
+              <tr><td>極端交期</td><td>半年至一年以上</td><td>高階 AI 料號已進入缺料區，客戶需要提前鎖料。</td></tr>
+              <tr><td>2026 MLCC 需求</td><td>年增 11%</td><td>AI 伺服器成為新增需求主軸。</td></tr>
+              <tr><td>整體電容需求</td><td>可能再增 30%</td><td>電源系統升級帶動大型電解與混合鋁電解電容需求。</td></tr>
+              <tr><td>NVIDIA VR300 單櫃</td><td>約 33 萬顆</td><td>運算節點約 22 萬顆，配電區約 11 萬顆。</td></tr>
+              <tr><td>Google TPU v8 單櫃</td><td>超過 60 萬顆</td><td>運算節點約 40 萬顆，配電區約 20 萬顆。</td></tr>
+            </tbody>
+          </table>
+        </section>
+
+        <section id="why">
+          <h2>供應吃緊原因：不是一個瓶頸，是三層壓力</h2>
+          <div class="flow" aria-label="供應鏈壓力路徑">
+            <div>AI 加速器升級<span>功耗與電流上升</span></div>
+            <div>電源架構改變<span>垂直供電導入</span></div>
+            <div>單櫃用量增加<span>數十萬顆級別</span></div>
+            <div>日韓產能保守<span>新單受限</span></div>
+            <div>台廠補位<span>份額上升機會</span></div>
+          </div>
+          <h3>一、規格提高</h3>
+          <p>AI 伺服器不只需要更多電容，也需要更高容量、更高可靠度與更適合高電流環境的料號。這會讓需求集中在中高階產品，而不是所有被動元件同步受惠。</p>
+          <h3>二、架構改變</h3>
+          <p>下一代 AI 伺服器採用垂直供電架構後，機櫃內運算節點與配電區都會增加被動元件。日電貿估算，NVIDIA VR300 單櫃約 33 萬顆，Google TPU v8 更超過 60 萬顆。</p>
+          <h3>三、產能紀律</h3>
+          <p>日韓一線被動元件廠仍具優先供應地位，但擴產態度相對保守。當 AI 訂單超過總產能，部分 MLCC 與電解電容料號停止接新單，供應緊張會加速外溢到第二供應來源。</p>
+        </section>
+
+        <section id="winners">
+          <h2>台廠份額訊號：機會在高階補位，不在低階價格戰</h2>
+          <p class="lead">標題中的「台灣供應商份額上升」關鍵，不是所有台廠都受惠，而是能取得 AI 電源系統認證、穩定供貨、並承接日韓大廠外溢訂單的供應商。</p>
+          <div class="metric-grid">
+            <div class="metric upside">
+              <span class="num">第二供應來源</span>
+              <div class="label">日韓產能滿載後，客戶更願意導入台灣供應商。</div>
+            </div>
+            <div class="metric upside">
+              <span class="num">高階料號</span>
+              <div class="label">MLCC、大型電解、混合鋁電解電容是觀察重點。</div>
+            </div>
+            <div class="metric risk">
+              <span class="num">認證週期</span>
+              <div class="label">AI 伺服器供應鏈驗證嚴格，短線營收不一定立刻反映。</div>
+            </div>
+            <div class="metric risk">
+              <span class="num">客戶集中</span>
+              <div class="label">若 AI 平台時程遞延，訂單節奏可能快速降溫。</div>
+            </div>
+          </div>
+          <div class="callout">可執行觀察：優先追蹤「交期是否繼續拉長」、「是否取得 AI 伺服器電源相關設計導入」、「產品組合是否往高容量與高可靠度轉移」，比單看月營收更有前瞻性。</div>
+        </section>
+
+        <section id="watch">
+          <h2>接下來三個追蹤指標</h2>
+          <table>
+            <thead>
+              <tr>
+                <th>追蹤項目</th>
+                <th>正向訊號</th>
+                <th>風險訊號</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td><span class="pill">交期</span></td><td>高階 MLCC、電解電容交期維持 4 個月以上，或更多料號停止接單。</td><td>交期回落至 2 個月內，代表供需壓力緩解。</td></tr>
+              <tr><td><span class="pill">平台量產</span></td><td>下一代 AI 伺服器在 2026 下半年順利放量。</td><td>客戶平台改版、散熱或供電設計延後。</td></tr>
+              <tr><td><span class="pill">供應商導入</span></td><td>台廠取得高階料號新認證，且出貨比重提升。</td><td>日韓大廠擴產轉積極，外溢訂單空間收斂。</td></tr>
+            </tbody>
+          </table>
+          <details>
+            <summary>投資盲點提醒</summary>
+            <p>被動元件過去景氣循環明顯，缺料題材容易先推估值，再等營收驗證。這次的差異是 AI 單櫃用量與規格同時上升，但仍需確認台廠是否真的切入高階料號，不能只因產業缺料就直接推論所有族群全面受惠。</p>
+          </details>
+        </section>
+
+        <section id="source">
+          <h2>來源與限制</h2>
+          <p class="source-list">主要來源：DIGITIMES，Flora Wang，Taipei，發布時間 2026-05-21 08:13:38 +08:00，標題為 <a href="https://www.digitimes.com/news/a20260520PD217/demand-high-end-ai-server-ndb-passive.html" target="_blank" rel="noopener">AI server demand tightens passive component supply, lifting Taiwanese suppliers' share</a>。</p>
+          <p class="footnote">限制：本文根據公開報導與使用者提供內容整理，未納入個別公司財報、訂單能見度或即時股價資料；文中數字為日電貿供應鏈估算，應搭配後續月營收、法說會與交期變化交叉驗證。</p>
+        </section>
+      </main>
+    </div>
+  </div>
+
+  <script>
+    const root = document.documentElement;
+    const toggle = document.getElementById('themeToggle');
+    toggle.addEventListener('click', () => {
+      root.classList.toggle('dark');
+      localStorage.theme = root.classList.contains('dark') ? 'dark' : 'light';
+      location.reload();
+    });
+
+    const css = getComputedStyle(document.documentElement);
+    const textColor = css.getPropertyValue('--text').trim();
+    const mutedColor = css.getPropertyValue('--muted').trim();
+    const brand = css.getPropertyValue('--brand').trim();
+    const accent = css.getPropertyValue('--accent').trim();
+    const green = css.getPropertyValue('--green').trim();
+    Chart.defaults.color = mutedColor;
+    Chart.defaults.borderColor = css.getPropertyValue('--line').trim();
+
+    new Chart(document.getElementById('leadTimeChart'), {
+      type: 'bar',
+      data: {
+        labels: ['過去低位', '過去高位', '目前低位', '目前高位', '部分料號'],
+        datasets: [{
+          label: '交期（月）',
+          data: [1.5, 2, 3, 4, 12],
+          backgroundColor: [brand, brand, accent, accent, '#dc2626'],
+          borderRadius: 10
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: { legend: { display: false }, tooltip: { callbacks: { label: ctx => `${ctx.raw} 個月` } } },
+        scales: { y: { beginAtZero: true, title: { display: true, text: '月' } } }
+      }
+    });
+
+    new Chart(document.getElementById('rackChart'), {
+      type: 'bar',
+      data: {
+        labels: ['NVIDIA VR300', 'Google TPU v8'],
+        datasets: [
+          { label: '運算節點', data: [220000, 400000], backgroundColor: brand, borderRadius: 10 },
+          { label: '配電區', data: [110000, 200000], backgroundColor: green, borderRadius: 10 }
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: { tooltip: { callbacks: { label: ctx => `${ctx.dataset.label}: ${ctx.raw.toLocaleString('zh-TW')} 顆` } } },
+        scales: { x: { stacked: true }, y: { stacked: true, ticks: { callback: value => `${value / 10000}萬` } } }
+      }
+    });
+
+    document.querySelectorAll('nav a').forEach(link => {
+      link.addEventListener('click', () => {
+        document.querySelectorAll('nav a').forEach(item => item.classList.remove('active'));
+        link.classList.add('active');
+      });
+    });
+
+    const sections = Array.from(document.querySelectorAll('main section'));
+    const navLinks = Array.from(document.querySelectorAll('nav a'));
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          navLinks.forEach(link => link.classList.toggle('active', link.getAttribute('href') === `#${entry.target.id}`));
+        }
+      });
+    }, { rootMargin: '-30% 0px -55% 0px', threshold: 0 });
+    sections.forEach(section => observer.observe(section));
+
+    document.querySelectorAll('th').forEach((header, index) => {
+      header.addEventListener('click', () => {
+        const table = header.closest('table');
+        const body = table.querySelector('tbody');
+        const rows = Array.from(body.querySelectorAll('tr'));
+        rows.sort((a, b) => a.children[index].innerText.localeCompare(b.children[index].innerText, 'zh-TW', { numeric: true }));
+        rows.forEach(row => body.appendChild(row));
+      });
+    });
+  </script>
+</body>
+</html>
