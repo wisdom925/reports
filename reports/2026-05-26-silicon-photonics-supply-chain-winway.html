@@ -1,0 +1,371 @@
+<!doctype html>
+<html lang="zh-TW" class="scroll-smooth">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>矽光子供應鏈拆解：台廠主戰場在測試、晶圓代工與連接元件</title>
+  <meta name="description" content="拆解 WinWay／SEMI VISION 矽光子供應鏈圖：從 CSP、SOI 晶圓、PIC 與 EDA、晶圓代工、EIC/DSP、光源、連接器、測試、光纖與外部雷射源，分析台股標的位置與投資盲點。">
+  <meta property="og:title" content="矽光子供應鏈拆解：台廠主戰場在測試、晶圓代工與連接元件">
+  <meta property="og:description" content="台股核心觀察包含 6515 穎崴、6223 旺矽、2360 致茂、2330 台積電、2303 聯電，以及疑似出現在連接器區塊的 6442 光聖。">
+  <meta property="og:type" content="article">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script>
+    if (localStorage.theme === 'dark' || (!('theme' in localStorage) && matchMedia('(prefers-color-scheme: dark)').matches)) {
+      document.documentElement.classList.add('dark');
+    }
+  </script>
+  <style>
+    :root {
+      color-scheme: light;
+      --bg: #f8fafc;
+      --panel: #ffffff;
+      --panel-soft: #eef2ff;
+      --text: #0f172a;
+      --muted: #64748b;
+      --line: #dbe4f0;
+      --brand: #2563eb;
+      --brand-2: #7c3aed;
+      --accent: #f97316;
+      --green: #16a34a;
+      --red: #dc2626;
+      --shadow: 0 22px 60px rgba(15, 23, 42, .10);
+    }
+    html.dark {
+      color-scheme: dark;
+      --bg: #020617;
+      --panel: #0f172a;
+      --panel-soft: #111827;
+      --text: #e5e7eb;
+      --muted: #94a3b8;
+      --line: #1e293b;
+      --brand: #60a5fa;
+      --brand-2: #a78bfa;
+      --accent: #fb923c;
+      --green: #4ade80;
+      --red: #f87171;
+      --shadow: 0 22px 60px rgba(0, 0, 0, .35);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans TC", "PingFang TC", sans-serif;
+      background:
+        radial-gradient(circle at 8% 0%, rgba(37, 99, 235, .18), transparent 30rem),
+        radial-gradient(circle at 88% 6%, rgba(249, 115, 22, .16), transparent 28rem),
+        var(--bg);
+      color: var(--text);
+      line-height: 1.68;
+    }
+    a { color: var(--brand); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .wrap { max-width: 1220px; margin: 0 auto; padding: 28px 20px 72px; }
+    .topbar { display: flex; justify-content: space-between; align-items: center; gap: 16px; margin-bottom: 28px; }
+    .badge { display: inline-flex; align-items: center; gap: 8px; border: 1px solid var(--line); background: color-mix(in srgb, var(--panel) 84%, transparent); color: var(--muted); border-radius: 999px; padding: 7px 12px; font-size: 13px; }
+    .theme-toggle { border: 1px solid var(--line); background: var(--panel); color: var(--text); border-radius: 999px; padding: 8px 13px; cursor: pointer; box-shadow: var(--shadow); }
+    .hero { border: 1px solid var(--line); border-radius: 30px; padding: 34px; background: linear-gradient(135deg, rgba(37, 99, 235, .12), rgba(124, 58, 237, .10) 48%, rgba(249, 115, 22, .10)); box-shadow: var(--shadow); }
+    .hero-grid { display: grid; grid-template-columns: 1.45fr .9fr; gap: 24px; align-items: end; }
+    h1 { font-size: clamp(34px, 5vw, 60px); line-height: 1.05; letter-spacing: -.04em; margin: 14px 0 18px; }
+    .subtitle { color: var(--muted); font-size: 19px; max-width: 850px; margin: 0; }
+    .score-card { border: 1px solid var(--line); background: var(--panel); border-radius: 22px; padding: 20px; }
+    .score-card strong { display: block; color: var(--accent); font-size: 42px; line-height: 1; letter-spacing: -.04em; margin-bottom: 8px; }
+    .layout { display: grid; grid-template-columns: 250px minmax(0, 1fr); gap: 28px; margin-top: 28px; }
+    nav { position: sticky; top: 18px; align-self: start; background: var(--panel); border: 1px solid var(--line); border-radius: 20px; padding: 18px; box-shadow: var(--shadow); }
+    nav h2 { font-size: 13px; color: var(--muted); letter-spacing: .12em; text-transform: uppercase; margin: 0 0 10px; }
+    nav a { display: block; padding: 7px 0; color: var(--muted); font-size: 14px; }
+    nav a.active { color: var(--brand); font-weight: 800; }
+    section { background: var(--panel); border: 1px solid var(--line); border-radius: 24px; padding: 28px; margin-bottom: 24px; box-shadow: var(--shadow); }
+    h2 { font-size: clamp(24px, 3vw, 34px); line-height: 1.18; letter-spacing: -.025em; margin: 0 0 14px; }
+    h3 { font-size: 19px; margin: 22px 0 8px; }
+    .lead { color: var(--muted); font-size: 17px; margin-top: 0; }
+    .metric-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; margin-top: 20px; }
+    .metric { border: 1px solid var(--line); border-radius: 18px; padding: 18px; background: linear-gradient(180deg, var(--panel), var(--panel-soft)); }
+    .metric .num { display: block; font-size: 28px; font-weight: 850; color: var(--brand); line-height: 1.12; }
+    .metric .label { color: var(--muted); font-size: 13px; margin-top: 7px; }
+    .upside { border-color: rgba(22, 163, 74, .28); background: rgba(22, 163, 74, .07); }
+    .upside .num { color: var(--green); }
+    .risk { border-color: rgba(220, 38, 38, .28); background: rgba(220, 38, 38, .07); }
+    .risk .num { color: var(--red); }
+    .callout { border-left: 5px solid var(--accent); background: rgba(249, 115, 22, .08); padding: 16px 18px; border-radius: 16px; margin: 18px 0; }
+    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    .chart-box { height: 340px; margin-top: 18px; }
+    .chain { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 10px; margin-top: 18px; }
+    .chain div { border: 1px solid var(--line); border-radius: 16px; padding: 14px; background: var(--panel-soft); text-align: center; font-weight: 850; }
+    .chain span { display: block; color: var(--muted); font-size: 12px; font-weight: 500; margin-top: 4px; }
+    .search { width: 100%; border: 1px solid var(--line); background: var(--panel-soft); color: var(--text); border-radius: 14px; padding: 12px 14px; margin: 12px 0 4px; font-size: 15px; }
+    table { width: 100%; border-collapse: collapse; margin-top: 16px; font-size: 15px; }
+    th, td { border-bottom: 1px solid var(--line); padding: 12px 10px; text-align: left; vertical-align: top; }
+    th { color: var(--muted); font-size: 12px; letter-spacing: .08em; text-transform: uppercase; cursor: pointer; }
+    tr:hover td { background: rgba(37, 99, 235, .05); }
+    .pill { display: inline-flex; align-items: center; border-radius: 999px; padding: 3px 9px; font-size: 12px; font-weight: 800; background: rgba(37, 99, 235, .10); color: var(--brand); }
+    details { border: 1px solid var(--line); border-radius: 16px; padding: 14px 16px; margin-top: 14px; background: var(--panel-soft); }
+    summary { cursor: pointer; font-weight: 800; }
+    .source-box { color: var(--muted); font-size: 14px; }
+    .footnote { color: var(--muted); font-size: 13px; }
+    @media (max-width: 940px) {
+      .hero-grid, .layout, .two-col { grid-template-columns: 1fr; }
+      nav { position: static; }
+      .metric-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .chain { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 560px) {
+      .wrap { padding: 18px 12px 44px; }
+      .hero, section { padding: 20px; border-radius: 20px; }
+      .metric-grid { grid-template-columns: 1fr; }
+      .chart-box { height: 300px; }
+      table { font-size: 13px; }
+      th, td { padding: 10px 6px; }
+    }
+    @media print {
+      .theme-toggle, nav, .search { display: none; }
+      body { background: #fff; color: #000; }
+      .wrap { max-width: none; padding: 0; }
+      .hero, section { box-shadow: none; break-inside: avoid; }
+      a { color: #000; text-decoration: underline; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation: none !important; scroll-behavior: auto !important; transition: none !important; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="topbar">
+      <span class="badge">矽光子｜CPO｜台股供應鏈</span>
+      <button class="theme-toggle" type="button" id="themeToggle">切換深色模式</button>
+    </div>
+
+    <header class="hero">
+      <div class="hero-grid">
+        <div>
+          <span class="badge">結論先行</span>
+          <h1>矽光子供應鏈裡，台廠最明確的位置在「測試」與「晶圓代工」。</h1>
+          <p class="subtitle">這份供應鏈圖把矽光子（Silicon Photonics, SiPh）拆成 CSP 終端、PIC 設計與 EDA、SOI 晶圓、晶圓代工、EIC/DSP、光源、連接器、測試、光纖與外部雷射源。台股可直接對應的核心觀察，是 6515 穎崴、6223 旺矽、2360 致茂、2330 台積電、2303 聯電，以及疑似出現在連接器區塊的 6442 光聖。</p>
+        </div>
+        <div class="score-card">
+          <strong>3 個主戰場</strong>
+          <div>測試、晶圓代工、連接元件，是台廠在矽光子圖譜中辨識度最高的環節。</div>
+        </div>
+      </div>
+    </header>
+
+    <div class="layout">
+      <nav aria-label="報告目錄">
+        <h2>目錄</h2>
+        <a href="#summary">一頁結論</a>
+        <a href="#taiwan">台股標的</a>
+        <a href="#map">供應鏈地圖</a>
+        <a href="#architecture">架構解讀</a>
+        <a href="#watch">追蹤指標</a>
+        <a href="#source">來源與限制</a>
+      </nav>
+
+      <main>
+        <section id="summary">
+          <h2>一頁結論</h2>
+          <p class="lead">矽光子不是單一零組件題材，而是一條從晶圓、光電晶片、電子控制晶片、封裝、測試到光纖連接的完整鏈。台廠若要受惠，關鍵在於能不能卡進量產驗證、測試平台、晶圓代工與高速連接規格。</p>
+          <div class="metric-grid">
+            <div class="metric upside">
+              <span class="num">6515 穎崴</span>
+              <div class="label">圖中 Testing 區塊主角，偏向測試介面與高階探針／測試座。</div>
+            </div>
+            <div class="metric upside">
+              <span class="num">6223 旺矽</span>
+              <div class="label">Testing 區塊，半導體測試介面與探針卡受惠高階封裝複雜度。</div>
+            </div>
+            <div class="metric upside">
+              <span class="num">2360 致茂</span>
+              <div class="label">Testing 區塊，量測設備與自動化測試平台。</div>
+            </div>
+            <div class="metric upside">
+              <span class="num">2330／2303</span>
+              <div class="label">台積電與聯電出現在 Foundry 區塊，對應矽光子晶圓製造平台。</div>
+            </div>
+          </div>
+          <div class="callout">判讀：矽光子量產化會把價值從單純光模組，擴散到「晶圓級製造＋封裝測試＋光纖連接」。測試端通常是最早被市場拿來交易的台股族群，但真正的長線門檻在設計導入、客戶認證與量產良率。</div>
+        </section>
+
+        <section id="taiwan">
+          <h2>台股標的：先看可明確對應者</h2>
+          <p class="lead">下列台股名稱已用 TWSE／TPEx 公開行情資料核對。圖中有些 Logo 解析度不足，無法確認者不硬對股票代號。</p>
+          <input class="search" id="companySearch" type="search" placeholder="搜尋公司、股票代號、供應鏈環節…" aria-label="搜尋台股標的表">
+          <table id="companyTable">
+            <thead>
+              <tr>
+                <th>股票代號</th>
+                <th>公司中文名稱</th>
+                <th>圖中名稱</th>
+                <th>區塊</th>
+                <th>投資解讀</th>
+                <th>確認度</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>6515</td><td>穎崴</td><td>WinWay</td><td>Testing</td><td>矽光子與高階封裝進入量產後，測試座、探針與測試介面複雜度提升。</td><td>高</td></tr>
+              <tr><td>6223</td><td>旺矽</td><td>MPI Corporation</td><td>Testing</td><td>高階探針卡與測試介面可受惠 CPO／矽光子測試需求。</td><td>高</td></tr>
+              <tr><td>2360</td><td>致茂</td><td>Chroma</td><td>Testing</td><td>光電量測、自動化測試與電源測試平台，可切入量產驗證。</td><td>高</td></tr>
+              <tr><td>2330</td><td>台積電</td><td>TSMC</td><td>Foundry</td><td>矽光子晶圓製造與先進封裝平台的潛在核心整合者。</td><td>高</td></tr>
+              <tr><td>2303</td><td>聯電</td><td>UMC</td><td>Foundry</td><td>成熟製程與特殊製程平台可能承接部分矽光子製造需求。</td><td>高</td></tr>
+              <tr><td>6442</td><td>光聖</td><td>LightSense／圖中文字疑似</td><td>Connector</td><td>若確為光聖，定位偏光通訊連接元件；需以高解析原始簡報再確認。</td><td>中</td></tr>
+            </tbody>
+          </table>
+          <details>
+            <summary>為什麼不把 Hon.Prec 硬對到台股？</summary>
+            <p>Testing 區塊中有 Hon.Prec 標誌，但目前可查資料顯示其為台灣測試處理設備供應商，未能用 TWSE／TPEx 公開上市櫃資料直接核對股票代號。為避免混淆公司名與股票歸屬，本報告不強行配對。</p>
+          </details>
+        </section>
+
+        <section id="map">
+          <h2>供應鏈地圖：誰卡在哪一段</h2>
+          <p class="lead">矽光子價值鏈可分成十個區塊。投資上最重要的是判斷每家公司是「標準品供應商」、「設計平台」、「晶圓製造」、「測試瓶頸」還是「系統導入者」。</p>
+          <div class="two-col">
+            <div class="chart-box"><canvas id="segmentChart" aria-label="供應鏈區塊公司數量圖"></canvas></div>
+            <div>
+              <table>
+                <thead>
+                  <tr>
+                    <th>區塊</th>
+                    <th>代表公司</th>
+                    <th>重點</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr><td>CSP 終端客戶</td><td>NVIDIA、AWS、Microsoft、Meta、ByteDance</td><td>決定 AI 資本支出與 CPO 導入時程。</td></tr>
+                  <tr><td>PIC Design & EDA</td><td>IBM、Intel、Cisco、Ansys、Cadence、Synopsys 等</td><td>決定光電晶片設計工具與 IP 生態。</td></tr>
+                  <tr><td>SOI Wafer</td><td>Soitec、Shin-Etsu、SUMCO、IntelliEPI</td><td>矽光子晶圓基板品質與供應能力。</td></tr>
+                  <tr><td>Foundry</td><td>2330 台積電、2303 聯電、Intel、Tower、GlobalFoundries、Samsung、ST 等</td><td>把光電設計轉成可量產晶圓。</td></tr>
+                  <tr><td>EIC & DSP Design</td><td>Broadcom、Coherent、Lumentum、MACOM、Ciena、Infinera</td><td>電子控制晶片與訊號處理是光電整合核心。</td></tr>
+                  <tr><td>Light Source</td><td>Coherent、Sumitomo Electric、IntelliEPI、IQE、Nichia 等</td><td>外部或內嵌光源影響架構成本與可靠度。</td></tr>
+                  <tr><td>Connector</td><td>TE、CONEC、SENKO、Molex、Amphenol、疑似 6442 光聖</td><td>高速光路與板端連接良率是量產痛點。</td></tr>
+                  <tr><td>Testing</td><td>6515 穎崴、6223 旺矽、2360 致茂、MPI、Hon.Prec</td><td>量產驗證與良率爬坡的台廠主戰場。</td></tr>
+                  <tr><td>Fiber</td><td>Corning、YOFC、Furukawa、Sumitomo Electric、Fujikura、Prysmian、ZTT 等</td><td>光纖與線纜供應鏈決定資料中心布建速度。</td></tr>
+                  <tr><td>ELS</td><td>Furukawa Electric、Broadcom、Coherent、Lumentum、TE、O-Net 等</td><td>外部雷射源（External Laser Source, ELS）是 CPO 架構關鍵選項。</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <section id="architecture">
+          <h2>架構解讀：中間示意圖在講 CPO 如何把光拉近晶片</h2>
+          <p class="lead">中間架構顯示 HBM、SoC、EIC 與 PIC 共同放在基板與矽中介層附近，透過 FAU、Connector 與 ELS 把光訊號導向交換器與光模組。這是 CPO 的核心精神：縮短高速電訊號路徑，把光電轉換移到更接近運算晶片的位置。</p>
+          <div class="chain" aria-label="矽光子架構流程">
+            <div>HBM／SoC<span>AI 運算與記憶體</span></div>
+            <div>EIC／PIC<span>電子控制與光子晶片</span></div>
+            <div>FAU／Connector<span>光路耦合與連接</span></div>
+            <div>ELS<span>外部雷射源供光</span></div>
+            <div>Switch／Optical Module<span>800G／1.6T 傳輸</span></div>
+          </div>
+          <div class="callout">投資意義：CPO 會同時增加「晶圓製程」、「封裝對準」、「光電測試」、「連接器可靠度」的難度。台廠若能在測試與連接良率上變成量產必要環節，估值才有機會從題材交易走向供應鏈地位重估。</div>
+          <div class="chart-box"><canvas id="moatChart" aria-label="台廠環節護城河評分圖"></canvas></div>
+        </section>
+
+        <section id="watch">
+          <h2>後續追蹤指標</h2>
+          <table>
+            <thead>
+              <tr>
+                <th>觀察面向</th>
+                <th>正向訊號</th>
+                <th>風險訊號</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td><span class="pill">測試導入</span></td><td>6515 穎崴、6223 旺矽、2360 致茂揭露光通訊、矽光子或 CPO 量產驗證進展。</td><td>只停留在概念敘事，未看到測試平台或客戶認證。</td></tr>
+              <tr><td><span class="pill">晶圓製造</span></td><td>2330 台積電、2303 聯電擴大矽光子製程平台、客戶 tape-out 或設計套件。</td><td>製程分散在海外供應商，台廠只拿到低附加價值訂單。</td></tr>
+              <tr><td><span class="pill">光源架構</span></td><td>ELS 架構成為主流，帶動雷射源、耦合與測試需求。</td><td>不同 CSP 採用不同架構，標準化速度慢。</td></tr>
+              <tr><td><span class="pill">良率瓶頸</span></td><td>光電封裝與連接良率成為量產關鍵，測試設備需求升級。</td><td>良率瓶頸由國際大廠內部整合，台廠外部供應角色降低。</td></tr>
+              <tr><td><span class="pill">出貨時程</span></td><td>800G／1.6T 光模組與 CPO 平台放量，帶動上下游同步擴產。</td><td>AI 伺服器平台延後，CPO 導入時程往後遞延。</td></tr>
+            </tbody>
+          </table>
+        </section>
+
+        <section id="source">
+          <h2>來源與限制</h2>
+          <p class="source-box">來源：使用者提供之 WinWay／SEMI VISION「Silicon Photonics Supply Chain」圖表。台股公司中文名稱與股票代號以 TWSE／TPEx 公開行情資料核對：6515 穎崴、6223 旺矽、2360 致茂、2330 台積電、2303 聯電、6442 光聖。</p>
+          <p class="footnote">限制：部分 Logo 因解析度不足只能辨識大方向，尤其 Connector 區塊的 LightSense／光聖對應需以高解析原始簡報或公司公告再確認。本文是供應鏈位置分析，不構成投資建議。</p>
+        </section>
+      </main>
+    </div>
+  </div>
+
+  <script>
+    const root = document.documentElement;
+    const toggle = document.getElementById('themeToggle');
+    toggle.addEventListener('click', () => {
+      root.classList.toggle('dark');
+      localStorage.theme = root.classList.contains('dark') ? 'dark' : 'light';
+      location.reload();
+    });
+
+    const css = getComputedStyle(document.documentElement);
+    const brand = css.getPropertyValue('--brand').trim();
+    const accent = css.getPropertyValue('--accent').trim();
+    const green = css.getPropertyValue('--green').trim();
+    const red = css.getPropertyValue('--red').trim();
+    const muted = css.getPropertyValue('--muted').trim();
+    Chart.defaults.color = muted;
+    Chart.defaults.borderColor = css.getPropertyValue('--line').trim();
+
+    new Chart(document.getElementById('segmentChart'), {
+      type: 'bar',
+      data: {
+        labels: ['PIC/EDA', 'Foundry', 'Testing', 'Fiber', 'ELS', 'Connector', 'SOI', 'Light Source'],
+        datasets: [{
+          label: '圖中約略公司數量',
+          data: [22, 11, 5, 10, 7, 6, 4, 6],
+          backgroundColor: [brand, green, accent, '#7c3aed', '#06b6d4', '#f43f5e', '#84cc16', '#f59e0b'],
+          borderRadius: 10
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: { legend: { display: false } },
+        scales: { y: { beginAtZero: true, title: { display: true, text: '公司數量' } } }
+      }
+    });
+
+    new Chart(document.getElementById('moatChart'), {
+      type: 'radar',
+      data: {
+        labels: ['客戶認證', '量產良率', '技術門檻', '台廠辨識度', '短期交易熱度', '長期護城河'],
+        datasets: [
+          { label: 'Testing：6515 / 6223 / 2360', data: [8, 9, 8, 9, 9, 8], borderColor: accent, backgroundColor: 'rgba(249, 115, 22, .16)', pointBackgroundColor: accent },
+          { label: 'Foundry：2330 / 2303', data: [9, 8, 9, 8, 7, 9], borderColor: green, backgroundColor: 'rgba(22, 163, 74, .16)', pointBackgroundColor: green },
+          { label: 'Connector：疑似 6442', data: [6, 7, 7, 6, 8, 6], borderColor: brand, backgroundColor: 'rgba(37, 99, 235, .16)', pointBackgroundColor: brand }
+        ]
+      },
+      options: { responsive: true, maintainAspectRatio: false, scales: { r: { min: 0, max: 10, ticks: { stepSize: 2 } } } }
+    });
+
+    document.querySelectorAll('th').forEach((header, index) => {
+      header.addEventListener('click', () => {
+        const table = header.closest('table');
+        const body = table.querySelector('tbody');
+        const rows = Array.from(body.querySelectorAll('tr'));
+        rows.sort((a, b) => a.children[index].innerText.localeCompare(b.children[index].innerText, 'zh-TW', { numeric: true }));
+        rows.forEach(row => body.appendChild(row));
+      });
+    });
+
+    const search = document.getElementById('companySearch');
+    search.addEventListener('input', () => {
+      const q = search.value.trim().toLowerCase();
+      document.querySelectorAll('#companyTable tbody tr').forEach(row => {
+        row.hidden = q && !row.innerText.toLowerCase().includes(q);
+      });
+    });
+
+    const sections = Array.from(document.querySelectorAll('main section'));
+    const navLinks = Array.from(document.querySelectorAll('nav a'));
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          navLinks.forEach(link => link.classList.toggle('active', link.getAttribute('href') === `#${entry.target.id}`));
+        }
+      });
+    }, { rootMargin: '-30% 0px -55% 0px', threshold: 0 });
+    sections.forEach(section => observer.observe(section));
+  </script>
+</body>
+</html>
