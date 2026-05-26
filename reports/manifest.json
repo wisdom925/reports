@@ -1,5 +1,17 @@
 [
   {
+    "file": "2026-05-26-emib-emib-t-explainer.html",
+    "title": "EMIB 與 EMIB-T：Intel 先進封裝的水平互連與垂直供電升級",
+    "date": "2026-05-26",
+    "description": "用封裝工程視角判讀 Intel EMIB 與 EMIB-T：EMIB 是局部矽橋，EMIB-T 在橋接器中加入 TSV 與 MIM 電容器，以強化垂直供電並降低電源雜訊。"
+  },
+  {
+    "file": "2026-05-26-huawei-tau-scaling-logicfolding.html",
+    "title": "華為 Tau Scaling 與 LogicFolding：拓撲紅利、散熱代價與製程差距補位",
+    "date": "2026-05-26",
+    "description": "以工程視角拆解華為 Tau Scaling 與 LogicFolding：它較像 3D 拓撲、封裝與散熱的系統補位，並非單純製程節點突破。"
+  },
+  {
     "file": "2026-05-26-silicon-photonics-supply-chain-winway.html",
     "title": "矽光子供應鏈拆解：台廠主戰場在測試、晶圓代工與連接元件",
     "date": "2026-05-26",
