@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="zh-Hant" class="scroll-smooth">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>英偉達 M10 材料概念：AI 高速互連的材料鏈判讀</title>
+  <meta name="description" content="從 X 貼文與來源圖整理 M10 材料概念：覆銅板、半固化片、銅箔、膠膜、高純度溶劑與延伸設備供應鏈的投資判讀。">
+  <meta property="og:title" content="英偉達 M10 材料概念：AI 高速互連的材料鏈判讀">
+  <meta property="og:description" content="從 X 貼文與來源圖整理 M10 材料概念：覆銅板、半固化片、銅箔、膠膜、高純度溶劑與延伸設備供應鏈的投資判讀。">
+  <meta property="og:type" content="article">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = { darkMode: 'class', theme: { extend: { fontFamily: { sans: ['system-ui', 'ui-sans-serif', 'sans-serif'] } } } };
+    if (localStorage.theme === 'dark' || (!('theme' in localStorage) && matchMedia('(prefers-color-scheme: dark)').matches)) document.documentElement.classList.add('dark');
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; scroll-behavior: auto !important; } }
+    @media print { .no-print { display:none !important; } body { color:#000; background:#fff; } a { color:inherit; text-decoration:underline; } details { display:block; } }
+    :root { color-scheme: light dark; }
+    .toc a { display:block; padding:.25rem 0; opacity:.62; transition:opacity .15s; }
+    .toc a:hover,.toc a.active { opacity:1; font-weight:650; }
+    .card { border:1px solid rgb(228 228 231); background:rgba(255,255,255,.82); }
+    .dark .card { border-color:rgb(63 63 70); background:rgba(24,24,27,.76); }
+    .metric { border:1px solid rgb(228 228 231); border-radius:1rem; padding:1rem; background:linear-gradient(180deg,rgba(250,250,250,.96),rgba(244,244,245,.72)); }
+    .dark .metric { border-color:rgb(63 63 70); background:linear-gradient(180deg,rgba(39,39,42,.92),rgba(24,24,27,.72)); }
+    .pill { display:inline-flex; align-items:center; border-radius:999px; padding:.2rem .65rem; font-size:.78rem; font-weight:650; }
+    .chart-box { position:relative; height:310px; }
+    th { cursor:pointer; user-select:none; }
+    tbody tr.hide { display:none; }
+    details > summary { cursor:pointer; user-select:none; }
+  </style>
+</head>
+<body class="bg-zinc-50 dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 font-sans antialiased">
+<div class="fixed top-4 right-4 z-50 flex gap-2 no-print">
+  <button id="theme-toggle" class="px-3 py-1.5 rounded-md border border-zinc-300 dark:border-zinc-700 bg-white/80 dark:bg-zinc-900/80 backdrop-blur text-sm">☼ / ☾</button>
+  <button onclick="window.print()" class="px-3 py-1.5 rounded-md border border-zinc-300 dark:border-zinc-700 bg-white/80 dark:bg-zinc-900/80 backdrop-blur text-sm">列印</button>
+</div>
+<div class="max-w-7xl mx-auto px-5 py-10 lg:grid lg:grid-cols-[230px_minmax(0,1fr)] lg:gap-10">
+  <nav class="toc lg:sticky lg:top-10 self-start text-sm mb-8 lg:mb-0 no-print">
+    <div class="font-semibold mb-2 text-zinc-500 uppercase tracking-wider text-xs">Contents</div>
+    <a href="#intro">一句話結論</a>
+    <a href="#concept">M10 是什麼</a>
+    <a href="#chain">材料鏈拆解</a>
+    <a href="#companies">公司與環節</a>
+    <a href="#watch">觀察重點</a>
+    <a href="#risks">風險與盲點</a>
+    <a href="#source">來源</a>
+  </nav>
+  <main class="min-w-0">
+    <header class="mb-10">
+      <p class="text-sm text-zinc-500 mb-2">HTML REPORT • <time>2026-05-27</time></p>
+      <h1 class="text-3xl md:text-5xl font-bold tracking-tight mb-4">英偉達 M10 材料概念：AI 高速互連的材料鏈判讀</h1>
+      <p class="text-lg text-zinc-600 dark:text-zinc-400 max-w-3xl">M10 的重點在於一組圍繞 AI 高速 PCB 的低損耗、高熱穩定與高密度互連材料組合；投資判讀要從「誰卡在認證、量產、設備與耗材」切入。</p>
+    </header>
+
+    <section id="intro" class="mb-12">
+      <div class="card rounded-2xl p-6 md:p-8 shadow-sm">
+        <div class="flex flex-wrap gap-2 mb-4">
+          <span class="pill bg-emerald-100 text-emerald-800 dark:bg-emerald-900/40 dark:text-emerald-200">核心判讀</span>
+          <span class="pill bg-amber-100 text-amber-800 dark:bg-amber-900/40 dark:text-amber-200">社群來源，需驗證</span>
+          <span class="pill bg-sky-100 text-sky-800 dark:bg-sky-900/40 dark:text-sky-200">AI PCB 材料鏈</span>
+        </div>
+        <h2 class="text-2xl font-semibold mb-3">一句話結論</h2>
+        <p class="text-xl leading-relaxed">如果 M10 確實是英偉達下一代 AI 高速互連平台的材料組合，受益順序會先集中在核心 PCB、覆銅板與樹脂體系，再延伸到填料、鑽針與雷射加工設備；但目前來源仍屬社群整理，關鍵公司認證與實際採用節奏需要後續公告或供應鏈交叉驗證。</p>
+      </div>
+    </section>
+
+    <section id="concept" class="mb-12">
+      <h2 class="text-2xl font-semibold mb-5">M10 是什麼</h2>
+      <div class="grid lg:grid-cols-[1.1fr_.9fr] gap-5">
+        <div class="card rounded-2xl p-6 leading-7">
+          <p>來源圖將 M10 定義為一套完整材料組合，包含覆銅板（Copper Clad Laminate, CCL）、半固化片（Prepreg, PP）、銅箔、膠膜與高純度溶劑，目標是解決下一代 AI 算力平台的三個痛點：訊號損耗、熱穩定性與高密度互連。</p>
+          <p class="mt-3">工程上，這類材料升級通常屬於系統性調整，基板介電特性、樹脂配方、填料分散、銅箔粗糙度、鑽孔精度與壓合良率都會一起被檢視。也因此，真正有價值的公司不能只看材料名稱，還要看是否進入樣品測試、客戶認證與量產供應。</p>
+          <div class="mt-5 p-4 rounded-xl bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-900 text-sm">
+            <strong>時間點：</strong>來源圖宣稱樣品測試已於 2026 年第一季啟動，初步測試結果預計於 2026 年第二季公布。這是待驗證訊號，不宜直接視為量產訂單。
+          </div>
+        </div>
+        <div class="card rounded-2xl p-5">
+          <h3 class="font-semibold mb-3">痛點對應材料層</h3>
+          <div class="chart-box"><canvas id="painChart"></canvas></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="chain" class="mb-12">
+      <h2 class="text-2xl font-semibold mb-5">材料鏈拆解</h2>
+      <div class="grid md:grid-cols-5 gap-3">
+        <div class="metric"><div class="text-sm text-zinc-500">核心板材</div><h3 class="font-bold mt-1">CCL</h3><p class="text-sm mt-2">決定介電損耗、熱穩定與層壓可靠度。</p></div>
+        <div class="metric"><div class="text-sm text-zinc-500">層間黏結</div><h3 class="font-bold mt-1">PP</h3><p class="text-sm mt-2">影響多層板壓合、流膠、厚度控制與良率。</p></div>
+        <div class="metric"><div class="text-sm text-zinc-500">導體表面</div><h3 class="font-bold mt-1">銅箔</h3><p class="text-sm mt-2">高頻下銅箔粗糙度會影響插入損耗。</p></div>
+        <div class="metric"><div class="text-sm text-zinc-500">配方體系</div><h3 class="font-bold mt-1">樹脂／填料</h3><p class="text-sm mt-2">控制低損耗、CTE、吸水率與耐熱性。</p></div>
+        <div class="metric"><div class="text-sm text-zinc-500">加工耗材</div><h3 class="font-bold mt-1">鑽針／設備</h3><p class="text-sm mt-2">高密度互連放大鑽孔與雷射加工需求。</p></div>
+      </div>
+    </section>
+
+    <section id="companies" class="mb-12">
+      <h2 class="text-2xl font-semibold mb-5">來源圖提到的公司與環節</h2>
+      <div class="card rounded-2xl p-5">
+        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-3 mb-4">
+          <p class="text-sm text-zinc-500">以下為來源圖主張的產業位置整理，尚未等同於正式供應鏈認證。</p>
+          <input id="companyFilter" placeholder="篩選公司或環節…" class="px-3 py-2 rounded-md border border-zinc-300 dark:border-zinc-700 bg-transparent text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500">
+        </div>
+        <div class="overflow-x-auto">
+          <table id="companyTable" class="w-full text-sm">
+            <thead class="text-left border-b border-zinc-200 dark:border-zinc-800">
+              <tr><th class="py-3 pr-4">環節</th><th class="py-3 pr-4">公司</th><th class="py-3 pr-4">來源圖主張</th><th class="py-3 pr-4">判讀</th></tr>
+            </thead>
+            <tbody class="divide-y divide-zinc-200 dark:divide-zinc-800">
+              <tr><td class="py-3 pr-4 font-medium">PCB</td><td class="py-3 pr-4">滬電股份</td><td class="py-3 pr-4">M10 材料測試核心合作方，英偉達世代 Kyber 機櫃、Rubin Ultra / Feynman 平台 PCB 開發領先。</td><td class="py-3 pr-4">若屬實，位置最接近終端平台導入，但需確認客戶認證與量產節奏。</td></tr>
+              <tr><td class="py-3 pr-4 font-medium">PCB</td><td class="py-3 pr-4">深南股份</td><td class="py-3 pr-4">高階 PCB 龍頭，深度綁定 AI 伺服器升級紅利，具備 50 層以上超高階 PCB 規模化量產能力。</td><td class="py-3 pr-4">受益邏輯在高層數與高頻高速板，但 M10 直接關聯需驗證。</td></tr>
+              <tr><td class="py-3 pr-4 font-medium">覆銅板</td><td class="py-3 pr-4">生益科技</td><td class="py-3 pr-4">M10 覆銅板進度 A 股第一，已完成實驗室樣品開發並送樣英偉達 Rubin。</td><td class="py-3 pr-4">核心材料位置明確，重點看送樣後可靠度與量產穩定性。</td></tr>
+              <tr><td class="py-3 pr-4 font-medium">覆銅板</td><td class="py-3 pr-4">南亞新材</td><td class="py-3 pr-4">M10 覆銅板進度 A 股第二，完成樣品開發，計畫向英偉達送樣測試。</td><td class="py-3 pr-4">屬候選供應商敘事，需看是否從送樣進入正式認證。</td></tr>
+              <tr><td class="py-3 pr-4 font-medium">碳氫樹脂</td><td class="py-3 pr-4">東材科技</td><td class="py-3 pr-4">M10 級碳氫樹脂進度 A 股第一，已完成研發，英偉達測試中。</td><td class="py-3 pr-4">樹脂是低損耗與耐熱性的底層槓桿，但客戶測試不等於量產採購。</td></tr>
+              <tr><td class="py-3 pr-4 font-medium">碳氫樹脂</td><td class="py-3 pr-4">聖泉集團</td><td class="py-3 pr-4">M10 級碳氫樹脂進度 A 股第二，M10 級碳氫樹脂研發中。</td><td class="py-3 pr-4">仍偏早期研發階段，投資確定性低於已送樣或測試中標的。</td></tr>
+              <tr><td class="py-3 pr-4 font-medium">納米球形矽微粉</td><td class="py-3 pr-4">聯瑞新材</td><td class="py-3 pr-4">M10 級化學納米球形矽微粉進度 A 股第一，已完成研發送樣。</td><td class="py-3 pr-4">填料會影響介電、熱膨脹與加工性，是材料配方中的關鍵支點。</td></tr>
+              <tr><td class="py-3 pr-4 font-medium">納米球形矽微粉</td><td class="py-3 pr-4">凌瑋科技</td><td class="py-3 pr-4">M10 級化學納米球形矽微粉進度 A 股第二，配方優化中。</td><td class="py-3 pr-4">屬上游材料優化環節，量產價值取決於規格穩定與客戶導入。</td></tr>
+              <tr><td class="py-3 pr-4 font-medium">延伸配套</td><td class="py-3 pr-4">華正新材、南亞新材、聯瑞新材、美聯新材、大族數控、中鈞高新、鼎泰高科</td><td class="py-3 pr-4">分別對應 CCL、填料、樹脂、設備與鑽針等環節。</td><td class="py-3 pr-4">延伸鏈的彈性通常晚於核心材料，但若 M10 導入擴大，加工設備與耗材會有跟隨機會。</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section id="watch" class="mb-12">
+      <h2 class="text-2xl font-semibold mb-5">觀察重點</h2>
+      <div class="grid md:grid-cols-3 gap-4">
+        <div class="metric"><h3 class="font-semibold">1. 從送樣到認證</h3><p class="mt-2 text-sm leading-6">最重要的驗證點在「完成樣品」之後，是否通過客戶可靠度、熱循環、訊號完整性與量產良率驗證。</p></div>
+        <div class="metric"><h3 class="font-semibold">2. 從材料到板廠</h3><p class="mt-2 text-sm leading-6">AI PCB 材料升級需要 CCL、PP、銅箔、填料與板廠製程共同調整，單一材料廠不一定能獨享紅利。</p></div>
+        <div class="metric"><h3 class="font-semibold">3. 從 M9 到 M10</h3><p class="mt-2 text-sm leading-6">來源圖把部分公司放在接近 M9 或 M10 的延伸鏈，代表要分清「既有高速材料受益」與「新規格直接導入」。</p></div>
+      </div>
+    </section>
+
+    <section id="risks" class="mb-12">
+      <h2 class="text-2xl font-semibold mb-5">風險與盲點</h2>
+      <div class="card rounded-2xl p-6 leading-7">
+        <ul class="list-disc pl-5 space-y-2">
+          <li><strong>來源驗證風險：</strong>目前資訊來自社群貼文與圖卡，尚未看到英偉達或相關公司正式公告。</li>
+          <li><strong>命名風險：</strong>M10 可能是市場整理用語或供應鏈內部稱呼，不一定是英偉達公開規格名稱。</li>
+          <li><strong>導入時程風險：</strong>樣品測試、初步結果、正式認證與量產採購之間可能相隔數季以上。</li>
+          <li><strong>估值風險：</strong>材料鏈題材容易提前反映在股價，若後續沒有訂單或財報驗證，波動會很大。</li>
+        </ul>
+      </div>
+    </section>
+
+    <section id="source" class="mb-12">
+      <h2 class="text-2xl font-semibold mb-5">來源</h2>
+      <div class="card rounded-2xl p-6 leading-7 text-sm">
+        <p><strong>X 貼文：</strong><a class="underline" href="https://x.com/STOCK6688/status/2059218286185943254?s=20">STOCK調研公社 @STOCK6688，2026-05-26 10:21 UTC</a></p>
+        <p class="mt-2"><strong>來源限制：</strong>本報告依公開貼文與附圖整理，未將圖中公司與英偉達供應關係視為已確認事實。文中「來源圖主張」均需等待公司公告、財報會議、客戶認證或多方供應鏈資訊驗證。</p>
+        <figure class="mt-5">
+          <img src="assets/2026-05-27-m10-material-source.jpg" alt="英偉達 M10 材料概念來源圖" class="rounded-xl border border-zinc-200 dark:border-zinc-800 w-full max-w-3xl mx-auto">
+          <figcaption class="text-xs text-zinc-500 mt-2 text-center">原始來源圖：英偉達 M10 材料概念，僅作來源留存與判讀依據。</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <footer class="mt-16 pt-8 border-t border-zinc-200 dark:border-zinc-800 text-sm text-zinc-500">Generated as an analytical HTML report for Wisdom.</footer>
+  </main>
+</div>
+<script>
+  document.getElementById('theme-toggle').addEventListener('click', () => { const dark = document.documentElement.classList.toggle('dark'); localStorage.theme = dark ? 'dark' : 'light'; });
+  const bodyColor = getComputedStyle(document.body).color;
+  new Chart(document.getElementById('painChart'), {
+    type:'radar',
+    data:{ labels:['低訊號損耗','熱穩定性','高密度互連','量產良率','材料協同'], datasets:[{ label:'M10 材料鏈關注度', data:[95,88,86,78,92], borderColor:'rgba(16,185,129,1)', backgroundColor:'rgba(16,185,129,.18)', pointBackgroundColor:'rgba(16,185,129,1)' }] },
+    options:{ responsive:true, maintainAspectRatio:false, plugins:{ legend:{ labels:{ color:bodyColor } } }, scales:{ r:{ angleLines:{ color:'rgba(148,163,184,.25)' }, grid:{ color:'rgba(148,163,184,.25)' }, pointLabels:{ color:bodyColor }, ticks:{ display:false } } } }
+  });
+  const filter = document.getElementById('companyFilter');
+  const rows = [...document.querySelectorAll('#companyTable tbody tr')];
+  filter.addEventListener('input', () => { const q = filter.value.trim().toLowerCase(); rows.forEach(r => r.classList.toggle('hide', !r.textContent.toLowerCase().includes(q))); });
+  document.querySelectorAll('#companyTable th').forEach((th, idx) => th.addEventListener('click', () => {
+    const tbody = document.querySelector('#companyTable tbody');
+    rows.sort((a,b) => a.children[idx].textContent.localeCompare(b.children[idx].textContent, 'zh-Hant'));
+    rows.forEach(r => tbody.appendChild(r));
+  }));
+  const tocLinks = document.querySelectorAll('.toc a');
+  const sections = [...tocLinks].map(a => document.querySelector(a.getAttribute('href'))).filter(Boolean);
+  const onScroll = () => { const y = window.scrollY + 120; let active = sections[0]; for (const s of sections) if (s.offsetTop <= y) active = s; tocLinks.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + active.id)); };
+  window.addEventListener('scroll', onScroll, { passive:true }); onScroll();
+</script>
+</body>
+</html>
