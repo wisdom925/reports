@@ -30,12 +30,12 @@
     <div class="hero-grid">
       <div>
         <span class="badge">一句話結論</span>
-        <h1>MLCC 題材可以追，但台股 ETF 多是間接曝險。</h1>
-        <p class="subtitle">日本貼文抓到的是「AI 伺服器、EV、智慧型手機」把高容量 MLCC 與上游耗材推成景氣題材。放到台股，最接近的核心標的是 <b>2327 國巨</b>，延伸到 <b>2492 華新科</b>、<b>3026 禾伸堂</b>、<b>6173 信昌電</b>；ETF 則主要透過台灣 50、ESG、智慧車與高股息因子間接持有，並沒有精準 MLCC 主題 ETF。</p>
+        <h1>重點在日股 ETF：00949、00657、00661、00645 直接持有日本 MLCC 標的。</h1>
+        <p class="subtitle">你要看的主軸是「台灣掛牌 ETF 直接持有哪些日本 MLCC 標的」。目前直接曝險最高的是 <b>00949 復華日本龍頭</b>，合計約 9.76%；其次是 <b>00657 國泰日經225</b> 與 <b>00661 元大日經225</b>，各約 5.25%；<b>00645 富邦日本</b> 覆蓋最廣，含 7 檔日本 MLCC 與材料鏈標的，但單檔權重較分散。</p>
       </div>
       <div class="key-card">
-        <strong>1 個核心</strong>
-        <div>台股主軸先看 2327 國巨，其他標的偏景氣彈性與補漲確認。</div>
+        <strong>00949</strong>
+        <div>日本 MLCC 題材直接曝險最高，持有村田、TDK、京瓷，合計約 9.76%。</div>
       </div>
     </div>
   </header>
@@ -44,6 +44,7 @@
       <h2>目錄</h2>
       <a href="#source">來源主張</a>
       <a href="#japan">日本標的</a>
+      <a href="#jp-etf">台股 ETF 持有日本標的</a>
       <a href="#taiwan">台股對應</a>
       <a href="#etf">ETF 曝險</a>
       <a href="#strategy">追蹤策略</a>
@@ -83,6 +84,45 @@
         <p class="muted">註：近一年變化以 Yahoo Finance 日線資料粗估，含市場波動與可能的股本調整影響，適合判斷題材熱度，不等同合理價評估。</p>
       </section>
 
+
+      <section id="jp-etf" class="anchor">
+        <h2>台股 ETF 持有日本 MLCC 標的列表</h2>
+        <div class="callout"><b>核心結論：</b>若你的重點是「台灣買得到的 ETF 裡，誰真正持有日本 MLCC 這批股票」，排序應先看 00949、00657、00661、00645。00951 與 00954 是日本半導體 ETF，但持股集中在半導體設備與晶片公司，未直接持有原貼文列出的 MLCC 標的。</div>
+        <div class="chart-box"><canvas id="jpEtfExposureChart"></canvas></div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>台股 ETF</th><th>ETF 名稱</th><th>直接持有的日本 MLCC／材料鏈標的</th><th>合計權重</th><th>解讀</th></tr></thead>
+            <tbody>
+              <tr><td>00949</td><td>復華日本龍頭</td><td>6981 村田製作所 5.55%、6762 TDK 2.60%、6971 京瓷 1.61%</td><td>約 9.76%</td><td>直接曝險最高，適合當作台灣掛牌 ETF 追日本 MLCC 題材的第一順位觀察。</td></tr>
+              <tr><td>00657</td><td>國泰日經225</td><td>6762 TDK 2.66%、6971 京瓷 1.19%、6981 村田製作所 0.90%、6976 太陽誘電 0.50%</td><td>約 5.25%</td><td>日經 225 型 ETF，持有 4 檔完成品大廠，純度中等但流動性與分散度較佳。</td></tr>
+              <tr><td>00661</td><td>元大日經225</td><td>6762 TDK 2.65%、6971 京瓷 1.18%、6981 村田製作所 0.91%、6976 太陽誘電 0.51%</td><td>約 5.25%</td><td>與 00657 結構接近，同樣是日經 225 分散曝險。</td></tr>
+              <tr><td>00645</td><td>富邦日本</td><td>6981 村田製作所 1.23%、6762 TDK 0.53%、6971 京瓷 0.31%、6976 太陽誘電 0.10%、5331 ノリタケ 0.01%、4028 石原產業 0.00%、3101 東洋紡 0.00%</td><td>約 2.18%</td><td>覆蓋最廣，連材料鏈也有低權重曝險，但每檔權重偏小。</td></tr>
+              <tr><td>009812</td><td>野村日本東證</td><td>未直接列個股，主要持有 NEXT FUNDS TOPIX ETF（1306.JP）96.52%</td><td>間接曝險</td><td>透過 TOPIX ETF 間接持有日本廣泛市場，無法從台股 ETF 持股頁直接拆出 MLCC 權重。</td></tr>
+              <tr><td>00951</td><td>台新日本半導體</td><td>未持有原貼文列出的日本 MLCC 標的</td><td>0%</td><td>主軸是東京威力科創、愛德萬測試、DISCO、瑞薩等半導體鏈。</td></tr>
+              <tr><td>00954</td><td>中信日本半導體</td><td>未持有原貼文列出的日本 MLCC 標的</td><td>0%</td><td>與 00951 類似，偏半導體設備與晶片，MLCC 題材純度低。</td></tr>
+              <tr><td>00955</td><td>中信日本商社</td><td>未持有原貼文列出的日本 MLCC 標的</td><td>0%</td><td>商社題材，與 MLCC 供應鏈連動低。</td></tr>
+              <tr><td>00956</td><td>中信日經高股息</td><td>未持有原貼文列出的日本 MLCC 標的</td><td>0%</td><td>高股息篩選，未命中這批 MLCC 標的。</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <h3>依日本標的反查台股 ETF</h3>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>日本標的</th><th>持有的台股 ETF</th><th>判讀</th></tr></thead>
+            <tbody>
+              <tr><td>6981 村田製作所</td><td>00949 5.55%、00645 1.23%、00661 0.91%、00657 0.90%</td><td>最核心的 MLCC 完成品曝險，00949 權重明顯最高。</td></tr>
+              <tr><td>6762 TDK</td><td>00657 2.66%、00661 2.65%、00949 2.60%、00645 0.53%</td><td>在日經型 ETF 權重最高，是完成品與車用、工業 MLCC 代表。</td></tr>
+              <tr><td>6971 京瓷</td><td>00949 1.61%、00657 1.19%、00661 1.18%、00645 0.31%</td><td>完成品大廠曝險，00949 仍最高。</td></tr>
+              <tr><td>6976 太陽誘電</td><td>00661 0.51%、00657 0.50%、00645 0.10%</td><td>日經型 ETF 有持有，00949 未列入 MoneyDJ 持股頁。</td></tr>
+              <tr><td>5331 ノリタケ</td><td>00645 0.01%</td><td>材料與電子膏相關，權重極低，只能視為訊號。</td></tr>
+              <tr><td>4028 石原產業</td><td>00645 0.00%</td><td>權重四捨五入後接近 0%，投資影響很小。</td></tr>
+              <tr><td>3101 東洋紡</td><td>00645 0.00%</td><td>權重四捨五入後接近 0%，主要是題材覆蓋意義。</td></tr>
+              <tr><td>5367 ニッカトー、4100 戶田工業、4027 テイカ、4078 堺化學工業、4092 日本化學工業</td><td>未在上述台股 ETF 直接持股頁命中</td><td>若要追這些上游材料小型股，台灣掛牌 ETF 效率不佳。</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
       <section id="taiwan" class="anchor">
         <h2>台股對應：先分清楚「直接受惠」與「題材延伸」</h2>
         <div class="filter"><input id="stockFilter" placeholder="搜尋台股標的、分類或重點，例如 國巨、ETF、材料"></div>
@@ -101,8 +141,8 @@
       </section>
 
       <section id="etf" class="anchor">
-        <h2>ETF 曝險：台股沒有純 MLCC ETF，重點是誰持有國巨</h2>
-        <div class="callout"><b>判斷：</b>ETF 適合拿來做「被動元件題材的分散曝險」，不適合當成精準 MLCC 槓桿。若目標是追 MLCC，本質上仍要回到個股研究；若目標是降低波動，才看 ETF。</div>
+        <h2>台股本地替代曝險：誰持有國巨與台灣被動元件股</h2>
+        <div class="callout"><b>判斷：</b>這一段是「台灣本地替代標的」視角，和前段日股 ETF 直接持股不同。若你要追原貼文日本 MLCC 籃子，前段 00949、00657、00661、00645 才是重點。</div>
         <div class="chart-box"><canvas id="etfWeightChart"></canvas></div>
         <div class="table-wrap">
           <table>
@@ -162,6 +202,7 @@ const io=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersect
 $('#stockFilter').addEventListener('input',e=>{const q=e.target.value.trim().toLowerCase();document.querySelectorAll('#twTable tbody tr').forEach(tr=>{tr.style.display=tr.innerText.toLowerCase().includes(q)?'':'none';});});
 const colors=['#2563eb','#7c3aed','#f97316','#16a34a','#0891b2','#db2777','#9333ea','#0f766e','#ca8a04'];
 new Chart($('#jpReturnChart'),{type:'bar',data:{labels:['村田','太陽誘電','TDK','京瓷','ニッカトー','戶田工業','東洋紡','ノリタケ','日本化學'],datasets:[{label:'近一年股價變化（%）',data:[285,355,144,80,76,81,90,103,139],backgroundColor:colors}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>c.parsed.y+'%'}}},scales:{y:{ticks:{callback:v=>v+'%'}}}});
+new Chart($('#jpEtfExposureChart'),{type:'bar',data:{labels:['00949','00657','00661','00645','009812','00951','00954','00955','00956'],datasets:[{label:'原貼文日本 MLCC 標的直接權重（%）',data:[9.76,5.25,5.25,2.18,0,0,0,0,0],backgroundColor:['#f97316','#2563eb','#2563eb','#7c3aed','#94a3b8','#94a3b8','#94a3b8','#94a3b8','#94a3b8']}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>c.parsed.y+'%'}}},scales:{y:{ticks:{callback:v=>v+'%'}}}});
 new Chart($('#etfWeightChart'),{type:'bar',data:{labels:['00918','00944','00943','00935','00901','00905','00733','00922','00923','00850','006208','0050','00946'],datasets:[{label:'相關標的權重（%）',data:[11.20,5.75,3.65,3.44,2.84,2.78,2.60,2.32,2.01,1.84,1.12,1.11,0.69],backgroundColor:'#2563eb'}]},options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>c.parsed.x+'%'}}},scales:{x:{ticks:{callback:v=>v+'%'}}}});
 </script>
 </body>
