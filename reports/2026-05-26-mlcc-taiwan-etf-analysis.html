@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="zh-TW">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>MLCC 題材從日本供應鏈到台股 ETF：AI 伺服器被動元件觀察</title>
+  <meta name="description" content="整理 Goemon 對日本 MLCC 與材料鏈的貼文，延伸分析台股可對應標的、ETF 持股曝險、投資邏輯與風險。">
+  <meta property="og:title" content="MLCC 題材從日本供應鏈到台股 ETF：AI 伺服器被動元件觀察">
+  <meta property="og:description" content="台股最接近 MLCC 題材的核心是 2327 國巨，其次是 2492 華新科、3026 禾伸堂、6173 信昌電；ETF 多為間接曝險，沒有精準 MLCC 主題 ETF。">
+  <meta property="og:type" content="article">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script>
+    if (localStorage.theme === 'dark' || (!('theme' in localStorage) && matchMedia('(prefers-color-scheme: dark)').matches)) {
+      document.documentElement.classList.add('dark');
+    }
+  </script>
+  <style>
+    :root{color-scheme:light;--bg:#f8fafc;--panel:#fff;--panel2:#eef2ff;--text:#0f172a;--muted:#64748b;--line:#dbe3ef;--brand:#2563eb;--brand2:#7c3aed;--accent:#f97316;--green:#16a34a;--red:#dc2626;--shadow:0 18px 48px rgba(15,23,42,.10)}
+    html.dark{color-scheme:dark;--bg:#020617;--panel:#0f172a;--panel2:#111827;--text:#e5e7eb;--muted:#94a3b8;--line:#1e293b;--brand:#60a5fa;--brand2:#a78bfa;--accent:#fb923c;--green:#4ade80;--red:#f87171;--shadow:0 18px 48px rgba(0,0,0,.35)}
+    *{box-sizing:border-box} body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans TC","PingFang TC",sans-serif;background:radial-gradient(circle at 8% 0,rgba(37,99,235,.18),transparent 34rem),radial-gradient(circle at 90% 10%,rgba(249,115,22,.14),transparent 30rem),var(--bg);color:var(--text);line-height:1.65} a{color:var(--brand);text-decoration:none} a:hover{text-decoration:underline}.wrap{max-width:1200px;margin:auto;padding:28px 20px 64px}.topbar{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:24px}.badge{display:inline-flex;gap:8px;align-items:center;border:1px solid var(--line);background:rgba(255,255,255,.62);color:var(--muted);border-radius:999px;padding:7px 12px;font-size:13px}.dark .badge{background:rgba(15,23,42,.75)}.theme-toggle{border:1px solid var(--line);background:var(--panel);color:var(--text);border-radius:999px;padding:8px 12px;cursor:pointer;box-shadow:var(--shadow)}.hero{background:linear-gradient(135deg,rgba(37,99,235,.13),rgba(124,58,237,.10) 48%,rgba(249,115,22,.12));border:1px solid var(--line);border-radius:28px;padding:34px;box-shadow:var(--shadow)}h1{font-size:clamp(32px,5vw,58px);line-height:1.08;letter-spacing:-.04em;margin:12px 0 16px}.subtitle{max-width:880px;color:var(--muted);font-size:19px;margin:0}.hero-grid{display:grid;grid-template-columns:1.45fr .9fr;gap:24px;align-items:end}.key-card{background:var(--panel);border:1px solid var(--line);border-radius:22px;padding:20px}.key-card strong{display:block;font-size:42px;line-height:1;color:var(--accent);margin-bottom:8px}.layout{display:grid;grid-template-columns:250px 1fr;gap:28px;margin-top:28px}nav{position:sticky;top:18px;align-self:start;background:var(--panel);border:1px solid var(--line);border-radius:20px;padding:18px;box-shadow:var(--shadow)}nav h2{font-size:13px;color:var(--muted);margin:0 0 10px;letter-spacing:.12em;text-transform:uppercase}nav a{display:block;color:var(--muted);padding:7px 0;font-size:14px}nav a.active{color:var(--brand);font-weight:700}main{min-width:0}section{background:var(--panel);border:1px solid var(--line);border-radius:24px;padding:28px;margin-bottom:24px;box-shadow:var(--shadow)}h2{font-size:clamp(24px,3vw,34px);line-height:1.2;letter-spacing:-.025em;margin:0 0 14px}h3{font-size:19px;margin:22px 0 8px}.grid{display:grid;gap:16px}.grid.cols-3{grid-template-columns:repeat(3,minmax(0,1fr))}.grid.cols-2{grid-template-columns:repeat(2,minmax(0,1fr))}.card{background:var(--panel2);border:1px solid var(--line);border-radius:18px;padding:18px}.metric{font-size:30px;font-weight:800;letter-spacing:-.03em}.muted{color:var(--muted)}.pill{display:inline-flex;border:1px solid var(--line);border-radius:999px;padding:4px 9px;margin:3px 4px 3px 0;color:var(--muted);font-size:12px}.risk{border-left:4px solid var(--accent)}.table-wrap{overflow:auto;border:1px solid var(--line);border-radius:18px}table{width:100%;border-collapse:collapse;min-width:780px;background:var(--panel)}th,td{padding:12px 14px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}th{background:var(--panel2);font-size:13px;color:var(--muted);position:sticky;top:0;z-index:1}tr:last-child td{border-bottom:0}.tag{display:inline-block;border-radius:999px;padding:3px 8px;font-size:12px;font-weight:700}.tag.core{background:rgba(22,163,74,.13);color:var(--green)}.tag.watch{background:rgba(249,115,22,.14);color:var(--accent)}.tag.indirect{background:rgba(37,99,235,.12);color:var(--brand)}.chart-box{height:360px}.callout{background:linear-gradient(135deg,rgba(37,99,235,.10),rgba(249,115,22,.08));border:1px solid var(--line);border-radius:20px;padding:20px}.foot{font-size:13px;color:var(--muted)}.anchor{scroll-margin-top:24px}.filter{display:flex;gap:10px;flex-wrap:wrap;margin:12px 0 16px}.filter input{flex:1;min-width:220px;border:1px solid var(--line);background:var(--panel);color:var(--text);border-radius:12px;padding:10px 12px}@media(max-width:900px){.hero-grid,.layout,.grid.cols-2,.grid.cols-3{grid-template-columns:1fr}nav{position:relative;top:auto}.hero{padding:24px}.wrap{padding:18px 14px 48px}.chart-box{height:300px}}@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;animation:none!important;transition:none!important}}
+  </style>
+</head>
+<body>
+<div class="wrap">
+  <div class="topbar">
+    <span class="badge">MLCC｜AI 伺服器｜台股 ETF｜資料擷取：2026-05-26</span>
+    <button id="themeToggle" class="theme-toggle" type="button">切換深色模式</button>
+  </div>
+  <header class="hero">
+    <div class="hero-grid">
+      <div>
+        <span class="badge">一句話結論</span>
+        <h1>MLCC 題材可以追，但台股 ETF 多是間接曝險。</h1>
+        <p class="subtitle">日本貼文抓到的是「AI 伺服器、EV、智慧型手機」把高容量 MLCC 與上游耗材推成景氣題材。放到台股，最接近的核心標的是 <b>2327 國巨</b>，延伸到 <b>2492 華新科</b>、<b>3026 禾伸堂</b>、<b>6173 信昌電</b>；ETF 則主要透過台灣 50、ESG、智慧車與高股息因子間接持有，並沒有精準 MLCC 主題 ETF。</p>
+      </div>
+      <div class="key-card">
+        <strong>1 個核心</strong>
+        <div>台股主軸先看 2327 國巨，其他標的偏景氣彈性與補漲確認。</div>
+      </div>
+    </div>
+  </header>
+  <div class="layout">
+    <nav id="toc">
+      <h2>目錄</h2>
+      <a href="#source">來源主張</a>
+      <a href="#japan">日本標的</a>
+      <a href="#taiwan">台股對應</a>
+      <a href="#etf">ETF 曝險</a>
+      <a href="#strategy">追蹤策略</a>
+      <a href="#risk">風險</a>
+      <a href="#footer">來源</a>
+    </nav>
+    <main>
+      <section id="source" class="anchor">
+        <h2>來源主張：MLCC 從完成品擴散到上游材料</h2>
+        <div class="grid cols-3">
+          <div class="card"><div class="metric">AI</div><div class="muted">伺服器高階板卡與電源設計增加高容量 MLCC 用量。</div></div>
+          <div class="card"><div class="metric">EV</div><div class="muted">車用電子與工業控制帶動高可靠度 MLCC 需求。</div></div>
+          <div class="card"><div class="metric">材料</div><div class="muted">鈦酸鋇、粉碎媒材、離型膜等耗材具上游槓桿。</div></div>
+        </div>
+        <p>原貼文把日本 MLCC 供應鏈分成兩層：第一層是村田製作所、太陽誘電、TDK、京瓷等完成品大廠；第二層是鈦酸鋇、粉碎媒材、離型膜、氧化鈦等材料與周邊耗材。這個框架對台股有參考價值，但台股的結構不同：台灣沒有完整複製日本材料鏈的上市組合，投資焦點會更集中在被動元件成品、通路與 ETF 間接持股。</p>
+      </section>
+
+      <section id="japan" class="anchor">
+        <h2>日本 MLCC 籃子：題材已進入「完成品＋材料」雙線</h2>
+        <div class="chart-box"><canvas id="jpReturnChart"></canvas></div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>分類</th><th>股票代號</th><th>公司</th><th>來源主張</th><th>近一年股價變化</th></tr></thead>
+            <tbody>
+              <tr><td>完成品</td><td>6981.T</td><td>村田製作所</td><td>全球 MLCC 份額最大，AI 與高容量 MLCC 強。</td><td>約 +285%</td></tr>
+              <tr><td>完成品</td><td>6976.T</td><td>太陽誘電</td><td>高性能 MLCC，全球份額前段班。</td><td>約 +355%</td></tr>
+              <tr><td>完成品</td><td>6762.T</td><td>TDK</td><td>車用、工業向 MLCC。</td><td>約 +144%</td></tr>
+              <tr><td>完成品</td><td>6971.T</td><td>京瓷</td><td>MLCC 為主力之一，持續擴產。</td><td>約 +80%</td></tr>
+              <tr><td>材料</td><td>5367.T</td><td>ニッカトー</td><td>粉碎媒材，貼文稱為製程必需。</td><td>約 +76%</td></tr>
+              <tr><td>材料</td><td>4100.T</td><td>戶田工業</td><td>鈦酸鋇與 EV 電池材料雙題材。</td><td>約 +81%</td></tr>
+              <tr><td>材料</td><td>3101.T</td><td>東洋紡</td><td>離型 PET 膜，貼文稱產能擴充中。</td><td>約 +90%</td></tr>
+              <tr><td>材料</td><td>5331.T</td><td>ノリタケ</td><td>粉體材料與電子膏。</td><td>約 +103%</td></tr>
+              <tr><td>材料</td><td>4092.T</td><td>日本化學工業</td><td>鈦酸鋇供應。</td><td>約 +139%</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="muted">註：近一年變化以 Yahoo Finance 日線資料粗估，含市場波動與可能的股本調整影響，適合判斷題材熱度，不等同合理價評估。</p>
+      </section>
+
+      <section id="taiwan" class="anchor">
+        <h2>台股對應：先分清楚「直接受惠」與「題材延伸」</h2>
+        <div class="filter"><input id="stockFilter" placeholder="搜尋台股標的、分類或重點，例如 國巨、ETF、材料"></div>
+        <div class="table-wrap">
+          <table id="twTable">
+            <thead><tr><th>層級</th><th>股票代號與公司</th><th>投資定位</th><th>主要看點</th><th>盲點</th></tr></thead>
+            <tbody>
+              <tr><td><span class="tag core">核心</span></td><td>2327 國巨（Yageo）</td><td>台股最直接的 MLCC／被動元件對應標的。</td><td>MLCC、晶片電阻、鉭質電容與高階被動元件布局完整；若 AI 伺服器高階料號吃緊，市場通常先反映在國巨。</td><td>股價已大幅反映景氣復甦，後續需要訂單、稼動率與毛利率驗證。</td></tr>
+              <tr><td><span class="tag watch">彈性</span></td><td>2492 華新科（Walsin Technology）</td><td>被動元件景氣循環彈性股。</td><td>MLCC 與晶片電阻業務具景氣反轉槓桿，常跟隨國巨與被動元件族群動能。</td><td>產品組合與國巨不同，AI 高階 MLCC 曝險需逐季確認。</td></tr>
+              <tr><td><span class="tag watch">彈性</span></td><td>3026 禾伸堂（Holy Stone）</td><td>MLCC 通路、模組與被動元件供應鏈延伸。</td><td>股價彈性高，ETF 持股少但題材敏感度高。</td><td>需區分庫存循環、通路補貨與真實終端需求。</td></tr>
+              <tr><td><span class="tag watch">彈性</span></td><td>6173 信昌電（Prosperity Dielectrics）</td><td>陶瓷粉體、MLCC 材料與元件延伸。</td><td>若市場從完成品擴散到上游材料，信昌電會被拿來對照日本材料鏈。</td><td>流動性與資訊透明度低於大型權值股，追價風險更高。</td></tr>
+              <tr><td><span class="tag indirect">旁支</span></td><td>2478 大毅（TA-I Technology）</td><td>晶片電阻與被動元件循環。</td><td>非 MLCC 主軸，但同屬被動元件景氣觀察。</td><td>與 MLCC 供需缺口的連動需要折價看待。</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section id="etf" class="anchor">
+        <h2>ETF 曝險：台股沒有純 MLCC ETF，重點是誰持有國巨</h2>
+        <div class="callout"><b>判斷：</b>ETF 適合拿來做「被動元件題材的分散曝險」，不適合當成精準 MLCC 槓桿。若目標是追 MLCC，本質上仍要回到個股研究；若目標是降低波動，才看 ETF。</div>
+        <div class="chart-box"><canvas id="etfWeightChart"></canvas></div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>ETF</th><th>名稱</th><th>持有相關標的</th><th>權重</th><th>解讀</th></tr></thead>
+            <tbody>
+              <tr><td>00918</td><td>大華優利高填息30</td><td>2327 國巨</td><td>11.20%</td><td>國巨權重最高，但屬高股息策略，不是 MLCC 主題 ETF。</td></tr>
+              <tr><td>00944</td><td>野村趨勢動能高息</td><td>2327 國巨</td><td>5.75%</td><td>兼具動能與高股息，題材曝險較明顯。</td></tr>
+              <tr><td>00943</td><td>兆豐電子高息等權</td><td>2327 國巨</td><td>3.65%</td><td>電子高息組合，國巨為其中一檔。</td></tr>
+              <tr><td>00935</td><td>野村臺灣新科技50</td><td>2327 國巨、2492 華新科</td><td>3.16%、0.28%</td><td>科技題材分散，較能容納被動元件與 AI 供應鏈敘事。</td></tr>
+              <tr><td>00901</td><td>永豐智能車供應鏈</td><td>2327 國巨</td><td>2.84%</td><td>從車用電子角度切入 MLCC，不是 AI 伺服器純曝險。</td></tr>
+              <tr><td>00905</td><td>FT 臺灣 Smart</td><td>2327 國巨</td><td>2.78%</td><td>量化選股中的國巨曝險。</td></tr>
+              <tr><td>00733</td><td>富邦臺灣中小</td><td>3026 禾伸堂</td><td>2.60%</td><td>少數直接持有禾伸堂的 ETF，波動也會更中小型化。</td></tr>
+              <tr><td>00922</td><td>國泰台灣領袖50</td><td>2327 國巨</td><td>2.32%</td><td>領袖股分散曝險。</td></tr>
+              <tr><td>00923</td><td>群益台 ESG 低碳50</td><td>2327 國巨</td><td>2.01%</td><td>低碳與大型股篩選下的間接曝險。</td></tr>
+              <tr><td>00850</td><td>元大臺灣 ESG 永續</td><td>2327 國巨、2492 華新科</td><td>1.70%、0.14%</td><td>分散程度高，MLCC 對淨值影響有限。</td></tr>
+              <tr><td>006208</td><td>富邦台50</td><td>2327 國巨</td><td>1.12%</td><td>大型權值股曝險，適合低追蹤成本思路。</td></tr>
+              <tr><td>0050</td><td>元大台灣50</td><td>2327 國巨</td><td>1.11%</td><td>最主流但最不純，MLCC 只是一小部分。</td></tr>
+              <tr><td>00946</td><td>群益科技高息成長</td><td>3026 禾伸堂</td><td>0.69%</td><td>有禾伸堂但權重低，不能視為 MLCC 主題配置。</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="muted">持股權重來源為 MoneyDJ ETF 持股頁面，擷取時點為 2026-05-26；ETF 會定期換股與調整權重，買進前需回到投信或 MoneyDJ 持股頁重新確認。</p>
+      </section>
+
+      <section id="strategy" class="anchor">
+        <h2>追蹤策略：三層檢查，比單看股價安全</h2>
+        <div class="grid cols-3">
+          <div class="card"><h3>第一層：價格訊號</h3><p>先看 2327 國巨是否續創高、2492 華新科與 3026 禾伸堂是否同步補量。若只有小型股亂跳，大型核心不動，題材可靠度下降。</p></div>
+          <div class="card"><h3>第二層：基本面訊號</h3><p>追營收年增率、毛利率、稼動率、庫存天數與高階料號交期。AI 伺服器題材要變成趨勢，不能只停留在補庫存。</p></div>
+          <div class="card"><h3>第三層：ETF 訊號</h3><p>00918、00944、00943 這類國巨權重較高的 ETF 若資金流入，代表市場用分散工具追同一題材。</p></div>
+        </div>
+      </section>
+
+      <section id="risk" class="anchor">
+        <h2>風險：這題材最怕三件事</h2>
+        <div class="grid cols-2">
+          <div class="card risk"><h3>一、把日本材料鏈直接套到台股</h3><p>日本有更完整的鈦酸鋇、離型膜、粉碎媒材上市標的；台股可對應標的較少，不能把每一家被動元件股都當成同等受惠。</p></div>
+          <div class="card risk"><h3>二、把 ETF 當個股槓桿</h3><p>0050、006208、00850 等 ETF 的 MLCC 曝險很低，主要報酬仍由台積電、金融、電子權值與整體盤勢決定。</p></div>
+          <div class="card risk"><h3>三、追到景氣循環末段</h3><p>被動元件是典型循環產業，價格、庫存與交期反轉時，股價通常會比財報更早回頭。</p></div>
+          <div class="card risk"><h3>四、單一社群貼文不足以驗證供需</h3><p>貼文適合作為題材雷達，後續仍要用公司法說、月營收、通路報價、券商報告與客戶資本支出交叉驗證。</p></div>
+        </div>
+      </section>
+
+      <section id="footer" class="anchor foot">
+        <h2>來源與資料說明</h2>
+        <p>社群來源：Goemon（@Goemon_crypto）X 貼文，2026-05-25 08:38 UTC，原始網址：https://x.com/Goemon_crypto/status/2058830068894531596。擷取時互動數約 480 讚、72 轉發、419 收藏、47,290 次瀏覽。圖片內容為「MLCC 関連銘柄一覧」。</p>
+        <p>行情資料：Yahoo Finance 日線資料；ETF 持股：MoneyDJ ETF 持股明細頁。本文為題材與供應鏈分析，不構成買賣建議。</p>
+      </section>
+    </main>
+  </div>
+</div>
+<script>
+const $ = s => document.querySelector(s);
+$('#themeToggle').addEventListener('click',()=>{document.documentElement.classList.toggle('dark');localStorage.theme=document.documentElement.classList.contains('dark')?'dark':'light';});
+const sections=[...document.querySelectorAll('main section')];const links=[...document.querySelectorAll('nav a')];
+const io=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){links.forEach(a=>a.classList.toggle('active',a.getAttribute('href')==='#'+e.target.id));}})},{rootMargin:'-20% 0px -70% 0px'});sections.forEach(s=>io.observe(s));
+$('#stockFilter').addEventListener('input',e=>{const q=e.target.value.trim().toLowerCase();document.querySelectorAll('#twTable tbody tr').forEach(tr=>{tr.style.display=tr.innerText.toLowerCase().includes(q)?'':'none';});});
+const colors=['#2563eb','#7c3aed','#f97316','#16a34a','#0891b2','#db2777','#9333ea','#0f766e','#ca8a04'];
+new Chart($('#jpReturnChart'),{type:'bar',data:{labels:['村田','太陽誘電','TDK','京瓷','ニッカトー','戶田工業','東洋紡','ノリタケ','日本化學'],datasets:[{label:'近一年股價變化（%）',data:[285,355,144,80,76,81,90,103,139],backgroundColor:colors}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>c.parsed.y+'%'}}},scales:{y:{ticks:{callback:v=>v+'%'}}}});
+new Chart($('#etfWeightChart'),{type:'bar',data:{labels:['00918','00944','00943','00935','00901','00905','00733','00922','00923','00850','006208','0050','00946'],datasets:[{label:'相關標的權重（%）',data:[11.20,5.75,3.65,3.44,2.84,2.78,2.60,2.32,2.01,1.84,1.12,1.11,0.69],backgroundColor:'#2563eb'}]},options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>c.parsed.x+'%'}}},scales:{x:{ticks:{callback:v=>v+'%'}}}});
+</script>
+</body>
+</html>
