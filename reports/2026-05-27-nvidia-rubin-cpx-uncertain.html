@@ -1,0 +1,228 @@
+<!doctype html>
+<html lang="zh-Hant" class="scroll-smooth">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>英偉達 Rubin CPX 變數升高：GDDR7 與基板供應鏈訊號解讀</title>
+  <meta name="description" content="整理 The Elec 對英偉達 Rubin CPX 可能延後、取消或重新設計的報導，聚焦 GDDR7、HBM、基板與 Groq 3 LPX 對 AI 推論供應鏈的影響。">
+  <meta property="og:title" content="英偉達 Rubin CPX 變數升高：GDDR7 與基板供應鏈訊號解讀">
+  <meta property="og:description" content="整理 The Elec 對英偉達 Rubin CPX 可能延後、取消或重新設計的報導，聚焦 GDDR7、HBM、基板與 Groq 3 LPX 對 AI 推論供應鏈的影響。">
+  <meta property="og:type" content="article">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = { darkMode: 'class', theme: { extend: { fontFamily: { sans: ['system-ui', 'ui-sans-serif', 'sans-serif'] } } } };
+    if (localStorage.theme === 'dark' || (!('theme' in localStorage) && matchMedia('(prefers-color-scheme: dark)').matches)) document.documentElement.classList.add('dark');
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    :root { color-scheme: light dark; }
+    @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; scroll-behavior: auto !important; } }
+    @media print { .no-print { display:none !important; } body { color:#000; background:#fff; } a { color:inherit; text-decoration:underline; } details { display:block; } }
+    .toc a { display:block; padding:.25rem 0; opacity:.62; transition:opacity .15s; }
+    .toc a:hover,.toc a.active { opacity:1; font-weight:650; }
+    .card { border:1px solid rgb(228 228 231); background:rgba(255,255,255,.84); }
+    .dark .card { border-color:rgb(63 63 70); background:rgba(24,24,27,.76); }
+    .metric { border:1px solid rgb(228 228 231); border-radius:1rem; padding:1rem; background:linear-gradient(180deg,rgba(250,250,250,.96),rgba(244,244,245,.72)); }
+    .dark .metric { border-color:rgb(63 63 70); background:linear-gradient(180deg,rgba(39,39,42,.92),rgba(24,24,27,.72)); }
+    .pill { display:inline-flex; align-items:center; border-radius:999px; padding:.2rem .65rem; font-size:.78rem; font-weight:650; }
+    .chart-box { position:relative; height:320px; }
+    th { cursor:pointer; user-select:none; }
+    tbody tr.hide { display:none; }
+    details > summary { cursor:pointer; user-select:none; }
+    .timeline { position:relative; }
+    .timeline::before { content:""; position:absolute; left:.55rem; top:.4rem; bottom:.4rem; width:2px; background:rgb(212 212 216); }
+    .dark .timeline::before { background:rgb(63 63 70); }
+    .dot { width:1.15rem; height:1.15rem; border-radius:999px; border:3px solid currentColor; background:Canvas; flex:0 0 auto; margin-top:.2rem; z-index:1; }
+  </style>
+</head>
+<body class="bg-zinc-50 dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 font-sans antialiased">
+<div class="fixed top-4 right-4 z-50 flex gap-2 no-print">
+  <button id="theme-toggle" class="px-3 py-1.5 rounded-md border border-zinc-300 dark:border-zinc-700 bg-white/80 dark:bg-zinc-900/80 backdrop-blur text-sm">☼ / ☾</button>
+  <button onclick="window.print()" class="px-3 py-1.5 rounded-md border border-zinc-300 dark:border-zinc-700 bg-white/80 dark:bg-zinc-900/80 backdrop-blur text-sm">列印</button>
+</div>
+<div class="max-w-7xl mx-auto px-5 py-10 lg:grid lg:grid-cols-[240px_minmax(0,1fr)] lg:gap-10">
+  <nav class="toc lg:sticky lg:top-10 self-start text-sm mb-8 lg:mb-0 no-print">
+    <div class="font-semibold mb-2 text-zinc-500 uppercase tracking-wider text-xs">Contents</div>
+    <a href="#intro">一句話結論</a>
+    <a href="#signal">關鍵訊號</a>
+    <a href="#timeline">時間線</a>
+    <a href="#memory">記憶體路線</a>
+    <a href="#supply-chain">供應鏈影響</a>
+    <a href="#scenarios">情境判讀</a>
+    <a href="#watch">後續觀察</a>
+    <a href="#source">來源</a>
+  </nav>
+  <main class="min-w-0">
+    <header class="mb-10">
+      <p class="text-sm text-zinc-500 mb-2">HTML REPORT • <time>2026-05-27</time></p>
+      <h1 class="text-3xl md:text-5xl font-bold tracking-tight mb-4">英偉達 Rubin CPX 變數升高：GDDR7 與基板供應鏈訊號解讀</h1>
+      <p class="text-lg text-zinc-600 dark:text-zinc-400 max-w-3xl">Rubin CPX 的供應鏈動能沒有跟上原定時程，推論 GPU 路線可能已被重新排序；短線壓力集中在 GDDR7 擴大採用與相關記憶體基板需求。</p>
+    </header>
+
+    <section id="intro" class="mb-12">
+      <div class="card rounded-2xl p-6 md:p-8 shadow-sm">
+        <div class="flex flex-wrap gap-2 mb-4">
+          <span class="pill bg-red-100 text-red-800 dark:bg-red-900/40 dark:text-red-200">取消或重設計風險</span>
+          <span class="pill bg-amber-100 text-amber-800 dark:bg-amber-900/40 dark:text-amber-200">GDDR7 需求落空</span>
+          <span class="pill bg-sky-100 text-sky-800 dark:bg-sky-900/40 dark:text-sky-200">AI 推論路線轉向</span>
+        </div>
+        <h2 class="text-2xl font-semibold mb-3">一句話結論</h2>
+        <p class="text-xl leading-relaxed">Rubin CPX 原本是英偉達用 GDDR7 切入 AI 推論市場的關鍵產品，但目前記憶體與基板供應鏈沒有看到訂單或開發活動，代表產品存在延後、取消或重新設計三種可能；對供應鏈而言，這削弱了 GDDR7 從高階顯卡擴張到 AI 伺服器的近期催化。</p>
+      </div>
+    </section>
+
+    <section id="signal" class="mb-12">
+      <h2 class="text-2xl font-semibold mb-5">關鍵訊號</h2>
+      <div class="grid md:grid-cols-4 gap-4">
+        <div class="metric"><div class="text-sm text-zinc-500">原定上市</div><h3 class="font-bold mt-1">2026 下半年</h3><p class="text-sm mt-2">英偉達先前公布的 Rubin CPX 推出時程。</p></div>
+        <div class="metric"><div class="text-sm text-zinc-500">記憶體配置</div><h3 class="font-bold mt-1">128GB GDDR7</h3><p class="text-sm mt-2">原規劃 8 顆 16GB GDDR7，採 GPU 基板周邊板載配置。</p></div>
+        <div class="metric"><div class="text-sm text-zinc-500">供應鏈訊號</div><h3 class="font-bold mt-1">未見訂單</h3><p class="text-sm mt-2">記憶體與基板業者未看到相關訂單或開發委託。</p></div>
+        <div class="metric"><div class="text-sm text-zinc-500">替代焦點</div><h3 class="font-bold mt-1">Groq 3 LPX</h3><p class="text-sm mt-2">Vera Rubin 平台的推論核心焦點轉向 Groq 技術。</p></div>
+      </div>
+    </section>
+
+    <section id="timeline" class="mb-12">
+      <h2 class="text-2xl font-semibold mb-5">事件時間線</h2>
+      <div class="card rounded-2xl p-6">
+        <div class="timeline space-y-5">
+          <div class="flex gap-4"><span class="dot text-sky-600"></span><div><h3 class="font-semibold">2025 年 9 月</h3><p class="text-zinc-600 dark:text-zinc-400">英偉達在 AI Infra Summit 發表 Rubin CPX，定位為 AI 推論導向 GPU，預計 2026 下半年推出。</p></div></div>
+          <div class="flex gap-4"><span class="dot text-emerald-600"></span><div><h3 class="font-semibold">原始產品設計</h3><p class="text-zinc-600 dark:text-zinc-400">Rubin CPX 規劃使用 128GB GDDR7，和 HBM 不同，GDDR7 採板載方式配置在 GPU 基板周圍。</p></div></div>
+          <div class="flex gap-4"><span class="dot text-amber-600"></span><div><h3 class="font-semibold">2026 年 3 月 GTC</h3><p class="text-zinc-600 dark:text-zinc-400">Rubin CPX 從英偉達路線圖中消失，外媒追問原因但未獲正式說明。</p></div></div>
+          <div class="flex gap-4"><span class="dot text-violet-600"></span><div><h3 class="font-semibold">Groq 技術浮上檯面</h3><p class="text-zinc-600 dark:text-zinc-400">英偉達與 Groq 簽署授權協議後，Groq 3 LPX 成為 Vera Rubin 平台推論產品的新核心。</p></div></div>
+          <div class="flex gap-4"><span class="dot text-red-600"></span><div><h3 class="font-semibold">2026 年 5 月供應鏈回饋</h3><p class="text-zinc-600 dark:text-zinc-400">記憶體與基板業者表示未見 Rubin CPX 相關訂單或開發活動，市場開始視為可能取消或大幅修正。</p></div></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="memory" class="mb-12">
+      <h2 class="text-2xl font-semibold mb-5">記憶體路線：GDDR7、HBM 與推論定位</h2>
+      <div class="grid lg:grid-cols-[1fr_1fr] gap-5">
+        <div class="card rounded-2xl p-6 leading-7">
+          <p>Rubin CPX 的核心差異在於它不是訓練導向 GPU，而是為 AI 服務執行階段設計的推論產品。推論伺服器通常不一定需要 HBM 等級的極高頻寬，因此英偉達原本選擇 GDDR7，以成本、功耗與供應擴張性換取更好的部署彈性。</p>
+          <p class="mt-3">這條路線若成立，會讓 GDDR7 從高階顯卡需求延伸到 AI 伺服器，帶動記憶體顆粒與記憶體基板需求。不過目前供應鏈回饋顯示，GDDR7 相關討論與開發請求幾乎消失，短線催化明顯降溫。</p>
+        </div>
+        <div class="card rounded-2xl p-5">
+          <h3 class="font-semibold mb-3">技術選擇相對位置</h3>
+          <div class="chart-box"><canvas id="memoryChart"></canvas></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="supply-chain" class="mb-12">
+      <h2 class="text-2xl font-semibold mb-5">供應鏈影響</h2>
+      <div class="card rounded-2xl p-5">
+        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-3 mb-4">
+          <p class="text-sm text-zinc-500">點擊欄位可排序，輸入關鍵字可篩選。</p>
+          <input id="chainFilter" placeholder="篩選環節或影響…" class="px-3 py-2 rounded-md border border-zinc-300 dark:border-zinc-700 bg-transparent text-sm focus:outline-none focus:ring-2 focus:ring-sky-500">
+        </div>
+        <div class="overflow-x-auto">
+          <table id="chainTable" class="w-full text-sm">
+            <thead class="text-left border-b border-zinc-200 dark:border-zinc-800">
+              <tr><th class="py-3 pr-4">環節</th><th class="py-3 pr-4">原本期待</th><th class="py-3 pr-4">目前訊號</th><th class="py-3 pr-4">投資判讀</th></tr>
+            </thead>
+            <tbody class="divide-y divide-zinc-200 dark:divide-zinc-800">
+              <tr><td class="py-3 pr-4 font-medium">GDDR7 記憶體</td><td class="py-3 pr-4">從 RTX 5090 / 5080 顯卡擴張到 AI 推論伺服器。</td><td class="py-3 pr-4">未見 Rubin CPX 相關訂單或開發請求。</td><td class="py-3 pr-4">近期需求上修依據轉弱，需等待新平台或替代設計確認。</td></tr>
+              <tr><td class="py-3 pr-4 font-medium">記憶體基板</td><td class="py-3 pr-4">GDDR7 板載配置帶動配套基板需求。</td><td class="py-3 pr-4">基板業者也未看到相關活動。</td><td class="py-3 pr-4">若 Rubin CPX 取消，這一段最直接失去增量敘事。</td></tr>
+              <tr><td class="py-3 pr-4 font-medium">HBM</td><td class="py-3 pr-4">市場曾猜測 Rubin CPX 可能改採 HBM。</td><td class="py-3 pr-4">報導稱未看到有意義進展。</td><td class="py-3 pr-4">不能把 CPX 變數直接解讀成 HBM 受益，證據不足。</td></tr>
+              <tr><td class="py-3 pr-4 font-medium">GPU 基板</td><td class="py-3 pr-4">板載 GDDR7 圍繞 GPU 基板，帶來設計與供應需求。</td><td class="py-3 pr-4">供應鏈把專案視為實質取消的聲音增加。</td><td class="py-3 pr-4">短線觀察重點是是否出現重新設計樣品或新開發案。</td></tr>
+              <tr><td class="py-3 pr-4 font-medium">AI 推論平台</td><td class="py-3 pr-4">Rubin CPX 回應 AI Agent 帶來的推論算力需求。</td><td class="py-3 pr-4">Groq 3 LPX 成為 Vera Rubin 推論核心。</td><td class="py-3 pr-4">英偉達推論策略仍在，但硬體路線可能改由 Groq 技術主導。</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section id="scenarios" class="mb-12">
+      <h2 class="text-2xl font-semibold mb-5">三種情境判讀</h2>
+      <div class="grid md:grid-cols-3 gap-4">
+        <div class="card rounded-2xl p-5"><h3 class="font-semibold text-lg mb-2">情境 A：延後</h3><p class="text-sm leading-6 text-zinc-600 dark:text-zinc-400">英偉達暫停原時程，等待推論架構、記憶體規格或平台需求重新對齊。這會讓 GDDR7 供應鏈的時間點往後移，但不完全消失。</p></div>
+        <div class="card rounded-2xl p-5"><h3 class="font-semibold text-lg mb-2">情境 B：取消</h3><p class="text-sm leading-6 text-zinc-600 dark:text-zinc-400">Rubin CPX 以原設計終止，Groq 3 LPX 接手 Vera Rubin 推論定位。這對 GDDR7 與記憶體基板最不利。</p></div>
+        <div class="card rounded-2xl p-5"><h3 class="font-semibold text-lg mb-2">情境 C：重新設計</h3><p class="text-sm leading-6 text-zinc-600 dark:text-zinc-400">CPX 名稱或定位保留，但記憶體、基板與封裝配置重做。這會讓既有供應鏈判讀失準，需要重新追蹤樣品與認證。</p></div>
+      </div>
+    </section>
+
+    <section id="watch" class="mb-12">
+      <h2 class="text-2xl font-semibold mb-5">後續觀察重點</h2>
+      <div class="grid lg:grid-cols-[.9fr_1.1fr] gap-5">
+        <div class="card rounded-2xl p-5">
+          <h3 class="font-semibold mb-3">影響程度排序</h3>
+          <div class="chart-box"><canvas id="impactChart"></canvas></div>
+        </div>
+        <div class="space-y-3">
+          <details class="card rounded-xl p-4" open><summary class="font-semibold">1. 英偉達是否重新放回 Rubin CPX 路線圖</summary><p class="mt-2 text-sm text-zinc-600 dark:text-zinc-400">如果後續活動或簡報重新出現 Rubin CPX，且附帶記憶體規格，才可重新確認產品存在性。</p></details>
+          <details class="card rounded-xl p-4"><summary class="font-semibold">2. GDDR7 是否出現 AI 伺服器級採購訊號</summary><p class="mt-2 text-sm text-zinc-600 dark:text-zinc-400">只靠高階顯卡難以支撐 GDDR7 的大型增量敘事，AI 伺服器採用才是關鍵。</p></details>
+          <details class="card rounded-xl p-4"><summary class="font-semibold">3. Groq 3 LPX 與英偉達平台整合深度</summary><p class="mt-2 text-sm text-zinc-600 dark:text-zinc-400">若 Groq 技術正式成為 Vera Rubin 推論核心，供應鏈焦點將從傳統 GPU 記憶體配置轉向新推論加速器架構。</p></details>
+          <details class="card rounded-xl p-4"><summary class="font-semibold">4. 基板廠是否收到重新設計需求</summary><p class="mt-2 text-sm text-zinc-600 dark:text-zinc-400">基板開發活動通常會早於量產訂單，若需求恢復，基板端會比終端出貨更早反映。</p></details>
+        </div>
+      </div>
+    </section>
+
+    <section id="source" class="mb-12">
+      <h2 class="text-2xl font-semibold mb-5">來源</h2>
+      <div class="card rounded-2xl p-6 text-sm leading-7 text-zinc-600 dark:text-zinc-400">
+        <p><strong>主要來源：</strong>Selye Moon, The Elec, “Nvidia's 'Rubin CPX' Launch Becomes Uncertain as Memory, Substrate Orders Fail to Materialize”, 2026-05-27。</p>
+        <p><a class="underline" href="https://www.thelec.net/news/articleView.html?idxno=10763">https://www.thelec.net/news/articleView.html?idxno=10763</a></p>
+        <p class="mt-3">本文為來源報導的結構化整理與供應鏈判讀，不構成投資建議。所有公司產品路線仍以英偉達與供應鏈正式公告為準。</p>
+      </div>
+    </section>
+
+    <footer class="mt-16 pt-8 border-t border-zinc-200 dark:border-zinc-800 text-sm text-zinc-500">
+      Generated with the html-report skill.
+    </footer>
+  </main>
+</div>
+<script>
+  document.getElementById('theme-toggle').addEventListener('click', () => {
+    const dark = document.documentElement.classList.toggle('dark');
+    localStorage.theme = dark ? 'dark' : 'light';
+  });
+
+  const tocLinks = document.querySelectorAll('.toc a');
+  const sections = [...tocLinks].map(a => document.querySelector(a.getAttribute('href'))).filter(Boolean);
+  if (sections.length) {
+    const onScroll = () => {
+      const y = window.scrollY + 120;
+      let active = sections[0];
+      for (const s of sections) if (s.offsetTop <= y) active = s;
+      tocLinks.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + active.id));
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+  }
+
+  function textColor(){ return document.documentElement.classList.contains('dark') ? '#e4e4e7' : '#27272a'; }
+  function gridColor(){ return document.documentElement.classList.contains('dark') ? '#3f3f46' : '#e4e4e7'; }
+  const commonChartOptions = { responsive:true, maintainAspectRatio:false, plugins:{ legend:{ labels:{ color:textColor() } } }, scales:{ x:{ ticks:{ color:textColor() }, grid:{ color:gridColor() } }, y:{ ticks:{ color:textColor() }, grid:{ color:gridColor() }, beginAtZero:true, max:10 } } };
+
+  new Chart(document.getElementById('memoryChart'), {
+    type:'radar',
+    data:{ labels:['頻寬','成本效率','功耗壓力','封裝複雜度','供應擴張性'], datasets:[
+      { label:'GDDR7 路線', data:[6,8,7,4,8], borderColor:'#0284c7', backgroundColor:'rgba(2,132,199,.18)' },
+      { label:'HBM 路線', data:[10,4,5,9,5], borderColor:'#7c3aed', backgroundColor:'rgba(124,58,237,.16)' }
+    ]},
+    options:{ responsive:true, maintainAspectRatio:false, plugins:{ legend:{ labels:{ color:textColor() } } }, scales:{ r:{ angleLines:{ color:gridColor() }, grid:{ color:gridColor() }, pointLabels:{ color:textColor() }, ticks:{ color:textColor(), backdropColor:'transparent' }, suggestedMin:0, suggestedMax:10 } } }
+  });
+
+  new Chart(document.getElementById('impactChart'), {
+    type:'bar',
+    data:{ labels:['GDDR7','記憶體基板','GPU 基板','HBM','AI 推論平台'], datasets:[{ label:'負面衝擊／變動程度', data:[9,8,7,3,6], backgroundColor:['#dc2626','#ea580c','#f59e0b','#64748b','#2563eb'] }]},
+    options:commonChartOptions
+  });
+
+  const filter = document.getElementById('chainFilter');
+  const table = document.getElementById('chainTable');
+  filter.addEventListener('input', () => {
+    const q = filter.value.trim().toLowerCase();
+    table.querySelectorAll('tbody tr').forEach(row => row.classList.toggle('hide', !row.innerText.toLowerCase().includes(q)));
+  });
+  table.querySelectorAll('th').forEach((th, i) => th.addEventListener('click', () => {
+    const body = table.querySelector('tbody');
+    const rows = [...body.querySelectorAll('tr')];
+    const asc = th.dataset.asc !== 'true';
+    rows.sort((a,b) => asc ? a.children[i].innerText.localeCompare(b.children[i].innerText, 'zh-Hant') : b.children[i].innerText.localeCompare(a.children[i].innerText, 'zh-Hant'));
+    th.dataset.asc = asc;
+    rows.forEach(r => body.appendChild(r));
+  }));
+</script>
+</body>
+</html>
