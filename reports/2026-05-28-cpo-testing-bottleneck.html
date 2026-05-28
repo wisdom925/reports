@@ -1,0 +1,255 @@
+<!doctype html>
+<html lang="zh-Hant" class="scroll-smooth">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>CPO 量產卡點：測試基礎設施才是台積電 COUPE 的關鍵瓶頸</title>
+  <meta name="description" content="由 QQ_Timmy 與 TrendForce 貼文延伸，解析 CPO 從實驗室走向量產時，PIC 光學測試、OWAT 晶圓級篩選、設備供應鏈與台灣供應鏈的關鍵訊號。">
+  <meta property="og:title" content="CPO 量產卡點：測試基礎設施才是台積電 COUPE 的關鍵瓶頸">
+  <meta property="og:description" content="解析 CPO 量產前的測試瓶頸、四段測試流程、設備供應鏈解法與台灣供應鏈觀察重點。">
+  <meta property="og:type" content="article">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = { darkMode: 'class', theme: { extend: { fontFamily: { sans: ['system-ui', 'ui-sans-serif', 'sans-serif'] } } } };
+    if (localStorage.theme === 'dark' || (!('theme' in localStorage) && matchMedia('(prefers-color-scheme: dark)').matches)) document.documentElement.classList.add('dark');
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    :root { color-scheme: light dark; }
+    @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; scroll-behavior: auto !important; } }
+    @media print { .no-print { display:none !important; } body { color:#000; background:#fff; } a { color:inherit; text-decoration:underline; } details { display:block; } }
+    .toc a { display:block; padding:.25rem 0; opacity:.62; transition:opacity .15s; }
+    .toc a:hover,.toc a.active { opacity:1; font-weight:650; }
+    .card { border:1px solid rgb(228 228 231); background:rgba(255,255,255,.86); }
+    .dark .card { border-color:rgb(63 63 70); background:rgba(24,24,27,.78); }
+    .metric { border:1px solid rgb(228 228 231); border-radius:1rem; padding:1rem; background:linear-gradient(180deg,rgba(250,250,250,.96),rgba(244,244,245,.72)); }
+    .dark .metric { border-color:rgb(63 63 70); background:linear-gradient(180deg,rgba(39,39,42,.92),rgba(24,24,27,.72)); }
+    .pill { display:inline-flex; align-items:center; border-radius:999px; padding:.2rem .65rem; font-size:.78rem; font-weight:650; }
+    .chart-box { position:relative; height:320px; }
+    th { cursor:pointer; user-select:none; }
+    tbody tr.hide { display:none; }
+    details > summary { cursor:pointer; user-select:none; }
+    .stage { position:relative; padding-left:1.25rem; }
+    .stage::before { content:""; position:absolute; left:.42rem; top:1.9rem; bottom:-1.4rem; width:2px; background:rgb(212 212 216); }
+    .stage:last-child::before { display:none; }
+    .dark .stage::before { background:rgb(63 63 70); }
+    .stage-dot { position:absolute; left:0; top:.35rem; width:.9rem; height:.9rem; border-radius:999px; border:3px solid currentColor; background:Canvas; }
+    .source-img { max-height:640px; object-fit:contain; }
+  </style>
+</head>
+<body class="bg-zinc-50 dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 font-sans antialiased">
+<div class="fixed top-4 right-4 z-50 flex gap-2 no-print">
+  <button id="theme-toggle" class="px-3 py-1.5 rounded-md border border-zinc-300 dark:border-zinc-700 bg-white/80 dark:bg-zinc-900/80 backdrop-blur text-sm">☼ / ☾</button>
+  <button onclick="window.print()" class="px-3 py-1.5 rounded-md border border-zinc-300 dark:border-zinc-700 bg-white/80 dark:bg-zinc-900/80 backdrop-blur text-sm">列印</button>
+</div>
+<div class="max-w-7xl mx-auto px-5 py-10 lg:grid lg:grid-cols-[240px_minmax(0,1fr)] lg:gap-10">
+  <nav class="toc lg:sticky lg:top-10 self-start text-sm mb-8 lg:mb-0 no-print">
+    <div class="font-semibold mb-2 text-zinc-500 uppercase tracking-wider text-xs">Contents</div>
+    <a href="#intro">一句話結論</a>
+    <a href="#why">瓶頸在哪</a>
+    <a href="#flow">四段測試流程</a>
+    <a href="#vendor">設備供應鏈</a>
+    <a href="#taiwan">台灣供應鏈</a>
+    <a href="#watch">後續觀察</a>
+    <a href="#source">來源</a>
+  </nav>
+  <main class="min-w-0">
+    <header class="mb-10">
+      <p class="text-sm text-zinc-500 mb-2">HTML REPORT • <time>2026-05-28</time></p>
+      <h1 class="text-3xl md:text-5xl font-bold tracking-tight mb-4">CPO 量產卡點：測試基礎設施才是台積電 COUPE 的關鍵瓶頸</h1>
+      <p class="text-lg text-zinc-600 dark:text-zinc-400 max-w-3xl">CPO 的投資重點不只在光引擎與先進封裝，真正決定量產節奏的是 PIC 光學測試能否從人工、慢速、缺標準，升級成晶圓級自動化量產流程。</p>
+    </header>
+
+    <section id="intro" class="mb-12">
+      <div class="card rounded-2xl p-6 md:p-8 shadow-sm">
+        <div class="flex flex-wrap gap-2 mb-4">
+          <span class="pill bg-red-100 text-red-800 dark:bg-red-900/40 dark:text-red-200">測試成最大瓶頸</span>
+          <span class="pill bg-sky-100 text-sky-800 dark:bg-sky-900/40 dark:text-sky-200">COUPE 2026 量產訊號</span>
+          <span class="pill bg-emerald-100 text-emerald-800 dark:bg-emerald-900/40 dark:text-emerald-200">OWAT 是成本控制核心</span>
+        </div>
+        <h2 class="text-2xl font-semibold mb-3">一句話結論</h2>
+        <p class="text-xl leading-relaxed">如果 2330 台積電 COUPE 平台要在 2026 年把 CPO 推進量產，PIC 晶圓級光學測試會是最關鍵的前哨戰；誰能把奈米級光學對位、插入損耗、偏振相關損耗與光電交互測試做成高吞吐量流程，誰就掌握 CPO 商業化的節奏控制權。</p>
+      </div>
+    </section>
+
+    <section id="why" class="mb-12">
+      <h2 class="text-2xl font-semibold mb-5">瓶頸在哪</h2>
+      <div class="grid md:grid-cols-4 gap-4 mb-6">
+        <div class="metric"><div class="text-sm text-zinc-500">對位精度</div><h3 class="font-bold mt-1">μm → nm</h3><p class="text-sm mt-2">EIC 多為微米級電性接觸；PIC 需要奈米級光學耦合。</p></div>
+        <div class="metric"><div class="text-sm text-zinc-500">測試時間</div><h3 class="font-bold mt-1">&gt;100 秒</h3><p class="text-sm mt-2">來源貼文指出單顆 PIC 完整測試目前可能超過 100 秒。</p></div>
+        <div class="metric"><div class="text-sm text-zinc-500">尺度落差</div><h3 class="font-bold mt-1">約 800 倍</h3><p class="text-sm mt-2">單模光纖與波導截面積差異巨大，讓耦合對位更困難。</p></div>
+        <div class="metric"><div class="text-sm text-zinc-500">成熟度</div><h3 class="font-bold mt-1">缺統一標準</h3><p class="text-sm mt-2">TrendForce 圖中直接標示 PIC 測試尚無統一標準。</p></div>
+      </div>
+      <div class="grid lg:grid-cols-[1fr_1fr] gap-5">
+        <div class="card rounded-2xl p-6 leading-7">
+          <p>CPO（Co-Packaged Optics，共封裝光學）把光學 I/O 拉近運算晶片，目標是降低資料中心高速互連的功耗與延遲。但這也把測試難度從單純電性接觸，推進到電、光與光電轉換同時驗證。</p>
+          <p class="mt-3">EIC 測試已高度自動化，PIC 測試仍面臨對位、標準、量測參數與吞吐量問題。這就是為什麼 CPO 的量產風險，短期更像是測試工程問題，而非單純的封裝產能問題。</p>
+        </div>
+        <div class="card rounded-2xl p-5">
+          <h3 class="font-semibold mb-3">EIC 與 PIC 測試落差</h3>
+          <div class="chart-box"><canvas id="gapChart"></canvas></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="flow" class="mb-12">
+      <h2 class="text-2xl font-semibold mb-5">四段測試流程</h2>
+      <div class="grid lg:grid-cols-[0.95fr_1.05fr] gap-5">
+        <div class="card rounded-2xl p-6">
+          <div class="space-y-6">
+            <div class="stage text-red-600"><span class="stage-dot"></span><h3 class="font-semibold text-zinc-900 dark:text-zinc-100">1. PIC 晶圓級測試（OWAT）</h3><p class="text-zinc-600 dark:text-zinc-400 mt-1">最關鍵階段。先在晶圓級篩掉不良 PIC，避免後續與昂貴 EIC 鍵合後才報廢。</p></div>
+            <div class="stage text-sky-600"><span class="stage-dot"></span><h3 class="font-semibold text-zinc-900 dark:text-zinc-100">2. EIC-PIC 晶圓級測試</h3><p class="text-zinc-600 dark:text-zinc-400 mt-1">確認混合鍵合後的電性與光電轉換表現，開始接近實際光引擎條件。</p></div>
+            <div class="stage text-emerald-600"><span class="stage-dot"></span><h3 class="font-semibold text-zinc-900 dark:text-zinc-100">3. OE 級測試</h3><p class="text-zinc-600 dark:text-zinc-400 mt-1">確認 KGOE（Known Good Optical Engine），降低模組組裝後失效風險。</p></div>
+            <div class="stage text-violet-600"><span class="stage-dot"></span><h3 class="font-semibold text-zinc-900 dark:text-zinc-100">4. 模組級測試</h3><p class="text-zinc-600 dark:text-zinc-400 mt-1">最終驗證整體模組功能、可靠度與量產一致性。</p></div>
+          </div>
+        </div>
+        <div class="card rounded-2xl p-6 leading-7">
+          <h3 class="font-semibold mb-3">為什麼 OWAT 最重要</h3>
+          <p>OWAT 的價值在於把良率風險前移。PIC 若到 EIC 鍵合後才被判定不良，損失的不只是 PIC 本身，還包括 EIC、鍵合、封裝與後段測試成本。</p>
+          <p class="mt-3">因此，CPO 供應鏈真正需要的是能在晶圓級快速判定 PIC 可用性的測試平台。這會讓設備商、探針卡、光學對位、偏振量測、可靠度測試與高光譜檢測形成新的設備投資主線。</p>
+          <details class="mt-5 rounded-xl border border-zinc-200 dark:border-zinc-800 p-4">
+            <summary class="font-semibold">關鍵量測項目</summary>
+            <ul class="list-disc pl-5 mt-3 space-y-1 text-zinc-600 dark:text-zinc-400">
+              <li>插入損耗（Insertion Loss, IL）</li>
+              <li>偏振相關損耗（Polarization Dependent Loss, PDL）</li>
+              <li>響應度（Responsivity）</li>
+              <li>光學耦合效率與對位容忍度</li>
+              <li>電、光、光電交互參數一致性</li>
+            </ul>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <section id="vendor" class="mb-12">
+      <h2 class="text-2xl font-semibold mb-5">設備供應鏈</h2>
+      <div class="card rounded-2xl p-5">
+        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-3 mb-4">
+          <p class="text-sm text-zinc-500">點擊欄位可排序，輸入關鍵字可篩選。公司與方案以來源貼文為主，未獨立驗證採購或客戶關係。</p>
+          <input id="vendorFilter" placeholder="篩選公司、方案或定位…" class="px-3 py-2 rounded-md border border-zinc-300 dark:border-zinc-700 bg-transparent text-sm focus:outline-none focus:ring-2 focus:ring-sky-500">
+        </div>
+        <div class="overflow-x-auto">
+          <table id="vendorTable" class="w-full text-sm">
+            <thead class="text-left border-b border-zinc-200 dark:border-zinc-800">
+              <tr>
+                <th class="py-3 pr-4" data-key="company">公司／組合</th>
+                <th class="py-3 pr-4" data-key="solution">方案</th>
+                <th class="py-3 pr-4" data-key="role">解決的瓶頸</th>
+                <th class="py-3" data-key="read">判讀</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-zinc-200 dark:divide-zinc-800">
+              <tr><td class="py-3 pr-4 font-medium">Advantest × FormFactor</td><td class="py-3 pr-4">UFO Probe Card、V93000-Triton、9 軸對位、CalVue</td><td class="py-3 pr-4">縮短光學對位時間，提高自動化能力</td><td class="py-3">最直接對應 PIC 晶圓級測試瓶頸</td></tr>
+              <tr><td class="py-3 pr-4 font-medium">Teradyne × Quantifi Photonics × ficonTEC</td><td class="py-3 pr-4">300mm 雙面晶圓／晶粒測試系統</td><td class="py-3 pr-4">整合光電測試與晶圓級平台</td><td class="py-3">測試平台商往光子專業能力補強</td></tr>
+              <tr><td class="py-3 pr-4 font-medium">2360 致茂（Chroma）</td><td class="py-3 pr-4">可靠度測試</td><td class="py-3 pr-4">模組與元件長時間穩定性驗證</td><td class="py-3">台灣設備股中較直接可觀察者之一</td></tr>
+              <tr><td class="py-3 pr-4 font-medium">Keysight</td><td class="py-3 pr-4">偏振量測</td><td class="py-3 pr-4">PDL 與光學訊號品質驗證</td><td class="py-3">偏高階量測儀器定位</td></tr>
+              <tr><td class="py-3 pr-4 font-medium">Enlitech（Night Jar）</td><td class="py-3 pr-4">高光譜漏光定位</td><td class="py-3 pr-4">缺陷定位與光路異常檢查</td><td class="py-3">偏檢測與失效分析角色</td></tr>
+              <tr><td class="py-3 pr-4 font-medium">MPI、Technoprobe、Micronics</td><td class="py-3 pr-4">EIC 探針卡供應</td><td class="py-3 pr-4">傳統電性接觸測試</td><td class="py-3">成熟度高，但與 PIC 光學測試難題不同</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section id="taiwan" class="mb-12">
+      <h2 class="text-2xl font-semibold mb-5">台灣供應鏈</h2>
+      <div class="grid lg:grid-cols-3 gap-5">
+        <div class="card rounded-2xl p-6 leading-7 lg:col-span-2">
+          <p>這則訊號對台灣供應鏈的重點，不是「CPO 會不會發生」，而是量產路線中哪一段會先形成資本支出。若 COUPE 進入 2026 量產節奏，測試、探針卡、光學對位、可靠度與失效分析會比最終模組熱度更早反映。</p>
+          <p class="mt-3">2330 台積電是 COUPE 平台的核心觀察對象；2360 致茂（Chroma）則出現在來源貼文的可靠度測試供應鏈中。這些都是來源所指向的方向性線索，仍需後續用訂單、資本支出與法說會描述交叉驗證。</p>
+          <div class="mt-5 grid sm:grid-cols-2 gap-3">
+            <div class="rounded-xl border border-zinc-200 dark:border-zinc-800 p-4"><h3 class="font-semibold">最早驗證點</h3><p class="text-sm text-zinc-600 dark:text-zinc-400 mt-1">OWAT 測試設備、探針卡與光學對位平台是否進入客戶驗證。</p></div>
+            <div class="rounded-xl border border-zinc-200 dark:border-zinc-800 p-4"><h3 class="font-semibold">最大風險</h3><p class="text-sm text-zinc-600 dark:text-zinc-400 mt-1">標準未定、測試時間過長，導致良率與成本無法支撐量產。</p></div>
+          </div>
+        </div>
+        <div class="card rounded-2xl p-5">
+          <h3 class="font-semibold mb-3">投資訊號強弱</h3>
+          <div class="chart-box"><canvas id="signalChart"></canvas></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="watch" class="mb-12">
+      <h2 class="text-2xl font-semibold mb-5">後續觀察</h2>
+      <div class="grid md:grid-cols-2 gap-5">
+        <div class="card rounded-2xl p-6">
+          <h3 class="font-semibold mb-3">三個催化條件</h3>
+          <ol class="list-decimal pl-5 space-y-2 text-zinc-700 dark:text-zinc-300">
+            <li>2330 台積電對 COUPE 2026 量產節奏釋出更清楚的時程或客戶驗證資訊。</li>
+            <li>Advantest、FormFactor、Teradyne、ficonTEC 等設備商出現 CPO 測試相關訂單或營收描述。</li>
+            <li>2360 致茂（Chroma）或其他台灣設備商在法說會提到矽光子、CPO、可靠度或光電測試需求。</li>
+          </ol>
+        </div>
+        <div class="card rounded-2xl p-6">
+          <h3 class="font-semibold mb-3">兩個盲點</h3>
+          <ul class="list-disc pl-5 space-y-2 text-zinc-700 dark:text-zinc-300">
+            <li>來源貼文屬市場觀察與產業分析，並不等於台積電或設備商正式量產公告。</li>
+            <li>CPO 測試供應鏈分散，單一公司即使技術相關，也不代表營收彈性會立即放大。</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="source" class="mb-12">
+      <h2 class="text-2xl font-semibold mb-5">來源</h2>
+      <div class="card rounded-2xl p-6 leading-7">
+        <p class="text-sm text-zinc-500 mb-4">來源貼文：駿HaYaO（@QQ_Timmy），2026-05-28，X 貼文 <a class="underline" href="https://x.com/qq_timmy/status/2059906016700162126?s=52">https://x.com/qq_timmy/status/2059906016700162126</a>。引用來源：TrendForce（@trendforce）貼文與附圖。互動數據擷取時約為 11,038 views、78 likes、8 reposts、36 bookmarks。</p>
+        <figure class="rounded-2xl overflow-hidden border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900">
+          <img class="w-full source-img" src="assets/2026-05-28-cpo-testing-trendforce.jpg" alt="TrendForce 圖表：Requirements on EIC and PIC Testing">
+          <figcaption class="text-xs text-zinc-500 p-3">TrendForce 附圖：EIC 與 PIC 測試需求比較。原圖顯示 PIC 需要 optical probes、奈米級對位，且尚無統一標準。</figcaption>
+        </figure>
+      </div>
+    </section>
+  </main>
+</div>
+<script>
+  document.getElementById('theme-toggle').addEventListener('click', () => {
+    document.documentElement.classList.toggle('dark');
+    localStorage.theme = document.documentElement.classList.contains('dark') ? 'dark' : 'light';
+  });
+
+  const tocLinks = [...document.querySelectorAll('.toc a')];
+  const sections = tocLinks.map(a => document.querySelector(a.getAttribute('href'))).filter(Boolean);
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        tocLinks.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + entry.target.id));
+      }
+    });
+  }, { rootMargin: '-35% 0px -55% 0px', threshold: 0 });
+  sections.forEach(s => obs.observe(s));
+
+  function makeSortableFilter(tableId, inputId) {
+    const table = document.getElementById(tableId);
+    const input = document.getElementById(inputId);
+    const tbody = table.querySelector('tbody');
+    const headers = [...table.querySelectorAll('th')];
+    input.addEventListener('input', () => {
+      const q = input.value.trim().toLowerCase();
+      [...tbody.rows].forEach(row => row.classList.toggle('hide', !row.innerText.toLowerCase().includes(q)));
+    });
+    headers.forEach((th, idx) => th.addEventListener('click', () => {
+      const asc = th.dataset.asc !== 'true';
+      th.dataset.asc = asc;
+      [...tbody.rows].sort((a,b) => asc ? a.cells[idx].innerText.localeCompare(b.cells[idx].innerText, 'zh-Hant') : b.cells[idx].innerText.localeCompare(a.cells[idx].innerText, 'zh-Hant')).forEach(r => tbody.appendChild(r));
+    }));
+  }
+  makeSortableFilter('vendorTable', 'vendorFilter');
+
+  const gridColor = getComputedStyle(document.documentElement).colorScheme.includes('dark') ? '#3f3f46' : '#e4e4e7';
+  new Chart(document.getElementById('gapChart'), {
+    type: 'radar',
+    data: { labels: ['自動化成熟度', '標準化程度', '對位難度', '量測複雜度', '量產吞吐量'], datasets: [
+      { label: 'EIC 測試', data: [9,8,3,4,9], borderColor:'#0ea5e9', backgroundColor:'rgba(14,165,233,.18)' },
+      { label: 'PIC 測試', data: [3,2,10,9,3], borderColor:'#ef4444', backgroundColor:'rgba(239,68,68,.16)' }
+    ] },
+    options: { responsive:true, maintainAspectRatio:false, scales:{ r:{ suggestedMin:0, suggestedMax:10, grid:{ color:gridColor }, ticks:{ display:false } } }, plugins:{ legend:{ position:'bottom' } } }
+  });
+  new Chart(document.getElementById('signalChart'), {
+    type: 'bar',
+    data: { labels: ['OWAT 設備', '光學對位', '探針卡', '可靠度測試', '模組組裝'], datasets: [{ label:'早期訊號強度', data:[95,90,82,70,55], backgroundColor:['#ef4444','#f97316','#0ea5e9','#10b981','#8b5cf6'] }] },
+    options: { indexAxis:'y', responsive:true, maintainAspectRatio:false, scales:{ x:{ max:100, grid:{ color:gridColor } }, y:{ grid:{ display:false } } }, plugins:{ legend:{ display:false } } }
+  });
+</script>
+</body>
+</html>
