@@ -1,0 +1,494 @@
+<!doctype html>
+<html lang="zh-Hant" class="scroll-smooth">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+
+  <title>NPO：CPO 之前的過渡主力｜mSAP 可插拔 PCB 製造商視角</title>
+  <meta name="description" content="綜合六份券商研究，從 mSAP 可插拔 PCB 製造商角度研判 NPO 是否為 CPO 之前的重點、以及 800G/1.6T 可插拔之後的真實放量方向。">
+  <meta property="og:title" content="NPO：CPO 之前的過渡主力｜mSAP 可插拔 PCB 製造商視角">
+  <meta property="og:description" content="NPO 確為 CPO 前的過渡主力，但它是 Scale-up 的「純增量新層」而非可插拔的取代者——這對 PCB 廠的意義截然不同。">
+  <meta property="og:type" content="article">
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = { darkMode: 'class', theme: { extend: { fontFamily: { sans: ['system-ui','ui-sans-serif','sans-serif'] } } } };
+    if (localStorage.theme === 'dark' || (!('theme' in localStorage) && matchMedia('(prefers-color-scheme: dark)').matches)) {
+      document.documentElement.classList.add('dark');
+    }
+  </script>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+    const isDark = document.documentElement.classList.contains('dark');
+    mermaid.initialize({ startOnLoad: true, theme: isDark ? 'dark' : 'default', securityLevel: 'loose' });
+    window.__mermaid = mermaid;
+  </script>
+
+  <style>
+    @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
+    @media print {
+      .no-print { display:none !important; }
+      body { color:#000; background:#fff; }
+      a { color:inherit; text-decoration:underline; }
+      details { display:block; } details > summary { display:none; }
+      .chart-box { break-inside: avoid; }
+    }
+    .toc a { display:block; padding:.2rem 0; opacity:.55; transition:opacity .15s; font-size:.85rem; }
+    .toc a:hover, .toc a.active { opacity:1; }
+    .toc a.active { font-weight:600; }
+    .chart-box { position:relative; height:340px; }
+    .tabs > input[type="radio"] { display:none; }
+    .tabs > label { cursor:pointer; padding:.5rem 1rem; border-bottom:2px solid transparent; font-weight:500; }
+    .tabs > input:checked + label { border-color:#6366f1; color:#6366f1; }
+    .tabs > .tab-panel { display:none; padding-top:1rem; }
+    .tabs > input:nth-of-type(1):checked ~ .tab-panel:nth-of-type(1),
+    .tabs > input:nth-of-type(2):checked ~ .tab-panel:nth-of-type(2),
+    .tabs > input:nth-of-type(3):checked ~ .tab-panel:nth-of-type(3) { display:block; }
+    .pill { display:inline-block; padding:.1rem .55rem; border-radius:9999px; font-size:.7rem; font-weight:600; }
+    table.grid-tbl { border-collapse:collapse; width:100%; font-size:.875rem; }
+    table.grid-tbl { border-collapse:collapse; width:100%; font-size:.875rem; }
+    .gt th, .gt td { border:1px solid; padding:.55rem .7rem; text-align:left; vertical-align:top; }
+  </style>
+</head>
+
+<body class="bg-white dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 font-sans antialiased">
+
+<div class="fixed top-4 right-4 z-50 flex gap-2 no-print">
+  <button id="theme-toggle" class="px-3 py-1.5 rounded-md border border-zinc-300 dark:border-zinc-700 bg-white/70 dark:bg-zinc-900/70 backdrop-blur text-sm hover:bg-zinc-100 dark:hover:bg-zinc-800">☼ / ☾</button>
+  <button onclick="window.print()" class="px-3 py-1.5 rounded-md border border-zinc-300 dark:border-zinc-700 bg-white/70 dark:bg-zinc-900/70 backdrop-blur text-sm hover:bg-zinc-100 dark:hover:bg-zinc-800">列印</button>
+</div>
+
+<div class="max-w-6xl mx-auto px-6 py-12 lg:grid lg:grid-cols-[210px_minmax(0,1fr)] lg:gap-12">
+
+  <nav class="toc lg:sticky lg:top-12 self-start mb-8 lg:mb-0 no-print">
+    <div class="font-semibold mb-2 text-zinc-500 uppercase tracking-wider text-xs">目錄</div>
+    <a href="#tldr">一頁結論</a>
+    <a href="#thesis">命題拆解</a>
+    <a href="#why">物理驅動：光為何入柜</a>
+    <a href="#layer">分層：Scale-up vs Scale-out</a>
+    <a href="#pcbview">PCB 製造商三情境</a>
+    <a href="#arch">PCB 含量位移圖</a>
+    <a href="#timeline">部署時程</a>
+    <a href="#demand">需求與出貨數據</a>
+    <a href="#strategy">策略含義與風險</a>
+    <a href="#sources">資料來源</a>
+  </nav>
+
+  <main class="min-w-0">
+
+    <header class="mb-12">
+      <p class="text-sm text-zinc-500 mb-2">產業研判 • <time>2026-05-29</time> • 光連接 / 先進封裝 / PCB</p>
+      <h1 class="text-4xl font-bold tracking-tight mb-4 leading-tight">NPO：CPO 之前的過渡主力</h1>
+      <p class="text-lg text-zinc-600 dark:text-zinc-400">從 <strong>mSAP 可插拔 PCB 製造商</strong>的座位看光連接路徑——NPO 確是 CPO 之前的重點，但它是 Scale-up 的「純增量新層」，而非 800G/1.6T 可插拔的取代者。這兩種定性，對 PCB 廠的意義天差地別。</p>
+    </header>
+
+    <!-- ============ TL;DR ============ -->
+    <section id="tldr" class="mb-14">
+      <h2 class="text-2xl font-semibold mb-5">一頁結論</h2>
+
+      <div class="grid sm:grid-cols-3 gap-4 mb-6">
+        <div class="rounded-xl border border-emerald-300/50 dark:border-emerald-700/40 bg-emerald-50/60 dark:bg-emerald-950/30 p-5">
+          <div class="text-xs uppercase tracking-wider text-emerald-700 dark:text-emerald-400 font-semibold mb-1">命題前半</div>
+          <div class="text-3xl font-bold mb-1">成立 ✅</div>
+          <p class="text-sm text-zinc-600 dark:text-zinc-400">NPO 是 CPO 之前的過渡主力。六份報告一致：CPO 性能最優但缺開放生態、規模替代遞延至 <strong>2028 後</strong>；NPO 依賴成熟可插拔生態，是當前最務實、最具成本效益的 Scale-up 方案。</p>
+        </div>
+        <div class="rounded-xl border border-amber-300/50 dark:border-amber-700/40 bg-amber-50/60 dark:bg-amber-950/30 p-5">
+          <div class="text-xs uppercase tracking-wider text-amber-700 dark:text-amber-400 font-semibold mb-1">命題後半</div>
+          <div class="text-3xl font-bold mb-1">需修正 ⚠️</div>
+          <p class="text-sm text-zinc-600 dark:text-zinc-400">NPO 並非「可插拔之後的取代者」。它是 <strong>Scale-up 柜內</strong>的 0→1 純增量層；Scale-out 跨機柜未來十年仍以可插拔為主。可插拔的真正接棒者是 <strong>3.2T 可插拔（2028）</strong>。</p>
+        </div>
+        <div class="rounded-xl border border-indigo-300/50 dark:border-indigo-700/40 bg-indigo-50/60 dark:bg-indigo-950/30 p-5">
+          <div class="text-xs uppercase tracking-wider text-indigo-700 dark:text-indigo-400 font-semibold mb-1">對 PCB 廠</div>
+          <div class="text-3xl font-bold mb-1">增量＋位移</div>
+          <p class="text-sm text-zinc-600 dark:text-zinc-400">NPO 對 mSAP 可插拔 PCB 是「上行增量」非威脅；但真正風險是<strong>價值鏈向先進封裝／IC 載板上移</strong>——光引擎基板可能落入載板廠手中。</p>
+        </div>
+      </div>
+
+      <div class="rounded-xl border border-zinc-200 dark:border-zinc-800 p-5 bg-zinc-50/60 dark:bg-zinc-900/40">
+        <p class="text-sm leading-relaxed">
+        <strong>一句話：</strong>對製造 800G/1.6T 可插拔模塊內 PCB 的廠商而言，最確定的盤仍是 <strong>800G→1.6T→3.2T 可插拔的持續放量</strong>（Scale-out 主導，2025 年 400G+ 高速模塊出貨破 6,000 萬只、2026 逼近 1 億只）。NPO 是疊加在這之上的 Scale-up 新蛋糕（單 GPU 帶寬需求達 Scale-out 的 9 倍），先於 CPO 落地——它打開 TAM，但也把部分價值從「模塊內 mSAP 板」推向「光引擎基板／高性能載板」。卡位 host 大板與高性能基板者得利，固守單一模塊內板者承壓。
+        </p>
+      </div>
+    </section>
+
+    <!-- ============ Thesis ============ -->
+    <section id="thesis" class="mb-14">
+      <h2 class="text-2xl font-semibold mb-4">命題拆解：兩個必須分開回答的問題</h2>
+      <p class="mb-4 text-zinc-700 dark:text-zinc-300">市場常把「NPO 是不是 CPO 前的重點」與「NPO 是不是 1.6T 可插拔之後的大方向」混為一談。實際上這是兩個不同的問題，答案也不同。</p>
+
+      <div class="grid md:grid-cols-2 gap-4">
+        <div class="rounded-lg border border-zinc-200 dark:border-zinc-800 p-5">
+          <h3 class="font-semibold mb-2">Q1：NPO 是 CPO 之前的過渡主力嗎？</h3>
+          <p class="text-sm text-zinc-600 dark:text-zinc-400 mb-3">→ <span class="pill bg-emerald-100 text-emerald-800 dark:bg-emerald-900 dark:text-emerald-200">是</span>。這是時間序問題。NPO 先行、CPO 後至。</p>
+          <ul class="text-sm space-y-1.5 list-disc pl-5 text-zinc-700 dark:text-zinc-300">
+            <li>CPO 規模替代可插拔遞延至 <strong>2028 後</strong>；NPO 更早成熟（MS 多頭情境）。</li>
+            <li>行業優先採用 <strong>基於 SiP 的 NPO</strong> 進行商業部署（IPEC×LightCounting 研討會共識）。</li>
+            <li>騰訊 26Q4 推 3.2T NPO；阿里 3.2T NPO 已測試、26Q3 試點、27/9 前完成 6.4T NPO Alpha。</li>
+            <li>海外客戶已向中國光模塊大廠下 NPO 訂單（降低市場對 CPO 顛覆的疑慮）。</li>
+          </ul>
+        </div>
+        <div class="rounded-lg border border-zinc-200 dark:border-zinc-800 p-5">
+          <h3 class="font-semibold mb-2">Q2：NPO 是 1.6T 可插拔之後的大量方向嗎？</h3>
+          <p class="text-sm text-zinc-600 dark:text-zinc-400 mb-3">→ <span class="pill bg-amber-100 text-amber-800 dark:bg-amber-900 dark:text-amber-200">部分對，需修正</span>。這是「接棒 vs 並行」的結構問題。</p>
+          <ul class="text-sm space-y-1.5 list-disc pl-5 text-zinc-700 dark:text-zinc-300">
+            <li>NPO/CPO 是 <strong>Scale-up 柜內</strong>的「0→1 純增量」，不取代 Scale-out 可插拔。</li>
+            <li>Coherent：未來十年，可插拔在 Scale-out / Scale-across 仍是主流方案。</li>
+            <li>可插拔自身的接棒者是 <strong>3.2T 可插拔（2028）</strong>——400G/通道 DSP（博通 Taurus）已就位。</li>
+            <li>因此 NPO 是「另開一條線」的大方向，而非把可插拔吃掉的大方向。</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ Why ============ -->
+    <section id="why" class="mb-14">
+      <h2 class="text-2xl font-semibold mb-4">物理驅動：光為何要「入柜」</h2>
+      <p class="mb-5 text-zinc-700 dark:text-zinc-300">當電訊號從 GPU／交換 ASIC 走到前面板可插拔模塊，會在 PCB／連接器上消耗大量功率（插入損耗）。進入 <strong>224G/通道</strong> 後損耗陡升，逼迫光引擎往 ASIC 靠近。縮短電氣布線 → 降插損、降功耗、提可靠性——這正是 NPO/CPO 的根本邏輯，也是「光入柜」對 PCB 規格的直接衝擊點。</p>
+
+      <div class="grid lg:grid-cols-2 gap-6 items-center">
+        <div class="chart-box rounded-xl border border-zinc-200 dark:border-zinc-800 p-4">
+          <canvas id="lossChart"></canvas>
+        </div>
+        <div class="text-sm text-zinc-700 dark:text-zinc-300 space-y-3">
+          <p>華為於研討會揭示的 <strong>@224G 插入損耗</strong>對比（不同口徑彙整）：</p>
+          <table class="gt w-full" style="border-color:rgba(127,127,127,.35)">
+            <thead><tr class="text-left">
+              <th>方案</th><th>插入損耗 @224G</th><th>電氣路徑</th>
+            </tr></thead>
+            <tbody>
+              <tr><td>可插拔（LPO/FRO）</td><td>~20–26 dB</td><td>最長（到前面板）</td></tr>
+              <tr><td><strong>NPO</strong>（近封裝）</td><td>~7–10 dB</td><td>短（ASIC 旁）</td></tr>
+              <tr><td>CPO（共封裝）</td><td>~3–5 dB</td><td>最短（同封裝）</td></tr>
+            </tbody>
+          </table>
+          <p class="text-zinc-500 dark:text-zinc-400 text-xs">含義（PCB 廠視角）：高損耗預算正是 mSAP 高速板＋超低損 CCL（M8/M9 級）的價值來源。光越靠近 ASIC，<em>模塊內</em>高頻 PCB 的角色被壓縮；但 <em>host／線卡大板</em> 仍需承載 224G 通道、低插損與 NPO 連接器座。</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ Layer ============ -->
+    <section id="layer" class="mb-14">
+      <h2 class="text-2xl font-semibold mb-4">分層才看得懂：Scale-up vs Scale-out</h2>
+      <p class="mb-5 text-zinc-700 dark:text-zinc-300">這是整份研判的樞紐。把網路分成兩層，NPO 與可插拔的關係立刻清楚——它們服務的是<strong>不同的層</strong>。</p>
+
+      <div class="grid md:grid-cols-2 gap-4 mb-5">
+        <div class="rounded-lg border-2 border-indigo-300/60 dark:border-indigo-700/50 p-5 bg-indigo-50/40 dark:bg-indigo-950/20">
+          <div class="flex items-center gap-2 mb-2">
+            <span class="pill bg-indigo-600 text-white">Scale-up（柜內 / 垂直擴展）</span>
+          </div>
+          <ul class="text-sm space-y-1.5 list-disc pl-5 text-zinc-700 dark:text-zinc-300">
+            <li>傳統全電互連（NVLink / NVSwitch、銅）；現在開始「光入柜」。</li>
+            <li><strong>NPO/CPO 的主戰場</strong>，從 0→1 的純增量。</li>
+            <li>單 GPU 帶寬需求 ≈ Scale-out 的 <strong>9 倍</strong>。</li>
+            <li>騰訊布局 224G 的 6.4T NPO；CSP 客戶青睞 NPO。</li>
+          </ul>
+        </div>
+        <div class="rounded-lg border-2 border-sky-300/60 dark:border-sky-700/50 p-5 bg-sky-50/40 dark:bg-sky-950/20">
+          <div class="flex items-center gap-2 mb-2">
+            <span class="pill bg-sky-600 text-white">Scale-out（跨機柜 / 水平擴展）</span>
+          </div>
+          <ul class="text-sm space-y-1.5 list-disc pl-5 text-zinc-700 dark:text-zinc-300">
+            <li>RDMA over IB / RoCE，中長距以<strong>可插拔光模塊為主</strong>。</li>
+            <li>Coherent：未來十年仍是可插拔主流方案。</li>
+            <li>2025 年 400G+ 高速模塊出貨 &gt;6,000 萬只，大多在此層。</li>
+            <li><strong>mSAP 可插拔 PCB 的核心需求盤</strong>。</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="rounded-lg border border-zinc-200 dark:border-zinc-800 p-4 bg-zinc-50/60 dark:bg-zinc-900/40 text-sm text-zinc-700 dark:text-zinc-300">
+        <strong>關鍵推論：</strong>NPO 不會「殺掉」可插拔，因為它在另一層（Scale-up）做增量。所以 PCB 廠面對的是「主盤（Scale-out 可插拔）持續放量 ＋ 新增蛋糕（Scale-up NPO）」的雙線結構——前提是廠商能跟著 NPO 把產品從「模塊內板」延伸到「host 大板／高性能基板」。
+      </div>
+    </section>
+
+    <!-- ============ PCB view tabs ============ -->
+    <section id="pcbview" class="mb-14">
+      <h2 class="text-2xl font-semibold mb-4">mSAP 可插拔 PCB 製造商的三情境</h2>
+      <p class="mb-5 text-zinc-700 dark:text-zinc-300">同一家 PCB 廠，在三種封裝形態下扮演的角色、價值量與被取代風險都不同。點選切換檢視。</p>
+
+      <div class="tabs border-b border-zinc-200 dark:border-zinc-800 flex gap-1 mb-2">
+        <input type="radio" name="scn" id="scn1" checked>
+        <label for="scn1">① 可插拔 800G/1.6T/3.2T</label>
+        <input type="radio" name="scn" id="scn2">
+        <label for="scn2">② NPO（近封裝）</label>
+        <input type="radio" name="scn" id="scn3">
+        <label for="scn3">③ CPO（共封裝）</label>
+
+        <div class="tab-panel">
+          <div class="grid sm:grid-cols-3 gap-3 text-sm">
+            <div class="rounded-lg border border-zinc-200 dark:border-zinc-800 p-4"><div class="text-xs text-zinc-500 mb-1">形態</div>OSFP/QSFP-DD 模塊，內含 <strong>mSAP 模塊 PCB</strong>（細線、高頻、低損）。</div>
+            <div class="rounded-lg border border-zinc-200 dark:border-zinc-800 p-4"><div class="text-xs text-zinc-500 mb-1">PCB 廠角色</div><span class="pill bg-emerald-100 text-emerald-800 dark:bg-emerald-900 dark:text-emerald-200">核心現有業務</span> 模塊內板 ＋ host 高速板。</div>
+            <div class="rounded-lg border border-zinc-200 dark:border-zinc-800 p-4"><div class="text-xs text-zinc-500 mb-1">趨勢</div>800G→1.6T→3.2T 持續放量（3.2T 約 2028）。新易盛 1.6T DR4 以 4×400G 減少 50% 光纖。</div>
+          </div>
+          <p class="mt-3 text-sm text-emerald-700 dark:text-emerald-400">結論：確定性最高的主盤。NPO 出現不改變這層的成長。</p>
+        </div>
+
+        <div class="tab-panel">
+          <div class="grid sm:grid-cols-3 gap-3 text-sm">
+            <div class="rounded-lg border border-zinc-200 dark:border-zinc-800 p-4"><div class="text-xs text-zinc-500 mb-1">形態</div>光引擎近封裝於 ASIC 旁（2.5D）：<strong>Host PCB ＋ 高性能基板 ＋ 引擎基板 ＋ NPO 連接器（socketed）</strong>。</div>
+            <div class="rounded-lg border border-zinc-200 dark:border-zinc-800 p-4"><div class="text-xs text-zinc-500 mb-1">PCB 廠角色</div><span class="pill bg-amber-100 text-amber-800 dark:bg-amber-900 dark:text-amber-200">機會＋風險並存</span> host 大板可承接；引擎基板趨向 IC 載板。</div>
+            <div class="rounded-lg border border-zinc-200 dark:border-zinc-800 p-4"><div class="text-xs text-zinc-500 mb-1">趨勢</div>2026 試點 → 2027 規模；TeraHop 6.4T NPO、12.8Tbps XPO 於 OFC 2026 展示，並組 XPO MSA。</div>
+          </div>
+          <p class="mt-3 text-sm text-amber-700 dark:text-amber-400">結論：增量機會明確，但「光引擎基板」價值有向先進封裝/載板廠位移風險。卡位 host 超低損大板與高性能基板是關鍵。</p>
+        </div>
+
+        <div class="tab-panel">
+          <div class="grid sm:grid-cols-3 gap-3 text-sm">
+            <div class="rounded-lg border border-zinc-200 dark:border-zinc-800 p-4"><div class="text-xs text-zinc-500 mb-1">形態</div>光引擎與 ASIC <strong>共封裝</strong>；模塊形態消失（針對該 Scale-up 連結）。</div>
+            <div class="rounded-lg border border-zinc-200 dark:border-zinc-800 p-4"><div class="text-xs text-zinc-500 mb-1">PCB 廠角色</div><span class="pill bg-rose-100 text-rose-800 dark:bg-rose-900 dark:text-rose-200">模塊端流失風險最大</span> 主要落入 ASIC 共封裝載板。</div>
+            <div class="rounded-lg border border-zinc-200 dark:border-zinc-800 p-4"><div class="text-xs text-zinc-500 mb-1">趨勢</div>NV Quantum-X（26H1）/ Spectrum-X（26H2）先行；規模替代 2028+，且缺開放生態。</div>
+          </div>
+          <p class="mt-3 text-sm text-rose-700 dark:text-rose-400">結論：長期最大威脅，但「缺開放生態 ＋ Scale-out 可插拔延續」提供緩衝。對通用 PCB 廠是被邊緣化、對載板/先進封裝是機會。</p>
+        </div>
+      </div>
+
+      <div class="overflow-x-auto mt-6">
+        <table class="gt" style="border-color:rgba(127,127,127,.35)">
+          <thead><tr class="bg-zinc-100 dark:bg-zinc-900">
+            <th>維度</th><th>可插拔</th><th>NPO</th><th>CPO</th>
+          </tr></thead>
+          <tbody>
+            <tr><td>所在層</td><td>主要 Scale-out</td><td>Scale-up（增量）</td><td>Scale-up（增量）</td></tr>
+            <tr><td>模塊內 PCB</td><td>✅ 核心、放量</td><td>→ 轉為光引擎基板</td><td>❌ 消失</td></tr>
+            <tr><td>host／線卡大板</td><td>既有</td><td>新增（224G、超低損、連接器座）</td><td>新增（含共封裝載板）</td></tr>
+            <tr><td>對 mSAP 廠</td><td>主盤</td><td>機會＋位移風險</td><td>流失風險（scale-out 緩衝）</td></tr>
+            <tr><td>規模時程</td><td>現在 → 2028（3.2T）</td><td>2026 試點 → 2027 規模</td><td>2028+</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ============ Architecture mermaid ============ -->
+    <section id="arch" class="mb-14">
+      <h2 class="text-2xl font-semibold mb-4">PCB 含量在系統中的位移</h2>
+      <p class="mb-5 text-zinc-700 dark:text-zinc-300">三種形態下，「PCB 價值」落在哪個元件上會明顯移動。綠色＝傳統 PCB 廠領域，橘色＝向先進封裝／IC 載板位移的灰色地帶。</p>
+      <div class="rounded-xl border border-zinc-200 dark:border-zinc-800 p-4 overflow-x-auto">
+        <pre class="mermaid">
+flowchart LR
+  subgraph P["① 可插拔 (Scale-out)"]
+    A1[Switch ASIC] -->|長電氣路徑| H1[Host PCB<br/>mSAP 高速板]
+    H1 --> F1[前面板] --> M1[模塊內 mSAP PCB]:::pcb --> O1((光))
+  end
+  subgraph N["② NPO (Scale-up)"]
+    A2[Switch ASIC] -->|短電氣| E2[光引擎基板<br/>PIC+EIC]:::sub --> O2((光))
+    A2 --- H2[Host PCB 承載<br/>NPO 連接器 / 224G]:::pcb
+  end
+  subgraph C["③ CPO (Scale-up)"]
+    A3[ASIC + 光引擎<br/>共封裝載板]:::sub --> O3((光))
+    A3 --- H3[Host PCB]:::pcb
+  end
+  classDef pcb fill:#16a34a,stroke:#166534,color:#fff;
+  classDef sub fill:#f59e0b,stroke:#b45309,color:#000;
+        </pre>
+      </div>
+      <p class="mt-3 text-sm text-zinc-500 dark:text-zinc-400">解讀：從①到③，原本由 mSAP 模塊內板承擔的價值，逐步移往「光引擎基板／共封裝載板」（橘）。PCB 廠保住的是 host 大板（綠）；要保住更多價值，必須往橘色區（高性能基板）延伸。</p>
+    </section>
+
+    <!-- ============ Timeline ============ -->
+    <section id="timeline" class="mb-14">
+      <h2 class="text-2xl font-semibold mb-4">部署時程：NPO 先、CPO 後</h2>
+      <ol class="relative border-s-2 border-zinc-200 dark:border-zinc-800 ml-3 space-y-6">
+        <li class="ms-6">
+          <span class="absolute -start-[9px] flex h-4 w-4 rounded-full bg-indigo-500"></span>
+          <div class="text-xs text-zinc-500">2026 Q1–Q2</div>
+          <div class="font-medium">OFC 2026 NPO 方案密集亮相</div>
+          <p class="text-sm text-zinc-600 dark:text-zinc-400">旭創 TeraHop 展示 6.4T NPO ＋ 12.8Tbps XPO，組 XPO MSA；新易盛 1.6T DR4（400G/λ）。NV CPO Quantum-X（IB）26H1 先導部署。</p>
+        </li>
+        <li class="ms-6">
+          <span class="absolute -start-[9px] flex h-4 w-4 rounded-full bg-indigo-500"></span>
+          <div class="text-xs text-zinc-500">2026 Q3–Q4</div>
+          <div class="font-medium">NPO 進入試點與首發</div>
+          <p class="text-sm text-zinc-600 dark:text-zinc-400">阿里 3.2T NPO 26Q3 開始試點；騰訊 26Q4 推 3.2T NPO。NV Spectrum-X（Ethernet）CPO 26H2 出貨。</p>
+        </li>
+        <li class="ms-6">
+          <span class="absolute -start-[9px] flex h-4 w-4 rounded-full bg-sky-500"></span>
+          <div class="text-xs text-zinc-500">2027</div>
+          <div class="font-medium">NPO 規模化 ＋ 下一代開發</div>
+          <p class="text-sm text-zinc-600 dark:text-zinc-400">阿里 27/9 前完成 6.4T NPO Alpha 樣品與系統級調試。3.2T 可插拔（204.8T 交換機）路徑由 400G/通道 DSP 鋪墊。</p>
+        </li>
+        <li class="ms-6">
+          <span class="absolute -start-[9px] flex h-4 w-4 rounded-full bg-rose-500"></span>
+          <div class="text-xs text-zinc-500">2028+</div>
+          <div class="font-medium">CPO 規模替代窗口開啟、3.2T 可插拔放量</div>
+          <p class="text-sm text-zinc-600 dark:text-zinc-400">CPO 規模替代可插拔最快此時，前提是開放生態成形；同期 3.2T 可插拔需求啟動（MS / Nomura）。</p>
+        </li>
+      </ol>
+    </section>
+
+    <!-- ============ Demand data ============ -->
+    <section id="demand" class="mb-14">
+      <h2 class="text-2xl font-semibold mb-4">需求與出貨：主盤夠不夠大？</h2>
+      <p class="mb-5 text-zinc-700 dark:text-zinc-300">PCB 廠最關心的不是技術路線之爭，而是「模塊量會不會持續放量」。三組數據說明：可插拔主盤在放量、Scale-up 是新增蛋糕、雲廠 capex 提供底氣。</p>
+
+      <div class="grid lg:grid-cols-2 gap-6 mb-6">
+        <div class="chart-box rounded-xl border border-zinc-200 dark:border-zinc-800 p-4">
+          <canvas id="shipChart"></canvas>
+        </div>
+        <div class="chart-box rounded-xl border border-zinc-200 dark:border-zinc-800 p-4">
+          <canvas id="capexChart"></canvas>
+        </div>
+      </div>
+
+      <div class="grid sm:grid-cols-3 gap-4">
+        <div class="rounded-lg border border-zinc-200 dark:border-zinc-800 p-4">
+          <div class="text-3xl font-bold">26→60<span class="text-base font-normal text-zinc-500"> 百萬只</span></div>
+          <p class="text-sm text-zinc-600 dark:text-zinc-400">1.6T 收發器 FY26→FY27 全球出貨（Nomura 上修自 20→34）。每只都需模塊 PCB。</p>
+        </div>
+        <div class="rounded-lg border border-zinc-200 dark:border-zinc-800 p-4">
+          <div class="text-3xl font-bold">~1<span class="text-base font-normal text-zinc-500"> 億只</span></div>
+          <p class="text-sm text-zinc-600 dark:text-zinc-400">2026 年 400G+ 高速光模塊出貨（LightCounting），大多在 Scale-out。</p>
+        </div>
+        <div class="rounded-lg border border-zinc-200 dark:border-zinc-800 p-4">
+          <div class="text-3xl font-bold">9×</div>
+          <p class="text-sm text-zinc-600 dark:text-zinc-400">Scale-up 單 GPU 帶寬需求相對 Scale-out 的倍數——NPO 增量蛋糕的尺度。</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ Strategy ============ -->
+    <section id="strategy" class="mb-14">
+      <h2 class="text-2xl font-semibold mb-4">策略含義與風險</h2>
+
+      <div class="grid md:grid-cols-2 gap-4 mb-4">
+        <div class="rounded-lg border border-emerald-300/50 dark:border-emerald-700/40 p-5 bg-emerald-50/40 dark:bg-emerald-950/20">
+          <h3 class="font-semibold mb-2 text-emerald-800 dark:text-emerald-300">該做什麼</h3>
+          <ul class="text-sm space-y-1.5 list-disc pl-5 text-zinc-700 dark:text-zinc-300">
+            <li><strong>守住主盤：</strong>800G→1.6T→3.2T 可插拔模塊內板的料號、產能與超低損材料（M8/M9 級 CCL）。</li>
+            <li><strong>卡位 NPO host 大板：</strong>大面積、224G 通道、低插損、NPO 連接器座的線卡板。</li>
+            <li><strong>向上延伸：</strong>評估進入高性能基板／光引擎基板（2.5D），否則價值被載板廠攔截。</li>
+            <li><strong>跟標準：</strong>關注 XPO MSA 等多源協議，搶下一代標準的料件定義權。</li>
+          </ul>
+        </div>
+        <div class="rounded-lg border border-rose-300/50 dark:border-rose-700/40 p-5 bg-rose-50/40 dark:bg-rose-950/20">
+          <h3 class="font-semibold mb-2 text-rose-800 dark:text-rose-300">風險</h3>
+          <ul class="text-sm space-y-1.5 list-disc pl-5 text-zinc-700 dark:text-zinc-300">
+            <li><strong>價值上移：</strong>光引擎基板若由 IC 載板／先進封裝主導，模塊內板的單位價值被稀釋。</li>
+            <li><strong>CPO 提速：</strong>若開放生態提前成形，Scale-up 模塊端流失早於預期。</li>
+            <li><strong>需求不及：</strong>雲廠 capex、新技術進展、AI 產出回報任一不及預期。</li>
+            <li><strong>上游短缺：</strong>光晶片、隔離器、InP 晶圓緊缺，牽動模塊放量節奏（Nomura）。</li>
+          </ul>
+        </div>
+      </div>
+
+      <details class="rounded-lg border border-zinc-200 dark:border-zinc-800 p-4">
+        <summary class="font-medium">方法與口徑說明（點開）</summary>
+        <div class="mt-3 text-sm text-zinc-600 dark:text-zinc-400 space-y-2">
+          <p>本研判綜合六份券商研究的公開觀點，並從「製造可插拔光模塊內 mSAP PCB」的供應鏈位置重新詮釋，非投資建議。</p>
+          <p>插入損耗為不同報告引用之華為口徑彙整（@224G/通道）：可插拔 LPO/FRO 約 20–26 dB、NPO 約 7–10 dB、CPO 約 3–5 dB；圖表取代表值。出貨與 capex 數據依各報告原文。時程依各報告所述廠商計畫，存在變動可能。</p>
+          <p>「mSAP」指改良式半加成製程，用於細線高密度 PCB；此處泛指可插拔光模塊內板及高速 host 板之製造商視角。</p>
+        </div>
+      </details>
+    </section>
+
+    <!-- ============ Sources ============ -->
+    <section id="sources" class="mb-14">
+      <h2 class="text-2xl font-semibold mb-4">資料來源（六份研究）</h2>
+      <div class="overflow-x-auto">
+        <table class="gt" style="border-color:rgba(127,127,127,.35)">
+          <thead><tr class="bg-zinc-100 dark:bg-zinc-900">
+            <th>機構 / 報告</th><th>日期</th><th>對本研判的關鍵貢獻</th>
+          </tr></thead>
+          <tbody>
+            <tr><td>Morgan Stanley — AI Transceivers: New NPO Orders</td><td>2026-04-07</td><td>NPO 訂單、CPO 遞延 2028 後、可插拔保 &gt;70% 高階份額之多頭情境。</td></tr>
+            <tr><td>Nomura — Zhongji InnoLight（多重成長動能）</td><td>2026-04-16</td><td>1.6T 出貨上修 26/60M、3.2T 2028、NPO/CPO 業務擴張、上游短缺。</td></tr>
+            <tr><td>國聯民生 — 電子周報：雲廠 capex 高增</td><td>2026-02-09</td><td>Scale-up 純增量、Scale-out 可插拔主流、NPO 2.5D 結構圖、capex 5,050 億。</td></tr>
+            <tr><td>國金證券 — 光模塊大廠 NPO 方案發布在即</td><td>2026-03-15</td><td>TeraHop 6.4T NPO/XPO MSA、博通 400G/通道 DSP、1.6T DR4、NPO 打開 TAM。</td></tr>
+            <tr><td>中國銀河 — NPO 為行業部署首選</td><td>2026-05-18</td><td>IPEC×LightCounting 研討會、插損數據、SiP-NPO 首選、出貨 6,000 萬→1 億。</td></tr>
+            <tr><td>中信建投 — 算力需求持續強勁，NPO 有望加速部署</td><td>2026-05-17</td><td>NPO 先於 CPO 於 Scale-up 規模部署；騰訊/阿里 3.2T NPO 時程。</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <footer class="mt-16 pt-8 border-t border-zinc-200 dark:border-zinc-800 text-sm text-zinc-500">
+      產業研判 • 2026-05-29 • 本文為公開研究之綜合詮釋，非投資建議。
+    </footer>
+
+  </main>
+</div>
+
+<script>
+  // ---------- Theme toggle + chart/mermaid re-render ----------
+  let charts = {};
+  function palette() {
+    const dark = document.documentElement.classList.contains('dark');
+    return {
+      dark,
+      grid: dark ? 'rgba(255,255,255,.08)' : 'rgba(0,0,0,.08)',
+      tick: dark ? '#a1a1aa' : '#52525b',
+      legend: dark ? '#e4e4e7' : '#27272a'
+    };
+  }
+  function buildCharts() {
+    const p = palette();
+    Chart.defaults.color = p.tick;
+    Chart.defaults.font.family = 'system-ui, sans-serif';
+    Object.values(charts).forEach(c => c && c.destroy());
+
+    const common = (titleText) => ({
+      responsive:true, maintainAspectRatio:false,
+      plugins:{ legend:{ labels:{ color:p.legend } }, title:{ display:true, text:titleText, color:p.legend, font:{size:13} } },
+      scales:{ x:{ grid:{color:p.grid}, ticks:{color:p.tick} }, y:{ grid:{color:p.grid}, ticks:{color:p.tick}, beginAtZero:true } }
+    });
+
+    // Insertion loss
+    charts.loss = new Chart(document.getElementById('lossChart'), {
+      type:'bar',
+      data:{ labels:['可插拔 (LPO/FRO)','NPO','CPO'],
+        datasets:[{ label:'插入損耗 @224G (dB)', data:[23,9,4],
+          backgroundColor:['#0ea5e9','#6366f1','#f43f5e'] }] },
+      options: common('@224G/通道 插入損耗對比 (dB，代表值)')
+    });
+
+    // Shipments
+    charts.ship = new Chart(document.getElementById('shipChart'), {
+      type:'bar',
+      data:{ labels:['FY26','FY27'],
+        datasets:[
+          { label:'1.6T 收發器 (百萬只)', data:[26,60], backgroundColor:'#6366f1' },
+          { label:'800G 收發器 (百萬只)', data:[34,50], backgroundColor:'#0ea5e9' }
+        ] },
+      options: common('高階收發器全球出貨預估 (Nomura)')
+    });
+
+    // Capex
+    charts.capex = new Chart(document.getElementById('capexChart'), {
+      type:'line',
+      data:{ labels:['2023','2024','2025','2026E'],
+        datasets:[{ label:'北美雲廠 capex (十億美元)', data:[160,259,447,505],
+          borderColor:'#10b981', backgroundColor:'rgba(16,185,129,.15)', fill:true, tension:.3, pointRadius:4 }] },
+      options: common('北美雲廠資本開支 (10億美元；2026 為三家指引合計)')
+    });
+  }
+  buildCharts();
+
+  document.getElementById('theme-toggle').addEventListener('click', () => {
+    const dark = document.documentElement.classList.toggle('dark');
+    localStorage.theme = dark ? 'dark' : 'light';
+    buildCharts();
+    if (window.__mermaid) {
+      document.querySelectorAll('.mermaid[data-processed]').forEach(el => { el.removeAttribute('data-processed'); el.innerHTML = el.dataset.src || el.textContent; });
+      window.__mermaid.initialize({ startOnLoad:false, theme: dark ? 'dark' : 'default', securityLevel:'loose' });
+      window.__mermaid.run();
+    }
+  });
+
+  // ---------- Scroll-spy TOC ----------
+  const tocLinks = document.querySelectorAll('.toc a');
+  const sections = [...tocLinks].map(a => document.querySelector(a.getAttribute('href'))).filter(Boolean);
+  if (sections.length) {
+    const onScroll = () => {
+      const y = window.scrollY + 110;
+      let active = sections[0];
+      for (const s of sections) if (s.offsetTop <= y) active = s;
+      tocLinks.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + active.id));
+    };
+    window.addEventListener('scroll', onScroll, { passive:true });
+    onScroll();
+  }
+</script>
+
+</body>
+</html>
