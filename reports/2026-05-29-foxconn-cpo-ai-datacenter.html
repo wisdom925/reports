@@ -1,0 +1,311 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>鴻海 CPO 出貨啟動：AI 資料中心光互連進入量產驗證期</title>
+  <meta name="description" content="整理 Nikkei Asia 對鴻海股東會的報導：CPO switch tray 2026 年出貨上看 10,000 台、2027 年倍增以上，顯示 AI 資料中心瓶頸正從算力延伸到光互連、封裝與高速 PCB。">
+  <meta property="og:title" content="鴻海 CPO 出貨啟動：AI 資料中心光互連進入量產驗證期">
+  <meta property="og:description" content="整理 Nikkei Asia 對鴻海股東會的報導：CPO switch tray 2026 年出貨上看 10,000 台、2027 年倍增以上，顯示 AI 資料中心瓶頸正從算力延伸到光互連、封裝與高速 PCB。">
+  <meta property="og:type" content="article">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+    const isDark = document.documentElement.classList.contains('dark');
+    mermaid.initialize({ startOnLoad: true, theme: isDark ? 'dark' : 'default', securityLevel: 'loose' });
+    window.__mermaid = mermaid;
+  </script>
+  <style>
+    :root {
+      color-scheme: light;
+      --bg: #f8fafc;
+      --panel: rgba(255,255,255,.86);
+      --panel-strong: #ffffff;
+      --text: #0f172a;
+      --muted: #64748b;
+      --line: #dbe3ef;
+      --accent: #0f766e;
+      --accent-2: #2563eb;
+      --accent-3: #7c3aed;
+      --good: #047857;
+      --warn: #b45309;
+      --bad: #be123c;
+      --shadow: 0 20px 60px rgba(15,23,42,.10);
+    }
+    .dark {
+      color-scheme: dark;
+      --bg: #020617;
+      --panel: rgba(15,23,42,.78);
+      --panel-strong: #0f172a;
+      --text: #e5eefb;
+      --muted: #94a3b8;
+      --line: #243044;
+      --accent: #2dd4bf;
+      --accent-2: #60a5fa;
+      --accent-3: #a78bfa;
+      --good: #34d399;
+      --warn: #f59e0b;
+      --bad: #fb7185;
+      --shadow: 0 20px 60px rgba(0,0,0,.35);
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif; background: radial-gradient(circle at top left, rgba(45,212,191,.16), transparent 32rem), var(--bg); color: var(--text); line-height: 1.75; }
+    @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; scroll-behavior: auto !important; } }
+    @media print { .controls, .toc, .filter { display: none !important; } body { background: white; color: black; } .card, .hero, .stat, table { box-shadow: none; } details { display: block; } details > summary { display: none; } }
+    a { color: var(--accent-2); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .wrap { width: min(1180px, calc(100% - 32px)); margin: 0 auto; padding: 28px 0 64px; display: grid; grid-template-columns: 220px minmax(0,1fr); gap: 28px; }
+    .toc { position: sticky; top: 24px; align-self: start; padding: 18px; border: 1px solid var(--line); border-radius: 18px; background: var(--panel); backdrop-filter: blur(16px); box-shadow: var(--shadow); }
+    .toc h2 { margin: 0 0 10px; font-size: 12px; letter-spacing: .12em; color: var(--muted); }
+    .toc a { display: block; padding: 7px 0; color: var(--muted); font-size: 14px; }
+    .toc a.active, .toc a:hover { color: var(--text); text-decoration: none; }
+    .controls { position: fixed; top: 16px; right: 16px; z-index: 10; display: flex; gap: 8px; }
+    button, .pill { border: 1px solid var(--line); background: var(--panel); color: var(--text); border-radius: 999px; padding: 8px 12px; cursor: pointer; }
+    .hero { border: 1px solid var(--line); border-radius: 28px; padding: 34px; background: linear-gradient(135deg, rgba(15,118,110,.14), rgba(37,99,235,.10)), var(--panel); backdrop-filter: blur(16px); box-shadow: var(--shadow); }
+    .eyebrow { margin: 0 0 10px; color: var(--accent); font-size: 13px; letter-spacing: .12em; font-weight: 800; }
+    h1 { font-size: clamp(32px, 5vw, 56px); line-height: 1.08; margin: 0 0 16px; letter-spacing: -.04em; }
+    h2 { font-size: clamp(24px, 3vw, 34px); line-height: 1.2; margin: 0 0 16px; letter-spacing: -.02em; }
+    h3 { margin: 22px 0 8px; font-size: 19px; }
+    p { margin: 0 0 14px; }
+    .lead { font-size: 19px; color: var(--muted); max-width: 860px; }
+    .grid { display: grid; gap: 16px; }
+    .stats { grid-template-columns: repeat(4, minmax(0,1fr)); margin-top: 24px; }
+    .stat, .card { border: 1px solid var(--line); border-radius: 22px; background: var(--panel); box-shadow: var(--shadow); }
+    .stat { padding: 18px; }
+    .stat .num { display: block; font-size: 28px; line-height: 1.1; font-weight: 850; color: var(--accent); }
+    .stat .label { color: var(--muted); font-size: 13px; }
+    .card { padding: 24px; margin: 22px 0; }
+    .insight { border-left: 5px solid var(--accent); padding: 18px 20px; background: color-mix(in srgb, var(--accent) 10%, transparent); border-radius: 14px; }
+    .two { grid-template-columns: repeat(2, minmax(0,1fr)); }
+    .three { grid-template-columns: repeat(3, minmax(0,1fr)); }
+    .tag { display: inline-flex; align-items: center; border: 1px solid var(--line); border-radius: 999px; padding: 3px 9px; font-size: 12px; color: var(--muted); margin: 2px; }
+    .tag.good { color: var(--good); border-color: color-mix(in srgb, var(--good) 35%, var(--line)); }
+    .tag.warn { color: var(--warn); border-color: color-mix(in srgb, var(--warn) 35%, var(--line)); }
+    .tag.bad { color: var(--bad); border-color: color-mix(in srgb, var(--bad) 35%, var(--line)); }
+    .chartbox { height: 320px; }
+    table { width: 100%; border-collapse: collapse; overflow: hidden; border-radius: 16px; background: var(--panel-strong); }
+    th, td { border-bottom: 1px solid var(--line); padding: 12px; vertical-align: top; text-align: left; }
+    th { color: var(--muted); font-size: 13px; cursor: pointer; white-space: nowrap; }
+    tr:last-child td { border-bottom: 0; }
+    .filter { width: 100%; border: 1px solid var(--line); border-radius: 14px; background: var(--panel-strong); color: var(--text); padding: 12px 14px; margin: 8px 0 14px; }
+    .tabs { display: grid; gap: 12px; }
+    .tab-buttons { display: flex; gap: 8px; flex-wrap: wrap; }
+    .tab-btn.active { background: var(--accent); color: white; border-color: transparent; }
+    .tab-panel { display: none; }
+    .tab-panel.active { display: block; }
+    details { border: 1px solid var(--line); border-radius: 16px; padding: 14px 16px; background: var(--panel-strong); margin: 10px 0; }
+    summary { cursor: pointer; font-weight: 750; }
+    .source { color: var(--muted); font-size: 13px; }
+    .risk-high { color: var(--bad); font-weight: 800; }
+    .risk-mid { color: var(--warn); font-weight: 800; }
+    .risk-low { color: var(--good); font-weight: 800; }
+    @media (max-width: 900px) { .wrap { display: block; } .toc { position: static; margin-bottom: 18px; } .stats, .two, .three { grid-template-columns: 1fr; } .hero { padding: 24px; } .controls { position: sticky; justify-content: flex-end; padding: 10px; top: 0; background: color-mix(in srgb, var(--bg) 85%, transparent); backdrop-filter: blur(12px); } }
+  </style>
+</head>
+<body>
+  <div class="controls">
+    <button id="theme-toggle" type="button">☼ / ☾</button>
+    <button type="button" onclick="window.print()">列印</button>
+  </div>
+  <div class="wrap">
+    <nav class="toc" aria-label="目錄">
+      <h2>CONTENTS</h2>
+      <a href="#summary">重點結論</a>
+      <a href="#timeline">時程與量</a>
+      <a href="#why">為什麼重要</a>
+      <a href="#chain">供應鏈位置</a>
+      <a href="#watchlist">觀察名單</a>
+      <a href="#risks">風險與驗證</a>
+      <a href="#source">來源</a>
+    </nav>
+    <main>
+      <header class="hero">
+        <p class="eyebrow">AI INFRASTRUCTURE REPORT • 2026-05-29</p>
+        <h1>鴻海 CPO 出貨啟動：AI 資料中心光互連進入量產驗證期</h1>
+        <p class="lead">鴻海把 CPO switch tray 的出貨時間點、數量與產地說清楚後，CPO 題材從概念討論往量產驗證前進。這篇的核心訊號是：AI 資料中心瓶頸正在由 GPU 算力，擴散到機櫃內外的光互連、封裝、光學引擎、高速 PCB 與越南製造節點。</p>
+        <div class="grid stats">
+          <div class="stat"><span class="num">10,000</span><span class="label">2026 年 CPO switch tray 出貨目標，上看一萬台</span></div>
+          <div class="stat"><span class="num">2×+</span><span class="label">2027 年出貨量，鴻海說明為倍增以上</span></div>
+          <div class="stat"><span class="num">Q3</span><span class="label">Nikkei Asia 掌握的量產出貨啟動時間</span></div>
+          <div class="stat"><span class="num">40%+</span><span class="label">鴻海 AI 伺服器全球市占，並供應前五大雲端服務供應商</span></div>
+        </div>
+      </header>
+
+      <section id="summary" class="card">
+        <h2>重點結論</h2>
+        <div class="insight">
+          <strong>一句話：</strong>鴻海的 CPO 出貨規劃，確認 AI 伺服器產業開始把「高速資料傳輸」當成下一個關鍵瓶頸處理，受惠範圍會從整機組裝延伸到光引擎封裝、光模組 PCB、交換器托盤與資料中心內部網路架構。
+        </div>
+        <div class="grid three">
+          <div>
+            <h3>1. 需求不是單點試產</h3>
+            <p>劉揚偉直接表示 CPO 需求「非常強勁」，今年約一萬台、明年數倍成長。這代表客戶已經進入可量化的導入節奏。</p>
+          </div>
+          <div>
+            <h3>2. 鴻海不只做組裝</h3>
+            <p>CPO tray 涉及軟硬體整合，子公司 Shunsin（訊芯）參與光學引擎封裝，顯示鴻海正在往 AI 基礎設施關鍵模組上移。</p>
+          </div>
+          <div>
+            <h3>3. PCB 與基板同步受惠</h3>
+            <p>欣興（Unimicron）也提到資料中心光模組需求高，並將在泰國擴充光模組用 PCB 產能，供應鏈訊號彼此對得上。</p>
+          </div>
+        </div>
+      </section>
+
+      <section id="timeline" class="card">
+        <h2>時程與出貨量</h2>
+        <div class="chartbox"><canvas id="shipmentChart" aria-label="CPO 出貨量規劃圖"></canvas></div>
+        <p class="source">圖中 2027 年採用「倍增以上」的保守下限 20,000 台呈現，實際值可能高於此數字。</p>
+        <div class="mermaid">
+flowchart LR
+  A[2026 股東會揭露] --> B[2026 Q3 起從越南樞紐出貨]
+  B --> C[2026 年約 10,000 台 CPO switch tray]
+  C --> D[2027 年倍增以上]
+  D --> E[AI 機櫃光互連量產驗證]
+        </div>
+      </section>
+
+      <section id="why" class="card">
+        <h2>為什麼這則新聞重要</h2>
+        <div class="tabs">
+          <div class="tab-buttons" role="tablist">
+            <button class="tab-btn active" data-tab="tab-tech" type="button">技術意義</button>
+            <button class="tab-btn" data-tab="tab-business" type="button">商業意義</button>
+            <button class="tab-btn" data-tab="tab-invest" type="button">投資訊號</button>
+          </div>
+          <div id="tab-tech" class="tab-panel active">
+            <p>CPO（Co-Packaged Optics，共封裝光學）把光學引擎放得更靠近交換晶片，減少傳統可插拔光收發模組的距離、功耗與訊號損耗。當 AI 叢集規模繼續放大，瓶頸會從單顆 GPU 效能轉向機櫃與機櫃之間的資料搬移效率。</p>
+          </div>
+          <div id="tab-business" class="tab-panel">
+            <p>鴻海已是全球最大 AI 伺服器製造商，這次把 CPO tray 納入出貨節奏，代表它要承接更高價值的系統級整合。若 CPO 成為雲端服務供應商的標準化採購項目，鴻海的 AI 伺服器營收韌性會進一步提高。</p>
+          </div>
+          <div id="tab-invest" class="tab-panel">
+            <p>短線訊號在「量」與「時程」：2026 年一萬台、Q3 起出貨、2027 年倍增以上。中線訊號在供應鏈：光學引擎封裝、光模組 PCB、基板、雷射與測試設備會比單純組裝更能反映瓶頸價值。</p>
+          </div>
+        </div>
+      </section>
+
+      <section id="chain" class="card">
+        <h2>供應鏈位置與受影響環節</h2>
+        <input id="chainFilter" class="filter" type="search" placeholder="搜尋公司、環節或判讀，例如：鴻海、PCB、封裝、Nvidia">
+        <table id="chainTable">
+          <thead><tr><th>公司 / 實體</th><th>環節</th><th>新聞訊號</th><th>判讀</th></tr></thead>
+          <tbody>
+            <tr><td>鴻海（Foxconn）</td><td>AI 伺服器、CPO switch tray 系統整合</td><td>今年出貨約 10,000 台，2027 年倍增以上</td><td><span class="tag good">主訊號</span> 從整機 ODM 延伸到高價值互連模組</td></tr>
+            <tr><td>Nvidia</td><td>AI 加速器與新世代機櫃平台</td><td>鴻海是 Nvidia 關鍵伺服器供應商，Computex 展示 Vera Rubin 機櫃與關鍵零組件</td><td><span class="tag good">平台催化</span> Rubin 世代可能推高 CPO 與高速互連需求</td></tr>
+            <tr><td>Shunsin（訊芯）</td><td>光學引擎封裝</td><td>報導指出其在 optical engines packaging 扮演重要角色</td><td><span class="tag good">封裝上移</span> CPO 價值鏈不只在模組，也在封裝良率</td></tr>
+            <tr><td>欣興（Unimicron）</td><td>PCB、IC 載板、光模組用 PCB</td><td>董事長 S.C. Chien 表示資料中心光模組需求很高，將在泰國擴充光模組用 PCB 產能</td><td><span class="tag good">台廠受惠</span> 高速光互連題材延伸至 PCB 與基板</td></tr>
+            <tr><td>台積電（TSMC）</td><td>半導體製造與先進封裝生態</td><td>與 Nvidia、Broadcom、Intel 並列積極推動 CPO 晶片技術的公司</td><td><span class="tag warn">生態核心</span> 需追蹤 COUPE 等矽光子與封裝路線進度</td></tr>
+            <tr><td>Broadcom</td><td>交換晶片與網通 ASIC</td><td>被列為積極推動 CPO 晶片技術者</td><td><span class="tag good">交換器核心</span> CPO 最直接連到高速交換平台</td></tr>
+            <tr><td>Intel</td><td>矽光子、封裝、互連技術</td><td>被列為積極推動 CPO 晶片技術者</td><td><span class="tag warn">技術競爭</span> 具備矽光子累積，但商業化節奏仍需驗證</td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section id="watchlist" class="card">
+        <h2>後續觀察清單</h2>
+        <div class="grid two">
+          <div>
+            <h3>應追蹤的 5 個訊號</h3>
+            <ol>
+              <li>Computex 是否展示 Vera Rubin 機櫃與 CPO tray 實物，規格是否明確。</li>
+              <li>Q3 出貨是否如期啟動，是否有客戶認證、產能爬坡或良率消息。</li>
+              <li>2027 年「倍增以上」是否上修為更明確的年度採購量。</li>
+              <li>欣興泰國擴產是否對應光模組 PCB 或更高速的交換器板。</li>
+              <li>訊芯或相關封裝廠是否揭露光學引擎封裝的營收貢獻。</li>
+            </ol>
+          </div>
+          <div>
+            <h3>投資判讀框架</h3>
+            <p><span class="tag good">優先</span> 具備量產卡位與客戶認證的廠商。</p>
+            <p><span class="tag warn">次優先</span> 僅有題材曝光，但尚未看到出貨量或產能投資的廠商。</p>
+            <p><span class="tag bad">避免追高</span> 只用 CPO 名稱包裝，卻無法對應光學、封裝、測試、PCB 或交換器實際環節的標的。</p>
+          </div>
+        </div>
+        <details open>
+          <summary>和前一篇 CPO 測試瓶頸的連動</summary>
+          <p>這則鴻海新聞補上「系統端出貨量」訊號；前一篇 CPO 測試瓶頸則補上「量產難點」訊號。兩者合併看，CPO 不是單一零組件題材，而是從設計、封裝、光學測試、PCB 到整機交付的一整條量產鏈。</p>
+        </details>
+      </section>
+
+      <section id="risks" class="card">
+        <h2>風險與驗證</h2>
+        <table>
+          <thead><tr><th>風險</th><th>等級</th><th>說明</th><th>驗證方式</th></tr></thead>
+          <tbody>
+            <tr><td>量產良率</td><td class="risk-high">高</td><td>CPO 牽涉光學引擎貼近交換晶片，封裝、熱、測試任一環出問題都可能延後放量。</td><td>追蹤 Q3 出貨節奏與客戶導入量。</td></tr>
+            <tr><td>需求集中</td><td class="risk-mid">中高</td><td>早期需求可能集中於少數雲端服務供應商與 Nvidia 平台。</td><td>觀察是否有 Broadcom 或客製 ASIC 平台同步採用。</td></tr>
+            <tr><td>規格路線競爭</td><td class="risk-mid">中</td><td>CPO 與可插拔光模組會在成本、功耗、可維修性上拉鋸。</td><td>追蹤大型雲端服務供應商採購規格。</td></tr>
+            <tr><td>股價題材過熱</td><td class="risk-mid">中</td><td>CPO 概念股容易先漲估值，再等基本面補上。</td><td>用出貨量、產能投資、營收貢獻過濾。</td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section id="source" class="card">
+        <h2>來源與原文重點</h2>
+        <p class="source">來源：Nikkei Asia，Lauly Li，〈Foxconn to start shipping next-gen optical tech for AI data centers〉，2026-05-29 更新。</p>
+        <details>
+          <summary>本文依據的原文重點</summary>
+          <ul>
+            <li>鴻海將於今年稍晚開始出貨 CPO switch tray，Nikkei Asia 掌握為第三季起從越南樞紐出貨。</li>
+            <li>劉揚偉表示今年約出貨 10,000 台，2027 年將成長數倍。</li>
+            <li>CPO 將光學引擎移近交換晶片，有助於提升機櫃間資料傳輸效率。</li>
+            <li>鴻海全球 AI 伺服器市占超過 40%，客戶包含前五大雲端服務供應商。</li>
+            <li>欣興表示資料中心光模組需求很高，將在泰國擴充光模組用 PCB 產能。</li>
+          </ul>
+        </details>
+      </section>
+    </main>
+  </div>
+<script>
+  const root = document.documentElement;
+  if (localStorage.theme === 'dark' || (!('theme' in localStorage) && matchMedia('(prefers-color-scheme: dark)').matches)) root.classList.add('dark');
+  document.getElementById('theme-toggle').addEventListener('click', () => {
+    root.classList.toggle('dark');
+    localStorage.theme = root.classList.contains('dark') ? 'dark' : 'light';
+  });
+
+  const tocLinks = document.querySelectorAll('.toc a');
+  const sections = [...tocLinks].map(a => document.querySelector(a.getAttribute('href'))).filter(Boolean);
+  const spy = () => {
+    let active = sections[0];
+    for (const sec of sections) if (sec.getBoundingClientRect().top < 140) active = sec;
+    tocLinks.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + active.id));
+  };
+  addEventListener('scroll', spy, { passive: true }); spy();
+
+  document.querySelectorAll('.tab-btn').forEach(btn => btn.addEventListener('click', () => {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById(btn.dataset.tab).classList.add('active');
+  }));
+
+  const ctx = document.getElementById('shipmentChart');
+  new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: ['2026 年目標', '2027 年保守下限'],
+      datasets: [{ label: 'CPO switch tray 出貨量（台）', data: [10000, 20000], backgroundColor: ['#0f766e', '#2563eb'], borderRadius: 12 }]
+    },
+    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false }, tooltip: { callbacks: { label: c => c.raw.toLocaleString('zh-TW') + ' 台以上' } } }, scales: { y: { beginAtZero: true, ticks: { callback: v => Number(v).toLocaleString('zh-TW') } } } }
+  });
+
+  const filter = document.getElementById('chainFilter');
+  const table = document.getElementById('chainTable');
+  filter.addEventListener('input', () => {
+    const q = filter.value.trim().toLowerCase();
+    table.querySelectorAll('tbody tr').forEach(tr => tr.hidden = !tr.innerText.toLowerCase().includes(q));
+  });
+  table.querySelectorAll('th').forEach((th, index) => th.addEventListener('click', () => {
+    const tbody = table.tBodies[0];
+    const rows = [...tbody.rows];
+    const asc = th.dataset.asc !== 'true';
+    rows.sort((a, b) => asc ? a.cells[index].innerText.localeCompare(b.cells[index].innerText, 'zh-Hant') : b.cells[index].innerText.localeCompare(a.cells[index].innerText, 'zh-Hant'));
+    rows.forEach(r => tbody.appendChild(r));
+    th.dataset.asc = String(asc);
+  }));
+</script>
+</body>
+</html>
