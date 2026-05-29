@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ByteDance 類 Groq AI 晶片：台灣供應鏈受惠路徑分析</title>
+<meta name="description" content="分析 The Information 報導的 ByteDance 類 Groq 推論晶片動向，拆解 ASIC、先進製程、先進封裝、ABF 載板、高速 PCB、伺服器與網通等台灣受惠公司。">
+<meta property="og:title" content="ByteDance 類 Groq AI 晶片：台灣供應鏈受惠路徑分析">
+<meta property="og:description" content="分析 The Information 報導的 ByteDance 類 Groq 推論晶片動向，拆解 ASIC、先進製程、先進封裝、ABF 載板、高速 PCB、伺服器與網通等台灣受惠公司。">
+<meta property="og:type" content="article">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script type="module">
+import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+const isDark = document.documentElement.classList.contains('dark');
+mermaid.initialize({ startOnLoad: true, theme: isDark ? 'dark' : 'default', securityLevel: 'loose' });
+window.__mermaid = mermaid;
+</script>
+<style>
+:root { color-scheme: light; --bg:#f7fafc; --panel:#ffffffdd; --strong:#fff; --text:#102033; --muted:#637083; --line:#d9e2ef; --a:#2563eb; --b:#7c3aed; --c:#0f766e; --red:#be123c; --amber:#b45309; --green:#047857; --shadow:0 20px 60px rgba(15,23,42,.10); }
+.dark { color-scheme: dark; --bg:#020617; --panel:#0f172add; --strong:#111827; --text:#e5edf8; --muted:#94a3b8; --line:#263449; --a:#60a5fa; --b:#a78bfa; --c:#2dd4bf; --red:#fb7185; --amber:#f59e0b; --green:#34d399; --shadow:0 20px 60px rgba(0,0,0,.38); }
+* { box-sizing:border-box; } html { scroll-behavior:smooth; } body { margin:0; font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif; color:var(--text); background:radial-gradient(circle at 10% 0%,rgba(37,99,235,.18),transparent 30rem),radial-gradient(circle at 90% 10%,rgba(124,58,237,.12),transparent 32rem),var(--bg); line-height:1.75; }
+@media (prefers-reduced-motion: reduce) { * { animation:none!important; transition:none!important; scroll-behavior:auto!important; } }
+@media print { .controls,.toc,.filter,.tabbar { display:none!important; } body { background:#fff; color:#000; } .card,.hero,.stat { box-shadow:none; } details { display:block; } details>summary { display:none; } }
+a { color:var(--a); text-decoration:none; } a:hover { text-decoration:underline; }
+.controls { position:fixed; top:16px; right:16px; z-index:10; display:flex; gap:8px; } button { border:1px solid var(--line); color:var(--text); background:var(--panel); border-radius:999px; padding:8px 12px; cursor:pointer; backdrop-filter:blur(12px); }
+.wrap { width:min(1220px,calc(100% - 32px)); margin:auto; padding:30px 0 72px; display:grid; grid-template-columns:230px minmax(0,1fr); gap:28px; }
+.toc { position:sticky; top:24px; align-self:start; padding:18px; border:1px solid var(--line); border-radius:20px; background:var(--panel); box-shadow:var(--shadow); backdrop-filter:blur(16px); }
+.toc h2 { margin:0 0 10px; font-size:12px; color:var(--muted); letter-spacing:.14em; } .toc a { display:block; padding:7px 0; color:var(--muted); font-size:14px; } .toc a.active,.toc a:hover { color:var(--text); text-decoration:none; }
+.hero,.card,.stat { border:1px solid var(--line); background:var(--panel); box-shadow:var(--shadow); backdrop-filter:blur(14px); }
+.hero { border-radius:30px; padding:36px; } .card { border-radius:24px; padding:26px; margin:24px 0; }
+.eyebrow { margin:0 0 10px; color:var(--c); font-weight:850; letter-spacing:.13em; font-size:13px; } h1 { font-size:clamp(32px,5vw,58px); line-height:1.06; letter-spacing:-.04em; margin:0 0 16px; } h2 { font-size:clamp(24px,3vw,36px); line-height:1.15; margin:0 0 16px; letter-spacing:-.02em; } h3 { margin:18px 0 8px; } p { margin:0 0 14px; } .lead { color:var(--muted); font-size:19px; max-width:900px; }
+.grid { display:grid; gap:16px; } .stats { grid-template-columns:repeat(4,minmax(0,1fr)); margin-top:24px; } .two { grid-template-columns:repeat(2,minmax(0,1fr)); } .three { grid-template-columns:repeat(3,minmax(0,1fr)); } .stat { border-radius:20px; padding:18px; } .num { display:block; color:var(--a); font-size:28px; font-weight:900; line-height:1.1; } .label { color:var(--muted); font-size:13px; }
+.callout { border-left:5px solid var(--c); background:color-mix(in srgb,var(--c) 10%,transparent); padding:18px 20px; border-radius:14px; margin:16px 0; }
+.chartbox { height:330px; } .tabbar { display:flex; gap:8px; flex-wrap:wrap; margin-bottom:14px; } .tab.active { background:var(--a); color:#fff; border-color:transparent; } .panel { display:none; } .panel.active { display:block; }
+.filter { width:100%; border:1px solid var(--line); background:var(--strong); color:var(--text); padding:12px 14px; border-radius:14px; margin:8px 0 14px; } table { width:100%; border-collapse:collapse; background:var(--strong); border-radius:16px; overflow:hidden; } th,td { border-bottom:1px solid var(--line); padding:11px; text-align:left; vertical-align:top; } th { color:var(--muted); font-size:13px; cursor:pointer; white-space:nowrap; } tr:last-child td { border-bottom:0; }
+.badge { display:inline-flex; border-radius:999px; padding:3px 9px; border:1px solid var(--line); font-size:12px; font-weight:800; } .badge.high { color:var(--green); border-color:color-mix(in srgb,var(--green) 42%,var(--line)); } .badge.mid { color:var(--amber); border-color:color-mix(in srgb,var(--amber) 42%,var(--line)); } .badge.low { color:var(--muted); } .tag { display:inline-flex; margin:2px; border:1px solid var(--line); border-radius:999px; padding:3px 8px; font-size:12px; color:var(--muted); } details { border:1px solid var(--line); border-radius:16px; padding:14px 16px; background:var(--strong); margin:10px 0; } summary { cursor:pointer; font-weight:850; } .source { color:var(--muted); font-size:13px; }
+@media (max-width:900px) { .wrap { display:block; } .toc { position:static; margin-bottom:18px; } .stats,.two,.three { grid-template-columns:1fr; } .hero { padding:24px; } .controls { position:sticky; top:0; justify-content:flex-end; background:color-mix(in srgb,var(--bg) 85%,transparent); padding:10px; backdrop-filter:blur(12px); } th,td { min-width:110px; } table { display:block; overflow-x:auto; } }
+</style>
+</head>
+<body>
+<div class="controls"><button id="theme-toggle" type="button">☼ / ☾</button><button onclick="window.print()" type="button">列印</button></div>
+<div class="wrap">
+<nav class="toc"><h2>CONTENTS</h2><a href="#summary">先結論</a><a href="#event">事件脈絡</a><a href="#scenarios">三種路線</a><a href="#map">供應鏈地圖</a><a href="#table">受惠公司</a><a href="#ranking">受惠排序</a><a href="#risk">風險與驗證</a><a href="#sources">來源</a></nav>
+<main>
+<header class="hero">
+<p class="eyebrow">AI ASIC REPORT • 2026-05-29</p>
+<h1>ByteDance 類 Groq AI 晶片：台灣供應鏈受惠路徑分析</h1>
+<p class="lead">The Information 報導 ByteDance 正開發類似 Groq 路線的 AI 晶片。這代表中國大型網路平台正在把「推論成本」與「Nvidia 依賴」拆成自研 ASIC 問題。台灣受惠不會只在單一晶片設計公司，而會沿著先進製程、先進封裝、ABF 載板、高速材料、AI 伺服器與資料中心交換器展開。</p>
+<div class="grid stats"><div class="stat"><span class="num">推論</span><span class="label">Groq-like 路線核心，不追求通用 GPU，全力降低大模型推論延遲與成本</span></div><div class="stat"><span class="num">ASIC</span><span class="label">ByteDance 若要替代 Nvidia，最可能走客製化 ASIC 與軟硬體共同設計</span></div><div class="stat"><span class="num">HBM</span><span class="label">若模型規模與吞吐要求提高，先進封裝與高頻寬記憶體成為關鍵瓶頸</span></div><div class="stat"><span class="num">台鏈</span><span class="label">晶圓、封裝、載板、材料、伺服器、網通與電源散熱都有可受惠層</span></div></div>
+</header>
+<section id="summary" class="card"><h2>先結論</h2><div class="callout"><strong>最直接受惠層：</strong>台積電、ABF 載板、高速材料、資料中心交換器。<br><strong>高彈性但高風險層：</strong>ASIC 設計服務，特別是創意、世芯-KY、智原。<br><strong>需要保守看待：</strong>ByteDance 是中國客戶，美國出口管制會決定台灣供應鏈能不能承接最先進製程與高階封裝。</div><div class="grid three"><div><h3>核心判讀</h3><p>ByteDance 的動機不是單純「做一顆晶片」，而是壓低 Doubao、TikTok、廣告推薦與內部大模型服務的長期推論成本。</p></div><div><h3>台灣機會</h3><p>只要 ASIC 進入量產，台灣的晶圓、封測、載板、PCB 材料、伺服器與網通交換器都有機會吃到不同層級的 CapEx。</p></div><div><h3>最大限制</h3><p>若晶片被歸入對中國先進 AI 晶片限制，台積電與高階封裝的直接參與會受壓，供應鏈可能轉向較成熟節點或非台灣製造。</p></div></div></section>
+<section id="event" class="card"><h2>事件脈絡</h2><div class="mermaid">flowchart LR
+A[ByteDance AI 服務成長] --> B[推論成本與 Nvidia 供應受限]
+B --> C[自研或合作開發 AI ASIC]
+C --> D[Groq-like 低延遲推論架構]
+D --> E[先進製程 / 封裝 / HBM / 網通需求]
+E --> F[台灣供應鏈分層受惠]
+</div><p class="source">原文全文需訂閱 The Information。本文採用已公開標題、發布資訊，以及 Reuters 等公開報導對 ByteDance、Broadcom、TSMC 相關 AI 處理器合作脈絡的交叉判讀。</p></section>
+<section id="scenarios" class="card"><h2>三種可能路線</h2><div class="tabbar"><button class="tab active" data-tab="s1" type="button">A. Groq-like 推論 ASIC</button><button class="tab" data-tab="s2" type="button">B. Broadcom 客製 ASIC</button><button class="tab" data-tab="s3" type="button">C. 成熟節點分流</button></div><div id="s1" class="panel active"><p>若 ByteDance 模仿 Groq 的低延遲推論架構，重點會是資料流、片上記憶體調度、軟體編譯器與雲端部署效率。台灣受惠會集中在先進製程、封裝載板、伺服器與交換器。</p><span class="tag">受惠：台積電</span><span class="tag">受惠：載板</span><span class="tag">受惠：智邦</span></div><div id="s2" class="panel"><p>若延續公開報導中的 Broadcom 合作方向，ByteDance 可能借重 Broadcom 的客製 ASIC 經驗。這會降低台灣 ASIC 設計服務商直接參與機率，但仍利多台灣製造、封裝與載板。</p><span class="tag">受惠：台積電</span><span class="tag">受惠：欣興 / 景碩 / 南電</span><span class="tag">受惠：高速材料</span></div><div id="s3" class="panel"><p>若出口管制壓住先進節點，ByteDance 可能把部分推論晶片拆到成熟節點、國產供應鏈或中國晶圓廠。這會削弱台灣先進製程直接受惠，但伺服器、PCB、電源散熱仍可能有間接需求。</p><span class="tag">受惠降低：先進製程</span><span class="tag">相對穩定：PCB / 電源 / 散熱</span></div></section>
+<section id="map" class="card"><h2>供應鏈地圖</h2><div class="mermaid">flowchart TD
+U[ByteDance AI 服務 / Doubao / TikTok / 推薦系統] --> A[AI ASIC 架構與後端設計]
+A --> B[先進製程晶圓]
+B --> C[先進封裝 / HBM 整合]
+C --> D[ABF 載板 / 高速 PCB 材料]
+D --> E[AI 伺服器 / 推論機櫃]
+E --> F[資料中心交換器 / 電源 / 散熱]
+A -.可能受惠.-> G[3443 創意 / 3661 世芯-KY / 3035 智原]
+B -.核心瓶頸.-> H[2330 台積電]
+C -.封測.-> I[3711 日月光 / 2449 京元電]
+D -.材料與載板.-> J[3037 欣興 / 3189 景碩 / 8046 南電 / 2383 台光電 / 6213 聯茂]
+E -.整機.-> K[2317 鴻海 / 2382 廣達 / 6669 緯穎]
+F -.基礎設施.-> L[2345 智邦 / 2308 台達電 / 3017 奇鋐]
+</div></section>
+<section id="table" class="card"><h2>台灣受惠公司整理</h2><input id="filter" class="filter" type="search" placeholder="搜尋股票代號、公司、供應鏈角色或關鍵字，例如：ABF、ASIC、散熱、台積電"><table id="companyTable"><thead><tr><th>代號</th><th>公司</th><th>供應鏈角色</th><th>受惠邏輯</th><th>受惠強度</th><th>關鍵字</th></tr></thead><tbody><tr><td>2330</td><td>台積電</td><td>晶圓代工 / CoWoS</td><td>若 ByteDance 或合作夥伴採先進製程與 HBM 封裝，台積電是最核心瓶頸；但中國客戶與美國出口管制是最大變數。</td><td><span class="badge high">高</span></td><td>先進製程、CoWoS、HBM</td></tr>
+<tr><td>3443</td><td>創意</td><td>ASIC 設計服務</td><td>若 ByteDance 採自研 ASIC 路線，台灣 ASIC 設計服務商具備架構整合與後端設計價值；直接參與未確認。</td><td><span class="badge mid">中高</span></td><td>ASIC、NRE、後端設計</td></tr>
+<tr><td>3661</td><td>世芯-KY</td><td>高階 ASIC 設計服務</td><td>中國 AI ASIC 客戶經驗使其題材敏感度高，但同時是出口管制與客戶集中風險最高的一層。</td><td><span class="badge mid">中高</span></td><td>AI ASIC、中國客戶</td></tr>
+<tr><td>3035</td><td>智原</td><td>ASIC / IP 服務</td><td>較適合中階或成熟節點 ASIC、控制晶片與周邊 IP，若 ByteDance 擴大自研晶片矩陣，具備間接受惠可能。</td><td><span class="badge low">中</span></td><td>ASIC、IP、成熟節點</td></tr>
+<tr><td>3711</td><td>日月光投控</td><td>封測 / 系統級封裝</td><td>若推論 ASIC 進入量產，封裝測試需求會增加；高階 HBM 封裝仍以晶圓代工端為核心。</td><td><span class="badge low">中</span></td><td>封測、SiP、測試</td></tr>
+<tr><td>2449</td><td>京元電子</td><td>晶片測試</td><td>AI ASIC 放量後需要晶圓測試與成品測試，受惠程度取決於客戶是否外包測試。</td><td><span class="badge low">中</span></td><td>測試、HPC</td></tr>
+<tr><td>3037</td><td>欣興</td><td>ABF 載板 / 高階 PCB</td><td>ASIC、交換器與 AI 伺服器都推升高階載板與高速板需求，是較不受單一晶片架構影響的受惠層。</td><td><span class="badge high">高</span></td><td>ABF、PCB、資料中心</td></tr>
+<tr><td>3189</td><td>景碩</td><td>IC 載板</td><td>高階 ASIC 需要封裝載板，景碩可歸在 AI ASIC 載板擴張受惠名單。</td><td><span class="badge mid">中高</span></td><td>IC 載板、ABF</td></tr>
+<tr><td>8046</td><td>南電</td><td>ABF 載板</td><td>先進 ASIC 與資料中心交換晶片用載板需求增加時受惠，但景氣循環與稼動率仍需追蹤。</td><td><span class="badge mid">中高</span></td><td>ABF、IC 載板</td></tr>
+<tr><td>2383</td><td>台光電</td><td>高速 CCL</td><td>AI 伺服器與高速交換器升級推升低損耗材料需求，對類 Groq 推論叢集的網路密度提升有間接受惠。</td><td><span class="badge high">高</span></td><td>高速材料、低損耗 CCL</td></tr>
+<tr><td>6213</td><td>聯茂</td><td>高速 CCL</td><td>高速 PCB 材料供應商，受惠點在伺服器主板、交換器與資料中心網通板材升級。</td><td><span class="badge mid">中高</span></td><td>CCL、伺服器、網通</td></tr>
+<tr><td>2317</td><td>鴻海</td><td>AI 伺服器 ODM</td><td>若 ByteDance 增加自研 ASIC 伺服器部署，整機組裝與機櫃整合需求增加；中國本地供應鏈分流需注意。</td><td><span class="badge mid">中高</span></td><td>AI 伺服器、機櫃</td></tr>
+<tr><td>2382</td><td>廣達</td><td>AI 伺服器 ODM</td><td>受惠於全球 AI 伺服器需求擴張；ByteDance 單一案源未確認，適合作為整體 AI 伺服器 beta。</td><td><span class="badge low">中</span></td><td>AI 伺服器</td></tr>
+<tr><td>6669</td><td>緯穎</td><td>雲端伺服器 / AI 伺服器</td><td>受惠於雲端服務供應商資本支出與 AI 伺服器部署，若 ASIC 走雲端自用模式，商業模式相對貼近。</td><td><span class="badge mid">中高</span></td><td>CSP、AI 伺服器</td></tr>
+<tr><td>2345</td><td>智邦</td><td>資料中心交換器</td><td>Groq-like 推論叢集重視低延遲與高吞吐，交換器與白牌網通價值提升。</td><td><span class="badge high">高</span></td><td>交換器、800G、資料中心</td></tr>
+<tr><td>2308</td><td>台達電</td><td>電源 / 散熱 / 資料中心基礎設施</td><td>推論 ASIC 叢集擴張會帶動電源、機櫃供電、散熱與資料中心基礎設施。</td><td><span class="badge mid">中高</span></td><td>電源、散熱、資料中心</td></tr>
+<tr><td>3017</td><td>奇鋐</td><td>散熱模組</td><td>AI ASIC 與推論伺服器提高熱密度，帶動氣冷、液冷與機櫃級散熱需求。</td><td><span class="badge mid">中高</span></td><td>散熱、液冷</td></tr>
+<tr><td>3324</td><td>雙鴻</td><td>散熱模組</td><td>受惠 AI 伺服器散熱升級，但是否切入 ByteDance 供應鏈未確認。</td><td><span class="badge low">中</span></td><td>散熱、AI 伺服器</td></tr></tbody></table></section>
+<section id="ranking" class="card"><h2>受惠排序視覺化</h2><div class="chartbox"><canvas id="rankChart"></canvas></div><p class="source">分數為投資研究用的主觀分層：考量需求確定性、與 ByteDance 題材的連動、出口管制風險、供應鏈瓶頸程度。不是股價預測。</p></section>
+<section id="risk" class="card"><h2>風險與驗證清單</h2><div class="grid two"><div><h3>主要風險</h3><table><thead><tr><th>風險</th><th>等級</th><th>說明</th></tr></thead><tbody><tr><td>出口管制</td><td><span class="badge high">高</span></td><td>中國客戶先進 AI 晶片可能被限制，直接影響台積電與高階封裝參與度。</td></tr><tr><td>架構可用性</td><td><span class="badge mid">中高</span></td><td>Groq-like 架構需要軟體堆疊配合，硬體成功不等於雲端部署成功。</td></tr><tr><td>直接供應鏈未確認</td><td><span class="badge mid">中高</span></td><td>多數台廠目前是受惠路徑推演，不等於已取得 ByteDance 訂單。</td></tr><tr><td>中國本土替代</td><td><span class="badge mid">中</span></td><td>部分製造、封測、伺服器可能由中國本地供應鏈承接。</td></tr></tbody></table></div><div><h3>後續驗證</h3><ol><li>追蹤是否出現 Broadcom、Groq 或其他美系設計夥伴正式確認。</li><li>追蹤晶圓代工節點：5 奈米、7 奈米或成熟節點。</li><li>追蹤是否採用 HBM，這會決定 CoWoS 與 ABF 載板強度。</li><li>追蹤 ByteDance AI 伺服器採購是否出現鴻海、廣達、緯穎等台系 ODM。</li><li>追蹤交換器規格，若推論叢集低延遲需求提高，智邦與高速材料受惠更明確。</li></ol></div></div></section>
+<section id="sources" class="card"><h2>來源與不確定性</h2><details open><summary>來源</summary><ul><li>The Information：〈China’s ByteDance Developing New AI Chips Like Those from Nvidia Partner Groq〉，2026-05-29。全文需訂閱，本文未引用未公開全文內容。</li><li>Reuters 公開報導：ByteDance 與 Broadcom 合作開發先進 AI 處理器，並提及 TSMC 製造與美國出口限制脈絡。</li><li>Groq 官方與公開資料：Groq 聚焦 AI 推論（Inference）與 Language Processing Unit（LPU）架構。</li><li>台灣供應鏈公司角色依公開公司業務、產業鏈常識與既有 AI 伺服器、ASIC、ABF、高速材料分層整理。</li></ul></details><details><summary>明確不確定的地方</summary><p>目前未確認 ByteDance 新晶片的製程節點、是否採用 HBM、是否由 Broadcom 或其他設計夥伴主導、是否已 tape-out、以及任何台灣公司是否取得直接訂單。因此本文把台廠分成「直接瓶頸受惠」與「題材連動受惠」，避免把未確認訂單寫成事實。</p></details></section>
+</main></div>
+<script>
+const root=document.documentElement;if(localStorage.theme==='dark'||(!('theme'in localStorage)&&matchMedia('(prefers-color-scheme: dark)').matches))root.classList.add('dark');document.getElementById('theme-toggle').addEventListener('click',()=>{root.classList.toggle('dark');localStorage.theme=root.classList.contains('dark')?'dark':'light';});
+const links=document.querySelectorAll('.toc a');const secs=[...links].map(a=>document.querySelector(a.getAttribute('href'))).filter(Boolean);function spy(){let active=secs[0];for(const s of secs)if(s.getBoundingClientRect().top<150)active=s;links.forEach(a=>a.classList.toggle('active',a.getAttribute('href')==='#'+active.id));}addEventListener('scroll',spy,{passive:true});spy();
+document.querySelectorAll('.tab').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));document.querySelectorAll('.panel').forEach(x=>x.classList.remove('active'));b.classList.add('active');document.getElementById(b.dataset.tab).classList.add('active');}));
+const filter=document.getElementById('filter'), table=document.getElementById('companyTable');filter.addEventListener('input',()=>{const q=filter.value.trim().toLowerCase();table.querySelectorAll('tbody tr').forEach(tr=>tr.hidden=!tr.innerText.toLowerCase().includes(q));});table.querySelectorAll('th').forEach((th,i)=>th.addEventListener('click',()=>{const rows=[...table.tBodies[0].rows];const asc=th.dataset.asc!=='true';rows.sort((a,b)=>asc?a.cells[i].innerText.localeCompare(b.cells[i].innerText,'zh-Hant'):b.cells[i].innerText.localeCompare(a.cells[i].innerText,'zh-Hant'));rows.forEach(r=>table.tBodies[0].appendChild(r));th.dataset.asc=String(asc);}));
+new Chart(document.getElementById('rankChart'),{type:'bar',data:{labels:['先進製程/CoWoS','ABF 載板','高速材料','資料中心交換器','ASIC 設計服務','AI 伺服器 ODM','電源散熱','封測'],datasets:[{label:'受惠強度分數',data:[95,88,84,82,78,72,70,66],backgroundColor:['#2563eb','#0f766e','#0f766e','#7c3aed','#b45309','#64748b','#64748b','#64748b'],borderRadius:10}]},options:{responsive:true,maintainAspectRatio:false,indexAxis:'y',plugins:{legend:{display:false}},scales:{x:{beginAtZero:true,max:100}}}});
+</script>
+</body></html>
