@@ -1,0 +1,1222 @@
+<!doctype html>
+<html lang="zh-Hant" class="scroll-smooth">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>櫻坂46 Center 與 Formation 全整理</title>
+  <meta name="description" content="依官方 formation 頁面整理櫻坂46歷代單曲 Center 與 formation，並標註每位成員期別。">
+  <meta property="og:title" content="櫻坂46 Center 與 Formation 全整理">
+  <meta property="og:description" content="依官方 formation 頁面整理櫻坂46歷代單曲 Center 與 formation，並標註每位成員期別。">
+  <meta property="og:type" content="article">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = { darkMode: 'class', theme: { extend: { fontFamily: { sans: ['system-ui', 'ui-sans-serif', 'sans-serif'] } } } };
+    if (localStorage.theme === 'dark' || (!('theme' in localStorage) && matchMedia('(prefers-color-scheme: dark)').matches)) {
+      document.documentElement.classList.add('dark');
+    }
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; scroll-behavior: auto !important; } }
+    @media print {
+      .no-print { display: none !important; }
+      body { background: #fff !important; color: #000 !important; }
+      details { display: block; }
+      details > summary { display: none; }
+      a { color: inherit; text-decoration: underline; }
+    }
+    :root { color-scheme: light dark; }
+    body { background: #fafafa; }
+    .anchor { opacity: 0; margin-left: .35rem; font-size: .8em; text-decoration: none; }
+    h2:hover .anchor, h3:hover .anchor { opacity: 1; }
+    .toc a { display: block; padding: .25rem 0; color: rgb(82 82 91); transition: color .15s, opacity .15s; opacity: .75; }
+    .dark .toc a { color: rgb(161 161 170); }
+    .toc a.active { opacity: 1; font-weight: 600; color: rgb(24 24 27); }
+    .dark .toc a.active { color: rgb(250 250 250); }
+    .toc a:hover { opacity: 1; }
+    .panel, .stat-card, .note-box, .single-card, .formation-card, .search-bar, .filter-bar {
+      border: 1px solid rgb(228 228 231); background: rgba(255,255,255,.82); backdrop-filter: blur(12px);
+      border-radius: 1rem;
+    }
+    .dark .panel, .dark .stat-card, .dark .note-box, .dark .single-card, .dark .formation-card, .dark .search-bar, .dark .filter-bar {
+      border-color: rgb(39 39 42); background: rgba(24,24,27,.78);
+    }
+    .panel, .note-box, .single-card, .formation-card { box-shadow: 0 1px 0 rgba(0,0,0,.02); }
+    .panel { padding: 1rem; }
+    .panel-head { margin-bottom: .75rem; }
+    .panel-title { font-size: 1.05rem; font-weight: 700; }
+    .panel-sub { font-size: .875rem; color: rgb(113 113 122); margin-top: .25rem; }
+    .dark .panel-sub { color: rgb(161 161 170); }
+    .chart-box { height: 280px; }
+    .stats-grid { display: grid; gap: .75rem; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    @media (min-width: 768px) { .stats-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+    .stat-card { padding: 1rem; }
+    .stat-k { font-size: 2rem; line-height: 1; font-weight: 800; letter-spacing: -.03em; }
+    .stat-l { margin-top: .5rem; font-size: .875rem; color: rgb(82 82 91); }
+    .dark .stat-l { color: rgb(161 161 170); }
+    .badge { display: inline-flex; align-items: center; gap: .35rem; padding: .2rem .55rem; border-radius: 999px; font-size: .75rem; font-weight: 700; background: rgb(244 244 245); color: rgb(63 63 70); }
+    .dark .badge { background: rgb(39 39 42); color: rgb(212 212 216); }
+    .badge-muted { font-weight: 600; }
+    .member-pill { display: inline-flex; align-items: center; gap: .45rem; padding: .3rem .65rem; border-radius: 999px; border: 1px solid transparent; line-height: 1.1; font-size: .86rem; font-weight: 700; margin: .15rem .2rem .15rem 0; }
+    .member-pill .gen-tag { font-size: .72rem; padding: .12rem .35rem; border-radius: 999px; background: rgba(255,255,255,.18); border: 1px solid rgba(255,255,255,.18); }
+    .gen-1 { background: rgb(243 244 246); color: rgb(38 38 38); border-color: rgb(229 231 235); }
+    .gen-2 { background: rgb(219 234 254); color: rgb(30 64 175); border-color: rgb(191 219 254); }
+    .gen-3 { background: rgb(220 252 231); color: rgb(22 101 52); border-color: rgb(187 247 208); }
+    .gen-4 { background: rgb(254 243 199); color: rgb(146 64 14); border-color: rgb(253 230 138); }
+    .dark .gen-1 { background: rgb(39 39 42); color: rgb(244 244 245); border-color: rgb(63 63 70); }
+    .dark .gen-2 { background: rgb(23 37 84); color: rgb(191 219 254); border-color: rgb(30 64 175); }
+    .dark .gen-3 { background: rgb(20 83 45); color: rgb(187 247 208); border-color: rgb(22 101 52); }
+    .dark .gen-4 { background: rgb(120 53 15); color: rgb(253 230 138); border-color: rgb(146 64 14); }
+    .center-pill { box-shadow: 0 0 0 2px rgba(251,191,36,.25); }
+    .formation-row { display: grid; gap: .5rem; grid-template-columns: 5rem minmax(0,1fr); align-items: start; }
+    @media (max-width: 640px) { .formation-row { grid-template-columns: 1fr; } }
+    .row-label { font-size: .82rem; font-weight: 800; color: rgb(113 113 122); text-transform: uppercase; letter-spacing: .08em; padding-top: .35rem; }
+    .dark .row-label { color: rgb(161 161 170); }
+    .row-members { min-width: 0; }
+    .single-card { overflow: hidden; }
+    .single-card > summary { list-style: none; cursor: pointer; padding: 1rem; display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
+    .single-card > summary::-webkit-details-marker { display: none; }
+    .single-summary-left { display: flex; align-items: center; gap: .9rem; min-width: 0; }
+    .single-no { min-width: 4.2rem; display: inline-flex; justify-content: center; padding: .35rem .55rem; border-radius: 999px; background: rgb(244 244 245); color: rgb(82 82 91); font-size: .8rem; font-weight: 800; }
+    .dark .single-no { background: rgb(39 39 42); color: rgb(212 212 216); }
+    .single-title { font-size: 1.05rem; font-weight: 800; line-height: 1.35; }
+    .single-meta { margin-top: .2rem; font-size: .875rem; color: rgb(113 113 122); display: flex; flex-wrap: wrap; gap: .4rem; align-items: center; }
+    .dark .single-meta { color: rgb(161 161 170); }
+    .single-summary-right { display: inline-flex; align-items: center; gap: .5rem; flex-shrink: 0; }
+    .single-card[open] .chevron { transform: rotate(180deg); }
+    .chevron { transition: transform .2s ease; }
+    .formation-card { padding: 1rem; }
+    .filters-row { display: flex; flex-wrap: wrap; gap: .5rem; align-items: center; }
+    .filter-chip { border: 1px solid rgb(228 228 231); background: rgba(255,255,255,.9); color: rgb(63 63 70); border-radius: 999px; padding: .35rem .75rem; font-size: .875rem; font-weight: 700; }
+    .dark .filter-chip { border-color: rgb(63 63 70); background: rgba(24,24,27,.9); color: rgb(212 212 216); }
+    .filter-chip.active { background: rgb(24 24 27); color: white; border-color: rgb(24 24 27); }
+    .dark .filter-chip.active { background: rgb(250 250 250); color: rgb(9 9 11); border-color: rgb(250 250 250); }
+    input[type="search"] { width: 100%; background: transparent; outline: none; }
+    .search-bar { padding: .8rem 1rem; }
+    .table-wrap { overflow-x: auto; }
+    table { width: 100%; border-collapse: separate; border-spacing: 0; }
+    thead th { position: sticky; top: 0; background: rgb(250 250 250); z-index: 1; }
+    .dark thead th { background: rgb(9 9 11); }
+    th.sortable { cursor: pointer; user-select: none; }
+    th.sortable::after { content: ' ↕'; font-size: .75rem; color: rgb(161 161 170); }
+    th.sortable.asc::after { content: ' ↑'; color: rgb(63 63 70); }
+    th.sortable.desc::after { content: ' ↓'; color: rgb(63 63 70); }
+  </style>
+</head>
+<body class="bg-zinc-50 text-zinc-900 dark:bg-zinc-950 dark:text-zinc-100 font-sans antialiased">
+  <div class="fixed top-4 right-4 z-50 no-print flex gap-2">
+    <button id="theme-toggle" class="px-3 py-1.5 rounded-xl border border-zinc-300 dark:border-zinc-700 bg-white/80 dark:bg-zinc-900/80 backdrop-blur text-sm font-semibold hover:bg-white dark:hover:bg-zinc-800">深色 / 淺色</button>
+    <button onclick="window.print()" class="px-3 py-1.5 rounded-xl border border-zinc-300 dark:border-zinc-700 bg-white/80 dark:bg-zinc-900/80 backdrop-blur text-sm font-semibold hover:bg-white dark:hover:bg-zinc-800">列印</button>
+  </div>
+
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 py-8 lg:grid lg:grid-cols-[220px_minmax(0,1fr)] lg:gap-10">
+    <nav class="toc lg:sticky lg:top-8 self-start no-print text-sm mb-6 lg:mb-0">
+      <div class="text-xs uppercase tracking-[.25em] text-zinc-500 dark:text-zinc-400 font-bold mb-3">Contents</div>
+      <a href="#overview">重點摘要</a>
+      <a href="#trend">中心趨勢</a>
+      <a href="#table">單曲總表</a>
+      <a href="#details">單曲 formation 明細</a>
+      <a href="#sources">來源與註記</a>
+    </nav>
+
+    <main class="min-w-0 space-y-10">
+      <header class="space-y-4">
+        <div class="flex flex-wrap gap-2 text-xs font-bold uppercase tracking-[.2em] text-zinc-500 dark:text-zinc-400">
+          <span class="badge">Report</span>
+          <span class="badge">櫻坂46</span>
+          <span class="badge">Center</span>
+          <span class="badge">Formation</span>
+        </div>
+        <div>
+          <h1 class="text-3xl sm:text-4xl font-black tracking-tight">櫻坂46 Center 與 Formation 全整理</h1>
+          <p class="mt-3 text-zinc-600 dark:text-zinc-400 text-base sm:text-lg leading-7">依官方 formation 頁面整理歷代單曲主打曲的 center 與 formation，並在每一位成員旁標註期別。</p>
+        </div>
+      </header>
+
+      <section id="overview" class="space-y-4">
+        <h2 class="text-2xl font-bold tracking-tight">重點摘要<a class="anchor" href="#overview">#</a></h2>
+        
+  <div class="stats-grid">
+    <div class="stat-card"><div class="stat-k">15</div><div class="stat-l">張單曲</div></div>
+    <div class="stat-card"><div class="stat-k">16</div><div class="stat-l">組 formation</div></div>
+    <div class="stat-card"><div class="stat-k">12</div><div class="stat-l">2期 center</div></div>
+    <div class="stat-card"><div class="stat-k">4</div><div class="stat-l">3期 center</div></div>
+  </div>
+  <div class="mt-3 text-sm text-zinc-500 dark:text-zinc-400">最多 center：<span class="font-semibold text-zinc-700 dark:text-zinc-200">森田ひかる</span>，共 6 次。</div>
+
+      </section>
+
+      <section id="trend" class="space-y-4">
+        <h2 class="text-2xl font-bold tracking-tight">中心趨勢<a class="anchor" href="#trend">#</a></h2>
+        
+  <div class="grid gap-4 lg:grid-cols-2">
+    <section class="panel">
+      <div class="panel-head">
+        <h3 class="panel-title">中心以期別分布</h3>
+        <p class="panel-sub">目前官方 formation 頁面列出的單曲中心，皆來自 2期與 3期。</p>
+      </div>
+      <div class="chart-box"><canvas id="genChart"></canvas></div>
+    </section>
+    <section class="panel">
+      <div class="panel-head">
+        <h3 class="panel-title">中心人次排行</h3>
+        <p class="panel-sub">看誰最常站在 center。</p>
+      </div>
+      <div class="chart-box"><canvas id="memberChart"></canvas></div>
+    </section>
+  </div>
+
+      </section>
+
+      <section id="table" class="space-y-4">
+        <h2 class="text-2xl font-bold tracking-tight">單曲總表<a class="anchor" href="#table">#</a></h2>
+        <div class="search-bar">
+          <label class="block text-sm font-semibold text-zinc-700 dark:text-zinc-300 mb-2" for="search">搜尋單曲、中心、成員或期別</label>
+          <input id="search" type="search" placeholder="例如：森田ひかる、3期、承認欲求、15th" class="text-base text-zinc-900 dark:text-zinc-100">
+        </div>
+        <div class="filter-bar px-4 py-3">
+          <div class="filters-row" id="center-filters">
+            <button class="filter-chip active" data-filter="all">全部</button>
+            <button class="filter-chip" data-filter="2期">2期中心</button>
+            <button class="filter-chip" data-filter="3期">3期中心</button>
+          </div>
+        </div>
+        <div class="panel p-0 overflow-hidden">
+          <div class="table-wrap">
+            <table id="single-table">
+              <thead>
+                <tr class="text-left text-xs uppercase tracking-[.18em] text-zinc-500 dark:text-zinc-400 border-b border-zinc-200 dark:border-zinc-800">
+                  <th class="sortable px-3 py-3" data-sort="no">#</th>
+                  <th class="sortable px-3 py-3" data-sort="title">單曲</th>
+                  <th class="sortable px-3 py-3" data-sort="release">發行日</th>
+                  <th class="sortable px-3 py-3" data-sort="center">中心</th>
+                  <th class="sortable px-3 py-3" data-sort="center_gen">中心期別</th>
+                  <th class="px-3 py-3">一列目</th>
+                </tr>
+              </thead>
+              <tbody>
+                
+      <tr data-search="Nobody&#x27;s fault 1 2020-12-09 Nobody&#x27;s fault 1 2020-12-09 Nobody&#x27;s fault 森田ひかる 武元唯衣 大園玲 守屋茜 松田里奈 尾関梨香 土生瑞穂 菅井友香 藤吉夏鈴 小池美波 山﨑天 田村保乃 小林由依 森田ひかる 渡邉理佐" data-center-gen="2期" data-single-no="1">
+        <td class="px-3 py-3 text-sm font-semibold text-zinc-500">1</td>
+        <td class="px-3 py-3 min-w-[18rem]">
+          <div class="font-semibold text-zinc-900 dark:text-zinc-100">Nobody&#x27;s fault</div>
+          <div class="text-xs text-zinc-500 mt-1">2020-12-09</div>
+        </td>
+        <td class="px-3 py-3 min-w-[14rem]"><span class="inline-flex items-center gap-2"><span class="member-pill gen-2 center-pill"><span>森田ひかる</span><span class="gen-tag">2期</span></span></span></td>
+        <td class="px-3 py-3 text-sm text-zinc-600 dark:text-zinc-400">2期</td>
+        <td class="px-3 py-3 text-sm text-zinc-600 dark:text-zinc-400">小林由依（1期）、森田ひかる（2期）、渡邉理佐（1期）</td>
+      </tr>
+    
+      <tr data-search="BAN 2 2021-04-14 BAN 2 2021-04-14 BAN 森田ひかる 大園玲 井上梨名 松田里奈 守屋麗奈 渡辺梨加 土生瑞穂 田村保乃 山﨑天 小池美波 藤吉夏鈴 菅井友香 小林由依 森田ひかる 渡邉理佐" data-center-gen="2期" data-single-no="2">
+        <td class="px-3 py-3 text-sm font-semibold text-zinc-500">2</td>
+        <td class="px-3 py-3 min-w-[18rem]">
+          <div class="font-semibold text-zinc-900 dark:text-zinc-100">BAN</div>
+          <div class="text-xs text-zinc-500 mt-1">2021-04-14</div>
+        </td>
+        <td class="px-3 py-3 min-w-[14rem]"><span class="inline-flex items-center gap-2"><span class="member-pill gen-2 center-pill"><span>森田ひかる</span><span class="gen-tag">2期</span></span></span></td>
+        <td class="px-3 py-3 text-sm text-zinc-600 dark:text-zinc-400">2期</td>
+        <td class="px-3 py-3 text-sm text-zinc-600 dark:text-zinc-400">小林由依（1期）、森田ひかる（2期）、渡邉理佐（1期）</td>
+      </tr>
+    
+      <tr data-search="流れ弾 3 2021-10-13 流れ弾 3 2021-10-13 流れ弾 田村保乃 大園玲 松田里奈 小池美波 藤吉夏鈴 守屋麗奈 武元唯衣 菅井友香 渡辺梨加 渡邉理佐 小林由依 土生瑞穂 山﨑天 田村保乃 森田ひかる" data-center-gen="2期" data-single-no="3">
+        <td class="px-3 py-3 text-sm font-semibold text-zinc-500">3</td>
+        <td class="px-3 py-3 min-w-[18rem]">
+          <div class="font-semibold text-zinc-900 dark:text-zinc-100">流れ弾</div>
+          <div class="text-xs text-zinc-500 mt-1">2021-10-13</div>
+        </td>
+        <td class="px-3 py-3 min-w-[14rem]"><span class="inline-flex items-center gap-2"><span class="member-pill gen-2 center-pill"><span>田村保乃</span><span class="gen-tag">2期</span></span></span></td>
+        <td class="px-3 py-3 text-sm text-zinc-600 dark:text-zinc-400">2期</td>
+        <td class="px-3 py-3 text-sm text-zinc-600 dark:text-zinc-400">山﨑天（2期）、田村保乃（2期）、森田ひかる（2期）</td>
+      </tr>
+    
+      <tr data-search="五月雨よ 4 2022-04-06 五月雨よ 4 2022-04-06 五月雨よ 山﨑天 武元唯衣 松田里奈 井上梨名 土生瑞穂 関有美子 上村莉菜 大園玲 守屋麗奈 小池美波 渡邉理佐 小林由依 藤吉夏鈴 森田ひかる 山﨑天 田村保乃" data-center-gen="2期" data-single-no="4">
+        <td class="px-3 py-3 text-sm font-semibold text-zinc-500">4</td>
+        <td class="px-3 py-3 min-w-[18rem]">
+          <div class="font-semibold text-zinc-900 dark:text-zinc-100">五月雨よ</div>
+          <div class="text-xs text-zinc-500 mt-1">2022-04-06</div>
+        </td>
+        <td class="px-3 py-3 min-w-[14rem]"><span class="inline-flex items-center gap-2"><span class="member-pill gen-2 center-pill"><span>山﨑天</span><span class="gen-tag">2期</span></span></span></td>
+        <td class="px-3 py-3 text-sm text-zinc-600 dark:text-zinc-400">2期</td>
+        <td class="px-3 py-3 text-sm text-zinc-600 dark:text-zinc-400">森田ひかる（2期）、山﨑天（2期）、田村保乃（2期）</td>
+      </tr>
+    
+      <tr data-search="桜月 5 2023-02-15 桜月 5 2023-02-15 桜月 守屋麗奈 武元唯衣 松田里奈 土生瑞穂 増本綺良 井上梨名 山﨑天 大園玲 森田ひかる 田村保乃 藤吉夏鈴 小林由依 守屋麗奈 小池美波" data-center-gen="2期" data-single-no="5">
+        <td class="px-3 py-3 text-sm font-semibold text-zinc-500">5</td>
+        <td class="px-3 py-3 min-w-[18rem]">
+          <div class="font-semibold text-zinc-900 dark:text-zinc-100">桜月</div>
+          <div class="text-xs text-zinc-500 mt-1">2023-02-15</div>
+        </td>
+        <td class="px-3 py-3 min-w-[14rem]"><span class="inline-flex items-center gap-2"><span class="member-pill gen-2 center-pill"><span>守屋麗奈</span><span class="gen-tag">2期</span></span></span></td>
+        <td class="px-3 py-3 text-sm text-zinc-600 dark:text-zinc-400">2期</td>
+        <td class="px-3 py-3 text-sm text-zinc-600 dark:text-zinc-400">小林由依（1期）、守屋麗奈（2期）、小池美波（1期）</td>
+      </tr>
+    
+      <tr data-search="Start over! 6 2023-06-28 Start over! 6 2023-06-28 Start over! 藤吉夏鈴 武元唯衣 齋藤冬優花 幸阪茉里乃 大園玲 上村莉菜 大沼晶保 井上梨名 増本綺良 小池美波 小林由依 土生瑞穂 松田里奈 守屋麗奈 田村保乃 藤吉夏鈴 山﨑天 森田ひかる" data-center-gen="2期" data-single-no="6">
+        <td class="px-3 py-3 text-sm font-semibold text-zinc-500">6</td>
+        <td class="px-3 py-3 min-w-[18rem]">
+          <div class="font-semibold text-zinc-900 dark:text-zinc-100">Start over!</div>
+          <div class="text-xs text-zinc-500 mt-1">2023-06-28</div>
+        </td>
+        <td class="px-3 py-3 min-w-[14rem]"><span class="inline-flex items-center gap-2"><span class="member-pill gen-2 center-pill"><span>藤吉夏鈴</span><span class="gen-tag">2期</span></span></span></td>
+        <td class="px-3 py-3 text-sm text-zinc-600 dark:text-zinc-400">2期</td>
+        <td class="px-3 py-3 text-sm text-zinc-600 dark:text-zinc-400">守屋麗奈（2期）、田村保乃（2期）、藤吉夏鈴（2期）、山﨑天（2期）、森田ひかる（2期）</td>
+      </tr>
+    
+      <tr data-search="承認欲求 7 2023-10-18 承認欲求 7 2023-10-18 承認欲求 森田ひかる 松田里奈 増本綺良 中嶋優月 小池美波 村井優 土生瑞穂 武元唯衣 山﨑天 田村保乃 小林由依 藤吉夏鈴 守屋麗奈 大園玲 谷口愛季 森田ひかる 山下瞳月" data-center-gen="2期" data-single-no="7">
+        <td class="px-3 py-3 text-sm font-semibold text-zinc-500">7</td>
+        <td class="px-3 py-3 min-w-[18rem]">
+          <div class="font-semibold text-zinc-900 dark:text-zinc-100">承認欲求</div>
+          <div class="text-xs text-zinc-500 mt-1">2023-10-18</div>
+        </td>
+        <td class="px-3 py-3 min-w-[14rem]"><span class="inline-flex items-center gap-2"><span class="member-pill gen-2 center-pill"><span>森田ひかる</span><span class="gen-tag">2期</span></span></span></td>
+        <td class="px-3 py-3 text-sm text-zinc-600 dark:text-zinc-400">2期</td>
+        <td class="px-3 py-3 text-sm text-zinc-600 dark:text-zinc-400">谷口愛季（3期）、森田ひかる（2期）、山下瞳月（3期）</td>
+      </tr>
+    
+      <tr data-search="何歳の頃に戻りたいのか？ 8 2024-02-21 何歳の頃に戻りたいのか？ 8 2024-02-21 何歳の頃に戻りたいのか？ 山﨑天 的野美青 大園玲 中嶋優月 井上梨名 増本綺良 松田里奈 守屋麗奈 山下瞳月 田村保乃 谷口愛季 村井優 森田ひかる 山﨑天 藤吉夏鈴" data-center-gen="2期" data-single-no="8">
+        <td class="px-3 py-3 text-sm font-semibold text-zinc-500">8</td>
+        <td class="px-3 py-3 min-w-[18rem]">
+          <div class="font-semibold text-zinc-900 dark:text-zinc-100">何歳の頃に戻りたいのか？</div>
+          <div class="text-xs text-zinc-500 mt-1">2024-02-21</div>
+        </td>
+        <td class="px-3 py-3 min-w-[14rem]"><span class="inline-flex items-center gap-2"><span class="member-pill gen-2 center-pill"><span>山﨑天</span><span class="gen-tag">2期</span></span></span></td>
+        <td class="px-3 py-3 text-sm text-zinc-600 dark:text-zinc-400">2期</td>
+        <td class="px-3 py-3 text-sm text-zinc-600 dark:text-zinc-400">森田ひかる（2期）、山﨑天（2期）、藤吉夏鈴（2期）</td>
+      </tr>
+    
+      <tr data-search="自業自得 9 2024-06-26 自業自得 9 2024-06-26 自業自得 山下瞳月 村山美羽 谷口愛季 井上梨名 松田里奈 中嶋優月 村井優 大園玲 森田ひかる 山﨑天 藤吉夏鈴 的野美青 田村保乃 山下瞳月 守屋麗奈" data-center-gen="3期" data-single-no="9">
+        <td class="px-3 py-3 text-sm font-semibold text-zinc-500">9</td>
+        <td class="px-3 py-3 min-w-[18rem]">
+          <div class="font-semibold text-zinc-900 dark:text-zinc-100">自業自得</div>
+          <div class="text-xs text-zinc-500 mt-1">2024-06-26</div>
+        </td>
+        <td class="px-3 py-3 min-w-[14rem]"><span class="inline-flex items-center gap-2"><span class="member-pill gen-3 center-pill"><span>山下瞳月</span><span class="gen-tag">3期</span></span></span></td>
+        <td class="px-3 py-3 text-sm text-zinc-600 dark:text-zinc-400">3期</td>
+        <td class="px-3 py-3 text-sm text-zinc-600 dark:text-zinc-400">田村保乃（2期）、山下瞳月（3期）、守屋麗奈（2期）</td>
+      </tr>
+    
+      <tr data-search="I want tomorrow to come 10 2024-10-23 I want tomorrow to come 10 2024-10-23 I want tomorrow to come 山下瞳月 向井純葉 大園玲 村山美羽 中嶋優月 松田里奈 武元唯衣 守屋麗奈 山﨑天 藤吉夏鈴 谷口愛季 田村保乃 的野美青 山下瞳月 森田ひかる" data-center-gen="3期" data-single-no="10">
+        <td class="px-3 py-3 text-sm font-semibold text-zinc-500">10</td>
+        <td class="px-3 py-3 min-w-[18rem]">
+          <div class="font-semibold text-zinc-900 dark:text-zinc-100">I want tomorrow to come</div>
+          <div class="text-xs text-zinc-500 mt-1">2024-10-23</div>
+        </td>
+        <td class="px-3 py-3 min-w-[14rem]"><span class="inline-flex items-center gap-2"><span class="member-pill gen-3 center-pill"><span>山下瞳月</span><span class="gen-tag">3期</span></span></span></td>
+        <td class="px-3 py-3 text-sm text-zinc-600 dark:text-zinc-400">3期</td>
+        <td class="px-3 py-3 text-sm text-zinc-600 dark:text-zinc-400">的野美青（3期）、山下瞳月（3期）、森田ひかる（2期）</td>
+      </tr>
+    
+      <tr data-search="UDAGAWA GENERATION 11 2025-02-19 UDAGAWA GENERATION 11 2025-02-19 UDAGAWA GENERATION 森田ひかる 石森璃花 村井優 松田里奈 大園玲 向井純葉 村山美羽 山下瞳月 田村保乃 守屋麗奈 谷口愛季 的野美青 山﨑天 森田ひかる 藤吉夏鈴" data-center-gen="2期" data-single-no="11">
+        <td class="px-3 py-3 text-sm font-semibold text-zinc-500">11</td>
+        <td class="px-3 py-3 min-w-[18rem]">
+          <div class="font-semibold text-zinc-900 dark:text-zinc-100">UDAGAWA GENERATION</div>
+          <div class="text-xs text-zinc-500 mt-1">2025-02-19</div>
+        </td>
+        <td class="px-3 py-3 min-w-[14rem]"><span class="inline-flex items-center gap-2"><span class="member-pill gen-2 center-pill"><span>森田ひかる</span><span class="gen-tag">2期</span></span></span></td>
+        <td class="px-3 py-3 text-sm text-zinc-600 dark:text-zinc-400">2期</td>
+        <td class="px-3 py-3 text-sm text-zinc-600 dark:text-zinc-400">山﨑天（2期）、森田ひかる（2期）、藤吉夏鈴（2期）</td>
+      </tr>
+    
+      <tr data-search="Make or Break 12 2025-06-25 Make or Break 12 2025-06-25 Make or Break 的野美青 松田里奈 向井純葉 村山美羽 中嶋優月 谷口愛季 大園玲 森田ひかる 山下瞳月 藤吉夏鈴 村井優 守屋麗奈 田村保乃 的野美青 山﨑天" data-center-gen="3期" data-single-no="12">
+        <td class="px-3 py-3 text-sm font-semibold text-zinc-500">12</td>
+        <td class="px-3 py-3 min-w-[18rem]">
+          <div class="font-semibold text-zinc-900 dark:text-zinc-100">Make or Break</div>
+          <div class="text-xs text-zinc-500 mt-1">2025-06-25</div>
+        </td>
+        <td class="px-3 py-3 min-w-[14rem]"><span class="inline-flex items-center gap-2"><span class="member-pill gen-3 center-pill"><span>的野美青</span><span class="gen-tag">3期</span></span></span></td>
+        <td class="px-3 py-3 text-sm text-zinc-600 dark:text-zinc-400">3期</td>
+        <td class="px-3 py-3 text-sm text-zinc-600 dark:text-zinc-400">田村保乃（2期）、的野美青（3期）、山﨑天（2期）</td>
+      </tr>
+    
+      <tr data-search="Unhappy birthday構文 13 2025-10-29 Unhappy birthday構文 13 2025-10-29 Unhappy birthday構文 村井優 遠藤理子 松田里奈 大園玲 村山美羽 石森璃花 向井純葉 的野美青 藤吉夏鈴 森田ひかる 田村保乃 山﨑天 山下瞳月 村井優 守屋麗奈" data-center-gen="3期" data-single-no="13">
+        <td class="px-3 py-3 text-sm font-semibold text-zinc-500">13</td>
+        <td class="px-3 py-3 min-w-[18rem]">
+          <div class="font-semibold text-zinc-900 dark:text-zinc-100">Unhappy birthday構文</div>
+          <div class="text-xs text-zinc-500 mt-1">2025-10-29</div>
+        </td>
+        <td class="px-3 py-3 min-w-[14rem]"><span class="inline-flex items-center gap-2"><span class="member-pill gen-3 center-pill"><span>村井優</span><span class="gen-tag">3期</span></span></span></td>
+        <td class="px-3 py-3 text-sm text-zinc-600 dark:text-zinc-400">3期</td>
+        <td class="px-3 py-3 text-sm text-zinc-600 dark:text-zinc-400">山下瞳月（3期）、村井優（3期）、守屋麗奈（2期）</td>
+      </tr>
+    
+      <tr data-search="The growing up train 14 2026-03-11 The growing up train 14 2026-03-11 The growing up train 藤吉夏鈴 中嶋優月 向井純葉 松田里奈 佐藤愛桜 守屋麗奈 山下瞳月 谷口愛季 大園玲 山﨑天 山川宇衣 浅井恋乃未 森田ひかる 村井優 的野美青 藤吉夏鈴 田村保乃" data-center-gen="2期" data-single-no="14">
+        <td class="px-3 py-3 text-sm font-semibold text-zinc-500">14</td>
+        <td class="px-3 py-3 min-w-[18rem]">
+          <div class="font-semibold text-zinc-900 dark:text-zinc-100">The growing up train</div>
+          <div class="text-xs text-zinc-500 mt-1">2026-03-11</div>
+        </td>
+        <td class="px-3 py-3 min-w-[14rem]"><span class="inline-flex items-center gap-2"><span class="member-pill gen-2 center-pill"><span>藤吉夏鈴</span><span class="gen-tag">2期</span></span></span></td>
+        <td class="px-3 py-3 text-sm text-zinc-600 dark:text-zinc-400">2期</td>
+        <td class="px-3 py-3 text-sm text-zinc-600 dark:text-zinc-400">的野美青（3期）、藤吉夏鈴（2期）、田村保乃（2期）</td>
+      </tr>
+    
+      <tr data-search="Lonesome rabbit / What&#x27;s “KAZOKU”? 15 2026-06-10 Lonesome rabbit / What&#x27;s “KAZOKU”? 15 2026-06-10 「Lonesome rabbit」 森田ひかる 松田里奈 谷口愛季 大園玲 的野美青 中川智尋 村井優 小島凪紗 藤吉夏鈴 山川宇衣 守屋麗奈 田村保乃 山﨑天 向井純葉 浅井恋乃未 森田ひかる 山下瞳月 Lonesome rabbit / What&#x27;s “KAZOKU”? 15 2026-06-10 「What&#x27;s “KAZOKU”?」 森田ひかる 向井純葉 小田倉麗奈 幸阪茉里乃 村山美羽 小島凪紗 遠藤光莉 遠藤理子 増本綺良 大沼晶保 田村保乃 山下瞳月 村井優 中嶋優月 松田里奈 石森璃花 守屋麗奈 山﨑天 藤吉夏鈴 大園玲 森田ひかる 谷口愛季 的野美青" data-center-gen="2期" data-single-no="15">
+        <td class="px-3 py-3 text-sm font-semibold text-zinc-500">15</td>
+        <td class="px-3 py-3 min-w-[18rem]">
+          <div class="font-semibold text-zinc-900 dark:text-zinc-100">Lonesome rabbit / What&#x27;s “KAZOKU”?</div>
+          <div class="text-xs text-zinc-500 mt-1">2026-06-10</div>
+        </td>
+        <td class="px-3 py-3 min-w-[14rem]"><span class="inline-flex items-center gap-2"><span class="member-pill gen-2 center-pill"><span>森田ひかる</span><span class="gen-tag">2期</span></span></span></td>
+        <td class="px-3 py-3 text-sm text-zinc-600 dark:text-zinc-400">2期</td>
+        <td class="px-3 py-3 text-sm text-zinc-600 dark:text-zinc-400">浅井恋乃未（4期）、森田ひかる（2期）、山下瞳月（3期）</td>
+      </tr>
+    
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <section id="details" class="space-y-4">
+        <h2 class="text-2xl font-bold tracking-tight">單曲 formation 明細<a class="anchor" href="#details">#</a></h2>
+        <div class="space-y-3">
+          
+      <details class="single-card" id="single-1"  data-search="Nobody&#x27;s fault 1 2020-12-09 Nobody&#x27;s fault 1 2020-12-09 Nobody&#x27;s fault 森田ひかる 武元唯衣 大園玲 守屋茜 松田里奈 尾関梨香 土生瑞穂 菅井友香 藤吉夏鈴 小池美波 山﨑天 田村保乃 小林由依 森田ひかる 渡邉理佐" data-center-gen="2期">
+        <summary>
+          <div class="single-summary-left">
+            <div class="single-no">1st 單曲</div>
+            <div>
+              <div class="single-title">Nobody&#x27;s fault</div>
+              <div class="single-meta">2020-12-09 · 中心：<span class="member-pill gen-2 center-pill"><span>森田ひかる</span><span class="gen-tag">2期</span></span> · 2期</div>
+            </div>
+          </div>
+          <div class="single-summary-right">
+            <span class="badge">1 組 formation</span>
+            <span class="chevron">▾</span>
+          </div>
+        </summary>
+        <div class="mt-5 space-y-4">
+          <article class="formation-card">
+            <div class="formation-card-head">
+              <h4 class="text-lg font-semibold text-zinc-900 dark:text-zinc-100">Nobody&#x27;s fault</h4>
+              <div class="mt-2 flex flex-wrap gap-2 items-center text-sm text-zinc-500">
+                <span class="badge">中心</span>
+                <span class="member-pill gen-2 center-pill"><span>森田ひかる</span><span class="gen-tag">2期</span></span>
+                <span class="badge badge-muted">2期</span>
+              </div>
+            </div>
+            <div class="space-y-3 mt-4">
+              <div class="formation-row">
+                <div class="row-label">三列目</div>
+                <div class="row-members"><span class="member-pill gen-2"><span>武元唯衣</span><span class="gen-tag">2期</span></span><span class="member-pill gen-2"><span>大園玲</span><span class="gen-tag">2期</span></span><span class="member-pill gen-1"><span>守屋茜</span><span class="gen-tag">1期</span></span><span class="member-pill gen-2"><span>松田里奈</span><span class="gen-tag">2期</span></span><span class="member-pill gen-1"><span>尾関梨香</span><span class="gen-tag">1期</span></span><span class="member-pill gen-1"><span>土生瑞穂</span><span class="gen-tag">1期</span></span></div>
+              </div>
+            
+              <div class="formation-row">
+                <div class="row-label">二列目</div>
+                <div class="row-members"><span class="member-pill gen-1"><span>菅井友香</span><span class="gen-tag">1期</span></span><span class="member-pill gen-2"><span>藤吉夏鈴</span><span class="gen-tag">2期</span></span><span class="member-pill gen-1"><span>小池美波</span><span class="gen-tag">1期</span></span><span class="member-pill gen-2"><span>山﨑天</span><span class="gen-tag">2期</span></span><span class="member-pill gen-2"><span>田村保乃</span><span class="gen-tag">2期</span></span></div>
+              </div>
+            
+              <div class="formation-row">
+                <div class="row-label">一列目</div>
+                <div class="row-members"><span class="member-pill gen-1"><span>小林由依</span><span class="gen-tag">1期</span></span><span class="member-pill gen-2 center-pill"><span>森田ひかる</span><span class="gen-tag">2期</span></span><span class="member-pill gen-1"><span>渡邉理佐</span><span class="gen-tag">1期</span></span></div>
+              </div>
+            </div>
+          </article>
+        </div>
+      </details>
+    
+      <details class="single-card" id="single-2"  data-search="BAN 2 2021-04-14 BAN 2 2021-04-14 BAN 森田ひかる 大園玲 井上梨名 松田里奈 守屋麗奈 渡辺梨加 土生瑞穂 田村保乃 山﨑天 小池美波 藤吉夏鈴 菅井友香 小林由依 森田ひかる 渡邉理佐" data-center-gen="2期">
+        <summary>
+          <div class="single-summary-left">
+            <div class="single-no">2nd 單曲</div>
+            <div>
+              <div class="single-title">BAN</div>
+              <div class="single-meta">2021-04-14 · 中心：<span class="member-pill gen-2 center-pill"><span>森田ひかる</span><span class="gen-tag">2期</span></span> · 2期</div>
+            </div>
+          </div>
+          <div class="single-summary-right">
+            <span class="badge">1 組 formation</span>
+            <span class="chevron">▾</span>
+          </div>
+        </summary>
+        <div class="mt-5 space-y-4">
+          <article class="formation-card">
+            <div class="formation-card-head">
+              <h4 class="text-lg font-semibold text-zinc-900 dark:text-zinc-100">BAN</h4>
+              <div class="mt-2 flex flex-wrap gap-2 items-center text-sm text-zinc-500">
+                <span class="badge">中心</span>
+                <span class="member-pill gen-2 center-pill"><span>森田ひかる</span><span class="gen-tag">2期</span></span>
+                <span class="badge badge-muted">2期</span>
+              </div>
+            </div>
+            <div class="space-y-3 mt-4">
+              <div class="formation-row">
+                <div class="row-label">三列目</div>
+                <div class="row-members"><span class="member-pill gen-2"><span>大園玲</span><span class="gen-tag">2期</span></span><span class="member-pill gen-2"><span>井上梨名</span><span class="gen-tag">2期</span></span><span class="member-pill gen-2"><span>松田里奈</span><span class="gen-tag">2期</span></span><span class="member-pill gen-2"><span>守屋麗奈</span><span class="gen-tag">2期</span></span><span class="member-pill gen-1"><span>渡辺梨加</span><span class="gen-tag">1期</span></span><span class="member-pill gen-1"><span>土生瑞穂</span><span class="gen-tag">1期</span></span></div>
+              </div>
+            
+              <div class="formation-row">
+                <div class="row-label">二列目</div>
+                <div class="row-members"><span class="member-pill gen-2"><span>田村保乃</span><span class="gen-tag">2期</span></span><span class="member-pill gen-2"><span>山﨑天</span><span class="gen-tag">2期</span></span><span class="member-pill gen-1"><span>小池美波</span><span class="gen-tag">1期</span></span><span class="member-pill gen-2"><span>藤吉夏鈴</span><span class="gen-tag">2期</span></span><span class="member-pill gen-1"><span>菅井友香</span><span class="gen-tag">1期</span></span></div>
+              </div>
+            
+              <div class="formation-row">
+                <div class="row-label">一列目</div>
+                <div class="row-members"><span class="member-pill gen-1"><span>小林由依</span><span class="gen-tag">1期</span></span><span class="member-pill gen-2 center-pill"><span>森田ひかる</span><span class="gen-tag">2期</span></span><span class="member-pill gen-1"><span>渡邉理佐</span><span class="gen-tag">1期</span></span></div>
+              </div>
+            </div>
+          </article>
+        </div>
+      </details>
+    
+      <details class="single-card" id="single-3"  data-search="流れ弾 3 2021-10-13 流れ弾 3 2021-10-13 流れ弾 田村保乃 大園玲 松田里奈 小池美波 藤吉夏鈴 守屋麗奈 武元唯衣 菅井友香 渡辺梨加 渡邉理佐 小林由依 土生瑞穂 山﨑天 田村保乃 森田ひかる" data-center-gen="2期">
+        <summary>
+          <div class="single-summary-left">
+            <div class="single-no">3rd 單曲</div>
+            <div>
+              <div class="single-title">流れ弾</div>
+              <div class="single-meta">2021-10-13 · 中心：<span class="member-pill gen-2 center-pill"><span>森田ひかる</span><span class="gen-tag">2期</span></span> · 2期</div>
+            </div>
+          </div>
+          <div class="single-summary-right">
+            <span class="badge">1 組 formation</span>
+            <span class="chevron">▾</span>
+          </div>
+        </summary>
+        <div class="mt-5 space-y-4">
+          <article class="formation-card">
+            <div class="formation-card-head">
+              <h4 class="text-lg font-semibold text-zinc-900 dark:text-zinc-100">流れ弾</h4>
+              <div class="mt-2 flex flex-wrap gap-2 items-center text-sm text-zinc-500">
+                <span class="badge">中心</span>
+                <span class="member-pill gen-2 center-pill"><span>田村保乃</span><span class="gen-tag">2期</span></span>
+                <span class="badge badge-muted">2期</span>
+              </div>
+            </div>
+            <div class="space-y-3 mt-4">
+              <div class="formation-row">
+                <div class="row-label">三列目</div>
+                <div class="row-members"><span class="member-pill gen-2"><span>大園玲</span><span class="gen-tag">2期</span></span><span class="member-pill gen-2"><span>松田里奈</span><span class="gen-tag">2期</span></span><span class="member-pill gen-1"><span>小池美波</span><span class="gen-tag">1期</span></span><span class="member-pill gen-2"><span>藤吉夏鈴</span><span class="gen-tag">2期</span></span><span class="member-pill gen-2"><span>守屋麗奈</span><span class="gen-tag">2期</span></span><span class="member-pill gen-2"><span>武元唯衣</span><span class="gen-tag">2期</span></span></div>
+              </div>
+            
+              <div class="formation-row">
+                <div class="row-label">二列目</div>
+                <div class="row-members"><span class="member-pill gen-1"><span>菅井友香</span><span class="gen-tag">1期</span></span><span class="member-pill gen-1"><span>渡辺梨加</span><span class="gen-tag">1期</span></span><span class="member-pill gen-1"><span>渡邉理佐</span><span class="gen-tag">1期</span></span><span class="member-pill gen-1"><span>小林由依</span><span class="gen-tag">1期</span></span><span class="member-pill gen-1"><span>土生瑞穂</span><span class="gen-tag">1期</span></span></div>
+              </div>
+            
+              <div class="formation-row">
+                <div class="row-label">一列目</div>
+                <div class="row-members"><span class="member-pill gen-2"><span>山﨑天</span><span class="gen-tag">2期</span></span><span class="member-pill gen-2 center-pill"><span>田村保乃</span><span class="gen-tag">2期</span></span><span class="member-pill gen-2"><span>森田ひかる</span><span class="gen-tag">2期</span></span></div>
+              </div>
+            </div>
+          </article>
+        </div>
+      </details>
+    
+      <details class="single-card" id="single-4"  data-search="五月雨よ 4 2022-04-06 五月雨よ 4 2022-04-06 五月雨よ 山﨑天 武元唯衣 松田里奈 井上梨名 土生瑞穂 関有美子 上村莉菜 大園玲 守屋麗奈 小池美波 渡邉理佐 小林由依 藤吉夏鈴 森田ひかる 山﨑天 田村保乃" data-center-gen="2期">
+        <summary>
+          <div class="single-summary-left">
+            <div class="single-no">4th 單曲</div>
+            <div>
+              <div class="single-title">五月雨よ</div>
+              <div class="single-meta">2022-04-06 · 中心：<span class="member-pill gen-2 center-pill"><span>森田ひかる</span><span class="gen-tag">2期</span></span> · 2期</div>
+            </div>
+          </div>
+          <div class="single-summary-right">
+            <span class="badge">1 組 formation</span>
+            <span class="chevron">▾</span>
+          </div>
+        </summary>
+        <div class="mt-5 space-y-4">
+          <article class="formation-card">
+            <div class="formation-card-head">
+              <h4 class="text-lg font-semibold text-zinc-900 dark:text-zinc-100">五月雨よ</h4>
+              <div class="mt-2 flex flex-wrap gap-2 items-center text-sm text-zinc-500">
+                <span class="badge">中心</span>
+                <span class="member-pill gen-2 center-pill"><span>山﨑天</span><span class="gen-tag">2期</span></span>
+                <span class="badge badge-muted">2期</span>
+              </div>
+            </div>
+            <div class="space-y-3 mt-4">
+              <div class="formation-row">
+                <div class="row-label">三列目</div>
+                <div class="row-members"><span class="member-pill gen-2"><span>武元唯衣</span><span class="gen-tag">2期</span></span><span class="member-pill gen-2"><span>松田里奈</span><span class="gen-tag">2期</span></span><span class="member-pill gen-2"><span>井上梨名</span><span class="gen-tag">2期</span></span><span class="member-pill gen-1"><span>土生瑞穂</span><span class="gen-tag">1期</span></span><span class="member-pill gen-1"><span>関有美子</span><span class="gen-tag">1期</span></span><span class="member-pill gen-1"><span>上村莉菜</span><span class="gen-tag">1期</span></span><span class="member-pill gen-2"><span>大園玲</span><span class="gen-tag">2期</span></span></div>
+              </div>
+            
+              <div class="formation-row">
+                <div class="row-label">二列目</div>
+                <div class="row-members"><span class="member-pill gen-2"><span>守屋麗奈</span><span class="gen-tag">2期</span></span><span class="member-pill gen-1"><span>小池美波</span><span class="gen-tag">1期</span></span><span class="member-pill gen-1"><span>渡邉理佐</span><span class="gen-tag">1期</span></span><span class="member-pill gen-1"><span>小林由依</span><span class="gen-tag">1期</span></span><span class="member-pill gen-2"><span>藤吉夏鈴</span><span class="gen-tag">2期</span></span></div>
+              </div>
+            
+              <div class="formation-row">
+                <div class="row-label">一列目</div>
+                <div class="row-members"><span class="member-pill gen-2"><span>森田ひかる</span><span class="gen-tag">2期</span></span><span class="member-pill gen-2 center-pill"><span>山﨑天</span><span class="gen-tag">2期</span></span><span class="member-pill gen-2"><span>田村保乃</span><span class="gen-tag">2期</span></span></div>
+              </div>
+            </div>
+          </article>
+        </div>
+      </details>
+    
+      <details class="single-card" id="single-5"  data-search="桜月 5 2023-02-15 桜月 5 2023-02-15 桜月 守屋麗奈 武元唯衣 松田里奈 土生瑞穂 増本綺良 井上梨名 山﨑天 大園玲 森田ひかる 田村保乃 藤吉夏鈴 小林由依 守屋麗奈 小池美波" data-center-gen="2期">
+        <summary>
+          <div class="single-summary-left">
+            <div class="single-no">5th 單曲</div>
+            <div>
+              <div class="single-title">桜月</div>
+              <div class="single-meta">2023-02-15 · 中心：<span class="member-pill gen-2 center-pill"><span>森田ひかる</span><span class="gen-tag">2期</span></span> · 2期</div>
+            </div>
+          </div>
+          <div class="single-summary-right">
+            <span class="badge">1 組 formation</span>
+            <span class="chevron">▾</span>
+          </div>
+        </summary>
+        <div class="mt-5 space-y-4">
+          <article class="formation-card">
+            <div class="formation-card-head">
+              <h4 class="text-lg font-semibold text-zinc-900 dark:text-zinc-100">桜月</h4>
+              <div class="mt-2 flex flex-wrap gap-2 items-center text-sm text-zinc-500">
+                <span class="badge">中心</span>
+                <span class="member-pill gen-2 center-pill"><span>守屋麗奈</span><span class="gen-tag">2期</span></span>
+                <span class="badge badge-muted">2期</span>
+              </div>
+            </div>
+            <div class="space-y-3 mt-4">
+              <div class="formation-row">
+                <div class="row-label">三列目</div>
+                <div class="row-members"><span class="member-pill gen-2"><span>武元唯衣</span><span class="gen-tag">2期</span></span><span class="member-pill gen-2"><span>松田里奈</span><span class="gen-tag">2期</span></span><span class="member-pill gen-1"><span>土生瑞穂</span><span class="gen-tag">1期</span></span><span class="member-pill gen-2"><span>増本綺良</span><span class="gen-tag">2期</span></span><span class="member-pill gen-2"><span>井上梨名</span><span class="gen-tag">2期</span></span></div>
+              </div>
+            
+              <div class="formation-row">
+                <div class="row-label">二列目</div>
+                <div class="row-members"><span class="member-pill gen-2"><span>山﨑天</span><span class="gen-tag">2期</span></span><span class="member-pill gen-2"><span>大園玲</span><span class="gen-tag">2期</span></span><span class="member-pill gen-2"><span>森田ひかる</span><span class="gen-tag">2期</span></span><span class="member-pill gen-2"><span>田村保乃</span><span class="gen-tag">2期</span></span><span class="member-pill gen-2"><span>藤吉夏鈴</span><span class="gen-tag">2期</span></span></div>
+              </div>
+            
+              <div class="formation-row">
+                <div class="row-label">一列目</div>
+                <div class="row-members"><span class="member-pill gen-1"><span>小林由依</span><span class="gen-tag">1期</span></span><span class="member-pill gen-2 center-pill"><span>守屋麗奈</span><span class="gen-tag">2期</span></span><span class="member-pill gen-1"><span>小池美波</span><span class="gen-tag">1期</span></span></div>
+              </div>
+            </div>
+          </article>
+        </div>
+      </details>
+    
+      <details class="single-card" id="single-6"  data-search="Start over! 6 2023-06-28 Start over! 6 2023-06-28 Start over! 藤吉夏鈴 武元唯衣 齋藤冬優花 幸阪茉里乃 大園玲 上村莉菜 大沼晶保 井上梨名 増本綺良 小池美波 小林由依 土生瑞穂 松田里奈 守屋麗奈 田村保乃 藤吉夏鈴 山﨑天 森田ひかる" data-center-gen="2期">
+        <summary>
+          <div class="single-summary-left">
+            <div class="single-no">6th 單曲</div>
+            <div>
+              <div class="single-title">Start over!</div>
+              <div class="single-meta">2023-06-28 · 中心：<span class="member-pill gen-2 center-pill"><span>森田ひかる</span><span class="gen-tag">2期</span></span> · 2期</div>
+            </div>
+          </div>
+          <div class="single-summary-right">
+            <span class="badge">1 組 formation</span>
+            <span class="chevron">▾</span>
+          </div>
+        </summary>
+        <div class="mt-5 space-y-4">
+          <article class="formation-card">
+            <div class="formation-card-head">
+              <h4 class="text-lg font-semibold text-zinc-900 dark:text-zinc-100">Start over!</h4>
+              <div class="mt-2 flex flex-wrap gap-2 items-center text-sm text-zinc-500">
+                <span class="badge">中心</span>
+                <span class="member-pill gen-2 center-pill"><span>藤吉夏鈴</span><span class="gen-tag">2期</span></span>
+                <span class="badge badge-muted">2期</span>
+              </div>
+            </div>
+            <div class="space-y-3 mt-4">
+              <div class="formation-row">
+                <div class="row-label">三列目</div>
+                <div class="row-members"><span class="member-pill gen-2"><span>武元唯衣</span><span class="gen-tag">2期</span></span><span class="member-pill gen-1"><span>齋藤冬優花</span><span class="gen-tag">1期</span></span><span class="member-pill gen-2"><span>幸阪茉里乃</span><span class="gen-tag">2期</span></span><span class="member-pill gen-2"><span>大園玲</span><span class="gen-tag">2期</span></span><span class="member-pill gen-1"><span>上村莉菜</span><span class="gen-tag">1期</span></span><span class="member-pill gen-2"><span>大沼晶保</span><span class="gen-tag">2期</span></span><span class="member-pill gen-2"><span>井上梨名</span><span class="gen-tag">2期</span></span></div>
+              </div>
+            
+              <div class="formation-row">
+                <div class="row-label">二列目</div>
+                <div class="row-members"><span class="member-pill gen-2"><span>増本綺良</span><span class="gen-tag">2期</span></span><span class="member-pill gen-1"><span>小池美波</span><span class="gen-tag">1期</span></span><span class="member-pill gen-1"><span>小林由依</span><span class="gen-tag">1期</span></span><span class="member-pill gen-1"><span>土生瑞穂</span><span class="gen-tag">1期</span></span><span class="member-pill gen-2"><span>松田里奈</span><span class="gen-tag">2期</span></span></div>
+              </div>
+            
+              <div class="formation-row">
+                <div class="row-label">一列目</div>
+                <div class="row-members"><span class="member-pill gen-2"><span>守屋麗奈</span><span class="gen-tag">2期</span></span><span class="member-pill gen-2"><span>田村保乃</span><span class="gen-tag">2期</span></span><span class="member-pill gen-2 center-pill"><span>藤吉夏鈴</span><span class="gen-tag">2期</span></span><span class="member-pill gen-2"><span>山﨑天</span><span class="gen-tag">2期</span></span><span class="member-pill gen-2"><span>森田ひかる</span><span class="gen-tag">2期</span></span></div>
+              </div>
+            </div>
+          </article>
+        </div>
+      </details>
+    
+      <details class="single-card" id="single-7"  data-search="承認欲求 7 2023-10-18 承認欲求 7 2023-10-18 承認欲求 森田ひかる 松田里奈 増本綺良 中嶋優月 小池美波 村井優 土生瑞穂 武元唯衣 山﨑天 田村保乃 小林由依 藤吉夏鈴 守屋麗奈 大園玲 谷口愛季 森田ひかる 山下瞳月" data-center-gen="2期">
+        <summary>
+          <div class="single-summary-left">
+            <div class="single-no">7th 單曲</div>
+            <div>
+              <div class="single-title">承認欲求</div>
+              <div class="single-meta">2023-10-18 · 中心：<span class="member-pill gen-2 center-pill"><span>森田ひかる</span><span class="gen-tag">2期</span></span> · 2期</div>
+            </div>
+          </div>
+          <div class="single-summary-right">
+            <span class="badge">1 組 formation</span>
+            <span class="chevron">▾</span>
+          </div>
+        </summary>
+        <div class="mt-5 space-y-4">
+          <article class="formation-card">
+            <div class="formation-card-head">
+              <h4 class="text-lg font-semibold text-zinc-900 dark:text-zinc-100">承認欲求</h4>
+              <div class="mt-2 flex flex-wrap gap-2 items-center text-sm text-zinc-500">
+                <span class="badge">中心</span>
+                <span class="member-pill gen-2 center-pill"><span>森田ひかる</span><span class="gen-tag">2期</span></span>
+                <span class="badge badge-muted">2期</span>
+              </div>
+            </div>
+            <div class="space-y-3 mt-4">
+              <div class="formation-row">
+                <div class="row-label">三列目</div>
+                <div class="row-members"><span class="member-pill gen-2"><span>松田里奈</span><span class="gen-tag">2期</span></span><span class="member-pill gen-2"><span>増本綺良</span><span class="gen-tag">2期</span></span><span class="member-pill gen-3"><span>中嶋優月</span><span class="gen-tag">3期</span></span><span class="member-pill gen-1"><span>小池美波</span><span class="gen-tag">1期</span></span><span class="member-pill gen-3"><span>村井優</span><span class="gen-tag">3期</span></span><span class="member-pill gen-1"><span>土生瑞穂</span><span class="gen-tag">1期</span></span><span class="member-pill gen-2"><span>武元唯衣</span><span class="gen-tag">2期</span></span></div>
+              </div>
+            
+              <div class="formation-row">
+                <div class="row-label">二列目</div>
+                <div class="row-members"><span class="member-pill gen-2"><span>山﨑天</span><span class="gen-tag">2期</span></span><span class="member-pill gen-2"><span>田村保乃</span><span class="gen-tag">2期</span></span><span class="member-pill gen-1"><span>小林由依</span><span class="gen-tag">1期</span></span><span class="member-pill gen-2"><span>藤吉夏鈴</span><span class="gen-tag">2期</span></span><span class="member-pill gen-2"><span>守屋麗奈</span><span class="gen-tag">2期</span></span><span class="member-pill gen-2"><span>大園玲</span><span class="gen-tag">2期</span></span></div>
+              </div>
+            
+              <div class="formation-row">
+                <div class="row-label">一列目</div>
+                <div class="row-members"><span class="member-pill gen-3"><span>谷口愛季</span><span class="gen-tag">3期</span></span><span class="member-pill gen-2 center-pill"><span>森田ひかる</span><span class="gen-tag">2期</span></span><span class="member-pill gen-3"><span>山下瞳月</span><span class="gen-tag">3期</span></span></div>
+              </div>
+            </div>
+          </article>
+        </div>
+      </details>
+    
+      <details class="single-card" id="single-8"  data-search="何歳の頃に戻りたいのか？ 8 2024-02-21 何歳の頃に戻りたいのか？ 8 2024-02-21 何歳の頃に戻りたいのか？ 山﨑天 的野美青 大園玲 中嶋優月 井上梨名 増本綺良 松田里奈 守屋麗奈 山下瞳月 田村保乃 谷口愛季 村井優 森田ひかる 山﨑天 藤吉夏鈴" data-center-gen="2期">
+        <summary>
+          <div class="single-summary-left">
+            <div class="single-no">8th 單曲</div>
+            <div>
+              <div class="single-title">何歳の頃に戻りたいのか？</div>
+              <div class="single-meta">2024-02-21 · 中心：<span class="member-pill gen-2 center-pill"><span>森田ひかる</span><span class="gen-tag">2期</span></span> · 2期</div>
+            </div>
+          </div>
+          <div class="single-summary-right">
+            <span class="badge">1 組 formation</span>
+            <span class="chevron">▾</span>
+          </div>
+        </summary>
+        <div class="mt-5 space-y-4">
+          <article class="formation-card">
+            <div class="formation-card-head">
+              <h4 class="text-lg font-semibold text-zinc-900 dark:text-zinc-100">何歳の頃に戻りたいのか？</h4>
+              <div class="mt-2 flex flex-wrap gap-2 items-center text-sm text-zinc-500">
+                <span class="badge">中心</span>
+                <span class="member-pill gen-2 center-pill"><span>山﨑天</span><span class="gen-tag">2期</span></span>
+                <span class="badge badge-muted">2期</span>
+              </div>
+            </div>
+            <div class="space-y-3 mt-4">
+              <div class="formation-row">
+                <div class="row-label">三列目</div>
+                <div class="row-members"><span class="member-pill gen-3"><span>的野美青</span><span class="gen-tag">3期</span></span><span class="member-pill gen-2"><span>大園玲</span><span class="gen-tag">2期</span></span><span class="member-pill gen-3"><span>中嶋優月</span><span class="gen-tag">3期</span></span><span class="member-pill gen-2"><span>井上梨名</span><span class="gen-tag">2期</span></span><span class="member-pill gen-2"><span>増本綺良</span><span class="gen-tag">2期</span></span><span class="member-pill gen-2"><span>松田里奈</span><span class="gen-tag">2期</span></span></div>
+              </div>
+            
+              <div class="formation-row">
+                <div class="row-label">二列目</div>
+                <div class="row-members"><span class="member-pill gen-2"><span>守屋麗奈</span><span class="gen-tag">2期</span></span><span class="member-pill gen-3"><span>山下瞳月</span><span class="gen-tag">3期</span></span><span class="member-pill gen-2"><span>田村保乃</span><span class="gen-tag">2期</span></span><span class="member-pill gen-3"><span>谷口愛季</span><span class="gen-tag">3期</span></span><span class="member-pill gen-3"><span>村井優</span><span class="gen-tag">3期</span></span></div>
+              </div>
+            
+              <div class="formation-row">
+                <div class="row-label">一列目</div>
+                <div class="row-members"><span class="member-pill gen-2"><span>森田ひかる</span><span class="gen-tag">2期</span></span><span class="member-pill gen-2 center-pill"><span>山﨑天</span><span class="gen-tag">2期</span></span><span class="member-pill gen-2"><span>藤吉夏鈴</span><span class="gen-tag">2期</span></span></div>
+              </div>
+            </div>
+          </article>
+        </div>
+      </details>
+    
+      <details class="single-card" id="single-9"  data-search="自業自得 9 2024-06-26 自業自得 9 2024-06-26 自業自得 山下瞳月 村山美羽 谷口愛季 井上梨名 松田里奈 中嶋優月 村井優 大園玲 森田ひかる 山﨑天 藤吉夏鈴 的野美青 田村保乃 山下瞳月 守屋麗奈" data-center-gen="3期">
+        <summary>
+          <div class="single-summary-left">
+            <div class="single-no">9th 單曲</div>
+            <div>
+              <div class="single-title">自業自得</div>
+              <div class="single-meta">2024-06-26 · 中心：<span class="member-pill gen-2 center-pill"><span>森田ひかる</span><span class="gen-tag">2期</span></span> · 2期</div>
+            </div>
+          </div>
+          <div class="single-summary-right">
+            <span class="badge">1 組 formation</span>
+            <span class="chevron">▾</span>
+          </div>
+        </summary>
+        <div class="mt-5 space-y-4">
+          <article class="formation-card">
+            <div class="formation-card-head">
+              <h4 class="text-lg font-semibold text-zinc-900 dark:text-zinc-100">自業自得</h4>
+              <div class="mt-2 flex flex-wrap gap-2 items-center text-sm text-zinc-500">
+                <span class="badge">中心</span>
+                <span class="member-pill gen-3 center-pill"><span>山下瞳月</span><span class="gen-tag">3期</span></span>
+                <span class="badge badge-muted">3期</span>
+              </div>
+            </div>
+            <div class="space-y-3 mt-4">
+              <div class="formation-row">
+                <div class="row-label">三列目</div>
+                <div class="row-members"><span class="member-pill gen-3"><span>村山美羽</span><span class="gen-tag">3期</span></span><span class="member-pill gen-3"><span>谷口愛季</span><span class="gen-tag">3期</span></span><span class="member-pill gen-2"><span>井上梨名</span><span class="gen-tag">2期</span></span><span class="member-pill gen-2"><span>松田里奈</span><span class="gen-tag">2期</span></span><span class="member-pill gen-3"><span>中嶋優月</span><span class="gen-tag">3期</span></span><span class="member-pill gen-3"><span>村井優</span><span class="gen-tag">3期</span></span></div>
+              </div>
+            
+              <div class="formation-row">
+                <div class="row-label">二列目</div>
+                <div class="row-members"><span class="member-pill gen-2"><span>大園玲</span><span class="gen-tag">2期</span></span><span class="member-pill gen-2"><span>森田ひかる</span><span class="gen-tag">2期</span></span><span class="member-pill gen-2"><span>山﨑天</span><span class="gen-tag">2期</span></span><span class="member-pill gen-2"><span>藤吉夏鈴</span><span class="gen-tag">2期</span></span><span class="member-pill gen-3"><span>的野美青</span><span class="gen-tag">3期</span></span></div>
+              </div>
+            
+              <div class="formation-row">
+                <div class="row-label">一列目</div>
+                <div class="row-members"><span class="member-pill gen-2"><span>田村保乃</span><span class="gen-tag">2期</span></span><span class="member-pill gen-3 center-pill"><span>山下瞳月</span><span class="gen-tag">3期</span></span><span class="member-pill gen-2"><span>守屋麗奈</span><span class="gen-tag">2期</span></span></div>
+              </div>
+            </div>
+          </article>
+        </div>
+      </details>
+    
+      <details class="single-card" id="single-10"  data-search="I want tomorrow to come 10 2024-10-23 I want tomorrow to come 10 2024-10-23 I want tomorrow to come 山下瞳月 向井純葉 大園玲 村山美羽 中嶋優月 松田里奈 武元唯衣 守屋麗奈 山﨑天 藤吉夏鈴 谷口愛季 田村保乃 的野美青 山下瞳月 森田ひかる" data-center-gen="3期">
+        <summary>
+          <div class="single-summary-left">
+            <div class="single-no">10th 單曲</div>
+            <div>
+              <div class="single-title">I want tomorrow to come</div>
+              <div class="single-meta">2024-10-23 · 中心：<span class="member-pill gen-2 center-pill"><span>森田ひかる</span><span class="gen-tag">2期</span></span> · 2期</div>
+            </div>
+          </div>
+          <div class="single-summary-right">
+            <span class="badge">1 組 formation</span>
+            <span class="chevron">▾</span>
+          </div>
+        </summary>
+        <div class="mt-5 space-y-4">
+          <article class="formation-card">
+            <div class="formation-card-head">
+              <h4 class="text-lg font-semibold text-zinc-900 dark:text-zinc-100">I want tomorrow to come</h4>
+              <div class="mt-2 flex flex-wrap gap-2 items-center text-sm text-zinc-500">
+                <span class="badge">中心</span>
+                <span class="member-pill gen-3 center-pill"><span>山下瞳月</span><span class="gen-tag">3期</span></span>
+                <span class="badge badge-muted">3期</span>
+              </div>
+            </div>
+            <div class="space-y-3 mt-4">
+              <div class="formation-row">
+                <div class="row-label">三列目</div>
+                <div class="row-members"><span class="member-pill gen-3"><span>向井純葉</span><span class="gen-tag">3期</span></span><span class="member-pill gen-2"><span>大園玲</span><span class="gen-tag">2期</span></span><span class="member-pill gen-3"><span>村山美羽</span><span class="gen-tag">3期</span></span><span class="member-pill gen-3"><span>中嶋優月</span><span class="gen-tag">3期</span></span><span class="member-pill gen-2"><span>松田里奈</span><span class="gen-tag">2期</span></span><span class="member-pill gen-2"><span>武元唯衣</span><span class="gen-tag">2期</span></span></div>
+              </div>
+            
+              <div class="formation-row">
+                <div class="row-label">二列目</div>
+                <div class="row-members"><span class="member-pill gen-2"><span>守屋麗奈</span><span class="gen-tag">2期</span></span><span class="member-pill gen-2"><span>山﨑天</span><span class="gen-tag">2期</span></span><span class="member-pill gen-2"><span>藤吉夏鈴</span><span class="gen-tag">2期</span></span><span class="member-pill gen-3"><span>谷口愛季</span><span class="gen-tag">3期</span></span><span class="member-pill gen-2"><span>田村保乃</span><span class="gen-tag">2期</span></span></div>
+              </div>
+            
+              <div class="formation-row">
+                <div class="row-label">一列目</div>
+                <div class="row-members"><span class="member-pill gen-3"><span>的野美青</span><span class="gen-tag">3期</span></span><span class="member-pill gen-3 center-pill"><span>山下瞳月</span><span class="gen-tag">3期</span></span><span class="member-pill gen-2"><span>森田ひかる</span><span class="gen-tag">2期</span></span></div>
+              </div>
+            </div>
+          </article>
+        </div>
+      </details>
+    
+      <details class="single-card" id="single-11" open data-search="UDAGAWA GENERATION 11 2025-02-19 UDAGAWA GENERATION 11 2025-02-19 UDAGAWA GENERATION 森田ひかる 石森璃花 村井優 松田里奈 大園玲 向井純葉 村山美羽 山下瞳月 田村保乃 守屋麗奈 谷口愛季 的野美青 山﨑天 森田ひかる 藤吉夏鈴" data-center-gen="2期">
+        <summary>
+          <div class="single-summary-left">
+            <div class="single-no">11th 單曲</div>
+            <div>
+              <div class="single-title">UDAGAWA GENERATION</div>
+              <div class="single-meta">2025-02-19 · 中心：<span class="member-pill gen-2 center-pill"><span>森田ひかる</span><span class="gen-tag">2期</span></span> · 2期</div>
+            </div>
+          </div>
+          <div class="single-summary-right">
+            <span class="badge">1 組 formation</span>
+            <span class="chevron">▾</span>
+          </div>
+        </summary>
+        <div class="mt-5 space-y-4">
+          <article class="formation-card">
+            <div class="formation-card-head">
+              <h4 class="text-lg font-semibold text-zinc-900 dark:text-zinc-100">UDAGAWA GENERATION</h4>
+              <div class="mt-2 flex flex-wrap gap-2 items-center text-sm text-zinc-500">
+                <span class="badge">中心</span>
+                <span class="member-pill gen-2 center-pill"><span>森田ひかる</span><span class="gen-tag">2期</span></span>
+                <span class="badge badge-muted">2期</span>
+              </div>
+            </div>
+            <div class="space-y-3 mt-4">
+              <div class="formation-row">
+                <div class="row-label">三列目</div>
+                <div class="row-members"><span class="member-pill gen-3"><span>石森璃花</span><span class="gen-tag">3期</span></span><span class="member-pill gen-3"><span>村井優</span><span class="gen-tag">3期</span></span><span class="member-pill gen-2"><span>松田里奈</span><span class="gen-tag">2期</span></span><span class="member-pill gen-2"><span>大園玲</span><span class="gen-tag">2期</span></span><span class="member-pill gen-3"><span>向井純葉</span><span class="gen-tag">3期</span></span><span class="member-pill gen-3"><span>村山美羽</span><span class="gen-tag">3期</span></span></div>
+              </div>
+            
+              <div class="formation-row">
+                <div class="row-label">二列目</div>
+                <div class="row-members"><span class="member-pill gen-3"><span>山下瞳月</span><span class="gen-tag">3期</span></span><span class="member-pill gen-2"><span>田村保乃</span><span class="gen-tag">2期</span></span><span class="member-pill gen-2"><span>守屋麗奈</span><span class="gen-tag">2期</span></span><span class="member-pill gen-3"><span>谷口愛季</span><span class="gen-tag">3期</span></span><span class="member-pill gen-3"><span>的野美青</span><span class="gen-tag">3期</span></span></div>
+              </div>
+            
+              <div class="formation-row">
+                <div class="row-label">一列目</div>
+                <div class="row-members"><span class="member-pill gen-2"><span>山﨑天</span><span class="gen-tag">2期</span></span><span class="member-pill gen-2 center-pill"><span>森田ひかる</span><span class="gen-tag">2期</span></span><span class="member-pill gen-2"><span>藤吉夏鈴</span><span class="gen-tag">2期</span></span></div>
+              </div>
+            </div>
+          </article>
+        </div>
+      </details>
+    
+      <details class="single-card" id="single-12" open data-search="Make or Break 12 2025-06-25 Make or Break 12 2025-06-25 Make or Break 的野美青 松田里奈 向井純葉 村山美羽 中嶋優月 谷口愛季 大園玲 森田ひかる 山下瞳月 藤吉夏鈴 村井優 守屋麗奈 田村保乃 的野美青 山﨑天" data-center-gen="3期">
+        <summary>
+          <div class="single-summary-left">
+            <div class="single-no">12th 單曲</div>
+            <div>
+              <div class="single-title">Make or Break</div>
+              <div class="single-meta">2025-06-25 · 中心：<span class="member-pill gen-2 center-pill"><span>森田ひかる</span><span class="gen-tag">2期</span></span> · 2期</div>
+            </div>
+          </div>
+          <div class="single-summary-right">
+            <span class="badge">1 組 formation</span>
+            <span class="chevron">▾</span>
+          </div>
+        </summary>
+        <div class="mt-5 space-y-4">
+          <article class="formation-card">
+            <div class="formation-card-head">
+              <h4 class="text-lg font-semibold text-zinc-900 dark:text-zinc-100">Make or Break</h4>
+              <div class="mt-2 flex flex-wrap gap-2 items-center text-sm text-zinc-500">
+                <span class="badge">中心</span>
+                <span class="member-pill gen-3 center-pill"><span>的野美青</span><span class="gen-tag">3期</span></span>
+                <span class="badge badge-muted">3期</span>
+              </div>
+            </div>
+            <div class="space-y-3 mt-4">
+              <div class="formation-row">
+                <div class="row-label">三列目</div>
+                <div class="row-members"><span class="member-pill gen-2"><span>松田里奈</span><span class="gen-tag">2期</span></span><span class="member-pill gen-3"><span>向井純葉</span><span class="gen-tag">3期</span></span><span class="member-pill gen-3"><span>村山美羽</span><span class="gen-tag">3期</span></span><span class="member-pill gen-3"><span>中嶋優月</span><span class="gen-tag">3期</span></span><span class="member-pill gen-3"><span>谷口愛季</span><span class="gen-tag">3期</span></span><span class="member-pill gen-2"><span>大園玲</span><span class="gen-tag">2期</span></span></div>
+              </div>
+            
+              <div class="formation-row">
+                <div class="row-label">二列目</div>
+                <div class="row-members"><span class="member-pill gen-2"><span>森田ひかる</span><span class="gen-tag">2期</span></span><span class="member-pill gen-3"><span>山下瞳月</span><span class="gen-tag">3期</span></span><span class="member-pill gen-2"><span>藤吉夏鈴</span><span class="gen-tag">2期</span></span><span class="member-pill gen-3"><span>村井優</span><span class="gen-tag">3期</span></span><span class="member-pill gen-2"><span>守屋麗奈</span><span class="gen-tag">2期</span></span></div>
+              </div>
+            
+              <div class="formation-row">
+                <div class="row-label">一列目</div>
+                <div class="row-members"><span class="member-pill gen-2"><span>田村保乃</span><span class="gen-tag">2期</span></span><span class="member-pill gen-3 center-pill"><span>的野美青</span><span class="gen-tag">3期</span></span><span class="member-pill gen-2"><span>山﨑天</span><span class="gen-tag">2期</span></span></div>
+              </div>
+            </div>
+          </article>
+        </div>
+      </details>
+    
+      <details class="single-card" id="single-13" open data-search="Unhappy birthday構文 13 2025-10-29 Unhappy birthday構文 13 2025-10-29 Unhappy birthday構文 村井優 遠藤理子 松田里奈 大園玲 村山美羽 石森璃花 向井純葉 的野美青 藤吉夏鈴 森田ひかる 田村保乃 山﨑天 山下瞳月 村井優 守屋麗奈" data-center-gen="3期">
+        <summary>
+          <div class="single-summary-left">
+            <div class="single-no">13th 單曲</div>
+            <div>
+              <div class="single-title">Unhappy birthday構文</div>
+              <div class="single-meta">2025-10-29 · 中心：<span class="member-pill gen-2 center-pill"><span>森田ひかる</span><span class="gen-tag">2期</span></span> · 2期</div>
+            </div>
+          </div>
+          <div class="single-summary-right">
+            <span class="badge">1 組 formation</span>
+            <span class="chevron">▾</span>
+          </div>
+        </summary>
+        <div class="mt-5 space-y-4">
+          <article class="formation-card">
+            <div class="formation-card-head">
+              <h4 class="text-lg font-semibold text-zinc-900 dark:text-zinc-100">Unhappy birthday構文</h4>
+              <div class="mt-2 flex flex-wrap gap-2 items-center text-sm text-zinc-500">
+                <span class="badge">中心</span>
+                <span class="member-pill gen-3 center-pill"><span>村井優</span><span class="gen-tag">3期</span></span>
+                <span class="badge badge-muted">3期</span>
+              </div>
+            </div>
+            <div class="space-y-3 mt-4">
+              <div class="formation-row">
+                <div class="row-label">三列目</div>
+                <div class="row-members"><span class="member-pill gen-3"><span>遠藤理子</span><span class="gen-tag">3期</span></span><span class="member-pill gen-2"><span>松田里奈</span><span class="gen-tag">2期</span></span><span class="member-pill gen-2"><span>大園玲</span><span class="gen-tag">2期</span></span><span class="member-pill gen-3"><span>村山美羽</span><span class="gen-tag">3期</span></span><span class="member-pill gen-3"><span>石森璃花</span><span class="gen-tag">3期</span></span><span class="member-pill gen-3"><span>向井純葉</span><span class="gen-tag">3期</span></span></div>
+              </div>
+            
+              <div class="formation-row">
+                <div class="row-label">二列目</div>
+                <div class="row-members"><span class="member-pill gen-3"><span>的野美青</span><span class="gen-tag">3期</span></span><span class="member-pill gen-2"><span>藤吉夏鈴</span><span class="gen-tag">2期</span></span><span class="member-pill gen-2"><span>森田ひかる</span><span class="gen-tag">2期</span></span><span class="member-pill gen-2"><span>田村保乃</span><span class="gen-tag">2期</span></span><span class="member-pill gen-2"><span>山﨑天</span><span class="gen-tag">2期</span></span></div>
+              </div>
+            
+              <div class="formation-row">
+                <div class="row-label">一列目</div>
+                <div class="row-members"><span class="member-pill gen-3"><span>山下瞳月</span><span class="gen-tag">3期</span></span><span class="member-pill gen-3 center-pill"><span>村井優</span><span class="gen-tag">3期</span></span><span class="member-pill gen-2"><span>守屋麗奈</span><span class="gen-tag">2期</span></span></div>
+              </div>
+            </div>
+          </article>
+        </div>
+      </details>
+    
+      <details class="single-card" id="single-14" open data-search="The growing up train 14 2026-03-11 The growing up train 14 2026-03-11 The growing up train 藤吉夏鈴 中嶋優月 向井純葉 松田里奈 佐藤愛桜 守屋麗奈 山下瞳月 谷口愛季 大園玲 山﨑天 山川宇衣 浅井恋乃未 森田ひかる 村井優 的野美青 藤吉夏鈴 田村保乃" data-center-gen="2期">
+        <summary>
+          <div class="single-summary-left">
+            <div class="single-no">14th 單曲</div>
+            <div>
+              <div class="single-title">The growing up train</div>
+              <div class="single-meta">2026-03-11 · 中心：<span class="member-pill gen-2 center-pill"><span>森田ひかる</span><span class="gen-tag">2期</span></span> · 2期</div>
+            </div>
+          </div>
+          <div class="single-summary-right">
+            <span class="badge">1 組 formation</span>
+            <span class="chevron">▾</span>
+          </div>
+        </summary>
+        <div class="mt-5 space-y-4">
+          <article class="formation-card">
+            <div class="formation-card-head">
+              <h4 class="text-lg font-semibold text-zinc-900 dark:text-zinc-100">The growing up train</h4>
+              <div class="mt-2 flex flex-wrap gap-2 items-center text-sm text-zinc-500">
+                <span class="badge">中心</span>
+                <span class="member-pill gen-2 center-pill"><span>藤吉夏鈴</span><span class="gen-tag">2期</span></span>
+                <span class="badge badge-muted">2期</span>
+              </div>
+            </div>
+            <div class="space-y-3 mt-4">
+              <div class="formation-row">
+                <div class="row-label">三列目</div>
+                <div class="row-members"><span class="member-pill gen-3"><span>中嶋優月</span><span class="gen-tag">3期</span></span><span class="member-pill gen-3"><span>向井純葉</span><span class="gen-tag">3期</span></span><span class="member-pill gen-2"><span>松田里奈</span><span class="gen-tag">2期</span></span><span class="member-pill gen-4"><span>佐藤愛桜</span><span class="gen-tag">4期</span></span><span class="member-pill gen-2"><span>守屋麗奈</span><span class="gen-tag">2期</span></span><span class="member-pill gen-3"><span>山下瞳月</span><span class="gen-tag">3期</span></span><span class="member-pill gen-3"><span>谷口愛季</span><span class="gen-tag">3期</span></span></div>
+              </div>
+            
+              <div class="formation-row">
+                <div class="row-label">二列目</div>
+                <div class="row-members"><span class="member-pill gen-2"><span>大園玲</span><span class="gen-tag">2期</span></span><span class="member-pill gen-2"><span>山﨑天</span><span class="gen-tag">2期</span></span><span class="member-pill gen-4"><span>山川宇衣</span><span class="gen-tag">4期</span></span><span class="member-pill gen-4"><span>浅井恋乃未</span><span class="gen-tag">4期</span></span><span class="member-pill gen-2"><span>森田ひかる</span><span class="gen-tag">2期</span></span><span class="member-pill gen-3"><span>村井優</span><span class="gen-tag">3期</span></span></div>
+              </div>
+            
+              <div class="formation-row">
+                <div class="row-label">一列目</div>
+                <div class="row-members"><span class="member-pill gen-3"><span>的野美青</span><span class="gen-tag">3期</span></span><span class="member-pill gen-2 center-pill"><span>藤吉夏鈴</span><span class="gen-tag">2期</span></span><span class="member-pill gen-2"><span>田村保乃</span><span class="gen-tag">2期</span></span></div>
+              </div>
+            </div>
+          </article>
+        </div>
+      </details>
+    
+      <details class="single-card" id="single-15" open data-search="Lonesome rabbit / What&#x27;s “KAZOKU”? 15 2026-06-10 Lonesome rabbit / What&#x27;s “KAZOKU”? 15 2026-06-10 「Lonesome rabbit」 森田ひかる 松田里奈 谷口愛季 大園玲 的野美青 中川智尋 村井優 小島凪紗 藤吉夏鈴 山川宇衣 守屋麗奈 田村保乃 山﨑天 向井純葉 浅井恋乃未 森田ひかる 山下瞳月 Lonesome rabbit / What&#x27;s “KAZOKU”? 15 2026-06-10 「What&#x27;s “KAZOKU”?」 森田ひかる 向井純葉 小田倉麗奈 幸阪茉里乃 村山美羽 小島凪紗 遠藤光莉 遠藤理子 増本綺良 大沼晶保 田村保乃 山下瞳月 村井優 中嶋優月 松田里奈 石森璃花 守屋麗奈 山﨑天 藤吉夏鈴 大園玲 森田ひかる 谷口愛季 的野美青" data-center-gen="2期">
+        <summary>
+          <div class="single-summary-left">
+            <div class="single-no">15th 單曲</div>
+            <div>
+              <div class="single-title">Lonesome rabbit / What&#x27;s “KAZOKU”?</div>
+              <div class="single-meta">2026-06-10 · 中心：<span class="member-pill gen-2 center-pill"><span>森田ひかる</span><span class="gen-tag">2期</span></span> · 2期</div>
+            </div>
+          </div>
+          <div class="single-summary-right">
+            <span class="badge">2 組 formation</span>
+            <span class="chevron">▾</span>
+          </div>
+        </summary>
+        <div class="mt-5 space-y-4">
+          <article class="formation-card">
+            <div class="formation-card-head">
+              <h4 class="text-lg font-semibold text-zinc-900 dark:text-zinc-100">「Lonesome rabbit」</h4>
+              <div class="mt-2 flex flex-wrap gap-2 items-center text-sm text-zinc-500">
+                <span class="badge">中心</span>
+                <span class="member-pill gen-2 center-pill"><span>森田ひかる</span><span class="gen-tag">2期</span></span>
+                <span class="badge badge-muted">2期</span>
+              </div>
+            </div>
+            <div class="space-y-3 mt-4">
+              <div class="formation-row">
+                <div class="row-label">三列目</div>
+                <div class="row-members"><span class="member-pill gen-2"><span>松田里奈</span><span class="gen-tag">2期</span></span><span class="member-pill gen-3"><span>谷口愛季</span><span class="gen-tag">3期</span></span><span class="member-pill gen-2"><span>大園玲</span><span class="gen-tag">2期</span></span><span class="member-pill gen-3"><span>的野美青</span><span class="gen-tag">3期</span></span><span class="member-pill gen-4"><span>中川智尋</span><span class="gen-tag">4期</span></span><span class="member-pill gen-3"><span>村井優</span><span class="gen-tag">3期</span></span><span class="member-pill gen-3"><span>小島凪紗</span><span class="gen-tag">3期</span></span></div>
+              </div>
+            
+              <div class="formation-row">
+                <div class="row-label">二列目</div>
+                <div class="row-members"><span class="member-pill gen-2"><span>藤吉夏鈴</span><span class="gen-tag">2期</span></span><span class="member-pill gen-4"><span>山川宇衣</span><span class="gen-tag">4期</span></span><span class="member-pill gen-2"><span>守屋麗奈</span><span class="gen-tag">2期</span></span><span class="member-pill gen-2"><span>田村保乃</span><span class="gen-tag">2期</span></span><span class="member-pill gen-2"><span>山﨑天</span><span class="gen-tag">2期</span></span><span class="member-pill gen-3"><span>向井純葉</span><span class="gen-tag">3期</span></span></div>
+              </div>
+            
+              <div class="formation-row">
+                <div class="row-label">一列目</div>
+                <div class="row-members"><span class="member-pill gen-4"><span>浅井恋乃未</span><span class="gen-tag">4期</span></span><span class="member-pill gen-2 center-pill"><span>森田ひかる</span><span class="gen-tag">2期</span></span><span class="member-pill gen-3"><span>山下瞳月</span><span class="gen-tag">3期</span></span></div>
+              </div>
+            </div>
+          </article>
+        
+          <article class="formation-card">
+            <div class="formation-card-head">
+              <h4 class="text-lg font-semibold text-zinc-900 dark:text-zinc-100">「What&#x27;s “KAZOKU”?」</h4>
+              <div class="mt-2 flex flex-wrap gap-2 items-center text-sm text-zinc-500">
+                <span class="badge">中心</span>
+                <span class="member-pill gen-2 center-pill"><span>森田ひかる</span><span class="gen-tag">2期</span></span>
+                <span class="badge badge-muted">2期</span>
+              </div>
+            </div>
+            <div class="space-y-3 mt-4">
+              <div class="formation-row">
+                <div class="row-label">三列目</div>
+                <div class="row-members"><span class="member-pill gen-3"><span>向井純葉</span><span class="gen-tag">3期</span></span><span class="member-pill gen-3"><span>小田倉麗奈</span><span class="gen-tag">3期</span></span><span class="member-pill gen-2"><span>幸阪茉里乃</span><span class="gen-tag">2期</span></span><span class="member-pill gen-3"><span>村山美羽</span><span class="gen-tag">3期</span></span><span class="member-pill gen-3"><span>小島凪紗</span><span class="gen-tag">3期</span></span><span class="member-pill gen-2"><span>遠藤光莉</span><span class="gen-tag">2期</span></span><span class="member-pill gen-3"><span>遠藤理子</span><span class="gen-tag">3期</span></span><span class="member-pill gen-2"><span>増本綺良</span><span class="gen-tag">2期</span></span><span class="member-pill gen-2"><span>大沼晶保</span><span class="gen-tag">2期</span></span></div>
+              </div>
+            
+              <div class="formation-row">
+                <div class="row-label">二列目</div>
+                <div class="row-members"><span class="member-pill gen-2"><span>田村保乃</span><span class="gen-tag">2期</span></span><span class="member-pill gen-3"><span>山下瞳月</span><span class="gen-tag">3期</span></span><span class="member-pill gen-3"><span>村井優</span><span class="gen-tag">3期</span></span><span class="member-pill gen-3"><span>中嶋優月</span><span class="gen-tag">3期</span></span><span class="member-pill gen-2"><span>松田里奈</span><span class="gen-tag">2期</span></span><span class="member-pill gen-3"><span>石森璃花</span><span class="gen-tag">3期</span></span><span class="member-pill gen-2"><span>守屋麗奈</span><span class="gen-tag">2期</span></span><span class="member-pill gen-2"><span>山﨑天</span><span class="gen-tag">2期</span></span></div>
+              </div>
+            
+              <div class="formation-row">
+                <div class="row-label">一列目</div>
+                <div class="row-members"><span class="member-pill gen-2"><span>藤吉夏鈴</span><span class="gen-tag">2期</span></span><span class="member-pill gen-2"><span>大園玲</span><span class="gen-tag">2期</span></span><span class="member-pill gen-2 center-pill"><span>森田ひかる</span><span class="gen-tag">2期</span></span><span class="member-pill gen-3"><span>谷口愛季</span><span class="gen-tag">3期</span></span><span class="member-pill gen-3"><span>的野美青</span><span class="gen-tag">3期</span></span></div>
+              </div>
+            </div>
+          </article>
+        </div>
+      </details>
+    
+        </div>
+      </section>
+
+      <section id="sources" class="space-y-4">
+        <h2 class="text-2xl font-bold tracking-tight">來源與註記<a class="anchor" href="#sources">#</a></h2>
+        
+  <div class="note-box p-4 sm:p-5">
+    <ul class="list-disc pl-5 space-y-2 text-sm leading-7 text-zinc-600 dark:text-zinc-400">
+      <li>資料來源：櫻坂46 官方 formation 頁面。</li>
+      <li>本頁以單曲主打曲為主；15th 單曲是雙主打，所以明細列出兩組 formation。</li>
+      <li>期別標註：1期、2期、3期、4期。</li>
+      <li>同名成員的期別，以目前官方成員期別與歷史期別標示整理。</li>
+    </ul>
+  </div>
+
+        <div class="text-sm text-zinc-500 dark:text-zinc-400 break-all">官方來源：<a class="underline underline-offset-4" href="https://sakurazaka46.com/s/s46/page/formation" target="_blank" rel="noreferrer">https://sakurazaka46.com/s/s46/page/formation</a></div>
+      </section>
+
+      <footer class="pt-6 pb-4 text-sm text-zinc-500 dark:text-zinc-400 border-t border-zinc-200 dark:border-zinc-800">
+        這份頁面是用 html-report 產生的單檔 HTML。
+      </footer>
+    </main>
+  </div>
+
+  <script>
+    const themeBtn = document.getElementById('theme-toggle');
+    themeBtn.addEventListener('click', () => {
+      const dark = document.documentElement.classList.toggle('dark');
+      localStorage.theme = dark ? 'dark' : 'light';
+      updateCharts();
+    });
+
+    const table = document.getElementById('single-table');
+    const tbody = table.querySelector('tbody');
+    const headers = [...table.querySelectorAll('th.sortable')];
+    const sortState = { key: 'no', dir: 'asc' };
+
+    function cmp(a, b, key) {
+      const av = a.dataset[key] || '';
+      const bv = b.dataset[key] || '';
+      if (key === 'no') return Number(av) - Number(bv);
+      if (key === 'release') return av.localeCompare(bv);
+      return av.localeCompare(bv, 'ja');
+    }
+
+    function sortRows(key) {
+      sortState.dir = sortState.key === key && sortState.dir === 'asc' ? 'desc' : 'asc';
+      sortState.key = key;
+      const rows = [...tbody.querySelectorAll('tr')];
+      rows.sort((a, b) => {
+        const res = cmp(a, b, key);
+        return sortState.dir === 'asc' ? res : -res;
+      });
+      rows.forEach(row => tbody.appendChild(row));
+      headers.forEach(h => h.classList.remove('asc', 'desc'));
+      const active = headers.find(h => h.dataset.sort === key);
+      if (active) active.classList.add(sortState.dir);
+    }
+    headers.forEach(h => h.addEventListener('click', () => sortRows(h.dataset.sort)));
+    sortRows('no');
+
+    const search = document.getElementById('search');
+    const chips = [...document.querySelectorAll('#center-filters .filter-chip')];
+    let centerFilter = 'all';
+
+    function applyFilters() {
+      const q = search.value.trim().toLowerCase();
+      document.querySelectorAll('#single-table tbody tr, .single-card').forEach(el => {
+        const passSearch = q ? el.dataset.search.toLowerCase().includes(q) : true;
+        const passCenter = centerFilter === 'all' || el.dataset.centerGen === centerFilter;
+        el.hidden = !(passSearch && passCenter);
+      });
+    }
+
+    search.addEventListener('input', applyFilters);
+    chips.forEach(btn => btn.addEventListener('click', () => {
+      chips.forEach(x => x.classList.remove('active'));
+      btn.classList.add('active');
+      centerFilter = btn.dataset.filter;
+      applyFilters();
+    }));
+
+    const genCtx = document.getElementById('genChart');
+    const memberCtx = document.getElementById('memberChart');
+    let genChart, memberChart;
+
+    function chartColors() {
+      const dark = document.documentElement.classList.contains('dark');
+      return dark ? {
+        1: ['rgba(148,163,184,.9)', 'rgba(148,163,184,.35)'],
+        2: ['rgba(96,165,250,.9)', 'rgba(96,165,250,.35)'],
+        3: ['rgba(74,222,128,.9)', 'rgba(74,222,128,.35)'],
+        4: ['rgba(251,191,36,.9)', 'rgba(251,191,36,.35)'],
+      } : {
+        1: ['rgba(113,113,122,.9)', 'rgba(113,113,122,.2)'],
+        2: ['rgba(37,99,235,.9)', 'rgba(37,99,235,.2)'],
+        3: ['rgba(22,163,74,.9)', 'rgba(22,163,74,.2)'],
+        4: ['rgba(217,119,6,.9)', 'rgba(217,119,6,.2)'],
+      };
+    }
+
+    function updateCharts() {
+      const c = chartColors();
+      if (genChart) genChart.destroy();
+      if (memberChart) memberChart.destroy();
+      genChart = new Chart(genCtx, {
+        type: 'doughnut',
+        data: {
+          labels: ['1期', '2期', '3期', '4期'],
+          datasets: [{
+            data: [0, 12, 4, 0],
+            backgroundColor: [c[1][0], c[2][0], c[3][0], c[4][0]],
+            borderColor: [c[1][1], c[2][1], c[3][1], c[4][1]],
+            borderWidth: 1,
+          }],
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { position: 'bottom' },
+            tooltip: { callbacks: { label: (ctx) => `${ctx.label}：${ctx.raw}` } },
+          },
+        },
+      });
+      memberChart = new Chart(memberCtx, {
+        type: 'bar',
+        data: {
+          labels: ["森田ひかる", "山﨑天", "藤吉夏鈴", "山下瞳月", "田村保乃", "守屋麗奈", "的野美青", "村井優"],
+          datasets: [{
+            label: '中心人次',
+            data: [6, 2, 2, 2, 1, 1, 1, 1],
+            backgroundColor: c[2][0],
+            borderColor: c[2][1],
+            borderWidth: 1,
+            borderRadius: 10,
+          }],
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          indexAxis: 'y',
+          scales: { x: { beginAtZero: true, ticks: { precision: 0 } }, y: { ticks: { autoSkip: false } } },
+          plugins: { legend: { display: false } },
+        },
+      });
+    }
+    updateCharts();
+
+    const tocLinks = [...document.querySelectorAll('.toc a')];
+    const sections = tocLinks.map(a => document.querySelector(a.getAttribute('href'))).filter(Boolean);
+    function onScroll() {
+      const y = window.scrollY + 120;
+      let active = sections[0];
+      for (const s of sections) if (s.offsetTop <= y) active = s;
+      tocLinks.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + active.id));
+    }
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+  </script>
+</body>
+</html>
