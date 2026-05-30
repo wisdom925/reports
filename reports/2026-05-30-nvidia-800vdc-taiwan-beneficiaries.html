@@ -3,10 +3,10 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>NVIDIA 800 VDC 架構：推文盲點與台灣受惠廠商主題報告</title>
-<meta name="description" content="從 NVIDIA 官方 800 VDC 架構頁面與 X 推文交叉比對，確認官方合作夥伴中的台灣廠商、可投資映射與受惠強度，避免把推文觀點直接當成完整供應鏈名單。">
-<meta property="og:title" content="NVIDIA 800 VDC 架構：推文盲點與台灣受惠廠商主題報告">
-<meta property="og:description" content="交叉比對 NVIDIA 官方合作夥伴名單與 X 推文，整理台灣受惠廠商與投資映射。">
+<title>NVIDIA 800 VDC 架構：官方合作夥伴與台灣受惠廠商整理</title>
+<meta name="description" content="整理 NVIDIA 官方 800 VDC 架構頁面、合作夥伴名單與台灣廠商受惠路徑，聚焦可驗證資訊與投資映射。">
+<meta property="og:title" content="NVIDIA 800 VDC 架構：官方合作夥伴與台灣受惠廠商整理">
+<meta property="og:description" content="交叉比對 NVIDIA 官方合作夥伴名單，整理台灣受惠廠商與投資映射。">
 <meta property="og:type" content="article">
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script type="module">
@@ -42,22 +42,22 @@ ul.clean { margin:0; padding-left:18px; } .kpi { font-weight:800; color:var(--a)
 <body>
 <div class="controls"><button id="theme-toggle" type="button">☼ / ☾</button><button onclick="window.print()" type="button">列印</button></div>
 <div class="wrap">
-<nav class="toc"><h2>CONTENTS</h2><a href="#summary">先結論</a><a href="#verified">先確認事實</a><a href="#taiwan">台灣受惠名單</a><a href="#mapping">可投資映射</a><a href="#chart">受惠強度</a><a href="#risk">風險與盲點</a><a href="#sources">來源</a></nav>
+<nav class="toc"><h2>CONTENTS</h2><a href="#summary">先結論</a><a href="#verified">技術與合作名單</a><a href="#taiwan">台灣受惠名單</a><a href="#mapping">可投資映射</a><a href="#chart">受惠強度</a><a href="#risk">追蹤重點</a><a href="#sources">來源</a></nav>
 <main>
 <header class="hero">
 <p class="eyebrow">AI INFRASTRUCTURE REPORT • 2026-05-30</p>
-<h1>NVIDIA 800 VDC 架構：推文盲點與台灣受惠廠商主題報告</h1>
-<p class="lead">這則 X 推文抓到了 NVIDIA 800 VDC 主題的重要方向，但它挑的是美歐掛牌標的，並不等於完整受惠名單。交叉比對 NVIDIA 官方 800 VDC 架構頁面後，可以確認至少有三家上市台廠直接在官方合作夥伴名單內，另有台灣電源管理 IC 業者列名，但股市映射要分開看。</p>
+<h1>NVIDIA 800 VDC 架構：官方合作夥伴與台灣受惠廠商整理</h1>
+<p class="lead">NVIDIA 800 VDC 架構把 AI 資料中心供電從傳統 54V 機櫃供電推向更高電壓的直流配電，目的在降低轉換損耗、銅材與線纜體積，並支援更高密度 AI 運算。官方合作夥伴名單中，可以確認至少有三家上市台廠直接列名，另有台灣電源管理 IC 業者列名。</p>
 <div class="grid stats">
 <div class="stat"><span class="num">29 家</span><span class="label">NVIDIA 官方頁面可辨識合作夥伴數量</span></div>
 <div class="stat"><span class="num">3 家</span><span class="label">可直接對應台股上市公司的官方名單台廠：台達電、貿聯-KY、光寶科</span></div>
 <div class="stat"><span class="num">1 家</span><span class="label">官方名單中的台灣 IC 業者：Richtek，需與可投資標的分開處理</span></div>
-<div class="stat"><span class="num">偏多揭露</span><span class="label">推文作者明示自己持有 Navitas，觀點存在選股偏向</span></div>
+<div class="stat"><span class="num">資訊來源</span><span class="label">NVIDIA 官方頁面與公開公司資料交叉整理</span></div>
 </div>
 </header>
 <section id="summary" class="card">
 <h2>先結論</h2>
-<div class="callout"><strong>結論一句話：</strong>有台灣廠商受惠，而且受惠層次比原推文寫得更完整。最直接的是 <span class="kpi">2308 台達電</span>、<span class="kpi">3665 貿聯-KY</span>、<span class="kpi">2301 光寶科</span>。<span class="kpi">Richtek</span> 也在 NVIDIA 官方合作名單內，但因非獨立上市，不能直接當成單一台股標的。官方名單另有 <span class="kpi">Lead Wealth</span>，但我目前找不到足夠公開資料完成穩健的台股映射，所以先不把它寫成可投資結論。</div>
+<div class="callout"><strong>結論一句話：</strong>有台灣廠商受惠，而且受惠層次比原資料寫得更完整。最直接的是 <span class="kpi">2308 台達電</span>、<span class="kpi">3665 貿聯-KY</span>、<span class="kpi">2301 光寶科</span>。<span class="kpi">Richtek</span> 也在 NVIDIA 官方合作名單內，但因非獨立上市，不能直接當成單一台股標的。官方名單另有 <span class="kpi">Lead Wealth</span>，但我目前找不到足夠公開資料完成穩健的台股映射，所以先不把它寫成可投資結論。</div>
 <div class="grid three">
 <div><h3>最值得看</h3><p>台達電的直接性最高。官方名單列名之外，台達官網首頁本身就出現「台達與 NVIDIA：以 800 VDC 引領 AI 能源新時代」，而且其核心能力本來就在電源管理與散熱。</p></div>
 <div><h3>被低估的一層</h3><p>貿聯-KY 受惠點很實際，落在伺服器連接器、Server Cables、Power Whip、Data Center Busbar、Rack Busbar。這層很像基礎建設鏟子，不會像晶片股那樣最吸睛，但落地度很高。</p></div>
@@ -65,18 +65,18 @@ ul.clean { margin:0; padding-left:18px; } .kpi { font-weight:800; color:var(--a)
 </div>
 </section>
 <section id="verified" class="card">
-<h2>先確認事實</h2>
+<h2>技術與合作名單</h2>
 <div class="mermaid">flowchart LR
-A[X 推文] --> B[列出 16 檔美歐標的]
-B --> C[作者明示 long NVTS]
-A --> D[NVIDIA 官方 800 VDC 頁面]
-D --> E[確認 29 家官方合作夥伴]
-E --> F[其中可辨識台灣廠商至少有台達電、貿聯、光寶、Richtek]
-F --> G[因此推文不是完整受惠地圖]
+A[AI 資料中心功率密度提高] --> B[傳統 54V 架構成為瓶頸]
+B --> C[NVIDIA 800 VDC 架構]
+C --> D[降低轉換階段與配電損耗]
+C --> E[減少銅材與線纜體積]
+C --> F[支援更高密度 AI 機櫃]
+D --> G[電源半導體 / 配電設備 / 線材 / 板端電源管理受惠]
 </div>
-<p>官方頁面主文寫得很清楚：AI 資料中心正快速超出傳統供電方式，舊的 54V 標準已成瓶頸，NVIDIA 800 VDC 被定位為下一代配電架構，目標是降低轉換損耗、減少銅材與線纜體積，並提高同面積計算密度。[S1]</p>
-<p>同一頁的合作夥伴區塊標示「Who We’re Working With」，文字說明為 NVIDIA 正與資料中心電力生態系關鍵夥伴合作加速導入。從頁面與圖像交叉可辨識的 29 家名單中，包含 ABB、Analog Devices、BizLink、Delta、Eaton、Flex、GE Vernova、Infineon、LITEON、Richtek、Vertiv 等。[S1]</p>
-<p>推文則把焦點放在 Navitas、STMicroelectronics、AOS、Flex、Power Integrations、onsemi、Infineon、Vertiv、Texas Instruments、MPS、GE Vernova、ADI、ABB、Eaton、Schneider Electric、Siemens 等 16 個海外標的，最後還明講「I’m long $NVTS」。這代表它是主題投資觀點，不是完整供應鏈普查。[S2]</p>
+<p>NVIDIA 官方頁面說明，AI 資料中心正在快速超出傳統供電方式，舊的 54V 標準已成為瓶頸。NVIDIA 800 VDC 被定位為下一代配電架構，目標是降低轉換與配電損耗、減少銅材與線纜體積，並提高同面積可容納的運算密度。[S1]</p>
+<p>官方合作夥伴區塊標示「Who We’re Working With」，文字說明為 NVIDIA 正與資料中心電力生態系關鍵夥伴合作加速導入。頁面與圖像可辨識的合作夥伴包含 ABB、Alpha & Omega Semiconductor、Analog Devices、BizLink、Delta、Eaton、EPC、Flex、GE Vernova、Heron Power、Hitachi Energy、Infineon、Innoscience、Lead Wealth、LITEON、Megmeet、Mitsubishi Electric、MPS、Navitas、onsemi、Power Integrations、Renesas、Richtek、ROHM、Schneider Electric、Siemens、STMicroelectronics、Texas Instruments、Vertiv。[S1]</p>
+<p>其中與台灣供應鏈直接相關者包括 BizLink、Delta、LITEON、Richtek，以及尚待進一步確認公司身分與投資映射的 Lead Wealth。這些廠商對應的受惠層，主要落在資料中心配電、線材與 busbar、電源供應、散熱、板端電源管理 IC。</p>
 </section>
 <section id="taiwan" class="card">
 <h2>台灣受惠名單</h2>
@@ -135,38 +135,38 @@ D -.台灣直觀受惠.-> T3[2301 光寶科 / Richtek]
 <p class="source">分數是主題研究分層，不是目標價。衡量維度包含：是否直接列在 NVIDIA 官方名單、產品與 800 VDC 的貼合度、可投資映射清晰度、目前公開資訊完整度。</p>
 </section>
 <section id="risk" class="card">
-<h2>風險與盲點</h2>
+<h2>追蹤重點</h2>
 <div class="grid two">
 <div>
-<h3>這則推文的三個盲點</h3>
+<h3>後續要確認的資訊</h3>
 <table>
-<thead><tr><th>盲點</th><th>說明</th></tr></thead>
+<thead><tr><th>追蹤項目</th><th>為何重要</th></tr></thead>
 <tbody>
-<tr><td>名單偏海外股票</td><td>作者列的是美歐掛牌標的，不等於 NVIDIA 官方合作夥伴全名單，因此容易漏掉台廠。</td></tr>
-<tr><td>觀點帶持股立場</td><td>作者公開表示自己持有 Navitas，閱讀時要把它視為帶部位的主題論述。</td></tr>
-<tr><td>把合作名單直接等同營收</td><td>列名代表進入生態系，不代表每一家都會同樣受惠，更不代表短期營收立即放大。</td></tr>
+<tr><td>800 VDC 產品化進度</td><td>合作夥伴列名代表生態系合作，真正營收貢獻仍取決於產品規格、導入時程與客戶採用速度。</td></tr>
+<tr><td>台達電資料中心電源與散熱方案</td><td>台達電是台股中最直接對應供電架構升級的標的，後續產品與客戶案例會影響受惠強度。</td></tr>
+<tr><td>貿聯-KY busbar、power whip、server cable 出貨</td><td>800 VDC 導入會提高機櫃配電與高壓連接件的重要性，貿聯的產品結構與這層高度相關。</td></tr>
+<tr><td>光寶科 AI 資料中心電源模組</td><td>光寶科方向吻合，但需要更多公開資料確認它在 800 VDC 架構中的具體產品位置。</td></tr>
+<tr><td>Richtek AI 伺服器板端電源管理 IC</td><td>Richtek 已列名且產品方向貼近 DDR5 PMIC、hot swap controller 與伺服器電源管理，但投資映射需另外處理。</td></tr>
 </tbody>
 </table>
 </div>
 <div>
-<h3>你接下來該追的驗證點</h3>
+<h3>資訊邊界</h3>
 <ol>
-<li>台達電是否發布更明確的 800 VDC 架構產品、客戶案例或資料中心專案更新。</li>
-<li>貿聯是否在法說、年報或產品更新中增加 busbar、power whip、高壓線束與 AI 機櫃配電相關描述。</li>
-<li>光寶科是否揭露更多 AI 資料中心電源模組或高功率供應方案。</li>
-<li>Richtek 是否出現更明確的 AI 伺服器板端電源、熱插拔控制器、DDR5 PMIC 出貨訊號。</li>
-<li>NVIDIA 是否再擴大官方合作名單，或在白皮書、GTC、OCP 講稿中點名台灣供應商角色。</li>
+<li>官方列名代表合作夥伴身分，不等於已確認訂單或營收貢獻。</li>
+<li>台達電、貿聯-KY、光寶科可直接對應台股代號；Richtek 與 Lead Wealth 需分開處理。</li>
+<li>800 VDC 是資料中心電力架構升級，受惠公司不限於功率半導體，也包含配電設備、線材、連接件、電源模組與散熱。</li>
+<li>受惠強度應以產品導入、法說揭露、客戶案例、營收分項與毛利變化交叉驗證。</li>
 </ol>
 </div>
 </div>
-<div class="callout"><strong>保守提醒：</strong>這份報告能確認的是「官方合作名單有台灣公司，且若 800 VDC 架構加速導入，台灣在電源、線材、機櫃配電、板端電源管理會受惠」。它還不能支持「某家公司已因這個專案確認大幅貢獻營收」這種更強的句子。</div>
+<div class="callout"><strong>保守邊界：</strong>這份報告能確認的是「官方合作名單有台灣公司，且若 800 VDC 架構加速導入，台灣在電源、線材、機櫃配電、板端電源管理會受惠」。它還不能支持「某家公司已因這個專案確認大幅貢獻營收」這種更強的句子。</div>
 </section>
 <section id="sources" class="card">
 <h2>來源</h2>
 <details open><summary>已驗證來源</summary>
 <ul>
 <li>[S1] NVIDIA 官方頁面：<a href="https://www.nvidia.com/en-us/data-center/technologies/800-vdc-architecture/">NVIDIA 800 VDC Architecture for AI Data Centers</a>。頁面主文說明 54V 瓶頸、800 VDC 架構定位，並列出合作夥伴區塊。</li>
-<li>[S2] X 推文鏡像資料：<a href="https://api.fxtwitter.com/status/2060428460330308092">Ren_aramb / 2060428460330308092</a>。可見推文字句、列股名單與作者自述持有 NVTS。</li>
 <li>[S3] BizLink 官網：<a href="https://www.bizlinktech.com/zh-tw">BizLink</a>。可見 Data Center Solutions 產品文字，包括 Server Connectors、Server Cables、Power Whip、Data Center Busbar、Rack Busbar。</li>
 <li>[S4] 台達官網：<a href="https://www.deltaww.com/zh-TW/index">Delta</a>。首頁可見「台達與 NVIDIA：以 800 VDC 引領 AI 能源新時代」，並說明其核心競爭力在電源管理與散熱解決方案。</li>
 <li>[S5] 光寶官網：<a href="https://www.liteon.com/zh-tw">LITEON</a>。可見其自述為全球光電元件、電源管理及電子關鍵模組領導廠商，首頁亦有與 NVIDIA 同台 AI 活動訊息。</li>
@@ -177,7 +177,7 @@ D -.台灣直觀受惠.-> T3[2301 光寶科 / Richtek]
 <details><summary>我刻意保留不下結論的地方</summary>
 <p>Lead Wealth 雖然出現在官方合作名單，但我尚未取得足夠公開資料完成身分與股票映射驗證。Richtek 雖然直接列名且產品方向吻合，但在這份資料集裡，我不把它硬轉成單一台股代號，避免把投資映射寫過頭。</p>
 </details>
-<p class="footnote">本頁採主題報告寫法，目的是把推文觀點、官方名單與台廠投資映射拆開，避免把來源偏誤直接帶進結論。</p>
+<p class="footnote">本頁採主題報告寫法，聚焦官方合作名單、公司公開資訊與台廠受惠路徑。</p>
 </section>
 </main>
 </div>
