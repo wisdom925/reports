@@ -1,0 +1,311 @@
+<!doctype html>
+<html lang="zh-Hant" class="scroll-smooth">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>NVIDIA N1X 裝置端 AI 處理器策略分析</title>
+  <meta name="description" content="投資人觀點：Ming-Chi Kuo 供應鏈調查對 NVIDIA N1X / Windows PC 處理器的中性解析。">
+  <meta property="og:title" content="NVIDIA N1X 裝置端 AI 處理器策略分析">
+  <meta property="og:description" content="投資人觀點：Ming-Chi Kuo 供應鏈調查對 NVIDIA N1X / Windows PC 處理器的中性解析。">
+  <meta property="og:type" content="article">
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = { darkMode: 'class', theme: { extend: { fontFamily: { sans: ['system-ui', 'ui-sans-serif', 'sans-serif'] } } } };
+    if (localStorage.theme === 'dark' || (!('theme' in localStorage) && matchMedia('(prefers-color-scheme: dark)').matches)) {
+      document.documentElement.classList.add('dark');
+    }
+  </script>
+  <link id="hljs-theme" rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11/build/styles/github-dark.min.css">
+  <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11/build/highlight.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+    const isDark = document.documentElement.classList.contains('dark');
+    mermaid.initialize({ startOnLoad: true, theme: isDark ? 'dark' : 'default', securityLevel: 'loose' });
+    window.__mermaid = mermaid;
+  </script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/contrib/auto-render.min.js"
+    onload='renderMathInElement(document.body, { delimiters: [ {left:"$$",right:"$$",display:true}, {left:"$",right:"$",display:false}, {left:"\\(",right:"\\)",display:false}, {left:"\\[",right:"\\]",display:true} ]})'></script>
+
+  <style>
+    @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
+    @media print {
+      .no-print { display: none !important; }
+      body { color: #000; background: #fff; }
+      a { color: inherit; text-decoration: underline; }
+      details { display: block; } details > summary { display: none; }
+    }
+    pre code.hljs { border-radius: .5rem; padding: 1rem; font-size: .85rem; }
+    details > summary { cursor: pointer; user-select: none; }
+    details > summary::marker { content: "▸ "; }
+    details[open] > summary::marker { content: "▾ "; }
+    .toc a { display: block; padding: .2rem 0; opacity: .6; transition: opacity .15s; }
+    .toc a:hover, .toc a.active { opacity: 1; }
+    .toc a.active { font-weight: 500; }
+    .copy-btn { position: absolute; top: .5rem; right: .5rem; }
+    pre.has-copy { position: relative; }
+    .tabs > input[type="radio"] { display: none; }
+    .tabs > label { cursor: pointer; padding: .5rem 1rem; border-bottom: 2px solid transparent; }
+    .tabs > input:checked + label { border-color: currentColor; }
+    .tabs > .tab-panel { display: none; padding-top: 1rem; }
+    .tabs > input:nth-of-type(1):checked ~ .tab-panel:nth-of-type(1),
+    .tabs > input:nth-of-type(2):checked ~ .tab-panel:nth-of-type(2),
+    .tabs > input:nth-of-type(3):checked ~ .tab-panel:nth-of-type(3),
+    .tabs > input:nth-of-type(4):checked ~ .tab-panel:nth-of-type(4) { display: block; }
+  </style>
+</head>
+<body class="bg-white dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 font-sans antialiased">
+
+<div class="fixed top-4 right-4 z-50 flex gap-2 no-print">
+  <button id="theme-toggle" class="px-3 py-1.5 rounded-md border border-zinc-300 dark:border-zinc-700 bg-white/70 dark:bg-zinc-900/70 backdrop-blur text-sm hover:bg-zinc-100 dark:hover:bg-zinc-800">☼ / ☾</button>
+  <button onclick="window.print()" class="px-3 py-1.5 rounded-md border border-zinc-300 dark:border-zinc-700 bg-white/70 dark:bg-zinc-900/70 backdrop-blur text-sm hover:bg-zinc-100 dark:hover:bg-zinc-800">列印</button>
+</div>
+
+<div class="max-w-6xl mx-auto px-6 py-12 lg:grid lg:grid-cols-[200px_minmax(0,1fr)] lg:gap-12">
+
+  <nav class="toc lg:sticky lg:top-12 self-start text-sm mb-8 lg:mb-0 no-print">
+    <div class="font-semibold mb-2 text-zinc-500 uppercase tracking-wider text-xs">Contents</div>
+    <a href="#executive-summary">Executive Summary</a>
+    <a href="#source-and-scope">Source & Scope</a>
+    <a href="#market-observation">Market Observation</a>
+    <a href="#product-positioning">Product Positioning</a>
+    <a href="#investment-implications">Investment Implications</a>
+    <a href="#risks">Risks</a>
+    <a href="#watch-items">Watch Items</a>
+    <a href="#methodology">Methodology</a>
+  </nav>
+
+  <main class="min-w-0">
+
+    <header class="mb-12">
+      <p class="text-sm text-zinc-500 mb-2">REPORT • 2026-05-31</p>
+      <h1 class="text-3xl font-bold tracking-tight mb-3">NVIDIA N1X 裝置端 AI 處理器策略分析</h1>
+      <p class="text-lg text-zinc-600 dark:text-zinc-400">供應鏈調查與投資觀點的整理</p>
+    </header>
+
+    <section id="executive-summary" class="mb-12">
+      <h2 class="text-2xl font-semibold mb-4">Executive Summary</h2>
+      <div class="grid gap-4">
+        <div class="p-4 rounded-lg border border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900">
+          <h3 class="font-semibold text-sm text-zinc-500 uppercase tracking-wider mb-2">中繼結論</h3>
+          <p class="leading-relaxed">根据 Ming-Chi Kuo 的供應鏈調查，NVIDIA 將推出的 N1X / Windows PC 處理器，在 devices 端 AI 算力這個定位上，初步看來是 niche（利基）而非 mass market（大眾）。對投資人而言，短期建議視為「附加題」而非「主力題」；真正可能帶動顯著升級換機潮的催化劑，仍落在 Windows 作業系統對端側 AI 的整合深度。</p>
+        </div>
+        <div class="p-4 rounded-lg border border-blue-200 dark:border-blue-900 bg-blue-50 dark:bg-blue-950">
+          <h3 class="font-semibold text-sm text-blue-600 uppercase tracking-wider mb-2">核心問題</h3>
+          <p class="leading-relaxed">若非 Apple Silicon 生態圈，N1X 會是重度使用者另一個選擇。但即使硬體規格到位，若 Windows 仍停留在「為本家應用程式增加 AI 功能」而非「跨應用程式的資料與工作流整合」，裝置端的換機動能就難顯現。</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="source-and-scope" class="mb-12">
+      <h2 class="text-2xl font-semibold mb-4">Source & Scope</h2>
+      <div class="text-sm text-zinc-600 dark:text-zinc-400 space-y-2">
+        <p><strong>來源：</strong>Ming-Chi Kuo 公開社群平台貼文，2026-05-31。</p>
+        <p><strong>公開程度：</strong>公開貼文，但屬於產業分析師個人觀察，非官方财报或指引。</p>
+        <p><strong>用途限制：</strong>本文作為新聞整理與投資觀點中性分析，不構成任何投資建議。所有結論均基於公開可驗證資訊。</p>
+      </div>
+    </section>
+
+    <section id="market-observation" class="mb-12">
+      <h2 class="text-2xl font-semibold mb-4">Market Observation</h2>
+
+      <div class="grid md:grid-cols-2 gap-4 mb-6">
+        <div class="p-4 rounded-lg border border-zinc-200 dark:border-zinc-800">
+          <h3 class="font-semibold mb-2">2026 年 PC 產業熱點 ≠ 端側 AI 算力</h3>
+          <p class="text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">文中指出 2026 年兩大熱門事件：MacBook Neo（設計/生態/價格）與小 PC 主機（長時間掛機跑 AI agent，推論仍在雲端），兩者核心都不是裝置端 AI 算力。</p>
+        </div>
+        <div class="p-4 rounded-lg border border-zinc-200 dark:border-zinc-800">
+          <h3 class="font-semibold mb-2">N1X 出貨量定位</h3>
+          <p class="text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">未來兩年約 10M，屬利基市場；承接對裝置端 AI 有需求的重度使用者，目標客群明確但天花板不高。</p>
+        </div>
+      </div>
+
+      <div class="p-4 rounded-lg border border-zinc-300 dark:border-zinc-700">
+        <h3 class="font-semibold mb-2">主流 AI 應用路徑</h3>
+        <p class="text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">無論是「用瀏覽器上 LLM 網站」或「透過 API 消耗雲端 LLM 算力」，核心都是雲端算力。這意味裝置端 AI 處理器要改變消費者行為，還需要新的應用范式，而非僅靠硬體規格提升。</p>
+      </div>
+    </section>
+
+    <section id="product-positioning" class="mb-12">
+      <h2 class="text-2xl font-semibold mb-4">Product Positioning</h2>
+      <p class="mb-4 text-zinc-600 dark:text-zinc-400">將 NVIDIA N1X 裝置與市場上現有選項客觀比較：</p>
+
+      <div class="overflow-x-auto">
+        <table class="w-full text-sm">
+          <thead>
+            <tr class="border-b border-zinc-200 dark:border-zinc-800 text-left">
+              <th class="py-2 pr-4 font-semibold">面向</th>
+              <th class="py-2 pr-4 font-semibold">NVIDIA N1X 裝置</th>
+              <th class="py-2 pr-4 font-semibold">Apple Silicon（MacBook Neo）</th>
+              <th class="py-2 font-semibold">其他 x86 + NPU</th>
+            </tr>
+          </thead>
+          <tbody class="text-zinc-600 dark:text-zinc-400">
+            <tr class="border-b border-zinc-100 dark:border-zinc-900">
+              <td class="py-2 pr-4">主力賣點（文內預測）</td>
+              <td class="py-2 pr-4">端側 AI 算力與記憶體平衡</td>
+              <td class="py-2 pr-4">價格 + 設計 + 生態</td>
+              <td class="py-2">價格 + 兼容性</td>
+            </tr>
+            <tr class="border-b border-zinc-100 dark:border-zinc-900">
+              <td class="py-2 pr-4">換機驅動力</td>
+              <td class="py-2 pr-4">AI 重度工作本地化</td>
+              <td class="py-2 pr-4">生態黏著 + 性價比</td>
+              <td class="py-2">價格敏感 + 商用部署</td>
+            </tr>
+            <tr class="border-b border-zinc-100 dark:border-zinc-900">
+              <td class="py-2 pr-4">出貨規模預期</td>
+              <td class="py-2 pr-4">~10M / 2yr（利基）</td>
+              <td class="py-2 pr-4">10M+（大眾市場）</td>
+              <td class="py-2">視品牌與通路而定</td>
+            </tr>
+            <tr>
+              <td class="py-2 pr-4">關鍵變數</td>
+              <td class="py-2 pr-4">Windows 端側 AI 整合度</td>
+              <td class="py-2 pr-4">Apple 持續的生態推進</td>
+              <td class="py-2">Copilot+ PC 落地應用</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="investment-implications" class="mb-12">
+      <h2 class="text-2xl font-semibold mb-4">Investment Implications</h2>
+
+      <details class="mb-4 rounded-lg border border-zinc-200 dark:border-zinc-800">
+        <summary class="px-4 py-3 font-semibold cursor-pointer">正面解讀</summary>
+        <div class="px-4 py-3 text-sm text-zinc-600 dark:text-zinc-400 space-y-2 border-t border-zinc-100 dark:border-zinc-900">
+          <p>N1X 代表 NVIDIA 首次完整切入 Windows PC 主戰場，若端側 AI 應用真正成熟，NVIDIA 可複製其在資料中心 via AI PC 的生態系，建立從雲端到裝置的完整 chain of custody。</p>
+          <p>如果 Windows 的 AI 整合超預期，N1X 將是主要受益者之一，因為在 ARM 架構的 Apple 與 x86 平台之外，NVIDIA 的 AI expertise 是最強的賣點。</p>
+        </div>
+      </details>
+
+      <details class="mb-4 rounded-lg border border-zinc-200 dark:border-zinc-800">
+        <summary class="px-4 py-3 font-semibold cursor-pointer">中性/觀望角度</summary>
+        <div class="px-4 py-3 text-sm text-zinc-600 dark:text-zinc-400 space-y-2 border-t border-zinc-100 dark:border-zinc-900">
+          <p>產業分析師給的 10M / 2yr 規模，對 NVIDIA 整體營收 impacto 輕微，更像是「 portfolio 補齊」而非 growth driver。</p>
+          <p>過去 PC 產業的換機潮，往往需要「應用範式轉移」。目前端側 AI 的 Killer App 還不明確，N1X 的命運高度相依於 Microsoft/Windows 的生態推進速度。</p>
+        </div>
+      </details>
+
+      <details class="rounded-lg border border-zinc-200 dark:border-zinc-800">
+        <summary class="px-4 py-3 font-semibold cursor-pointer">風險側寫</summary>
+        <div class="px-4 py-3 text-sm text-zinc-600 dark:text-zinc-400 space-y-2 border-t border-zinc-100 dark:border-zinc-900">
+          <p>若 Windows 整合不如預期、或 Apple 透過更便宜的 Mac 搶佔重度使用者市場，N1X 的利基地位可能被稀釋。</p>
+          <p>NVIDIA 的成長動能目前仍集中在資料中心，投資人不宜因為單一筆供應鏈訊息而過度放大 PC 業務比重。</p>
+        </div>
+      </details>
+    </section>
+
+    <section id="risks" class="mb-12">
+      <h2 class="text-2xl font-semibold mb-4">Risks</h2>
+      <div class="grid gap-3">
+        <div class="flex items-start gap-3">
+          <span class="mt-1.5 inline-flex h-2 w-2 rounded-full bg-amber-500"></span>
+          <p class="text-sm"><strong>資訊來源限制：</strong>原文為分析師個人觀察，非公司官方指引；出貨量、規格、時間表皆未經官方確認。</p>
+        </div>
+        <div class="flex items-start gap-3">
+          <span class="mt-1.5 inline-flex h-2 w-2 rounded-full bg-amber-500"></span>
+          <p class="text-sm"><strong>生態依賴：</strong>Windows 對端側 AI 的整合進度是最大不可控變數，短期內難以量化解讀。</p>
+        </div>
+        <div class="flex items-start gap-3">
+          <span class="mt-1.5 inline-flex h-2 w-2 rounded-full bg-amber-500"></span>
+          <p class="text-sm"><strong>競爭態勢：</strong>Copilot+ PC 與 Apple Silicon 分別從不同方向壓縮 N1X 的差異化空間。</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="watch-items" class="mb-12">
+      <h2 class="text-2xl font-semibold mb-4">Watch Items</h2>
+      <div class="overflow-x-auto">
+        <table class="w-full text-sm">
+          <thead>
+            <tr class="border-b border-zinc-200 dark:border-zinc-800 text-left">
+              <th class="py-2 pr-4 font-semibold">觀察面向</th>
+              <th class="py-2 font-semibold">投資人訊號</th>
+            </tr>
+          </thead>
+          <tbody class="text-zinc-600 dark:text-zinc-400">
+            <tr class="border-b border-zinc-100 dark:border-zinc-900">
+              <td class="py-2 pr-4">NVIDIA AI PC 策略發布</td>
+              <td class="py-2">Computex / GTC 後續產品定義與合作 OEM 名單</td>
+            </tr>
+            <tr class="border-b border-zinc-100 dark:border-zinc-900">
+              <td class="py-2 pr-4">Windows AI 整合</td>
+              <td class="py-2">Copilot+ PC 市佔率、第三方應用程式的本地 AI 集成度</td>
+            </tr>
+            <tr class="border-b border-zinc-100 dark:border-zinc-900">
+              <td class="py-2 pr-4">競爭動態</td>
+              <td class="py-2">Mac 產品線定價策略、Qualcomm/Intel NPU 樣本出貨數據</td>
+            </tr>
+            <tr>
+              <td class="py-2 pr-4">供應鏈確認</td>
+              <td class="py-2">後續出貨量上修 / 下修訊號</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="methodology" class="mb-12">
+      <h2 class="text-2xl font-semibold mb-4">Methodology</h2>
+      <p class="text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed">
+        本報告採用中立敘事角度整理公開可驗證資訊來源，不對標的進行多空立場誘導。所有推論僅基於公開訊息與產業邏輯，不涉及內部數據、未公開消息或個人關係脈絡。
+      </p>
+    </section>
+
+  </main>
+</div>
+
+<script>
+  document.getElementById('theme-toggle').addEventListener('click', () => {
+    const dark = document.documentElement.classList.toggle('dark');
+    localStorage.theme = dark ? 'dark' : 'light';
+    if (window.__mermaid) {
+      document.querySelectorAll('.mermaid[data-processed]').forEach(el => {
+        el.removeAttribute('data-processed');
+        el.innerHTML = el.dataset.src || el.textContent;
+      });
+      window.__mermaid.initialize({ startOnLoad: false, theme: dark ? 'dark' : 'default', securityLevel: 'loose' });
+      window.__mermaid.run();
+    }
+  });
+
+  hljs.highlightAll();
+  document.querySelectorAll('pre > code').forEach(code => {
+    const pre = code.parentElement;
+    pre.classList.add('has-copy');
+    const btn = document.createElement('button');
+    btn.textContent = 'copy';
+    btn.className = 'copy-btn no-print text-xs px-2 py-1 rounded bg-zinc-700 text-zinc-100 hover:bg-zinc-600 opacity-50 transition-opacity';
+    btn.addEventListener('mouseenter', () => btn.style.opacity = '1');
+    btn.addEventListener('mouseleave', () => btn.style.opacity = '0.5');
+    btn.addEventListener('click', async () => {
+      await navigator.clipboard.writeText(code.innerText);
+      const old = btn.textContent;
+      btn.textContent = 'copied';
+      setTimeout(() => btn.textContent = old, 1200);
+    });
+    pre.appendChild(btn);
+  });
+
+  const tocLinks = document.querySelectorAll('.toc a');
+  const sections = [...tocLinks].map(a => document.querySelector(a.getAttribute('href'))).filter(Boolean);
+  if (sections.length) {
+    const onScroll = () => {
+      const y = window.scrollY + 100;
+      let active = sections[0];
+      for (const s of sections) if (s.offsetTop <= y) active = s;
+      tocLinks.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + active.id));
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+  }
+</script>
+
+</body>
+</html>
