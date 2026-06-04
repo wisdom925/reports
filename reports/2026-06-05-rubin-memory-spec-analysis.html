@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Rubin 記憶體規格調整推測與供應鏈影響整理</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang TC", "Noto Sans TC", sans-serif;
+      background: #f5f5f7;
+      color: #1d1d1f;
+      margin: 0;
+      padding: 24px;
+      line-height: 1.6;
+    }
+    .container {
+      max-width: 880px;
+      margin: 0 auto;
+    }
+    header {
+      margin-bottom: 18px;
+    }
+    h1 {
+      font-size: 22px;
+      font-weight: 700;
+      margin: 0 0 8px 0;
+    }
+    .meta {
+      font-size: 13px;
+      color: #6e6e73;
+    }
+    .meta span { margin-right: 10px; }
+    .card {
+      background: #ffffff;
+      border-radius: 12px;
+      padding: 18px;
+      margin-bottom: 16px;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.04);
+    }
+    .card h2 {
+      font-size: 15px;
+      font-weight: 600;
+      margin: 0 0 10px 0;
+      color: #2c2c2e;
+    }
+    .card p {
+      margin: 0 0 10px 0;
+      font-size: 14px;
+      color: #3a3a3c;
+    }
+    .card p:last-child { margin-bottom: 0; }
+    .stack {
+      list-style: none;
+      padding: 0;
+      margin: 6px 0 0 0;
+    }
+    .stack li {
+      display: inline-block;
+      background: #eef1f5;
+      color: #2c2c2e;
+      padding: 5px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      margin: 0 6px 6px 0;
+    }
+    .nums {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 8px;
+    }
+    .num {
+      flex: 1 1 200px;
+      background: #0f172a;
+      color: #f8fafc;
+      border-radius: 10px;
+      padding: 12px;
+    }
+    .num-label {
+      font-size: 12px;
+      color: #a5b4c8;
+    }
+    .num-value {
+      font-size: 20px;
+      font-weight: 700;
+      margin-top: 4px;
+    }
+    .quote {
+      border-left: 4px solid #2563eb;
+      padding-left: 12px;
+      color: #3a3a3c;
+      font-style: italic;
+      margin: 6px 0 0 0;
+    }
+    footer.note {
+      font-size: 12px;
+      color: #8e8e93;
+      text-align: right;
+    }
+    .pill {
+      display: inline-block;
+      background: #fff4e5;
+      color: #b65c00;
+      border: 1px solid #ffd6a3;
+      border-radius: 999px;
+      padding: 4px 10px;
+      font-size: 12px;
+      font-weight: 600;
+      margin-top: 8px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Rubin 記憶體規格調整推測與供應鏈影響整理</h1>
+      <div class="meta">
+        <span>整理時間：2026-06-04</span>
+        <span>來源：@tuolaji2024（機機如律令）X 貼文</span>
+        <span>聲明：以下為貼文觀點整理，非投資建議，也未回帖內容或截圖</span>
+      </div>
+    </header>
+
+    <div class="card">
+      <h2>1) 規格調整</h2>
+      <p>Rubin 記憶體容量從 55TB 下修至 28TB，即配置減半。</p>
+    </div>
+
+    <div class="card">
+      <h2>2) 成本變化</h2>
+      <p>成本端僅省約 10%，從 USD 7.6M 降至 USD 6.8M：760 萬 → 680 萬「這個調整對總成本的影響有限」。</p>
+      <div class="nums">
+        <div class="num">
+          <div class="num-label">整機成本</div>
+          <div class="num-value">USD 6.8M</div>
+        </div>
+        <div class="num">
+          <div class="num-label">相較原成本</div>
+          <div class="num-value">-10%</div>
+        </div>
+        <div class="num">
+          <div class="num-label">單 GPU/小時 TCO</div>
+          <div class="num-value">USD 3.90</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>3) 判斷與推測（同為貼文內容）</h2>
+      <p>原作者認為：</p>
+      <ol style="font-size:14px; color:#3a3a3c; padding-left: 22px; margin: 6px 0;">
+        <li>英偉達拿到極低價的長期協議價。</li>
+        <li>Rubin 量產節奏比市場原先預期更急迫。</li>
+        <li>降記憶體 + 昇互連的權衡反映「出貨量優先」策略。</li>
+      </ol>
+      <p>以上出自推測語氣，並非已證實的內部營運決定。</p>
+    </div>
+
+    <div class="card">
+      <h2>4) 產業鏈影響</h2>
+      <p class="quote">「SOCAMM 用量砍半，HBM 需求增速要下修。但對光模組和 PCB 完全沒影響。」</p>
+      <ul style="font-size:14px; color:#3a3a3c; padding-left: 22px; margin: 6px 0;">
+        <li>HBM / DRAM：短期供應依舊吃緊，但 Rubin 這次的單機用量下修，會讓原本預估的成長斜率存在下修風險。</li>
+        <li>光模組、PCB：無直接負面衝擊。</li>
+        <li>散熱：與高頻寬互連配置相關，未見負面影響。</li>
+        <li>CPU、BASEBAND、ODM：文件中未提及相關描述。</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h2>5) 效能與採購</h2>
+      <p>TCO 從 USD 4.16 降到 USD 3.90，降幅 6%。原作者推測：</p>
+      <p class="quote">「對 CSP 們來說 Rubin 更便宜了，可能加速採購決策。」</p>
+      <p>但這一樣屬於推測語氣，尚未看到具体確認來源。</p>
+    </div>
+
+    <div class="card">
+      <h2>6) 後市與台股</h2>
+      <p class="quote">「中國的易中天們的 H1 財報才是未來估值抬升的下一個敘事開啟。」</p>
+      <ul style="font-size:14px; color:#3a3a3c; padding-left: 22px; margin: 6px 0;">
+        <li>原作視「中國光通訊鏈（如中際旭創） H1 財報」為下一個催化。</li>
+        <li>這是立場表達，屬於投資觀點推測。</li>
+      </ul>
+      <div class="pill">附註：2026-06-04 尚未有官方摩根士丹利更新可對應此貼文結論</div>
+    </div>
+
+    <footer class="note">
+      本日本報告僅針對使用者提供的單一貼文內容做整理，未延伸查核其他作者、回帖或外部資料。
+    </footer>
+  </div>
+</body>
+</html>
