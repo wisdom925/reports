@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="zh-Hant-TW">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>InP 產能領導者驗證報告｜目前最大與未來最大候選</title>
+  <meta name="description" content="驗證全球 InP 基板、晶圓與元件產能領導公司，區分目前最大供應商與未來擴產後的最大產能候選。">
+  <meta property="og:title" content="InP 產能領導者驗證報告">
+  <meta property="og:description" content="目前最大 InP 基板供應商指向 JX Advanced Metals；未來絕對產能候選以 Coherent 最有公開證據，Nokia/Infinera 擴產倍率最大。">
+  <meta property="og:type" content="article">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <style>
+    :root{--bg:#07111f;--card:#0d1b2f;--card2:#10233d;--ink:#eaf2ff;--muted:#99abc5;--line:#223956;--accent:#45d6b5;--blue:#69a7ff;--amber:#ffd166;--red:#ff6b7a;--green:#79e08a;--shadow:0 24px 80px rgba(0,0,0,.35)}
+    *{box-sizing:border-box} body{margin:0;background:radial-gradient(circle at 20% 0%,#14365b 0,#07111f 34%,#050914 100%);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans TC","PingFang TC",sans-serif;line-height:1.65}
+    a{color:#9fc5ff;text-decoration:none} a:hover{text-decoration:underline}.wrap{max-width:1180px;margin:auto;padding:28px 18px 64px}.hero{padding:48px 28px;border:1px solid rgba(105,167,255,.25);border-radius:28px;background:linear-gradient(135deg,rgba(16,35,61,.9),rgba(7,17,31,.86));box-shadow:var(--shadow);position:relative;overflow:hidden}.hero:after{content:"";position:absolute;right:-120px;top:-120px;width:340px;height:340px;background:radial-gradient(circle,rgba(69,214,181,.35),transparent 65%)}
+    .eyebrow{color:var(--accent);font-weight:800;letter-spacing:.12em;text-transform:uppercase}.hero h1{font-size:clamp(30px,5vw,58px);line-height:1.05;margin:12px 0}.subtitle{font-size:20px;color:#cfe0f7;max-width:920px}.grid{display:grid;gap:18px}.g3{grid-template-columns:repeat(3,1fr)}.g2{grid-template-columns:repeat(2,1fr)}@media(max-width:860px){.g3,.g2{grid-template-columns:1fr}.hero{padding:32px 20px}}
+    .card{background:rgba(13,27,47,.88);border:1px solid rgba(153,171,197,.18);border-radius:22px;padding:22px;box-shadow:0 14px 40px rgba(0,0,0,.22)}.card h2,.card h3{margin-top:0}.metric{font-size:38px;font-weight:900;line-height:1}.label{color:var(--muted);font-size:14px}.pill{display:inline-flex;align-items:center;gap:8px;border:1px solid rgba(105,167,255,.28);border-radius:999px;padding:7px 12px;color:#d8e8ff;background:rgba(105,167,255,.09);font-size:13px;margin:5px 6px 5px 0}.ok{color:var(--green)}.warn{color:var(--amber)}.risk{color:var(--red)}
+    section{margin-top:28px}.toc{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px}.toc a{border:1px solid rgba(153,171,197,.2);background:rgba(255,255,255,.04);border-radius:999px;padding:8px 12px;color:#dceaff}.rank{display:grid;grid-template-columns:52px 1fr auto;gap:16px;align-items:center;border-top:1px solid var(--line);padding:18px 0}.rank:first-child{border-top:0}.num{width:42px;height:42px;border-radius:14px;background:linear-gradient(135deg,var(--accent),var(--blue));display:grid;place-items:center;color:#041019;font-weight:900}.score{font-size:24px;font-weight:900}.small{font-size:13px;color:var(--muted)}
+    table{width:100%;border-collapse:collapse;overflow:hidden;border-radius:16px}th,td{text-align:left;padding:13px 12px;border-bottom:1px solid var(--line);vertical-align:top}th{color:#cfe0f7;background:rgba(105,167,255,.09);font-size:13px}td{color:#e8f1ff}.tag{font-size:12px;border:1px solid rgba(69,214,181,.32);color:#b6fff0;background:rgba(69,214,181,.08);padding:3px 8px;border-radius:999px;white-space:nowrap}.chartbox{height:360px}.note{background:rgba(255,209,102,.08);border:1px solid rgba(255,209,102,.26);border-radius:18px;padding:16px;color:#ffe9ad}.src li{margin:8px 0}.footer{color:var(--muted);font-size:13px;margin-top:28px}.callout{border-left:4px solid var(--accent);padding:14px 18px;background:rgba(69,214,181,.08);border-radius:0 16px 16px 0}.toggle{cursor:pointer;user-select:none}.hidden{display:none}.bar{height:10px;background:#142741;border-radius:999px;overflow:hidden}.bar span{display:block;height:100%;background:linear-gradient(90deg,var(--accent),var(--blue));border-radius:999px}.mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;color:#cfe0f7}
+  </style>
+</head>
+<body>
+<div class="wrap">
+  <header class="hero">
+    <div class="eyebrow">InP capacity verification</div>
+    <h1>目前最大是 JX Advanced Metals；未來最大候選偏向 Coherent</h1>
+    <p class="subtitle">結論要分兩層：若問 InP（Indium Phosphide, 磷化銦）基板供應，目前最強公開證據指向 JX Advanced Metals，官方資料標示 InP 複合半導體基板全球市占約 30%。若問未來擴產後的 InP 元件/晶圓絕對產能，公開資料最支持 Coherent；若只看擴產倍率，Nokia/Infinera 的 10 倍最醒目。</p>
+    <div class="toc">
+      <a href="#answer">直接答案</a><a href="#scope">口徑拆解</a><a href="#ranking">公司排名</a><a href="#evidence">驗證證據</a><a href="#investment">投資含意</a><a href="#risks">風險與待驗證</a>
+    </div>
+  </header>
+
+  <section id="answer" class="grid g3">
+    <div class="card"><div class="label">目前 InP 基板最大公開可驗證供應商</div><div class="metric">JX</div><h3>JX Advanced Metals</h3><p>官方公司簡介列示 InP 複合半導體基板全球市占約 30%，這是目前公開資料中最直接的市占證據。</p></div>
+    <div class="card"><div class="label">未來絕對產能候選</div><div class="metric">COHR</div><h3>Coherent</h3><p>已揭露美國德州 Sherman 與瑞典 Järfälla 兩座 6 吋 InP 晶圓廠，且法說提到內部產能短期翻倍、2027 年底前再翻倍以上。</p></div>
+    <div class="card"><div class="label">最大擴產倍率</div><div class="metric">10×</div><h3>Nokia/Infinera</h3><p>CHIPS 相關公開報導指出 Infinera InP PIC 製造產能提升 10 倍；這是倍率上最強的訊號，但絕對基期未完整揭露。</p></div>
+  </section>
+
+  <section id="scope" class="card">
+    <h2>先拆口徑：InP「產量」不是單一市場</h2>
+    <div class="grid g3">
+      <div><span class="pill">上游</span><h3>InP 基板/晶圓</h3><p>核心問題是誰提供 InP substrate。這一層最接近原材料瓶頸，目前可量化市占證據指向 JX Advanced Metals。</p></div>
+      <div><span class="pill">中游</span><h3>InP 元件與 PIC</h3><p>包含雷射、光子積體電路（Photonic Integrated Circuit, PIC）、相干光元件。Nokia/Infinera、Coherent、Lumentum 屬於這一層。</p></div>
+      <div><span class="pill">未來產能</span><h3>6 吋化與擴產倍率</h3><p>6 吋 InP 晶圓能提高單片產出，但各公司揭露口徑不同，不能把「基板市占」和「內部元件產能」直接相加。</p></div>
+    </div>
+    <div class="note">判斷原則：目前最大用「已揭露市占/供應地位」判定；未來最大用「6 吋產線、擴產倍數、既有量產基礎、供應外部市場能力」綜合判定。</div>
+  </section>
+
+  <section id="ranking" class="grid g2">
+    <div class="card">
+      <h2>綜合排序：未來 InP 產能可見度</h2>
+      <div class="rank"><div class="num">1</div><div><b>Coherent</b><div class="small">兩座 6 吋 InP 晶圓廠，短期翻倍、2027 年底前再翻倍以上</div></div><div class="score">92</div></div>
+      <div class="rank"><div class="num">2</div><div><b>Nokia/Infinera</b><div class="small">InP PIC 垂直整合，10 倍擴產訊號，6 吋設備採購</div></div><div class="score">86</div></div>
+      <div class="rank"><div class="num">3</div><div><b>JX Advanced Metals</b><div class="small">目前基板市占約 30%，且宣布追加投資擴產</div></div><div class="score">82</div></div>
+      <div class="rank"><div class="num">4</div><div><b>AXT</b><div class="small">純 InP 基板題材，稱可快速翻倍，並募資擴 InP 產能</div></div><div class="score">74</div></div>
+      <div class="rank"><div class="num">5</div><div><b>Lumentum</b><div class="small">北卡新廠導入 6 吋 InP，預計 2028 年中放量</div></div><div class="score">68</div></div>
+    </div>
+    <div class="card">
+      <h2>公開證據強度比較</h2>
+      <div class="chartbox"><canvas id="scoreChart"></canvas></div>
+      <p class="small">分數是本報告依公開資訊可驗證性建立的研究分數，不等於官方市占。</p>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>公司對照表</h2>
+    <table>
+      <thead><tr><th>公司</th><th>角色</th><th>已驗證重點</th><th>判斷</th></tr></thead>
+      <tbody>
+        <tr><td><b>JX Advanced Metals</b></td><td><span class="tag">上游基板</span></td><td>官方資料標示 InP 複合半導體基板約 30% 全球市占；另有追加投資擴產報導。</td><td class="ok">目前最大公開可驗證答案</td></tr>
+        <tr><td><b>Coherent</b></td><td><span class="tag">晶圓/雷射/元件</span></td><td>世界首批 6 吋 InP scalable wafer fabs；每片晶圓可做 4 倍元件；產能多階段翻倍。</td><td class="ok">未來絕對產能最強候選</td></tr>
+        <tr><td><b>Nokia/Infinera</b></td><td><span class="tag">InP PIC/相干光</span></td><td>InP PIC 垂直整合；公開報導指 CHIPS 專案帶來 10 倍 PIC 製造產能；AIXTRON G10-AsP 供 6 吋 InP 生產。</td><td class="warn">擴產倍率最大，但絕對基期未完整揭露</td></tr>
+        <tr><td><b>AXT</b></td><td><span class="tag">上游基板</span></td><td>法說提到可快速將 InP 產能翻倍；Tongmei 募資用於 InP 產能擴張。</td><td>高 Beta 純題材，但市占證據不如 JX 直接</td></tr>
+        <tr><td><b>Sumitomo Electric</b></td><td><span class="tag">上游基板</span></td><td>InP 產品完整，6 吋 InP substrate 已可量產；公開資料未找到明確市占第一證據。</td><td>重要供應商，非本次最強可驗證答案</td></tr>
+        <tr><td><b>Lumentum</b></td><td><span class="tag">雷射/元件</span></td><td>新北卡工廠使用 6 吋 InP wafers，服務 AI 資料中心雷射需求，預計 2028 年中放量。</td><td>未來供給增加者，但時程較晚</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section id="evidence" class="card">
+    <h2>驗證證據摘要</h2>
+    <div class="callout"><b>最關鍵的反轉：</b>社群截圖將 Sumitomo Electric 標為全球最大 InP 基板供應商，但公開可驗證資料中，JX Advanced Metals 官方文件對 InP 基板給出約 30% 全球市占，證據更直接。因此本報告採 JX 為「目前最大」答案。</div>
+    <div class="grid g2" style="margin-top:18px">
+      <div><h3>支持 JX 的證據</h3><ul><li>公司簡介列示 InP compound semiconductor substrates 約 30% 全球市占。</li><li>官方產品頁列出 2、3、4、6 吋 InP 基板產品。</li><li>2025 年產業媒體報導 JX 追加投資以增加 InP 基板產能。</li></ul></div>
+      <div><h3>支持 Coherent 的證據</h3><ul><li>官方新聞稿稱 Sherman, Texas 與 Järfälla, Sweden 是世界首批 6 吋 InP scalable wafer fabs。</li><li>6 吋平台單片晶圓可做 4 倍元件，未來幾年多數產量由 3 吋轉 6 吋。</li><li>2026 年法說提到下一季內部產能翻倍，2027 年底前再翻倍以上。</li></ul></div>
+      <div><h3>支持 Nokia/Infinera 的證據</h3><ul><li>AIXTRON 官方新聞稿：Nokia 採用 G10-AsP 生產下一代 photonics，支援 6 吋 InP wafers。</li><li>產業媒體報導 Infinera 透過 CHIPS 專案將 InP PIC 製造產能提高 10 倍。</li><li>Nokia/Infinera 的優勢是垂直整合，可把 InP 供給轉為相干光模組與系統競爭力。</li></ul></div>
+      <div><h3>支持 AXT / Lumentum / Sumitomo 的證據</h3><ul><li>AXT 法說稱可快速把 InP 產能翻倍，且 Tongmei 募資擴產。</li><li>Lumentum 北卡新廠導入 6 吋 InP wafers，預計 2028 年中 ramp。</li><li>Sumitomo 6 吋 InP substrate 已 ready for mass production，但缺少公開市占量化。</li></ul></div>
+    </div>
+  </section>
+
+  <section id="investment" class="grid g2">
+    <div class="card"><h2>投資含意</h2><ul><li><b>供應鏈瓶頸：</b>InP 市場小、擴產慢，若 800G、1.6T、3.2T 光連接需求延續，InP 可能成為雷射與相干光供給瓶頸。</li><li><b>最大受益方向：</b>上游基板看 JX、AXT、Sumitomo；中游元件與垂直整合看 Coherent、Nokia/Infinera、Lumentum。</li><li><b>估值視角：</b>Nokia 的重點不是「最大 InP 基板供應商」，而是 Infinera 帶來的 InP PIC 內製能力，能降低外部瓶頸衝擊。</li><li><b>最佳驗證指標：</b>交期、6 吋產線良率、雷射出貨、相干光訂單、資本支出與客戶集中度。</li></ul></div>
+    <div class="card"><h2>情境判斷</h2><p><b class="ok">多頭情境：</b>AI 資料中心跨園區與長距互連需求提升，InP 雷射與相干光 PIC 需求快於擴產，擁有 6 吋線與垂直整合者取得溢價。</p><p><b class="warn">基準情境：</b>Coherent 與 Nokia/Infinera 放量改善供給，但良率爬坡限制短期釋放速度，產業維持局部緊張。</p><p><b class="risk">空頭情境：</b>需求延後、矽光子替代加速、或 6 吋 InP 良率不如預期，產能故事被市場提前反映。</p></div>
+  </section>
+
+  <section id="risks" class="card">
+    <h2>限制與待驗證事項</h2>
+    <ul>
+      <li>「InP 基板市占」與「InP 元件/PIC 產能」是不同口徑；本報告已分開判定。</li>
+      <li>多數公司未公布月產片數、良率、外售比例，因此未來最大絕對產能仍是機率判斷。</li>
+      <li>Coherent 的未來最大判斷依賴 6 吋線轉換速度與良率；Nokia/Infinera 的最大不確定是 10 倍擴產的基期大小與供應外部市場比例。</li>
+      <li>JX 的目前最大判斷來自官方市占資料；仍建議後續用 Yole、TechInsights、Omdia 等付費市調交叉驗證完整排名。</li>
+    </ul>
+  </section>
+
+  <section class="card">
+    <h2>來源</h2>
+    <ol class="src">
+      <li><a href="https://www.jx-nmm.com/english/company/pdf/corporate_profile_en.pdf">JX Advanced Metals corporate profile</a></li>
+      <li><a href="https://www.jx-nmm.com/english/products/compound_semiconductors_and_crystal_materials/inp/">JX Advanced Metals InP substrate product page</a></li>
+      <li><a href="https://www.semiconductor-today.com/news_items/2025/oct/jx-091025.shtml">Semiconductor Today: JX Advanced Metals boosts InP substrate capacity</a></li>
+      <li><a href="https://www.coherent.com/news/press-releases/worlds-first-6-inch-inp-scalable-wafer-fabs-paving-the-way-for-the-next-generation-of-lasers-for-ai-transceivers-and-6g-wireless-networks">Coherent: world's first 6-inch InP scalable wafer fabs</a></li>
+      <li><a href="https://www.fool.com/earnings/call-transcripts/2026/05/06/coherent-cohr-q3-2026-earnings-transcript/">Coherent 2026 Q3 earnings transcript</a></li>
+      <li><a href="https://www.aixtron.com/en/investors/AIXTRON%20delivers%20G10-AsP%20for%20production%20of%20next%20generation%20photonics%20to%20Nokia_n13685">AIXTRON: G10-AsP for Nokia next generation photonics</a></li>
+      <li><a href="https://www.semiconductor-today.com/news_items/2024/oct/infinera-171024.shtml">Semiconductor Today: Infinera CHIPS project and 10x InP PIC capacity</a></li>
+      <li><a href="https://www.semiconductor-digest.com/lumentum-announces-new-u-s-manufacturing-facility-to-produce-advanced-lasers-for-the-worlds-largest-ai-data-centers/">Semiconductor Digest: Lumentum new U.S. laser manufacturing facility</a></li>
+      <li><a href="https://www.fool.com/earnings/call-transcripts/2026/04/30/axt-axti-q1-2026-earnings-call-transcript/">AXT 2026 Q1 earnings transcript</a></li>
+      <li><a href="https://global-sei.com/sc/products_e/inp/">Sumitomo Electric InP substrate product page</a></li>
+    </ol>
+  </section>
+  <div class="footer">研究日期：2026-06-07。本文為公開資訊交叉驗證，不構成投資建議。</div>
+</div>
+<script>
+const ctx=document.getElementById('scoreChart');
+new Chart(ctx,{type:'bar',data:{labels:['Coherent','Nokia/Infinera','JX Advanced Metals','AXT','Lumentum','Sumitomo Electric'],datasets:[{label:'公開證據強度 / 未來產能可見度',data:[92,86,82,74,68,62],backgroundColor:['#45d6b5','#69a7ff','#79e08a','#ffd166','#ff9f6e','#b3c7ff'],borderRadius:10}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{color:'#dceaff'}}},scales:{x:{ticks:{color:'#cfe0f7'},grid:{color:'rgba(255,255,255,.06)'}},y:{min:0,max:100,ticks:{color:'#cfe0f7'},grid:{color:'rgba(255,255,255,.08)'}}}}});
+</script>
+</body>
+</html>
