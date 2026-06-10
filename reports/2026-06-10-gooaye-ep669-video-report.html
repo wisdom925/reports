@@ -9,7 +9,6 @@
   <meta property="og:description" content="以每日美股收盤報告的互動式版型，整理股癌 EP669 的市場主線、投資含義、風險矩陣與觀察清單。">
   <meta property="og:type" content="article">
   <meta property="og:url" content="https://wisdom925.github.io/reports/reports/2026-06-10-gooaye-ep669-video-report.html">
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
     :root{color-scheme:light dark;--bg:#f8fafc;--panel:#ffffff;--text:#0f172a;--muted:#64748b;--line:#e2e8f0;--brand:#2563eb;--brand2:#7c3aed;--good:#059669;--warn:#d97706;--bad:#dc2626;--soft:#eff6ff;--shadow:0 18px 45px rgba(15,23,42,.08)}
     .dark{--bg:#020617;--panel:#0f172a;--text:#e5e7eb;--muted:#94a3b8;--line:#1e293b;--brand:#60a5fa;--brand2:#a78bfa;--soft:#111827;--shadow:0 18px 45px rgba(0,0,0,.3)}
@@ -44,7 +43,6 @@
 
         <section class="card" id="map">
           <h2>1. 內容權重與閱讀地圖</h2>
-          <div class="chartbox"><canvas id="topicChart" aria-label="內容權重長條圖"></canvas></div>
           <div class="fallback-bars" aria-label="內容權重文字版">
             <div class="bar-row w22"><span>市場修正</span><b>22%</b></div>
             <div class="bar-row w24"><span>AI 供應鏈</span><b>24%</b></div>
@@ -54,7 +52,7 @@
             <div class="bar-row w15"><span>生活問答</span><b>15%</b></div>
           </div>
           <table class="compact-table" aria-label="內容權重表格"><thead><tr><th>主題</th><th>權重</th><th>閱讀提示</th></tr></thead><tbody><tr><td>AI 供應鏈</td><td>24%</td><td>光通、800VDC、Rubin 與研究報告雜訊。</td></tr><tr><td>市場修正</td><td>22%</td><td>台股震盪、籌碼壓力與反彈領跑者。</td></tr><tr><td>生活問答</td><td>15%</td><td>健康、家庭、消費紀律與心理韌性。</td></tr><tr><td>蘋果 AI</td><td>14%</td><td>螢幕感知、終端入口與折中模型路線。</td></tr><tr><td>資金流動性</td><td>13%</td><td>資金可能轉向大而穩、有營收獲利的標的。</td></tr><tr><td>台積電</td><td>12%</td><td>營收、合理漲價與定價權。</td></tr></tbody></table>
-          <p class="footer-note">權重依轉錄稿段落密度與主題延伸估算，用來協助快速定位，不代表逐字時間占比的精算。若瀏覽器擋掉外部 Chart.js，下面的文字長條與表格仍會正常顯示。</p>
+          <p class="footer-note">權重依轉錄稿段落密度與主題延伸估算，用來協助快速定位，不代表逐字時間占比的精算。</p>
         </section>
 
         <section class="card" id="timeline">
@@ -137,7 +135,6 @@
   <script>
     const root=document.documentElement;document.getElementById('themeToggle').addEventListener('click',()=>{root.classList.toggle('dark');root.classList.toggle('light');});
     const links=[...document.querySelectorAll('.toc a')];const sections=links.map(a=>document.querySelector(a.getAttribute('href'))).filter(Boolean);const obs=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){links.forEach(a=>a.classList.remove('active'));const hit=document.querySelector(`.toc a[href="#${e.target.id}"]`);if(hit)hit.classList.add('active');}})},{rootMargin:'-20% 0px -70% 0px'});sections.forEach(s=>obs.observe(s));
-    const ctx=document.getElementById('topicChart');new Chart(ctx,{type:'bar',data:{labels:['市場修正','AI供應鏈','台積電','蘋果AI','資金流動性','生活問答'],datasets:[{label:'內容權重',data:[22,24,12,14,13,15],backgroundColor:['#2563eb','#7c3aed','#059669','#0ea5e9','#d97706','#64748b'],borderRadius:10}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:(c)=>`${c.raw}%`}}},scales:{y:{beginAtZero:true,ticks:{callback:v=>v+'%'}}}});
     document.querySelectorAll('.tab-buttons button').forEach(btn=>btn.addEventListener('click',()=>{document.querySelectorAll('.tab-buttons button').forEach(b=>b.classList.remove('active'));document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));btn.classList.add('active');document.getElementById(btn.dataset.tab).classList.add('active');}));
     const search=document.getElementById('marketSearch');const table=document.getElementById('marketTable');search.addEventListener('input',()=>{const q=search.value.toLowerCase();[...table.tBodies[0].rows].forEach(r=>{r.style.display=r.innerText.toLowerCase().includes(q)?'':'none';});});
     table.querySelectorAll('th').forEach((th,i)=>th.addEventListener('click',()=>{const rows=[...table.tBodies[0].rows];const asc=th.dataset.asc!=='1';rows.sort((a,b)=>asc?a.cells[i].innerText.localeCompare(b.cells[i].innerText,'zh-Hant'):b.cells[i].innerText.localeCompare(a.cells[i].innerText,'zh-Hant'));rows.forEach(r=>table.tBodies[0].appendChild(r));th.dataset.asc=asc?'1':'0';}));
