@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="zh-Hant-TW">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>台積電 CoPoS 先進封裝解析報告</title>
+  <meta name="description" content="解析台積電 CoPoS 先進封裝的技術位置、玻璃核心基板架構、供應鏈含意、投資觀察與關鍵風險。">
+  <meta property="og:title" content="台積電 CoPoS 先進封裝解析報告">
+  <meta property="og:description" content="從技術架構、時程、供應鏈與投資角度解析 CoPoS 對 AI 晶片封裝的意義。">
+  <meta property="og:type" content="article">
+  <style>
+    :root{
+      --bg:#080b12; --panel:#111827; --panel2:#162033; --text:#e8eefc; --muted:#9fb0cf;
+      --cyan:#55d6ff; --blue:#6d8dff; --green:#7cf6bd; --amber:#ffd36a; --red:#ff7a8a;
+      --line:rgba(255,255,255,.12); --shadow:0 24px 80px rgba(0,0,0,.35); --radius:22px;
+    }
+    *{box-sizing:border-box} body{margin:0;background:radial-gradient(circle at 15% 10%,rgba(85,214,255,.18),transparent 34%),radial-gradient(circle at 85% 0%,rgba(109,141,255,.22),transparent 35%),linear-gradient(180deg,#080b12 0%,#0b1020 50%,#080b12 100%);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans TC","Microsoft JhengHei",sans-serif;line-height:1.65}
+    a{color:var(--cyan)} .wrap{max-width:1180px;margin:auto;padding:28px 18px 64px}.hero{padding:42px 30px;border:1px solid var(--line);border-radius:30px;background:linear-gradient(135deg,rgba(17,24,39,.86),rgba(22,32,51,.7));box-shadow:var(--shadow);position:relative;overflow:hidden}.hero:after{content:"";position:absolute;right:-90px;top:-90px;width:260px;height:260px;border-radius:50%;background:rgba(85,214,255,.18);filter:blur(10px)}
+    .kicker{display:inline-flex;gap:8px;align-items:center;padding:6px 12px;border-radius:999px;background:rgba(85,214,255,.12);border:1px solid rgba(85,214,255,.28);color:#bff2ff;font-weight:700;font-size:13px}.hero h1{font-size:clamp(32px,5vw,58px);line-height:1.08;margin:18px 0 14px;letter-spacing:-.04em}.subtitle{font-size:clamp(17px,2.2vw,22px);color:var(--muted);max-width:850px}.thesis{margin-top:24px;padding:20px;border-radius:20px;background:rgba(124,246,189,.1);border:1px solid rgba(124,246,189,.25)}
+    .grid{display:grid;gap:18px}.grid.cols4{grid-template-columns:repeat(4,1fr)}.grid.cols3{grid-template-columns:repeat(3,1fr)}.grid.cols2{grid-template-columns:repeat(2,1fr)}@media(max-width:860px){.grid.cols4,.grid.cols3,.grid.cols2{grid-template-columns:1fr}.hero{padding:30px 20px}}
+    .card{background:rgba(17,24,39,.78);border:1px solid var(--line);border-radius:var(--radius);padding:22px;box-shadow:0 16px 50px rgba(0,0,0,.22)}.metric{font-size:30px;font-weight:850;letter-spacing:-.03em;color:white}.label{font-size:13px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em}.section{margin-top:28px}.section h2{font-size:30px;letter-spacing:-.03em;margin:0 0 14px}.section h3{font-size:20px;margin:0 0 10px}.muted{color:var(--muted)}.pill{display:inline-block;padding:5px 10px;border-radius:999px;border:1px solid var(--line);background:rgba(255,255,255,.05);font-size:13px;color:#cfd9ef;margin:3px}.toc{display:flex;flex-wrap:wrap;gap:10px;margin:20px 0 0}.toc a{text-decoration:none;color:#dff8ff;border:1px solid rgba(85,214,255,.24);background:rgba(85,214,255,.08);padding:9px 12px;border-radius:999px;font-size:14px}
+    .stack{display:grid;grid-template-columns:1fr;gap:10px;margin-top:16px}.layer{padding:16px;border-radius:16px;border:1px solid var(--line);background:linear-gradient(90deg,rgba(109,141,255,.16),rgba(85,214,255,.08));display:flex;justify-content:space-between;gap:16px;align-items:center}.layer.core{background:linear-gradient(90deg,rgba(255,211,106,.18),rgba(255,211,106,.07))}.layer strong{font-size:17px}.arrow{color:var(--cyan);font-weight:800}.timeline{position:relative;margin-top:18px;padding-left:18px}.timeline:before{content:"";position:absolute;left:6px;top:8px;bottom:8px;width:2px;background:linear-gradient(var(--cyan),var(--blue))}.titem{position:relative;margin:0 0 18px 10px;padding:16px;border-radius:18px;background:rgba(255,255,255,.05);border:1px solid var(--line)}.titem:before{content:"";position:absolute;left:-29px;top:22px;width:12px;height:12px;border-radius:50%;background:var(--cyan);box-shadow:0 0 0 5px rgba(85,214,255,.15)}
+    .matrix{display:grid;grid-template-columns:1fr 1fr;gap:14px}.wrong{border-color:rgba(255,122,138,.25);background:rgba(255,122,138,.08)}.right{border-color:rgba(124,246,189,.25);background:rgba(124,246,189,.08)}@media(max-width:760px){.matrix{grid-template-columns:1fr}}
+    .bar{height:12px;border-radius:999px;background:rgba(255,255,255,.09);overflow:hidden}.bar span{display:block;height:100%;border-radius:999px;background:linear-gradient(90deg,var(--cyan),var(--green))}.score{display:grid;grid-template-columns:160px 1fr 44px;gap:12px;align-items:center;margin:12px 0}@media(max-width:620px){.score{grid-template-columns:1fr}.score b{text-align:left!important}}
+    .callout{padding:18px;border-radius:18px;background:rgba(255,211,106,.1);border:1px solid rgba(255,211,106,.3)}.danger{background:rgba(255,122,138,.08);border-color:rgba(255,122,138,.25)}.good{background:rgba(124,246,189,.08);border-color:rgba(124,246,189,.25)}
+    button.tab{cursor:pointer;border:1px solid var(--line);background:rgba(255,255,255,.06);color:var(--text);border-radius:999px;padding:9px 13px;margin:4px;font-weight:700}button.tab.active{background:rgba(85,214,255,.18);border-color:rgba(85,214,255,.45)}.tabpane{display:none}.tabpane.active{display:block}.mini{font-size:13px}.footer{margin-top:34px;color:#7f8daa;font-size:13px;border-top:1px solid var(--line);padding-top:18px}
+    svg{max-width:100%;height:auto}.node{fill:#121b2d;stroke:rgba(255,255,255,.18)}.node2{fill:#172a38;stroke:rgba(85,214,255,.4)}.txt{fill:#e8eefc;font-size:14px;font-weight:700}.subtxt{fill:#9fb0cf;font-size:12px}.line{stroke:#55d6ff;stroke-width:2;opacity:.8}.warn{color:var(--amber)}
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <section class="hero">
+      <span class="kicker">Advanced Packaging Review</span>
+      <h1>CoPoS 是台積電下一段先進封裝護城河，重點不只在「玻璃」</h1>
+      <p class="subtitle">本報告用產業與技術角度拆解 CoPoS（Chip-on-Panel-on-Substrate）：它處理的是超大型 AI 晶片封裝的經濟性、尺寸上限與供應鏈再分配，而非單純把 ABF 或中介層換成玻璃。</p>
+      <div class="thesis"><strong>核心結論：</strong>若 CoPoS 依預期在 2028 年下半年進入量產，台積電在 AI 先進封裝的優勢可能從 CoWoS 延伸到更大尺寸封裝。玻璃核心基板會創造新的製程門檻，但 ABF、RDL、TGV 與銅填充能力仍是成敗關鍵。</div>
+      <nav class="toc">
+        <a href="#snapshot">一頁摘要</a><a href="#architecture">架構拆解</a><a href="#misconceptions">常見誤解</a><a href="#supplychain">供應鏈含意</a><a href="#investment">投資觀察</a><a href="#risks">風險與驗證</a>
+      </nav>
+    </section>
+
+    <section id="snapshot" class="section grid cols4">
+      <div class="card"><div class="label">預估量產窗口</div><div class="metric">2H28</div><p class="muted">仍屬產業預期，需以台積電與客戶後續公告驗證。</p></div>
+      <div class="card"><div class="label">目標封裝級距</div><div class="metric">&gt;9.5×</div><p class="muted">針對超過 9.5 倍光罩尺寸級距的超大型封裝經濟性。</p></div>
+      <div class="card"><div class="label">玻璃角色</div><div class="metric">2 種</div><p class="muted">暫時性玻璃載板與玻璃核心基板，兩者功能不同。</p></div>
+      <div class="card"><div class="label">優勢能見度</div><div class="metric">~2032</div><p class="muted">若順利導入，先進封裝領先期可能再延長。</p></div>
+    </section>
+
+    <section id="architecture" class="section grid cols2">
+      <div class="card">
+        <h2>CoPoS 在解決什麼問題？</h2>
+        <p>AI 加速器往更大封裝、更高頻寬記憶體（High Bandwidth Memory, HBM）、更多晶粒整合前進時，傳統晶圓級封裝會面臨尺寸、良率、翹曲、成本與產能放大的限制。CoPoS 把部分流程轉向面板級思維，目標是讓超大型封裝更有成本效率。</p>
+        <div class="callout good"><strong>一句話：</strong>CoPoS 不是單點材料替換，而是台積電把先進封裝從晶圓級擴展到更大面板與新基板堆疊的路線。</div>
+      </div>
+      <div class="card">
+        <h2>玻璃出現在哪裡？</h2>
+        <div class="stack">
+          <div class="layer"><strong>310 × 310 mm 暫時性玻璃載板</strong><span class="muted">製程承載</span></div>
+          <div class="layer core"><strong>250 × 250 mm 試產面板</strong><span class="muted">玻璃核心基板來源</span></div>
+          <div class="layer core"><strong>510 × 515 mm 量產面板</strong><span class="muted">切割成個別基板</span></div>
+        </div>
+        <p class="muted mini">尺寸資訊代表目前市場可見的產業預期，量產規格仍可能調整。</p>
+      </div>
+    </section>
+
+    <section class="section card">
+      <h2>三層式玻璃核心基板：玻璃與 ABF 是共存關係</h2>
+      <p class="muted">市場容易把「玻璃」理解成取代所有既有材料，但 CoPoS 的重點更接近「玻璃核心加上雙面 ABF build-up」的複合基板。</p>
+      <div class="stack">
+        <div class="layer"><strong>上層 ABF build-up</strong><span>晶片貼裝面，承接 RDL 與微凸塊連接</span></div>
+        <div class="layer core"><strong>玻璃核心</strong><span>TGV 形成、銅填充、金屬化是主要難點</span></div>
+        <div class="layer"><strong>下層 ABF build-up</strong><span>連接封裝基板與主板端訊號路徑</span></div>
+      </div>
+    </section>
+
+    <section id="misconceptions" class="section">
+      <h2>三個最容易判斷錯的地方</h2>
+      <div class="matrix">
+        <div class="card wrong"><h3>誤解 1：CoPoS 使用玻璃中介層</h3><p>這會把玻璃的角色看錯。中介層主要承擔高密度互連，CoPoS 中的玻璃更接近基板核心的一部分。</p></div>
+        <div class="card right"><h3>正確理解</h3><p>互連角色由晶片側 RDL、玻璃核心基板中的 TGV/Cu interconnect，以及 ABF build-up 層共同承擔。</p></div>
+        <div class="card wrong"><h3>誤解 2：玻璃取代 ABF</h3><p>若用這個假設看供應鏈，會錯估 ABF 廠商的長期角色。</p></div>
+        <div class="card right"><h3>正確理解</h3><p>玻璃與 ABF 共存。玻璃提供尺寸穩定性與新路線，ABF 仍是基板堆疊與訊號連接的重要材料。</p></div>
+        <div class="card wrong"><h3>誤解 3：晶片直接放在玻璃上</h3><p>這會低估表面 build-up 層、RDL 與貼裝介面的重要性。</p></div>
+        <div class="card right"><h3>正確理解</h3><p>晶片貼裝在玻璃核心基板的 ABF build-up 表面，玻璃不是直接承接裸晶的表面。</p></div>
+      </div>
+    </section>
+
+    <section id="supplychain" class="section grid cols2">
+      <div class="card">
+        <h2>供應鏈地圖</h2>
+        <svg viewBox="0 0 780 420" role="img" aria-label="CoPoS supply chain map">
+          <defs><marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#55d6ff"/></marker></defs>
+          <rect class="node2" x="300" y="24" rx="18" width="180" height="70"/><text class="txt" x="390" y="56" text-anchor="middle">台積電</text><text class="subtxt" x="390" y="76" text-anchor="middle">封裝整合與平台主導</text>
+          <rect class="node" x="40" y="150" rx="16" width="170" height="70"/><text class="txt" x="125" y="180" text-anchor="middle">玻璃材料</text><text class="subtxt" x="125" y="200" text-anchor="middle">載板、面板、核心</text>
+          <rect class="node" x="235" y="150" rx="16" width="150" height="70"/><text class="txt" x="310" y="180" text-anchor="middle">TGV 製程</text><text class="subtxt" x="310" y="200" text-anchor="middle">鑽孔、蝕刻、填充</text>
+          <rect class="node" x="410" y="150" rx="16" width="150" height="70"/><text class="txt" x="485" y="180" text-anchor="middle">ABF 基板</text><text class="subtxt" x="485" y="200" text-anchor="middle">雙面 build-up</text>
+          <rect class="node" x="585" y="150" rx="16" width="155" height="70"/><text class="txt" x="662" y="180" text-anchor="middle">設備與檢測</text><text class="subtxt" x="662" y="200" text-anchor="middle">面板級良率管理</text>
+          <rect class="node2" x="285" y="295" rx="18" width="210" height="78"/><text class="txt" x="390" y="326" text-anchor="middle">AI 晶片客戶</text><text class="subtxt" x="390" y="347" text-anchor="middle">超大型封裝需求拉動</text>
+          <line class="line" x1="300" y1="70" x2="210" y2="150" marker-end="url(#arrow)"/><line class="line" x1="350" y1="94" x2="320" y2="150" marker-end="url(#arrow)"/><line class="line" x1="430" y1="94" x2="475" y2="150" marker-end="url(#arrow)"/><line class="line" x1="480" y1="70" x2="585" y2="150" marker-end="url(#arrow)"/><line class="line" x1="390" y1="220" x2="390" y2="295" marker-end="url(#arrow)"/>
+        </svg>
+      </div>
+      <div class="card">
+        <h2>誰可能受益？</h2>
+        <div class="score"><span>台積電封裝平台</span><div class="bar"><span style="width:94%"></span></div><b>高</b></div>
+        <div class="score"><span>玻璃加工與 TGV</span><div class="bar"><span style="width:86%"></span></div><b>高</b></div>
+        <div class="score"><span>ABF 高階基板</span><div class="bar"><span style="width:78%"></span></div><b>中高</b></div>
+        <div class="score"><span>檢測、量測、面板設備</span><div class="bar"><span style="width:72%"></span></div><b>中高</b></div>
+        <div class="score"><span>一般載板廠</span><div class="bar"><span style="width:42%"></span></div><b>中</b></div>
+        <p class="muted mini">評分代表方向性敏感度，不代表個股投資建議。</p>
+      </div>
+    </section>
+
+    <section id="investment" class="section card">
+      <h2>投資觀察：先看「驗證節點」，不要只看題材名稱</h2>
+      <div>
+        <button class="tab active" data-tab="base">基準情境</button>
+        <button class="tab" data-tab="bull">正向情境</button>
+        <button class="tab" data-tab="bear">負向情境</button>
+      </div>
+      <div id="base" class="tabpane active"><p><strong>基準情境：</strong>CoPoS 於 2028 年下半年附近進入早期量產，先由少數超大型 AI 封裝採用。台積電取得平台定義權，材料與設備供應鏈逐步放量，但營收貢獻在初期仍有限。</p></div>
+      <div id="bull" class="tabpane"><p><strong>正向情境：</strong>若大型 AI 客戶快速採用，且面板級良率與翹曲控制達標，CoPoS 可能成為 2030 年後高階 AI 封裝主流路線之一，台積電的先進封裝議價力與產能稀缺性會更強。</p></div>
+      <div id="bear" class="tabpane"><p><strong>負向情境：</strong>若 TGV、銅填充、玻璃可靠度或面板級良率無法達到量產要求，CoPoS 放量時程可能延後，CoWoS 與其他封裝延伸路線會繼續承擔主要需求。</p></div>
+      <div class="grid cols3" style="margin-top:16px">
+        <div class="callout"><strong>觀察 1</strong><br>台積電資本支出是否出現更明確的面板級封裝設備配置。</div>
+        <div class="callout"><strong>觀察 2</strong><br>AI 晶片設計是否持續推升封裝面積與 HBM 搭載數。</div>
+        <div class="callout"><strong>觀察 3</strong><br>玻璃核心基板供應鏈是否能穩定通過可靠度與良率門檻。</div>
+      </div>
+    </section>
+
+    <section id="risks" class="section grid cols2">
+      <div class="card danger">
+        <h2>主要風險</h2>
+        <p><strong>技術風險：</strong>TGV 形成、銅填充、金屬化、熱膨脹係數匹配、翹曲與裂片控制，任何一項卡住都可能拖慢量產。</p>
+        <p><strong>商業風險：</strong>若 AI 晶片客戶改變架構、封裝面積需求未如預期，或競爭路線成本更低，CoPoS 的採用速度會下降。</p>
+        <p><strong>投資風險：</strong>市場可能先炒作材料與設備題材，但實際訂單與毛利率要等設計定案、驗證完成、產能開出後才會清楚。</p>
+      </div>
+      <div class="card good">
+        <h2>驗證清單</h2>
+        <p><span class="pill">台積電封裝產能規劃</span><span class="pill">AI GPU 路線圖</span><span class="pill">玻璃核心基板良率</span><span class="pill">ABF 高階需求</span><span class="pill">TGV 設備訂單</span><span class="pill">客戶量產時程</span></p>
+        <p class="muted">若以上節點在 2026 到 2028 年逐步轉強，CoPoS 的可投資性會提高；若只停留在題材討論，應降低估值溢價。</p>
+      </div>
+    </section>
+
+    <section class="section card">
+      <h2>術語速查</h2>
+      <p><strong>CoPoS（Chip-on-Panel-on-Substrate）：</strong>面向更大尺寸封裝的先進封裝路線。</p>
+      <p><strong>RDL（Redistribution Layer）：</strong>重新分佈線路，用於晶片側高密度互連。</p>
+      <p><strong>TGV（Through-Glass Via）：</strong>穿玻璃導通孔，是玻璃核心基板導通與金屬化的核心難點。</p>
+      <p><strong>ABF（Ajinomoto Build-up Film）：</strong>高階封裝基板常用 build-up 材料，在此架構中仍扮演重要角色。</p>
+      <p><strong>HBM（High Bandwidth Memory）：</strong>高頻寬記憶體，AI 加速器封裝需求成長的重要推力。</p>
+    </section>
+
+    <section class="footer">
+      <p><strong>資料限制：</strong>本報告基於公開產業資訊與技術邏輯整理。量產時程、客戶導入、尺寸規格與供應鏈分工，仍需以台積電、AI 晶片客戶、設備與材料供應商後續公告或財報說明驗證。</p>
+      <p>產出日期：2026-06-11。本文為產業研究與風險整理，不構成買賣建議。</p>
+    </section>
+  </main>
+  <script>
+    document.querySelectorAll('button.tab').forEach(btn=>{
+      btn.addEventListener('click',()=>{
+        document.querySelectorAll('button.tab').forEach(b=>b.classList.remove('active'));
+        document.querySelectorAll('.tabpane').forEach(p=>p.classList.remove('active'));
+        btn.classList.add('active');
+        document.getElementById(btn.dataset.tab).classList.add('active');
+      });
+    });
+  </script>
+</body>
+</html>
