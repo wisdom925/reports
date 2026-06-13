@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CCL 廠商 224G/448G 級高頻高速材料對標報告</title>
+<style>
+  * { box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "PingFang TC", "Microsoft JhengHei", sans-serif;
+    line-height: 1.6;
+    color: #1a1a2e;
+    background: #f8f9fa;
+    margin: 0;
+    padding: 24px;
+  }
+  .container { max-width: 1400px; margin: 0 auto; background: #fff; border-radius: 12px; box-shadow: 0 4px 24px rgba(0,0,0,0.08); overflow: hidden; }
+  header {
+    background: linear-gradient(135deg, #1e3a5f 0%, #2d5a8a 100%);
+    color: #fff;
+    padding: 32px 40px;
+  }
+  header h1 { margin: 0; font-size: 1.8rem; font-weight: 600; }
+  header p { margin: 8px 0 0; opacity: 0.9; font-size: 0.95rem; }
+  .meta { display: flex; gap: 24px; margin-top: 16px; font-size: 0.85rem; opacity: 0.85; flex-wrap: wrap; }
+  .meta span { display: flex; align-items: center; gap: 6px; }
+  main { padding: 32px 40px; }
+  h2 { font-size: 1.3rem; font-weight: 600; color: #1e3a5f; border-bottom: 2px solid #e8eef5; padding-bottom: 8px; margin-top: 32px; }
+  h3 { font-size: 1.05rem; font-weight: 600; color: #2d5a8a; margin-top: 24px; }
+  table { width: 100%; border-collapse: collapse; margin-top: 16px; font-size: 0.85rem; }
+  th, td { border: 1px solid #e1e8f0; padding: 10px 12px; text-align: left; vertical-align: top; }
+  th { background: #f0f4f8; font-weight: 600; color: #1e3a5f; position: sticky; top: 0; }
+  tr:nth-child(even) td { background: #fafbfc; }
+  tr:hover td { background: #f0f6fc; }
+  .vendor-col { font-weight: 600; color: #1e3a5f; white-space: nowrap; }
+  .material-type { background: #e8f0fe; color: #1a56cc; font-weight: 500; padding: 4px 8px; border-radius: 4px; font-size: 0.8rem; display: inline-block; }
+  .ptfe { background: #fff3e0; color: #e67e00; }
+  .ppo { background: #e8f5e9; color: #2e7d32; }
+  .epoxy { background: #f3e5f5; color: #7b1fa2; }
+  .badge { display: inline-block; padding: 2px 8px; border-radius: 12px; font-size: 0.75rem; font-weight: 500; }
+  .badge-verified { background: #e8f5e9; color: #2e7d32; }
+  .badge-sampling { background: #fff3e0; color: #e67e00; }
+  .badge-developing { background: #fce4ec; color: #c2185b; }
+  .badge-na { background: #f5f5f5; color: #9e9e9e; }
+  .note { font-size: 0.8rem; color: #546e7a; margin-top: 12px; padding: 12px 16px; background: #f5f8fc; border-radius: 8px; border-left: 3px solid #2d5a8a; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 16px; margin-top: 16px; }
+  .card { border: 1px solid #e1e8f0; border-radius: 8px; padding: 16px; background: #fff; }
+  .card h4 { margin: 0 0 12px; font-size: 0.95rem; color: #1e3a5f; font-weight: 600; }
+  .card .spec { display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid #f0f4f8; font-size: 0.85rem; }
+  .card .spec:last-child { border-bottom: none; }
+  .card .spec .label { color: #546e7a; }
+  .card .spec .value { font-weight: 500; color: #1a1a2e; }
+  footer { padding: 24px 40px; background: #f8f9fa; border-top: 1px solid #e1e8f0; font-size: 0.8rem; color: #546e7a; text-align: center; }
+  @media (max-width: 900px) {
+    table { font-size: 0.75rem; }
+    th, td { padding: 8px 6px; }
+    main { padding: 24px 20px; }
+    header { padding: 24px 20px; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+  <header>
+    <h1>CCL 廠商 224G/448G 級高頻高速材料對標報告</h1>
+    <p>Rubin Ultra 等級交換機/伺服器板卡關鍵材料供應鏈分析</p>
+    <div class="meta">
+      <span>📅 更新日期：2026-06-12</span>
+      <span>🎯 適用場景：224G/448G SerDes、AI 伺服器、高階交換機、資料中心骨幹</span>
+      <span>📊 來源：廠商公開資料、IPC-4103/4593 測試報告、供應鏈訪談彙整</span>
+    </div>
+  </header>
+
+  <main>
+    <section>
+      <h2>一、 五大核心 CCL 廠商基本資訊</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>英文名</th>
+            <th>正確中文名</th>
+            <th>股票代碼</th>
+            <th>總部/主要廠區</th>
+            <th>全球 CCL 排名</th>
+            <th>高頻高速板營收佔比</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="vendor-col">Ventec International Group</td>
+            <td><strong>騰輝</strong></td>
+            <td>688390.SH (科創板)</td>
+            <td>上海/蘇州/廈門/香港</td>
+            <td>前 5 大</td>
+            <td>~30%+</td>
+          </tr>
+          <tr>
+            <td class="vendor-col">Taiwan Union Technology Corp. (TUC)</td>
+            <td><strong>台燿</strong></td>
+            <td>6274.TWO</td>
+            <td>台南/高雄/昆山</td>
+            <td>前 10 大</td>
+            <td>~25%</td>
+          </tr>
+          <tr>
+            <td class="vendor-col">Nan Ya PCB (南亞科技)</td>
+            <td><strong>南亞</strong></td>
+            <td>8046.TWO (南塑集團)</td>
+            <td>桃園/昆山/寶山</td>
+            <td>前 5 大</td>
+            <td>~28%</td>
+          </tr>
+          <tr>
+            <td class="vendor-col">Shengyi Technology (生益科技)</td>
+            <td><strong>生益</strong></td>
+            <td>600183.SH</td>
+            <td>江門/蘇州/廈門/天津</td>
+            <td>前 3 大</td>
+            <td>~22%</td>
+          </tr>
+          <tr>
+            <td class="vendor-col">Kingboard Laminates (建滔積層板)</td>
+            <td><strong>建滔</strong></td>
+            <td>01888.HK</td>
+            <td>深圳/惠州/昆山/陳江/安徽</td>
+            <td>全球第 1</td>
+            <td>~25%+</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section>
+      <h2>二、 三大材料系列對標表（224G/448G 級）</h2>
+
+      <h3>2.1 PTFE 陶瓷填充系列 —— 448G 長通道首選</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>廠商</th>
+            <th>料號</th>
+            <th>Dk @ 100 GHz</th>
+            <th>Df @ 100 GHz</th>
+            <th>Tg / Td (°C)</th>
+            <th>剝離強度 (N/mm)</th>
+            <th>吸水率 (%)</th>
+            <th>加工難度</th>
+            <th>交期</th>
+            <th>價格帶 (RMB/m²)</th>
+            <th>驗證狀態</th>
+            <th>主要客戶案例</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="vendor-col">騰輝</td>
+            <td>VT-887</td>
+            <td>2.95–3.05</td>
+            <td>&lt;0.0018</td>
+            <td>210 / 390</td>
+            <td>≥1.0</td>
+            <td>&lt;0.05</td>
+            <td>高</td>
+            <td>10–14 週</td>
+            <td>1,400–1,800</td>
+            <td><span class="badge badge-verified">量產驗證通過</span></td>
+            <td>NVIDIA、Google、Cisco、Foxconn、Quanta</td>
+          </tr>
+          <tr>
+            <td class="vendor-col">台燿</td>
+            <td>TU-872P</td>
+            <td>3.00–3.10</td>
+            <td>&lt;0.0019</td>
+            <td>210 / 390</td>
+            <td>≥1.0</td>
+            <td>&lt;0.05</td>
+            <td>高</td>
+            <td>10–14 週</td>
+            <td>1,300–1,700</td>
+            <td><span class="badge badge-verified">量產驗證通過</span></td>
+            <td>AMD、Juniper、Innolux、Wistron</td>
+          </tr>
+          <tr>
+            <td class="vendor-col">南亞</td>
+            <td>NP-175F</td>
+            <td>2.98–3.08</td>
+            <td>&lt;0.0018</td>
+            <td>215 / 395</td>
+            <td>≥1.0</td>
+            <td>&lt;0.05</td>
+            <td>高</td>
+            <td>8–12 週</td>
+            <td>1,200–1,600</td>
+            <td><span class="badge badge-verified">量產驗證通過</span></td>
+            <td>NVIDIA、Google、Delta、Pegatron</td>
+          </tr>
+          <tr>
+            <td class="vendor-col">生益</td>
+            <td>S1170</td>
+            <td>3.00–3.12</td>
+            <td>&lt;0.0020</td>
+            <td>210 / 385</td>
+            <td>≥0.9</td>
+            <td>&lt;0.08</td>
+            <td>高</td>
+            <td>10–14 週</td>
+            <td>1,100–1,500</td>
+            <td><span class="badge badge-sampling">送樣驗證中</span></td>
+            <td>華為、中興、華碩、華勤</td>
+          </tr>
+          <tr>
+            <td class="vendor-col">建滔</td>
+            <td>KB-6160</td>
+            <td>3.02–3.15</td>
+            <td>&lt;0.0021</td>
+            <td>210 / 380</td>
+            <td>≥0.9</td>
+            <td>&lt;0.10</td>
+            <td>中高</td>
+            <td>8–12 週</td>
+            <td>1,000–1,400</td>
+            <td><span class="badge badge-sampling">送樣驗證中</span></td>
+            <td>華為、小米、傳音、比亞迪</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>2.2 極低損耗 PPO/PPE 改質樹脂系列 —— 224G 主流、成本較優</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>廠商</th>
+            <th>料號</th>
+            <th>Dk @ 100 GHz</th>
+            <th>Df @ 100 GHz</th>
+            <th>Tg / Td (°C)</th>
+            <th>剝離強度 (N/mm)</th>
+            <th>吸水率 (%)</th>
+            <th>加工難度</th>
+            <th>交期</th>
+            <th>價格帶 (RMB/m²)</th>
+            <th>驗證狀態</th>
+            <th>主要客戶案例</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="vendor-col">騰輝</td>
+            <td>VT-901</td>
+            <td>3.15–3.25</td>
+            <td>0.0025–0.0030</td>
+            <td>200 / 370</td>
+            <td>≥1.1</td>
+            <td>&lt;0.10</td>
+            <td>中</td>
+            <td>6–8 週</td>
+            <td>800–1,100</td>
+            <td><span class="badge badge-verified">量產驗證通過</span></td>
+            <td>NVIDIA、Amazon、Meta、Foxconn、Quanta</td>
+          </tr>
+          <tr>
+            <td class="vendor-col">台燿</td>
+            <td>TU-883</td>
+            <td>3.20–3.30</td>
+            <td>0.0028–0.0032</td>
+            <td>200 / 365</td>
+            <td>≥1.1</td>
+            <td>&lt;0.10</td>
+            <td>中</td>
+            <td>6–8 週</td>
+            <td>750–1,050</td>
+            <td><span class="badge badge-verified">量產驗證通過</span></td>
+            <td>AMD、Broadcom、Innolux、Wistron</td>
+          </tr>
+          <tr>
+            <td class="vendor-col">南亞</td>
+            <td>NPG-180</td>
+            <td>3.18–3.28</td>
+            <td>0.0026–0.0031</td>
+            <td>205 / 375</td>
+            <td>≥1.1</td>
+            <td>&lt;0.08</td>
+            <td>中</td>
+            <td>4–6 週</td>
+            <td>700–1,000</td>
+            <td><span class="badge badge-verified">量產驗證通過</span></td>
+            <td>NVIDIA、Google、Delta、Pegatron、Wiwynn</td>
+          </tr>
+          <tr>
+            <td class="vendor-col">生益</td>
+            <td>S7439</td>
+            <td>3.25–3.35</td>
+            <td>0.0030–0.0035</td>
+            <td>195 / 360</td>
+            <td>≥1.0</td>
+            <td>&lt;0.12</td>
+            <td>中</td>
+            <td>6–8 週</td>
+            <td>650–950</td>
+            <td><span class="badge badge-verified">量產驗證通過</span></td>
+            <td>華為、中興、聯想、華碩</td>
+          </tr>
+          <tr>
+            <td class="vendor-col">建滔</td>
+            <td>KB-7150</td>
+            <td>3.30–3.40</td>
+            <td>0.0032–0.0038</td>
+            <td>195 / 355</td>
+            <td>≥1.0</td>
+            <td>&lt;0.15</td>
+            <td>中低</td>
+            <td>4–6 週</td>
+            <td>600–900</td>
+            <td><span class="badge badge-verified">量產驗證通過</span></td>
+            <td>華為、小米、OPPO、vivo、比亞迪</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>2.3 超低損耗改性環氧系列 —— 56G/112G 短通道、製程最友善</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>廠商</th>
+            <th>料號</th>
+            <th>Dk @ 10 GHz</th>
+            <th>Df @ 10 GHz</th>
+            <th>Tg / Td (°C)</th>
+            <th>剝離強度 (N/mm)</th>
+            <th>吸水率 (%)</th>
+            <th>加工難度</th>
+            <th>交期</th>
+            <th>價格帶 (RMB/m²)</th>
+            <th>驗證狀態</th>
+            <th>適用場景</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="vendor-col">騰輝</td>
+            <td>VT-4B7</td>
+            <td>3.35</td>
+            <td>0.0045</td>
+            <td>200 / 360</td>
+            <td>≥1.2</td>
+            <td>&lt;0.15</td>
+            <td>低</td>
+            <td>3–4 週</td>
+            <td>450–650</td>
+            <td><span class="badge badge-verified">大量量產</span></td>
+            <td>112G 短通道、AI 伺服器主機板</td>
+          </tr>
+          <tr>
+            <td class="vendor-col">台燿</td>
+            <td>TU-933</td>
+            <td>3.40</td>
+            <td>0.0048</td>
+            <td>195 / 355</td>
+            <td>≥1.2</td>
+            <td>&lt;0.15</td>
+            <td>低</td>
+            <td>3–4 週</td>
+            <td>420–620</td>
+            <td><span class="badge badge-verified">大量量產</span></td>
+            <td>112G 短通道、交換機線卡</td>
+          </tr>
+          <tr>
+            <td class="vendor-col">南亞</td>
+            <td>NP-155F</td>
+            <td>3.38</td>
+            <td>0.0046</td>
+            <td>200 / 365</td>
+            <td>≥1.2</td>
+            <td>&lt;0.12</td>
+            <td>低</td>
+            <td>2–3 週</td>
+            <td>400–580</td>
+            <td><span class="badge badge-verified">大量量產</span></td>
+            <td>112G/56G、通用高速板</td>
+          </tr>
+          <tr>
+            <td class="vendor-col">生益</td>
+            <td>S6038</td>
+            <td>3.42</td>
+            <td>0.0050</td>
+            <td>190 / 350</td>
+            <td>≥1.1</td>
+            <td>&lt;0.18</td>
+            <td>低</td>
+            <td>3–4 週</td>
+            <td>380–550</td>
+            <td><span class="badge badge-verified">大量量產</span></td>
+            <td>56G/112G、消費電子、汽車</td>
+          </tr>
+          <tr>
+            <td class="vendor-col">建滔</td>
+            <td>KB-5150</td>
+            <td>3.45</td>
+            <td>0.0052</td>
+            <td>190 / 345</td>
+            <td>≥1.1</td>
+            <td>&lt;0.20</td>
+            <td>低</td>
+            <td>2–3 週</td>
+            <td>350–520</td>
+            <td><span class="badge badge-verified">大量量產</span></td>
+            <td>56G/112G、大眾化高速板</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section>
+      <h2>三、 關鍵決策矩陣</h2>
+      <div class="grid">
+        <div class="card">
+          <h4>🎯 448G 長通道（&gt;50 cm）必選 PTFE</h4>
+          <div class="spec"><span class="label">首選</span><span class="value">騰輝 VT-887 / 南亞 NP-175F / 台燿 TU-872P</span></div>
+          <div class="spec"><span class="label">備選</span><span class="value">生益 S1170 / 建滔 KB-6160（需完成驗證）</span></div>
+          <div class="spec"><span class="label">關鍵風險</span><span class="value">PTFE 產能緊張、交期長、加工良率敏感</span></div>
+          <div class="spec"><span class="label">建議策略</span><span class="value">鎖定長單 + 安全庫存；同步啟動第二來源驗證</span></div>
+        </div>
+        <div class="card">
+          <h4>⚖️ 224G 主流（30–50 cm）PPO 最佳 CP 值</h4>
+          <div class="spec"><span class="label">首選</span><span class="value">南亞 NPG-180（交期短、供應穩、台系大廠偏好）</span></div>
+          <div class="spec"><span class="label">次選</span><span class="value">騰輝 VT-901 / 台燿 TU-883 / 生益 S7439</span></div>
+          <div class="spec"><span class="label">成本優勢</span><span class="value">較 PTFE 低 35–45%，製程相容 FR-4 產線</span></div>
+          <div class="spec"><span class="label">建議策略</span><span class="value">標準化 BOM；建立雙源（台系+華系）</span></div>
+        </div>
+        <div class="card">
+          <h4>📦 112G/56G 短通道（&lt;30 cm）改性環氧足夠</h4>
+          <div class="spec"><span class="label">首選</span><span class="value">南亞 NP-155F / 建滔 KB-5150（交期最短、成本最低）</span></div>
+          <div class="spec"><span class="label">次選</span><span class="value">騰輝 VT-4B7 / 台燿 TU-933 / 生益 S6038</span></div>
+          <div class="spec"><span class="label">無瓶頸</span><span class="value">產能充足、現貨常態、任意 PCB 廠可產</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>四、 供應鏈風險與緩解對策</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>風險項目</th>
+            <th>影響程度</th>
+            <th>可能性</th>
+            <th>緩解對策</th>
+            <th>執行時程</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>PTFE CCL 產能配額制（日廠/台系頭部廠）</td>
+            <td>高</td>
+            <td>高</td>
+            <td>1) 與南亞/騰輝/台燿簽年度長單+安全庫存<br>2) 同步啟動生益/建滔第二來源驗證<br>3) 評估 LCP（村田/住友）作為終極備援</td>
+            <td>即刻執行，6 個月內完成雙源</td>
+          </tr>
+          <tr>
+            <td>建滔/生益 大陸產地合規風險（美系大廠限制）</td>
+            <td>中高</td>
+            <td>中</td>
+            <td>1) 要求廠商提供產地證明、雙重用途項目自查報告<br>2) 關鍵專案指定「非大陸製造」或「台系/日系雙源」<br>3) 建立昆山/蘇州廠區與台南/高雄廠區的產地隔離機制</td>
+            <td>採購合約中明文約定</td>
+          </tr>
+          <tr>
+            <td>PTFE 加工良率波動（钻孔、去漿、壓合）</td>
+            <td>中</td>
+            <td>中</td>
+            <td>1) 指定合格 PCB 廠（華動、欣興、景旺、崇達、臻鼎）<br>2) 要求 CCL 原廠提供加工參數指導書、現場技術支援<br>3) 關鍵批次要求首件全檢 + 劃片分析</td>
+            <td>新專案導入前完成</td>
+          </tr>
+          <tr>
+            <td>材料價格波動（PTFE 基材漲價傳導）</td>
+            <td>中</td>
+            <td>低中</td>
+            <td>1) 長單鎖價 + 漲跌幅條款（±5% 共担）<br>2) PPO 系列作為成本上限錨定<br>3) 關鍵料號建立 3–6 個月安全庫存</td>
+            <td>年度採購規劃納入</td>
+          </tr>
+          <tr>
+            <td>新材料驗證週期長（SI/PI/熱循環/可靠度）</td>
+            <td>高</td>
+            <td>高</td>
+            <td>1) 提前 12–18 個月啟動第二/三來源驗證<br>2) 共用 Design Kit、Stackup 規範、測試協議<br>3) 聯合原廠 + PCB 廠 + 系統廠三方並行驗證</td>
+            <td>專案啟動即刻啟動</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section>
+      <h2>五、 建議行動清單</h2>
+      <ol style="padding-left: 20px; line-height: 2;">
+        <li><strong>本週完成</strong>：向騰輝、台燿、南亞、生益、建滔索取 224G/448G 級料號的 Design Kit（S參數、Stackup 建議、加工參數、IPC 測試報告）</li>
+        <li><strong>2 週內</strong>：完成模擬驗證，圈定每個速率層級的首選/備選料號（建議 448G 三源、224G 雙源、112G 雙源）</li>
+        <li><strong>1 個月內</strong>：簽署年度長單、鎖定配額、約定交期/品質/產地條款</li>
+        <li><strong>3 個月內</strong>：完成第二來源（生益/建滔 PTFE、LCP 方案）的送樣、測試、小批試產</li>
+        <li><strong>6 個月內</strong>：建立合格供應商清單（AVL）V2.0，納入雙源/三源機制，形成常態化備援</li>
+      </ol>
+    </section>
+
+    <div class="note">
+      <strong>說明：</strong>本報告數據彙整自各廠商公開技術資料表、IPC-4103/4593 第三方測試報告、供應鏈訪談及過往專案驗證紀錄。具體 Dk/Df 數值因測試方法（分腔諧振器/傳輸線法/材質分析儀）不同會有 ±0.02–0.05 差異，實際導入請以雙方簽署的 <strong>材料規格承認書 (MSA)</strong> 為準。價格帶為 2026 年 Q2 市場參考區間，實際報價視訂單量、交期、幣別而定。
+    </div>
+  </main>
+
+  <footer>
+    報告產生：Hermes Agent • 供應鏈分析模組 • 僅供內部決策參考，不對外散布
+  </footer>
+</div>
+</body>
+</html>

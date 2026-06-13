@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="description" content="針對「NVIDIA NPO 需求 2500 萬只」公開圖片內容的溯源與可信度分析。">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta property="og:title" content="NV NPO 2500 萬只需求指引：來源與可信度溯源（2026-06-13）">
+  <meta property="og:description" content="從網路流傳的券商問答截圖出發，檢視 2500 萬只 NPO 需求的數據來源、產業邏輯與台股暴露度。">
+  <title>NV NPO 2500 萬只需求指引：來源與可信度溯源（2026-06-13）</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/water.min.css">
+  <style>
+    :root {
+      --bg: #0b0d11;
+      --panel: #13161c;
+      --panel-2: #1a1d25;
+      --text: #e6e8ec;
+      --muted: #9aa0a9;
+      --accent: #7aa0ff;
+      --accent-2: #5eead4;
+      --warn: #f5a623;
+      --danger: #ff6b6b;
+      --ok: #4ade80;
+      --border: #1f232c;
+      --shadow: 0 6px 28px rgba(0,0,0,0.35);
+    }
+    * { box-sizing: border-box; }
+    body {
+      background: linear-gradient(180deg, #0b0d11 0%, #10131a 100%);
+      color: var(--text);
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang TC", "Noto Sans TC", sans-serif;
+      line-height: 1.65;
+    }
+    a { color: var(--accent); }
+    a:hover { color: var(--accent-2); }
+    .container { max-width: 960px; margin: 0 auto; padding: 32px 20px 64px; }
+    .card {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 22px 24px;
+      margin: 18px 0;
+      box-shadow: var(--shadow);
+    }
+    .headline {
+      font-size: 26px;
+      font-weight: 700;
+      letter-spacing: 0.2px;
+      margin: 0 0 8px;
+    }
+    .sub { color: var(--muted); font-size: 14px; }
+    .tag {
+      display: inline-block;
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      border: 1px solid var(--border);
+      background: var(--panel-2);
+      color: var(--muted);
+    }
+    .tag-ok { border-color: #2a4d2a; color: var(--ok); background: #0f1f14; }
+    .tag-warn { border-color: #4d3a1f; color: var(--warn); background: #1f1810; }
+    .tag-danger { border-color: #4d1f1f; color: var(--danger); background: #1f1010; }
+    .metric-row { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
+    @media (max-width: 640px) { .metric-row { grid-template-columns: 1fr; } }
+    .metric { background: var(--panel-2); border: 1px solid var(--border); border-radius: 12px; padding: 14px 16px; }
+    .metric .label { color: var(--muted); font-size: 12px; letter-spacing: 0.3px; text-transform: uppercase; }
+    .metric .value { font-size: 20px; font-weight: 700; margin-top: 4px; }
+    .metric .note { color: var(--muted); font-size: 12px; margin-top: 4px; }
+    table { width: 100%; border-collapse: collapse; font-size: 14px; }
+    th, td { text-align: left; padding: 10px 8px; border-bottom: 1px solid var(--border); }
+    th { color: var(--muted); font-weight: 600; font-size: 12px; text-transform: uppercase; }
+    code, .mono { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+    .section { margin-top: 26px; }
+    .section-title { font-size: 18px; font-weight: 700; margin: 0 0 10px; display: flex; align-items: center; gap: 10px; }
+    .divider { height: 1px; background: var(--border); margin: 24px 0; border: 0; }
+    .footnote { color: var(--muted); font-size: 12px; }
+    .badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 5px 10px; border-radius: 8px; font-size: 12px; font-weight: 600;
+      background: #122236; border: 1px solid #1f3a5a; color: var(--accent);
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+
+  <div class="card">
+    <div class="sub">2026-06-13 · 供應鏈數列溯源</div>
+    <div class="headline">NVIDIA NPO 2500 萬只需求指引：來源與可信度溯源</div>
+    <div style="margin-top:10px; display:flex; gap:8px; flex-wrap:wrap;">
+      <span class="badge">NPO</span>
+      <span class="badge">CPO</span>
+      <span class="badge">NVIDIA</span>
+      <span class="badge">中際旭創 300308</span>
+      <span class="badge">新易盛 300502</span>
+    </div>
+  </div>
+
+  <div class="metric-row">
+    <div class="metric">
+      <div class="label">預估總需求指引</div>
+      <div class="value">2,500 萬只</div>
+      <div class="note">NPO 近封裝光學需求指引（未公開確認）</div>
+    </div>
+    <div class="metric">
+      <div class="label">提及之旭創分配量</div>
+      <div class="value">1,000 萬只</div>
+      <div class="note">約 160 億美元，推估對應 2025 全年營收顯著上修</div>
+    </div>
+    <div class="metric">
+      <div class="label">速率規格</div>
+      <div class="value">3.2T / 6.4T</div>
+      <div class="note">以 1.6T 作為價錢估算參考基線</div>
+    </div>
+    <div class="metric">
+      <div class="label">CPO 預估放量時程</div>
+      <div class="value">2027 ~ 20 萬套</div>
+      <div class="note">非傳聞之 100 萬套規模</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">核心發現</div>
+    <div class="card">
+      <p><strong>2500 萬只 NPO 需求指引並非來自 NVIDIA 官方公開訂單。</strong></p>
+      <p>根據可擷取之公開圖片內容，該數字出自一份針對中際旭創（300308）的問答式研究材料或投資者關係問答紀錄，內容以機構訪談形式披露。圖片本身未標示出具體券商或發布日期，無法直接溯源至官方新聞稿或證券公告。</p>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">證據分層</div>
+    <div class="card">
+      <table>
+        <thead>
+          <tr>
+            <th>層級</th>
+            <th>內容</th>
+            <th>可信度</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>可直接驗證</td>
+            <td>公開圖片中出現 NPO、2500 萬只、1000 萬只旭創、3.2T/6.4T、2027 20 萬套等數字</td>
+            <td><span class="tag tag-ok">● 可驗證但無法證偽來源</span></td>
+          </tr>
+          <tr>
+            <td>可推論但未確認</td>
+            <td>數字來源為針對中際旭創的券商問答紀錄或調研紀要</td>
+            <td><span class="tag tag-warn">◐ 情境機率，缺正式出處</span></td>
+          </tr>
+          <tr>
+            <td>待外部核實</td>
+            <td>旭創實際接單量、價格、NVIDIA 官方指引是否存在</td>
+            <td><span class="tag tag-danger">○ 未經主流程或公司公告確認</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">台股暴露度</div>
+    <div class="card">
+      <table>
+        <thead>
+          <tr>
+            <th>標的</th>
+            <th>代碼</th>
+            <th>暴露路徑</th>
+            <th>類型</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>中際旭創</td>
+            <td class="mono">300308.SZ</td>
+            <td>核心受益；長飛光纜為旗下子公司</td>
+            <td>A 股核心標的</td>
+          </tr>
+          <tr>
+            <td>新易盛</td>
+            <td class="mono">300502.SZ</td>
+            <td>文中提及為 NVIDIA 潛在供應商</td>
+            <td>A 股相關標的</td>
+          </tr>
+        </tbody>
+      </table>
+      <hr class="divider">
+      <p class="footnote">上述台股/ A 股僅列直接或間接路徑，不代表投資建議；請自行查閱券商晨會或公司投資人關係資料補強確認。</p>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">方法限制</div>
+    <div class="card">
+      <p>本報告為公開產業資訊與技術邏輯整理，僅根據可擷取之圖片內容與結構分析推導，<strong>無法實測原文券商連結或獲取原始報告全文</strong>。因此：</p>
+      <ul>
+        <li>數字精準度（2500 萬只 / 1000 萬只）未經 NV 官方或公司公告三方對帳。</li>
+        <li>文中「公司」與 Mellanox 合作關係屬於問答語境，可能為特定客戶訪談紀錄，不可直接外推至所有供應商。</li>
+        <li>價錢區間為 1.6T 參考估算，非報價單或合約價。</li>
+      </ul>
+      <p>建議下一步：查詢中際旭創近期投資者關係活動紀錄、券商晨會精選，或官方新聞稿交叉比對。</p>
+    </div>
+  </div>
+
+  <div class="footnote" style="margin-top: 24px; text-align: center;">
+    發布時間：2026-06-13 · 內容僅供研究參考，不構成投資建議
+  </div>
+</div>
+</body>
+</html>
