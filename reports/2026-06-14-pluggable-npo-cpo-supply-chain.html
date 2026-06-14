@@ -113,84 +113,104 @@
     <span class="legend-item"><span class="dot" style="background:#f59e0b"></span> ASIC / Switch 逻辑</span>
   </div>
   <div style="overflow:auto; border:1px solid var(--border); border-radius:12px; padding:12px; background:#f8fafc;">
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 520" width="100%" height="auto" role="img" aria-label="Pluggable、NPO、CPO 技术架构对比图">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1140 520" width="100%" height="auto" role="img" aria-label="三種架構的側視剖面圖：以垂直深度對比電訊號路徑長度">
     <defs>
-      <style>text{font-family:-apple-system,"Noto Sans TC",sans-serif}.title{font-size:17px;font-weight:700;fill:#0f172a}.subtitle{font-size:12px;fill:#64748b}.label{font-size:12px;fill:#334155}.note{font-size:11px;fill:#64748b;font-style:italic}.wire-e{stroke:#2563eb;stroke-width:3;fill:none}.wire-o{stroke:#10b981;stroke-width:3;fill:none}.struct{fill:#e2e8f0;stroke:#94a3b8;stroke-width:1.5}.chip{fill:#fef3c7;stroke:#d97706;stroke-width:1.5}.optics{fill:#dcfce7;stroke:#16a34a;stroke-width:1.5}</style>
+      <style>text{font-family:-apple-system,"Noto Sans TC",sans-serif}.title{font-size:18px;font-weight:700;fill:#0f172a}.subtitle{font-size:12px;fill:#64748b}.label{font-size:12px;fill:#334155}.note{font-size:11px;fill:#64748b;font-style:italic}.wire-e{stroke:#2563eb;stroke-width:3}.wire-o{stroke:#10b981;stroke-width:3}.struct{fill:#e2e8f0;stroke:#94a3b8;stroke-width:1.5}.chip{fill:#fef3c7;stroke:#d97706;stroke-width:1.5}.optics{fill:#dcfce7;stroke:#16a34a;stroke-width:1.5}.shield{fill:#f3e8ff;stroke:#a855f7;stroke-width:1.2}</style>
       <marker id="arr" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#2563eb"/></marker>
       <marker id="arrO" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#10b981"/></marker>
     </defs>
-    <rect width="1080" height="520" fill="#f8fafc" rx="10"/>
+    <rect width="1140" height="520" fill="#f8fafc" rx="10"/>
+
     <!-- PLUGGABLE -->
     <g id="pluggable">
-      <rect x="10" y="10" width="340" height="490" fill="#fff" stroke="#e5e7eb" rx="10"/>
-      <text x="180" y="34" text-anchor="middle" class="title">Pluggable</text>
-      <text x="180" y="52" text-anchor="middle" class="subtitle">QSFP-DD / OSFP · 可插拔</text>
-      <rect x="40" y="70" width="120" height="70" class="chip" rx="8"/>
-      <text x="100" y="96" text-anchor="middle" class="label">Switch ASIC</text>
-      <text x="100" y="112" text-anchor="middle" class="note">Ethernet PHY</text>
-      <rect x="200" y="85" width="90" height="40" class="struct" rx="6"/>
-      <text x="245" y="108" text-anchor="middle" class="label">Connector</text>
-      <rect x="200" y="155" width="90" height="60" class="optics" rx="8"/>
-      <text x="245" y="178" text-anchor="middle" class="label">光模组</text>
-      <text x="245" y="194" text-anchor="middle" class="note">QSFP-DD / OSFP</text>
-      <rect x="220" y="245" width="28" height="70" fill="#bbf7d0" stroke="#10b981" rx="4"/>
-      <text x="234" y="280" text-anchor="middle" class="label">光纤</text>
-      <text x="234" y="294" text-anchor="middle" class="note">MPO / MMF / SMF</text>
-      <rect x="40" y="350" width="280" height="130" class="struct" rx="8"/>
-      <text x="180" y="376" text-anchor="middle" class="label">主机板 / Front Panel</text>
-      <line x1="160" y1="105" x2="200" y2="105" class="wire-e" marker-end="url(#arr)"/>
-      <text x="182" y="97" text-anchor="middle" class="note">高速 PCB trace</text>
-      <line x1="245" y1="125" x2="245" y2="155" class="wire-e" stroke-dasharray="4 3" marker-end="url(#arr)"/>
-      <line x1="234" y1="215" x2="234" y2="245" class="wire-o" marker-end="url(#arrO)"/>
-      <text x="180" y="408" text-anchor="middle" class="note">铜通道最长 · 功耗 / 延迟较大</text>
-      <text x="180" y="424" text-anchor="middle" class="note">可热插拔维护</text>
+      <rect x="10" y="10" width="360" height="500" fill="#fff" stroke="#e5e7eb" rx="10"/>
+      <text x="190" y="34" text-anchor="middle" class="title">Pluggable（側視剖面）</text>
+      <text x="190" y="52" text-anchor="middle" class="subtitle">電訊號路徑最長</text>
+      <!-- ASIC top -->
+      <rect x="70" y="80" width="160" height="60" class="chip" rx="8"/>
+      <text x="150" y="105" text-anchor="middle" class="label">Switch ASIC</text>
+      <text x="150" y="121" text-anchor="middle" class="note">Ethernet PHY</text>
+      <!-- copper path down -->
+      <line x1="150" y1="140" x2="150" y2="235" class="wire-e" marker-end="url(#arr)"/>
+      <text x="188" y="190" text-anchor="start" class="note">銅通道（PCB trace + 連接器）</text>
+      <!-- connector box -->
+      <rect x="115" y="232" width="70" height="28" class="struct" rx="6"/>
+      <text x="150" y="250" text-anchor="middle" class="label">Connector</text>
+      <!-- optical path down -->
+      <line x1="240" y1="110" x2="240" y2="195" class="wire-e" stroke-dasharray="4 3" marker-end="url(#arr)"/>
+      <line x1="240" y1="225" x2="240" y2="275" class="wire-o" marker-end="url(#arrO)"/>
+      <!-- optics module -->
+      <rect x="205" y="272" width="70" height="52" class="optics" rx="8"/>
+      <text x="240" y="295" text-anchor="middle" class="label">光模組</text>
+      <text x="240" y="311" text-anchor="middle" class="note">QSFP-DD / OSFP</text>
+      <!-- fiber -->
+      <rect x="218" y="355" width="28" height="70" fill="#bbf7d0" stroke="#10b981" rx="4"/>
+      <text x="232" y="392" text-anchor="middle" class="label">光纖</text>
+      <line x1="232" y1="324" x2="232" y2="355" class="wire-o" marker-end="url(#arrO)"/>
+      <!-- substrate -->
+      <rect x="70" y="430" width="220" height="70" class="struct" rx="8"/>
+      <text x="180" y="455" text-anchor="middle" class="label">主機板 / 前面板</text>
+      <text x="180" y="475" text-anchor="middle" class="note">銅通道最長 · 功耗 / 延遲較大</text>
+      <text x="180" y="492" text-anchor="middle" class="note">可熱插拔維護</text>
     </g>
+
     <!-- NPO -->
     <g id="npo">
-      <rect x="370" y="10" width="340" height="490" fill="#fff" stroke="#e5e7eb" rx="10"/>
-      <text x="540" y="34" text-anchor="middle" class="title">NPO</text>
-      <text x="540" y="52" text-anchor="middle" class="subtitle">Near Package Optics · 近封装光学</text>
-      <rect x="400" y="70" width="120" height="65" class="chip" rx="8"/>
-      <text x="460" y="96" text-anchor="middle" class="label">Switch ASIC</text>
-      <text x="460" y="112" text-anchor="middle" class="note">SerDes / PLL</text>
-      <rect x="400" y="175" width="120" height="36" class="struct" rx="6"/>
-      <text x="460" y="197" text-anchor="middle" class="label">有机 Interposer</text>
-      <rect x="400" y="245" width="120" height="50" class="optics" rx="8"/>
-      <text x="460" y="268" text-anchor="middle" class="label">光引擎</text>
-      <text x="460" y="284" text-anchor="middle" class="note">TOSA / ROSA 合封</text>
-      <rect x="460" y="335" width="180" height="90" class="struct" rx="8"/>
-      <text x="550" y="361" text-anchor="middle" class="label">基板 / 散热屏蔽</text>
-      <rect x="500" y="175" width="28" height="50" fill="#bbf7d0" stroke="#10b981" rx="4"/>
-      <text x="514" y="205" text-anchor="middle" class="label">光纤</text>
-      <line x1="460" y1="135" x2="460" y2="175" class="wire-e" marker-end="url(#arr)"/>
-      <line x1="460" y1="211" x2="460" y2="245" class="wire-o" stroke-dasharray="4 3" marker-end="url(#arrO)"/>
-      <line x1="500" y1="200" x2="500" y2="175" class="wire-o" marker-end="url(#arrO)"/>
-      <text x="540" y="395" text-anchor="middle" class="note">铜通道大幅缩短</text>
-      <text x="540" y="411" text-anchor="middle" class="note">可单独维修光引擎</text>
+      <rect x="390" y="10" width="360" height="500" fill="#fff" stroke="#e5e7eb" rx="10"/>
+      <text x="570" y="34" text-anchor="middle" class="title">NPO（側視剖面）</text>
+      <text x="570" y="52" text-anchor="middle" class="subtitle">電訊號路徑中等</text>
+      <!-- ASIC -->
+      <rect x="450" y="80" width="160" height="60" class="chip" rx="8"/>
+      <text x="530" y="105" text-anchor="middle" class="label">Switch ASIC</text>
+      <text x="530" y="121" text-anchor="middle" class="note">SerDes / PLL</text>
+      <!-- electrical to interposer -->
+      <line x1="530" y1="140" x2="530" y2="220" class="wire-e" marker-end="url(#arr)"/>
+      <!-- interposer + fiber -->
+      <rect x="490" y="217" width="80" height="34" class="struct" rx="6"/>
+      <text x="530" y="236" text-anchor="middle" class="label">有機 Interposer</text>
+      <rect x="508" y="218" width="24" height="32" fill="#bbf7d0" stroke="#10b981" rx="4"/>
+      <text x="520" y="236" text-anchor="middle" class="label">光纖</text>
+      <!-- optical down to engine -->
+      <line x1="520" y1="251" x2="520" y2="290" class="wire-o" stroke-dasharray="4 3" marker-end="url(#arrO)"/>
+      <!-- optical engine -->
+      <rect x="475" y="287" width="90" height="50" class="optics" rx="8"/>
+      <text x="520" y="310" text-anchor="middle" class="label">光引擎</text>
+      <text x="520" y="326" text-anchor="middle" class="note">TOSA / ROSA 合封</text>
+      <!-- substrate / shield -->
+      <rect x="450" y="380" width="180" height="110" class="struct" rx="8"/>
+      <text x="540" y="410" text-anchor="middle" class="label">基板 / 散熱屏蔽</text>
+      <text x="540" y="432" text-anchor="middle" class="note">銅通道大幅縮短</text>
+      <text x="540" y="450" text-anchor="middle" class="note">可單獨維修光引擎</text>
     </g>
+
     <!-- CPO -->
     <g id="cpo">
-      <rect x="730" y="10" width="340" height="490" fill="#fff" stroke="#e5e7eb" rx="10"/>
-      <text x="900" y="34" text-anchor="middle" class="title">CPO</text>
-      <text x="900" y="52" text-anchor="middle" class="subtitle">Co-packaged Optics · 共封装光学</text>
-      <rect x="760" y="65" width="280" height="110" class="optics" rx="8"/>
-      <text x="900" y="91" text-anchor="middle" class="label">Switch ASIC + 光引擎</text>
-      <text x="900" y="109" text-anchor="middle" class="note">CoWoS / EMIB / SoIC 衍伸</text>
-      <text x="900" y="127" text-anchor="middle" class="note">共同封装在同一基板</text>
-      <rect x="780" y="205" width="240" height="50" class="struct" rx="6"/>
-      <text x="900" y="227" text-anchor="middle" class="label">封装基板 + 散热屏蔽</text>
-      <text x="900" y="245" text-anchor="middle" class="note">ABF / glass core / large organic</text>
-      <rect x="850" y="285" width="30" height="50" fill="#bbf7d0" stroke="#10b981" rx="4"/>
-      <text x="865" y="315" text-anchor="middle" class="label">光纤阵列</text>
-      <rect x="780" y="365" width="240" height="100" class="struct" rx="8"/>
-      <text x="900" y="391" text-anchor="middle" class="label">系统级载板 / ODI</text>
-      <text x="900" y="409" text-anchor="middle" class="note">OMA / UIV 标准制定中</text>
-      <text x="900" y="425" text-anchor="middle" class="note">维修需更换整个 CPO 模组</text>
-      <text x="900" y="467" text-anchor="middle" class="note">电通道最短 · 功耗最低</text>
+      <rect x="770" y="10" width="360" height="500" fill="#fff" stroke="#e5e7eb" rx="10"/>
+      <text x="950" y="34" text-anchor="middle" class="title">CPO（側視剖面）</text>
+      <text x="950" y="52" text-anchor="middle" class="subtitle">電訊號路徑最短</text>
+      <!-- ASIC + optics fused -->
+      <rect x="825" y="85" width="250" height="95" class="optics" rx="8"/>
+      <text x="950" y="118" text-anchor="middle" class="label">Switch ASIC + 光引擎</text>
+      <text x="950" y="136" text-anchor="middle" class="note">CoWoS / EMIB / SoIC 衍伸</text>
+      <text x="950" y="154" text-anchor="middle" class="note">共同使用同一封裝基板</text>
+      <!-- substrate + shield block, copper almost absent -->
+      <rect x="845" y="215" width="210" height="55" class="struct" rx="6"/>
+      <text x="950" y="237" text-anchor="middle" class="label">封裝基板 + 散熱屏蔽</text>
+      <text x="950" y="255" text-anchor="middle" class="note">ABF / glass core / large organic</text>
+      <!-- fiber array -->
+      <rect x="920" y="300" width="28" height="55" fill="#bbf7d0" stroke="#10b981" rx="4"/>
+      <text x="934" y="330" text-anchor="middle" class="label">光纖陣列</text>
+      <line x1="934" y1="270" x2="934" y2="300" class="wire-o" marker-end="url(#arrO)"/>
+      <!-- system carrier -->
+      <rect x="825" y="390" width="230" height="100" class="struct" rx="8"/>
+      <text x="940" y="420" text-anchor="middle" class="label">系統級載板 / ODI</text>
+      <text x="940" y="442" text-anchor="middle" class="note">OMA / UIV 標準制定中</text>
+      <text x="940" y="460" text-anchor="middle" class="note">維修需更換整個 CPO 模組</text>
+      <text x="940" y="482" text-anchor="middle" class="note">電通道最短 · 功耗最低</text>
     </g>
   </svg>
   </div>
-  <p><strong>阅读建议：</strong>先从左栏建立「插拔模组」的基本印象，再对照中栏 NPO 的铜通道缩短与右栏 CPO 的电通道极简设计。</p>
+  <p><strong>閱讀建議：</strong>三欄皆為垂直側視剖面，比較關鍵在於 copper 電訊號（藍線）從 ASIC 到光學的垂直距離。</p>
 </section>
 
 <section id="layers">
