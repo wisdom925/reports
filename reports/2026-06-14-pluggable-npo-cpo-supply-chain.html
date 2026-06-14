@@ -105,12 +105,12 @@
 
 <section id="architecture">
   <h2>技術架構圖與資料流向</h2>
-  <p>下图依序呈现三种架构的横向对比：左側為傳統 Pluggable，中间为 NPO，右侧为 CPO。蓝色代表电讯号，绿色代表光讯号，灰色代表封装 / 基板 / 散热结构，橘色代表 ASIC。</p>
+  <p>下图依序呈现三种架构的横向对比：左側為傳統 Pluggable，中间为 NPO，右侧为 CPO。藍色代表电讯号，綠色代表光讯号，灰色代表封裝 / 基板 / 散熱結構，橘色代表 ASIC。</p>
   <div class="legend">
-    <span class="legend-item"><span class="dot" style="background:#2563eb"></span> 电讯号 / 铜通道 (PCIe / Ethernet PHY)</span>
-    <span class="legend-item"><span class="dot" style="background:#10b981"></span> 光讯号 / 光纤 (Optical I/O)</span>
-    <span class="legend-item"><span class="dot" style="background:#94a3b8"></span> 封装 / 基板 / 散热结构</span>
-    <span class="legend-item"><span class="dot" style="background:#f59e0b"></span> ASIC / Switch 逻辑</span>
+    <span class="legend-item"><span class="dot" style="background:#2563eb"></span> 电讯号 / 銅通道 (PCIe / Ethernet PHY)</span>
+    <span class="legend-item"><span class="dot" style="background:#10b981"></span> 光讯号 / 光纖 (Optical I/O)</span>
+    <span class="legend-item"><span class="dot" style="background:#94a3b8"></span> 封裝 / 基板 / 散熱結構</span>
+    <span class="legend-item"><span class="dot" style="background:#f59e0b"></span> ASIC / Switch 邏輯</span>
   </div>
   <div style="overflow:auto; border:1px solid var(--border); border-radius:12px; padding:12px; background:#f8fafc;">
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1140 520" width="100%" height="auto" role="img" aria-label="三種架構的側視剖面圖：以垂直深度對比電訊號路徑長度">
@@ -214,15 +214,15 @@
 </section>
 
 <section id="layers">
-  <h2>供应链层级拆解</h2>
-  <p>以下将 CPO / NPO 产业链拆成材料、器件、模组、设备、标准与软件五层，并标注各层的台厂机会与门槛。</p>
+  <h2>供应鏈層級拆解</h2>
+  <p>以下将 CPO / NPO 產業鏈拆成材料、器件、模組、設備、标准与软件五層，并标注各層的台厂机会与门槛。</p>
   <table>
-    <thead><tr><th>层级</th><th>主要环节</th><th>关键材料 / 器件</th><th>代表性厂商 (海外)</th><th>台厂机会 / 门槛</th></tr></thead>
+    <thead><tr><th>層級</th><th>主要环节</th><th>关键材料 / 器件</th><th>代表性厂商 (海外)</th><th>台厂机会 / 门槛</th></tr></thead>
     <tbody>
-      <tr><td><strong>材料层</strong></td><td>封装基板、玻璃 / 有机 interposer、散热材料、PCB</td><td>ABF film、玻璃 core、Diamond 散热片、PTFE 高频板</td><td>Ajinkya (NSG)、Nan Ya、台光、金居</td><td><span class="tier-1">高</span> 台厂在 HDI / 高多层 PCB、玻璃基板验证已有布局</td></tr>
-      <tr><td><strong>器件层</strong></td><td>EML / 硅光调制器、探测器、VCSEL、driver / TIA</td><td>100G PAM4 EML、硅光调制器、SOA、APD</td><td>Broadcom、Coherent、Fabrinet、光迅、海信</td><td><span class="tier-2">中</span> 台厂以封测代工、砷化镓 / 磷化铟磊晶体系产能为主</td></tr>
-      <tr><td><strong>模组层</strong></td><td>光引擎、微透镜阵列、光纤阵列、micro-connector</td><td>CPO 光学引擎、NPO 合封光引擎、FA 连接头</td><td>Broadcom、Cisco、Mellanox (NVIDIA)、Intel</td><td><span class="tier-2">中</span> 垂直整合厂商若能在封装制程切入，才有机会</td></tr>
-      <tr><td><strong>设备层</strong></td><td>hybrid bonding 设备、主动对准耦合设备、测试</td><td>热压键合、microlens 对准、ATE 测试方案</td><td>BESI、ASMPT、EV Group、Cohu</td><td><span class="tier-3">低</span> 关键设备多掌握在欧日设备大厂</td></tr>
+      <tr><td><strong>材料層</strong></td><td>封裝基板、玻璃 / 有机 interposer、散熱材料、PCB</td><td>ABF film、玻璃 core、Diamond 散熱片、PTFE 高频板</td><td>Ajinkya (NSG)、Nan Ya、台光、金居</td><td><span class="tier-1">高</span> 台厂在 HDI / 高多層 PCB、玻璃基板验证已有布局</td></tr>
+      <tr><td><strong>器件層</strong></td><td>EML / 硅光调制器、探测器、VCSEL、driver / TIA</td><td>100G PAM4 EML、硅光调制器、SOA、APD</td><td>Broadcom、Coherent、Fabrinet、光迅、海信</td><td><span class="tier-2">中</span> 台厂以封测代工、砷化镓 / 磷化铟磊晶体系产能为主</td></tr>
+      <tr><td><strong>模組層</strong></td><td>光引擎、微透镜陣列、光纖陣列、micro-connector</td><td>CPO 光学引擎、NPO 合封光引擎、FA 連接头</td><td>Broadcom、Cisco、Mellanox (NVIDIA)、Intel</td><td><span class="tier-2">中</span> 垂直整合厂商若能在封裝制程切入，才有机会</td></tr>
+      <tr><td><strong>設備層</strong></td><td>hybrid bonding 設備、主动对准耦合設備、测试</td><td>热压键合、microlens 对准、ATE 测试方案</td><td>BESI、ASMPT、EV Group、Cohu</td><td><span class="tier-3">低</span> 关键設備多掌握在欧日設備大厂</td></tr>
       <tr><td><strong>标准与软件</strong></td><td>OIF、IEEE、尚未定型的 CPO connector / API 标准</td><td>PMA/PMD 标准、Digital Twin、link training</td><td>OIF、IEEE 802.3、Optical Interconnect Forum</td><td><span class="tier-2">间接</span> 台湾软件厂有机会切入 Digital Twin / simulate 环节</td></tr>
     </tbody>
   </table>
@@ -230,55 +230,55 @@
 
 <section id="ecosystem">
   <h2>生态系与关键厂商</h2>
-  <p>海外主要玩家分为三种路线：ASIC 主导 (Broadcom / NVIDIA / Intel)、网络设备整合 (Cisco / Juniper)、代工 / 材料 (台积电 / 日月光 / Ajinkya)。台厂最直接的切入点是载板 / 基板、散热结构与封装代工。</p>
+  <p>海外主要玩家分为三种路线：ASIC 主导 (Broadcom / NVIDIA / Intel)、网络設備整合 (Cisco / Juniper)、代工 / 材料 (台积电 / 日月光 / Ajinkya)。台厂最直接的切入点是载板 / 基板、散熱結構与封裝代工。</p>
   <table>
-    <thead><tr><th>角色</th><th>公司</th><th>路线 / 产品</th><th>在供应链中的位置</th><th>对台厂的影响</th></tr></thead>
+    <thead><tr><th>角色</th><th>公司</th><th>路线 / 产品</th><th>在供应鏈中的位置</th><th>对台厂的影响</th></tr></thead>
     <tbody>
-      <tr><td><strong>ASIC 主导</strong></td><td>Broadcom</td><td>Tomahawk 5/6 系列，NPO / CPO 自有方案</td><td>Switch 核心 + 光学整合方案定义权</td><td>台厂基板 / 散热供应商首要验证对象</td></tr>
-      <tr><td><strong>ASIC 主导</strong></td><td>NVIDIA</td><td>Spectrum-4 / Spectrum-X，DGX 系统</td><td>GPU 互联 + 网络 switch</td><td>载板 (CoWoS)、PCB、ODM 散热</td></tr>
-      <tr><td><strong>ASIC 主导</strong></td><td>Intel</td><td>Foveros / EMIB、Tofino 系列</td><td>3D 封装技术成熟，CPO 路线之一</td><td>硅堆叠、基板、组件</td></tr>
-      <tr><td><strong>设备 / 网络</strong></td><td>Cisco</td><td>Silicon One，CPO 交换卡</td><td>上游规格制定 + 系统整合</td><td>台网通设备代工间接受惠</td></tr>
-      <tr><td><strong>代工</strong></td><td>日月光</td><td>FOCoS、SiP 封装</td><td>高级封装代工 (substrate + assembly)</td><td>台湾最大 CPO 封装候选代工</td></tr>
-      <tr><td><strong>基板</strong></td><td>台积电</td><td>CoWoS / SoIC 延伸至光引擎</td><td>2.5D / 3D interposer + 封装</td><td>关键 interposer / 基板来源</td></tr>
+      <tr><td><strong>ASIC 主导</strong></td><td>Broadcom</td><td>Tomahawk 5/6 系列，NPO / CPO 自有方案</td><td>Switch 核心 + 光学整合方案定义权</td><td>台厂基板 / 散熱供应商首要验证对象</td></tr>
+      <tr><td><strong>ASIC 主导</strong></td><td>NVIDIA</td><td>Spectrum-4 / Spectrum-X，DGX 系统</td><td>GPU 互联 + 网络 switch</td><td>载板 (CoWoS)、PCB、ODM 散熱</td></tr>
+      <tr><td><strong>ASIC 主导</strong></td><td>Intel</td><td>Foveros / EMIB、Tofino 系列</td><td>3D 封裝技术成熟，CPO 路线之一</td><td>硅堆叠、基板、組件</td></tr>
+      <tr><td><strong>設備 / 网络</strong></td><td>Cisco</td><td>Silicon One，CPO 交换卡</td><td>上游规格制定 + 系统整合</td><td>台网通設備代工间接受惠</td></tr>
+      <tr><td><strong>代工</strong></td><td>日月光</td><td>FOCoS、SiP 封裝</td><td>高級封裝代工 (substrate + assembly)</td><td>台湾最大 CPO 封裝候选代工</td></tr>
+      <tr><td><strong>基板</strong></td><td>台积电</td><td>CoWoS / SoIC 延伸至光引擎</td><td>2.5D / 3D interposer + 封裝</td><td>关键 interposer / 基板来源</td></tr>
     </tbody>
   </table>
 </section>
 
 <section id="taiwan-exposure">
-  <h2>台厂间接曝险路径</h2>
-  <p>台厂大多不是直接生产 CPO / NPO 光引擎，而是从 PCB、基板、散热、封装测试切入。以下按曝险等级排序：</p>
+  <h2>台厂间接曝险路徑</h2>
+  <p>台厂大多不是直接生产 CPO / NPO 光引擎，而是从 PCB、基板、散熱、封裝测试切入。以下按曝险等級排序：</p>
   <table>
-    <thead><tr><th>曝险等级</th><th>标的类型</th><th>代表标的 / 说明</th><th>受益逻辑</th></tr></thead>
+    <thead><tr><th>曝险等級</th><th>标的類型</th><th>代表标的 / 说明</th><th>受益邏輯</th></tr></thead>
     <tbody>
       <tr><td class="tier-1">高</td><td>载板 / ABF 基板 / 玻璃 core</td><td>南电、景硕、欣兴、臻鼎</td><td>NPO / CPO 均需更高密度有机基板与玻璃基板验证</td></tr>
-      <tr><td class="tier-1">高</td><td>高多层 / 高频 PTFE PCB</td><td>台光、金居、燿华、定颖</td><td>50G+ PAM4 铜通道对 low-loss 材料需求提升</td></tr>
-      <tr><td class="tier-2">中高</td><td>封装代工 (OSAT)</td><td>日月光、矽品、力成</td><td>NPO 阶段已有合封封装需求</td></tr>
-      <tr><td class="tier-2">中</td><td>散热材料 / 热管 / 风扇</td><td>双鸿、奇鋐、泰硕、光颉</td><td>CPO 模组功耗密度极高，散热成瓶颈</td></tr>
-      <tr><td class="tier-3">间接</td><td>网通设备代工 / 测试</td><td>智邦、广达、纬创、英业达</td><td>上游 AI server / switch 订单周期带动</td></tr>
-      <tr><td class="tier-3">间接</td><td>砷化镓 / 磷化铟磊晶</td><td>全新、曜鸿、光燿</td><td>激光器 chip 台厂代工，受益幅度取决于是否进入 CPO 供应链</td></tr>
+      <tr><td class="tier-1">高</td><td>高多層 / 高频 PTFE PCB</td><td>台光、金居、燿华、定颖</td><td>50G+ PAM4 銅通道对 low-loss 材料需求提升</td></tr>
+      <tr><td class="tier-2">中高</td><td>封裝代工 (OSAT)</td><td>日月光、矽品、力成</td><td>NPO 阶段已有合封封裝需求</td></tr>
+      <tr><td class="tier-2">中</td><td>散熱材料 / 热管 / 风扇</td><td>双鸿、奇鋐、泰硕、光颉</td><td>CPO 模組功耗密度极高，散熱成瓶颈</td></tr>
+      <tr><td class="tier-3">间接</td><td>网通設備代工 / 测试</td><td>智邦、广达、纬创、英业达</td><td>上游 AI server / switch 订单周期带动</td></tr>
+      <tr><td class="tier-3">间接</td><td>砷化镓 / 磷化铟磊晶</td><td>全新、曜鸿、光燿</td><td>激光器 chip 台厂代工，受益幅度取决于是否进入 CPO 供应鏈</td></tr>
     </tbody>
   </table>
-  <div class="callout"><strong>注意：</strong>以上曝险路径基于公开产业逻辑推断，不等同公司已确认订单或技术到位。台厂是否真实受惠，仍需追踪实际 product qualification 进度。</div>
+  <div class="callout"><strong>注意：</strong>以上曝险路徑基于公开產業邏輯推断，不等同公司已确认订单或技术到位。台厂是否真实受惠，仍需追踪实际 product qualification 进度。</div>
 </section>
 
 <section id="trends">
   <h2>趋势、风险与不确定因素</h2>
   <details class="risk"><summary>CPO 量产时程可能再次延后</summary><p>OIF / IEEE 的 connector / PMD 标准仍在制定中，供应商担心过早押注单一路线，导致实际放量时程可能延后至 2029 年。</p></details>
-  <details class="risk"><summary>Co-packaging 良率挑战</summary><p>光引擎与 ASIC 直接封装对封装厂的热处理、hybrid bonding、clean room 等级都要求极高，初始良率若过低会影响客户导入意愿。</p></details>
-  <details class="risk"><summary>标准化竞争</summary><p>CPO 目前有 OIF、MDF、EDSFF 等多种路线竞争，connector / mechanical standard 若分裂，会导致供应链碎片化。</p></details>
-  <details class="risk"><summary>美中贸易与出口管制</summary><p>高速 AI 芯片与先进封装技术受到出口管制影响，若限制扩大，可能会影响台厂的设备与材料来源，进而拖慢 CPO 本地化生产节奏。</p></details>
-  <details class="risk"><summary>散热的滚雪球效应</summary><p>CPO 的功耗集中度大幅提升，若散热方案迟迟未能成熟，会直接造成 ASIC 无法 safe operate，进而打乱 adoption 曲线。</p></details>
+  <details class="risk"><summary>Co-packaging 良率挑战</summary><p>光引擎与 ASIC 直接封裝对封裝厂的热处理、hybrid bonding、clean room 等級都要求极高，初始良率若过低会影响客户导入意愿。</p></details>
+  <details class="risk"><summary>标准化竞争</summary><p>CPO 目前有 OIF、MDF、EDSFF 等多种路线竞争，connector / mechanical standard 若分裂，会导致供应鏈碎片化。</p></details>
+  <details class="risk"><summary>美中贸易与出口管制</summary><p>高速 AI 芯片与先进封裝技术受到出口管制影响，若限制扩大，可能会影响台厂的設備与材料来源，进而拖慢 CPO 本地化生产节奏。</p></details>
+  <details class="risk"><summary>散熱的滚雪球效应</summary><p>CPO 的功耗集中度大幅提升，若散熱方案迟迟未能成熟，会直接造成 ASIC 无法 safe operate，进而打乱 adoption 曲线。</p></details>
 </section>
 
 <section id="conclusion">
   <h2>结论</h2>
-  <p><strong>短期 (2025-2026)：</strong>Pluggable 800G 仍是主力规格，供应链仍以传统光模组厂为主。台湾间接受惠于高速 PCB (50G PAM4)、散热与高频材料需求增加。</p>
-  <p><strong>中期 (2026-2028)：</strong>NPO 方案开始小量导入，有机基板与 CoWoS-like 封装需求增加，日月光、台积电的 2.5D 封装产能成为 bottleneck。台厂载板 / 基板厂需通过 glass core 与 fine-pitch 的能力验证。</p>
-  <p><strong>长期 (2028+)：</strong>CPO 成为 AI 交换机主流，台厂受益机会最大的是材料 / 基板 / 散热 / OSAT 代工，但前提是标准定型、良率达标、供应链本地化通过验证。</p>
-  <div class="callout"><strong>核心结论：</strong>台厂在 CPO / NPO 世代不是被动旁观者，而是材料与制造重镇；但受益顺序是「基板 → 散热 → 封装 → 器件」，不是反过来。</div>
+  <p><strong>短期 (2025-2026)：</strong>Pluggable 800G 仍是主力规格，供应鏈仍以传统光模組厂为主。台湾间接受惠于高速 PCB (50G PAM4)、散熱与高频材料需求增加。</p>
+  <p><strong>中期 (2026-2028)：</strong>NPO 方案开始小量导入，有机基板与 CoWoS-like 封裝需求增加，日月光、台积电的 2.5D 封裝产能成为 bottleneck。台厂载板 / 基板厂需通过 glass core 与 fine-pitch 的能力验证。</p>
+  <p><strong>长期 (2028+)：</strong>CPO 成为 AI 交换机主流，台厂受益机会最大的是材料 / 基板 / 散熱 / OSAT 代工，但前提是标准定型、良率达标、供应鏈本地化通过验证。</p>
+  <div class="callout"><strong>核心结论：</strong>台厂在 CPO / NPO 世代不是被动旁观者，而是材料与制造重镇；但受益顺序是「基板 → 散熱 → 封裝 → 器件」，不是反过来。</div>
 </section>
 
-<footer>本报告基于公开产业资讯与技术逻辑整理，投资决策请结合专业顾问建议。</footer>
+<footer>本报告基于公开產業资讯与技术邏輯整理，投资决策请结合专业顾问建议。</footer>
 </div>
 </body>
 </html>
