@@ -96,7 +96,7 @@
     <thead><tr><th>技術代際</th><th>定義</th><th>技術特徵</th><th>預計量產窗口</th><th>代表方案</th></tr></thead>
     <tbody>
       <tr><td><strong>Pluggable</strong></td><td>可插拔光模組，以電連到主機板</td><td>標準的外插模組型態，易維護、易升級</td><td>當前主流</td><td>QSFP-DD 800G、OSFP 800G</td></tr>
-      <tr><td><strong>NPO</strong></td><td>光engine靠近封裝體但仍獨立物理存在</td><td>縮短 golden bonding length，降低功耗與延遲</td><td>2025-2027 過渡期</td><td>Broadcom / NVIDIA 發表中的 NPO 方案</td></tr>
+      <tr><td><strong>NPO</strong></td><td>光引擎靠近封裝體但仍獨立物理存在</td><td>縮短 golden bonding length，降低功耗與延遲</td><td>2025-2027 過渡期</td><td>Broadcom / NVIDIA 發表中的 NPO 方案</td></tr>
       <tr><td><strong>CPO</strong></td><td>光引擎直接與 Switch ASIC 共封裝</td><td>最大程度縮短 optical-electric 轉換距離</td><td>2027+ 小批量，2029+ 規模化</td><td>Broadcom / Intel / 台積電 CoWoS 衍伸路線</td></tr>
     </tbody>
   </table>
@@ -105,16 +105,20 @@
 
 <section id="architecture">
   <h2>技術架構圖與資料流向</h2>
-  <p>下方 SVG 呈現三種型態在同一頁上的橫向對比：左側為傳統 Pluggable，中間為 NPO，右側為 CPO。藍色系代表電訊號路徑，綠色系代表光訊號路徑，灰色系代表封裝 / 基板結構。</p>
+  <p>下图依序呈现三种架构的横向对比：左側為傳統 Pluggable，中间为 NPO，右侧为 CPO。蓝色代表电讯号，绿色代表光讯号，灰色代表封装 / 基板 / 散热结构，橘色代表 ASIC。</p>
   <div class="legend">
-    <span class="legend-item"><span class="dot" style="background:#2563eb"></span> 電訊號 / 銅通道 (PCIe / Ethernet PHY)</span>
-    <span class="legend-item"><span class="dot" style="background:#10b981"></span> 光訊號 / 光纖 (Optical I/O)</span>
-    <span class="legend-item"><span class="dot" style="background:#94a3b8"></span> 封裝 / 基板 / 散熱結構</span>
-    <span class="legend-item"><span class="dot" style="background:#f59e0b"></span> ASIC / Switch 邏輯</span>
+    <span class="legend-item"><span class="dot" style="background:#2563eb"></span> 电讯号 / 铜通道 (PCIe / Ethernet PHY)</span>
+    <span class="legend-item"><span class="dot" style="background:#10b981"></span> 光讯号 / 光纤 (Optical I/O)</span>
+    <span class="legend-item"><span class="dot" style="background:#94a3b8"></span> 封装 / 基板 / 散热结构</span>
+    <span class="legend-item"><span class="dot" style="background:#f59e0b"></span> ASIC / Switch 逻辑</span>
   </div>
   <div style="overflow:auto; border:1px solid var(--border); border-radius:12px; padding:12px; background:#f8fafc;">
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 520" width="100%" height="auto" role="img" aria-label="Pluggable、NPO、CPO 技術架構對比圖">
-    <defs><style>text{font-family:-apple-system,"Noto Sans TC",sans-serif}.title{font-size:17px;font-weight:700;fill:#0f172a}.subtitle{font-size:12px;fill:#64748b}.label{font-size:12px;fill:#334155}.note{font-size:11px;fill:#64748b;font-style:italic}.wire-e{stroke:#2563eb;stroke-width:3;fill:none}.wire-o{stroke:#10b981;stroke-width:3;fill:none}.struct{fill:#e2e8f0;stroke:#94a3b8;stroke-width:1.5}.chip{fill:#fef3c7;stroke:#d97706;stroke-width:1.5}.optics{fill:#dcfce7;stroke:#16a34a;stroke-width:1.5}</style></defs>
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 520" width="100%" height="auto" role="img" aria-label="Pluggable、NPO、CPO 技术架构对比图">
+    <defs>
+      <style>text{font-family:-apple-system,"Noto Sans TC",sans-serif}.title{font-size:17px;font-weight:700;fill:#0f172a}.subtitle{font-size:12px;fill:#64748b}.label{font-size:12px;fill:#334155}.note{font-size:11px;fill:#64748b;font-style:italic}.wire-e{stroke:#2563eb;stroke-width:3;fill:none}.wire-o{stroke:#10b981;stroke-width:3;fill:none}.struct{fill:#e2e8f0;stroke:#94a3b8;stroke-width:1.5}.chip{fill:#fef3c7;stroke:#d97706;stroke-width:1.5}.optics{fill:#dcfce7;stroke:#16a34a;stroke-width:1.5}</style>
+      <marker id="arr" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#2563eb"/></marker>
+      <marker id="arrO" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#10b981"/></marker>
+    </defs>
     <rect width="1080" height="520" fill="#f8fafc" rx="10"/>
     <!-- PLUGGABLE -->
     <g id="pluggable">
@@ -124,135 +128,137 @@
       <rect x="40" y="70" width="120" height="70" class="chip" rx="8"/>
       <text x="100" y="96" text-anchor="middle" class="label">Switch ASIC</text>
       <text x="100" y="112" text-anchor="middle" class="note">Ethernet PHY</text>
-      <rect x="220" y="80" width="90" height="50" class="struct" rx="6"/>
-      <text x="265" y="103" text-anchor="middle" class="label">Connector</text>
-      <rect x="220" y="150" width="90" height="70" class="optics" rx="8"/>
-      <text x="265" y="178" text-anchor="middle" class="label">光模組</text>
-      <text x="265" y="194" text-anchor="middle" class="note">QSFP-DD / OSFP</text>
-      <rect x="250" y="240" width="30" height="60" fill="#bbf7d0" stroke="#10b981" rx="4"/>
-      <text x="265" y="265" text-anchor="middle" class="label">光纖</text>
-      <text x="265" y="281" text-anchor="middle" class="note">MPO / MMF / SMF</text>
-      <rect x="40" y="340" width="280" height="140" class="struct" rx="8"/>
-      <text x="180" y="366" text-anchor="middle" class="label">主機板 / Front Panel</text>
-      <line x1="160" y1="100" x2="220" y2="105" class="wire-e"/>
-      <text x="196" y="92" text-anchor="middle" class="note">高速 PCB trace</text>
-      <line x1="265" y1="220" x2="265" y2="240" class="wire-o"/>
-      <text x="180" y="398" text-anchor="middle" class="note">銅通道最長 · 功耗 / 延遲較大</text>
-      <text x="180" y="414" text-anchor="middle" class="note">可熱插拔維護</text>
+      <rect x="200" y="85" width="90" height="40" class="struct" rx="6"/>
+      <text x="245" y="108" text-anchor="middle" class="label">Connector</text>
+      <rect x="200" y="155" width="90" height="60" class="optics" rx="8"/>
+      <text x="245" y="178" text-anchor="middle" class="label">光模组</text>
+      <text x="245" y="194" text-anchor="middle" class="note">QSFP-DD / OSFP</text>
+      <rect x="220" y="245" width="28" height="70" fill="#bbf7d0" stroke="#10b981" rx="4"/>
+      <text x="234" y="280" text-anchor="middle" class="label">光纤</text>
+      <text x="234" y="294" text-anchor="middle" class="note">MPO / MMF / SMF</text>
+      <rect x="40" y="350" width="280" height="130" class="struct" rx="8"/>
+      <text x="180" y="376" text-anchor="middle" class="label">主机板 / Front Panel</text>
+      <line x1="160" y1="105" x2="200" y2="105" class="wire-e" marker-end="url(#arr)"/>
+      <text x="182" y="97" text-anchor="middle" class="note">高速 PCB trace</text>
+      <line x1="245" y1="125" x2="245" y2="155" class="wire-e" stroke-dasharray="4 3" marker-end="url(#arr)"/>
+      <line x1="234" y1="215" x2="234" y2="245" class="wire-o" marker-end="url(#arrO)"/>
+      <text x="180" y="408" text-anchor="middle" class="note">铜通道最长 · 功耗 / 延迟较大</text>
+      <text x="180" y="424" text-anchor="middle" class="note">可热插拔维护</text>
     </g>
     <!-- NPO -->
     <g id="npo">
       <rect x="370" y="10" width="340" height="490" fill="#fff" stroke="#e5e7eb" rx="10"/>
       <text x="540" y="34" text-anchor="middle" class="title">NPO</text>
-      <text x="540" y="52" text-anchor="middle" class="subtitle">Near Package Optics · 近封裝光學</text>
-      <rect x="400" y="70" width="120" height="70" class="chip" rx="8"/>
+      <text x="540" y="52" text-anchor="middle" class="subtitle">Near Package Optics · 近封装光学</text>
+      <rect x="400" y="70" width="120" height="65" class="chip" rx="8"/>
       <text x="460" y="96" text-anchor="middle" class="label">Switch ASIC</text>
       <text x="460" y="112" text-anchor="middle" class="note">SerDes / PLL</text>
-      <rect x="400" y="180" width="120" height="40" class="struct" rx="6"/>
-      <text x="460" y="205" text-anchor="middle" class="label">有機 interposer</text>
-      <rect x="400" y="250" width="120" height="50" class="optics" rx="8"/>
-      <text x="460" y="273" text-anchor="middle" class="label">光引擎</text>
-      <text x="460" y="289" text-anchor="middle" class="note">TOSA / ROSA 合封</text>
-      <rect x="420" y="340" width="240" height="130" class="struct" rx="8"/>
-      <text x="540" y="366" text-anchor="middle" class="label">高密度有機基板 / 散熱屏蔽</text>
-      <rect x="490" y="180" width="30" height="40" fill="#bbf7d0" stroke="#10b981" rx="4"/>
-      <text x="505" y="205" text-anchor="middle" class="label">光纖</text>
-      <line x1="460" y1="140" x2="460" y2="180" class="wire-e"/>
-      <line x1="460" y1="220" x2="460" y2="250" class="wire-o"/>
-      <line x1="490" y1="225" x2="490" y2="220" class="wire-o"/>
-      <text x="540" y="398" text-anchor="middle" class="note">銅通道縮短 · 功耗與延遲下降</text>
-      <text x="540" y="414" text-anchor="middle" class="note">可單獨維修光引擎</text>
+      <rect x="400" y="175" width="120" height="36" class="struct" rx="6"/>
+      <text x="460" y="197" text-anchor="middle" class="label">有机 Interposer</text>
+      <rect x="400" y="245" width="120" height="50" class="optics" rx="8"/>
+      <text x="460" y="268" text-anchor="middle" class="label">光引擎</text>
+      <text x="460" y="284" text-anchor="middle" class="note">TOSA / ROSA 合封</text>
+      <rect x="460" y="335" width="180" height="90" class="struct" rx="8"/>
+      <text x="550" y="361" text-anchor="middle" class="label">基板 / 散热屏蔽</text>
+      <rect x="500" y="175" width="28" height="50" fill="#bbf7d0" stroke="#10b981" rx="4"/>
+      <text x="514" y="205" text-anchor="middle" class="label">光纤</text>
+      <line x1="460" y1="135" x2="460" y2="175" class="wire-e" marker-end="url(#arr)"/>
+      <line x1="460" y1="211" x2="460" y2="245" class="wire-o" stroke-dasharray="4 3" marker-end="url(#arrO)"/>
+      <line x1="500" y1="200" x2="500" y2="175" class="wire-o" marker-end="url(#arrO)"/>
+      <text x="540" y="395" text-anchor="middle" class="note">铜通道大幅缩短</text>
+      <text x="540" y="411" text-anchor="middle" class="note">可单独维修光引擎</text>
     </g>
     <!-- CPO -->
     <g id="cpo">
       <rect x="730" y="10" width="340" height="490" fill="#fff" stroke="#e5e7eb" rx="10"/>
       <text x="900" y="34" text-anchor="middle" class="title">CPO</text>
-      <text x="900" y="52" text-anchor="middle" class="subtitle">Co-packaged Optics · 共封裝光學</text>
-      <rect x="760" y="70" width="280" height="130" class="optics" rx="8"/>
-      <text x="900" y="96" text-anchor="middle" class="label">Switch ASIC + 光引擎</text>
-      <text x="900" y="114" text-anchor="middle" class="note">CoWoS / EMIB / SoIC 衍伸</text>
-      <text x="900" y="132" text-anchor="middle" class="note">共同使用同一封裝基板</text>
-      <rect x="780" y="230" width="240" height="56" class="struct" rx="6"/>
-      <text x="900" y="252" text-anchor="middle" class="label">封裝基板 + 散熱屏蔽</text>
-      <text x="900" y="270" text-anchor="middle" class="note">ABF / glass core / large organic</text>
-      <rect x="860" y="310" width="30" height="50" fill="#bbf7d0" stroke="#10b981" rx="4"/>
-      <text x="875" y="340" text-anchor="middle" class="label">光纖陣列</text>
-      <rect x="780" y="390" width="240" height="100" class="struct" rx="8"/>
-      <text x="900" y="420" text-anchor="middle" class="label">系統級載板 / ODI connector</text>
-      <text x="900" y="438" text-anchor="middle" class="note">OMA / UIV 等標準制定中</text>
-      <text x="900" y="454" text-anchor="middle" class="note">維修需更換整個 CPO 模組</text>
-      <text x="900" y="480" text-anchor="middle" class="note">電通道最短 · 功耗最低</text>
+      <text x="900" y="52" text-anchor="middle" class="subtitle">Co-packaged Optics · 共封装光学</text>
+      <rect x="760" y="65" width="280" height="110" class="optics" rx="8"/>
+      <text x="900" y="91" text-anchor="middle" class="label">Switch ASIC + 光引擎</text>
+      <text x="900" y="109" text-anchor="middle" class="note">CoWoS / EMIB / SoIC 衍伸</text>
+      <text x="900" y="127" text-anchor="middle" class="note">共同封装在同一基板</text>
+      <rect x="780" y="205" width="240" height="50" class="struct" rx="6"/>
+      <text x="900" y="227" text-anchor="middle" class="label">封装基板 + 散热屏蔽</text>
+      <text x="900" y="245" text-anchor="middle" class="note">ABF / glass core / large organic</text>
+      <rect x="850" y="285" width="30" height="50" fill="#bbf7d0" stroke="#10b981" rx="4"/>
+      <text x="865" y="315" text-anchor="middle" class="label">光纤阵列</text>
+      <rect x="780" y="365" width="240" height="100" class="struct" rx="8"/>
+      <text x="900" y="391" text-anchor="middle" class="label">系统级载板 / ODI</text>
+      <text x="900" y="409" text-anchor="middle" class="note">OMA / UIV 标准制定中</text>
+      <text x="900" y="425" text-anchor="middle" class="note">维修需更换整个 CPO 模组</text>
+      <text x="900" y="467" text-anchor="middle" class="note">电通道最短 · 功耗最低</text>
     </g>
   </svg>
   </div>
+  <p><strong>阅读建议：</strong>先从左栏建立「插拔模组」的基本印象，再对照中栏 NPO 的铜通道缩短与右栏 CPO 的电通道极简设计。</p>
 </section>
 
 <section id="layers">
-  <h2>供應鏈層級拆解</h2>
-  <p>以下將 CPO / NPO 產業鏈拆成材料、器件、模組、設備、標準與軟體五層，並標註各層的台廠機會與門檻。</p>
+  <h2>供应链层级拆解</h2>
+  <p>以下将 CPO / NPO 产业链拆成材料、器件、模组、设备、标准与软件五层，并标注各层的台厂机会与门槛。</p>
   <table>
-    <thead><tr><th>層級</th><th>主要環節</th><th>關鍵材料 / 器件</th><th>代表性廠商 (海外)</th><th>台廠機會 / 門檻</th></tr></thead>
+    <thead><tr><th>层级</th><th>主要环节</th><th>关键材料 / 器件</th><th>代表性厂商 (海外)</th><th>台厂机会 / 门槛</th></tr></thead>
     <tbody>
-      <tr><td><strong>材料層</strong></td><td>封裝基板、玻璃 / 有機 interposer、散熱材料、PCB</td><td>ABF film、玻璃 core、Diamond 散熱片、PTFE 高頻板</td><td>Ajinkya (NSG)、Nan Ya、台光、金居</td><td><span class="tier-1">高</span> 台廠在 HDI / 高多層 PCB、玻璃基板驗證已有布局</td></tr>
-      <tr><td><strong>器件層</strong></td><td>EML / 矽光調變器、探測器、VCSEL、driver / TIA</td><td>100G PAM4 EML、矽光調變器、SOA、APD</td><td>Broadcom、Coherent、Fabrinet、光迅、海信</td><td><span class="tier-2">中</span> 台廠以封測代工、砷化鎵 / 磷化銦磊晶體系產能為主</td></tr>
-      <tr><td><strong>模組層</strong></td><td>光引擎、微透鏡陣列、光纖陣列、micro-connector</td><td>CPO 光學引擎、NPO 合封光引擎、FA 連接頭</td><td>Broadcom、Cisco、Mellanox (NVIDIA)、Intel</td><td><span class="tier-2">中</span> 垂直整合廠商若能在封裝製程切入，才有機會</td></tr>
-      <tr><td><strong>設備層</strong></td><td>hybrid bonding 設備、主動對準耦合設備、測試</td><td>熱壓鍵合、microlens 對準、ATE 測試方案</td><td>BESI、ASMPT、EV Group、Cohu</td><td><span class="tier-3">低</span> 關鍵設備多掌握在歐日設備大廠</td></tr>
-      <tr><td><strong>標準與軟體</strong></td><td>OIF、IEEE、尚未定型的 CPO connector / API 標準</td><td>PMA/PMD 標準、Digital Twin、link training</td><td>OIF、IEEE 802.3、Optical Interconnect Forum</td><td><span class="tier-2">間接</span> 台灣軟體廠有機會切入 Digital Twin / simulate 環節</td></tr>
+      <tr><td><strong>材料层</strong></td><td>封装基板、玻璃 / 有机 interposer、散热材料、PCB</td><td>ABF film、玻璃 core、Diamond 散热片、PTFE 高频板</td><td>Ajinkya (NSG)、Nan Ya、台光、金居</td><td><span class="tier-1">高</span> 台厂在 HDI / 高多层 PCB、玻璃基板验证已有布局</td></tr>
+      <tr><td><strong>器件层</strong></td><td>EML / 硅光调制器、探测器、VCSEL、driver / TIA</td><td>100G PAM4 EML、硅光调制器、SOA、APD</td><td>Broadcom、Coherent、Fabrinet、光迅、海信</td><td><span class="tier-2">中</span> 台厂以封测代工、砷化镓 / 磷化铟磊晶体系产能为主</td></tr>
+      <tr><td><strong>模组层</strong></td><td>光引擎、微透镜阵列、光纤阵列、micro-connector</td><td>CPO 光学引擎、NPO 合封光引擎、FA 连接头</td><td>Broadcom、Cisco、Mellanox (NVIDIA)、Intel</td><td><span class="tier-2">中</span> 垂直整合厂商若能在封装制程切入，才有机会</td></tr>
+      <tr><td><strong>设备层</strong></td><td>hybrid bonding 设备、主动对准耦合设备、测试</td><td>热压键合、microlens 对准、ATE 测试方案</td><td>BESI、ASMPT、EV Group、Cohu</td><td><span class="tier-3">低</span> 关键设备多掌握在欧日设备大厂</td></tr>
+      <tr><td><strong>标准与软件</strong></td><td>OIF、IEEE、尚未定型的 CPO connector / API 标准</td><td>PMA/PMD 标准、Digital Twin、link training</td><td>OIF、IEEE 802.3、Optical Interconnect Forum</td><td><span class="tier-2">间接</span> 台湾软件厂有机会切入 Digital Twin / simulate 环节</td></tr>
     </tbody>
   </table>
 </section>
 
 <section id="ecosystem">
-  <h2>生態系與關鍵廠商</h2>
-  <p>海外主要玩家分為三種路線：ASIC 主導 (Broadcom / NVIDIA / Intel)、網路設備整合 (Cisco / Juniper)、代工 / 材料 (台積電 / 日月光 / Ajinkya)。台廠最直接的切入點是載板 / 基板、散熱結構與封裝代工。</p>
+  <h2>生态系与关键厂商</h2>
+  <p>海外主要玩家分为三种路线：ASIC 主导 (Broadcom / NVIDIA / Intel)、网络设备整合 (Cisco / Juniper)、代工 / 材料 (台积电 / 日月光 / Ajinkya)。台厂最直接的切入点是载板 / 基板、散热结构与封装代工。</p>
   <table>
-    <thead><tr><th>角色</th><th>公司</th><th>路線 / 產品</th><th>在供應鏈中的位置</th><th>對台廠的影響</th></tr></thead>
+    <thead><tr><th>角色</th><th>公司</th><th>路线 / 产品</th><th>在供应链中的位置</th><th>对台厂的影响</th></tr></thead>
     <tbody>
-      <tr><td><strong>ASIC 主導</strong></td><td>Broadcom</td><td>Tomahawk 5/6 系列，NPO / CPO 自有方案</td><td>Switch 核心 + 光學整合方案定義權</td><td>台廠基板 / 散熱供應商首要驗證對象</td></tr>
-      <tr><td><strong>ASIC 主導</strong></td><td>NVIDIA</td><td>Spectrum-4 / Spectrum-X，DGX 系統</td><td>GPU 互聯 + 網路 switch</td><td>載板 (CoWoS)、PCB、ODM 散熱</td></tr>
-      <tr><td><strong>ASIC 主導</strong></td><td>Intel</td><td>Foveros / EMIB、Tofino 系列</td><td>3D 封裝技術成熟，CPO 路線之一</td><td>矽堆疊、基板、組件</td></tr>
-      <tr><td><strong>設備 / 網路</strong></td><td>Cisco</td><td>Silicon One，CPO 交換卡</td><td>上游規格制定 + 系統整合</td><td>台網通設備代工間接受惠</td></tr>
-      <tr><td><strong>代工</strong></td><td>日月光</td><td>FOCoS、SiP 封裝</td><td>高級封裝代工 (substrate + assembly)</td><td>台灣最大 CPO 封裝候選代工</td></tr>
-      <tr><td><strong>基板</strong></td><td>台積電</td><td>CoWoS / SoIC 延伸至光引擎</td><td>2.5D / 3D interposer + 封裝</td><td>關鍵 interposer / 基板來源</td></tr>
+      <tr><td><strong>ASIC 主导</strong></td><td>Broadcom</td><td>Tomahawk 5/6 系列，NPO / CPO 自有方案</td><td>Switch 核心 + 光学整合方案定义权</td><td>台厂基板 / 散热供应商首要验证对象</td></tr>
+      <tr><td><strong>ASIC 主导</strong></td><td>NVIDIA</td><td>Spectrum-4 / Spectrum-X，DGX 系统</td><td>GPU 互联 + 网络 switch</td><td>载板 (CoWoS)、PCB、ODM 散热</td></tr>
+      <tr><td><strong>ASIC 主导</strong></td><td>Intel</td><td>Foveros / EMIB、Tofino 系列</td><td>3D 封装技术成熟，CPO 路线之一</td><td>硅堆叠、基板、组件</td></tr>
+      <tr><td><strong>设备 / 网络</strong></td><td>Cisco</td><td>Silicon One，CPO 交换卡</td><td>上游规格制定 + 系统整合</td><td>台网通设备代工间接受惠</td></tr>
+      <tr><td><strong>代工</strong></td><td>日月光</td><td>FOCoS、SiP 封装</td><td>高级封装代工 (substrate + assembly)</td><td>台湾最大 CPO 封装候选代工</td></tr>
+      <tr><td><strong>基板</strong></td><td>台积电</td><td>CoWoS / SoIC 延伸至光引擎</td><td>2.5D / 3D interposer + 封装</td><td>关键 interposer / 基板来源</td></tr>
     </tbody>
   </table>
 </section>
 
 <section id="taiwan-exposure">
-  <h2>台廠間接曝險路徑</h2>
-  <p>台廠大多不是直接生產 CPO / NPO 光引擎，而是從 PCB、基板、散熱、封裝測試切入。以下按曝險等級排序：</p>
+  <h2>台厂间接曝险路径</h2>
+  <p>台厂大多不是直接生产 CPO / NPO 光引擎，而是从 PCB、基板、散热、封装测试切入。以下按曝险等级排序：</p>
   <table>
-    <thead><tr><th>曝險等級</th><th>標的類型</th><th>代表標的 / 說明</th><th>受益邏輯</th></tr></thead>
+    <thead><tr><th>曝险等级</th><th>标的类型</th><th>代表标的 / 说明</th><th>受益逻辑</th></tr></thead>
     <tbody>
-      <tr><td class="tier-1">高</td><td>載板 / ABF 基板 / 玻璃 core</td><td>南電、景碩、欣興、臻鼎</td><td>NPO / CPO 均需更高密度有機基板與玻璃基板驗證</td></tr>
-      <tr><td class="tier-1">高</td><td>高多層 / 高頻 PTFE PCB</td><td>台光、金居、燿華、定穎</td><td>50G+ PAM4 銅通道對 low-loss 材料需求提升</td></tr>
-      <tr><td class="tier-2">中高</td><td>封裝代工 (OSAT)</td><td>日月光、矽品、力成</td><td>NPO 階段已有合封封裝需求</td></tr>
-      <tr><td class="tier-2">中</td><td>散熱材料 / 熱管 / 風扇</td><td>雙鴻、奇鋐、泰碩、光鋏</td><td>CPO 模組功耗密度極高，散熱成瓶頸</td></tr>
-      <tr><td class="tier-3">間接</td><td>網通設備代工 / 測試</td><td>智邦、廣達、緯創、英業達</td><td>上游 AI server / switch 訂單周期帶動</td></tr>
-      <tr><td class="tier-3">間接</td><td>砷化鎵 / 磷化銦磊晶</td><td>全新、曜鴻、光燿</td><td>雷射器 chip 台廠代工，受益幅度取決於是否進入 CPO 供應鏈</td></tr>
+      <tr><td class="tier-1">高</td><td>载板 / ABF 基板 / 玻璃 core</td><td>南电、景硕、欣兴、臻鼎</td><td>NPO / CPO 均需更高密度有机基板与玻璃基板验证</td></tr>
+      <tr><td class="tier-1">高</td><td>高多层 / 高频 PTFE PCB</td><td>台光、金居、燿华、定颖</td><td>50G+ PAM4 铜通道对 low-loss 材料需求提升</td></tr>
+      <tr><td class="tier-2">中高</td><td>封装代工 (OSAT)</td><td>日月光、矽品、力成</td><td>NPO 阶段已有合封封装需求</td></tr>
+      <tr><td class="tier-2">中</td><td>散热材料 / 热管 / 风扇</td><td>双鸿、奇鋐、泰硕、光颉</td><td>CPO 模组功耗密度极高，散热成瓶颈</td></tr>
+      <tr><td class="tier-3">间接</td><td>网通设备代工 / 测试</td><td>智邦、广达、纬创、英业达</td><td>上游 AI server / switch 订单周期带动</td></tr>
+      <tr><td class="tier-3">间接</td><td>砷化镓 / 磷化铟磊晶</td><td>全新、曜鸿、光燿</td><td>激光器 chip 台厂代工，受益幅度取决于是否进入 CPO 供应链</td></tr>
     </tbody>
   </table>
-  <div class="callout"><strong>注意：</strong>以上曝險路徑基於公開產業邏輯推斷，不等同公司已確認訂單或技術到位。台廠是否真實受惠，仍需追蹤實際 product qualification 進度。</div>
+  <div class="callout"><strong>注意：</strong>以上曝险路径基于公开产业逻辑推断，不等同公司已确认订单或技术到位。台厂是否真实受惠，仍需追踪实际 product qualification 进度。</div>
 </section>
 
 <section id="trends">
-  <h2>趨勢、風險與不確定因素</h2>
-  <details class="risk"><summary>CPO 量產時程可能再次延後</summary><p>OIF / IEEE 的 connector / PMD 標準仍在制定中，供應商擔心過早押注單一路線，導致實際放量時程可能延後至 2029 年。</p></details>
-  <details class="risk"><summary>Co-packaging 良率挑戰</summary><p>光引擎與 ASIC 直接封裝對封裝廠的熱處理、hybrid bonding、clean room 等級都要求極高，初始良率若過低會影響客戶導入意願。</p></details>
-  <details class="risk"><summary>標準化競爭</summary><p>CPO 目前有 OIF、MDF、EDSFF 等多種路線競爭，connector / mechanical standard 若分裂，會導致供應鏈碎片化。</p></details>
-  <details class="risk"><summary>美中貿易與出口管制</summary><p>高速 AI 晶片與先進封裝技術受到出口管制影響，若限制擴大，可能會影響台廠的設備與材料來源，進而拖慢 CPO 本地化生產節奏。</p></details>
-  <details class="risk"><summary>散熱的滾雪球效應</summary><p>CPO 的功耗集中度大幅提升，若散熱方案遲遲未能成熟，會直接造成 ASIC 無法 safe operate，進而打亂 adoption 曲線。</p></details>
+  <h2>趋势、风险与不确定因素</h2>
+  <details class="risk"><summary>CPO 量产时程可能再次延后</summary><p>OIF / IEEE 的 connector / PMD 标准仍在制定中，供应商担心过早押注单一路线，导致实际放量时程可能延后至 2029 年。</p></details>
+  <details class="risk"><summary>Co-packaging 良率挑战</summary><p>光引擎与 ASIC 直接封装对封装厂的热处理、hybrid bonding、clean room 等级都要求极高，初始良率若过低会影响客户导入意愿。</p></details>
+  <details class="risk"><summary>标准化竞争</summary><p>CPO 目前有 OIF、MDF、EDSFF 等多种路线竞争，connector / mechanical standard 若分裂，会导致供应链碎片化。</p></details>
+  <details class="risk"><summary>美中贸易与出口管制</summary><p>高速 AI 芯片与先进封装技术受到出口管制影响，若限制扩大，可能会影响台厂的设备与材料来源，进而拖慢 CPO 本地化生产节奏。</p></details>
+  <details class="risk"><summary>散热的滚雪球效应</summary><p>CPO 的功耗集中度大幅提升，若散热方案迟迟未能成熟，会直接造成 ASIC 无法 safe operate，进而打乱 adoption 曲线。</p></details>
 </section>
 
 <section id="conclusion">
-  <h2>結論</h2>
-  <p><strong>短期 (2025-2026)：</strong>Pluggable 800G 仍是主力規格，供應鏈仍以傳統光模組廠為主。台灣間接受惠於高速 PCB (50G PAM4)、散熱與高頻材料需求增加。</p>
-  <p><strong>中期 (2026-2028)：</strong>NPO 方案開始小量導入，有機基板與 CoWoS-like 封裝需求增加，日月光、台積電的 2.5D 封裝產能成為 bottleneck。台廠載板 / 基板廠需通過 glass core 與 fine-pitch 的能力驗證。</p>
-  <p><strong>長期 (2028+)：</strong>CPO 成為 AI 交換器主流，台廠受益機會最大的是材料 / 基板 / 散熱 / OSAT 代工，但前提是標準定型、良率達標、供應鏈本地化通過驗證。</p>
-  <div class="callout"><strong>核心結論：</strong>台廠在 CPO / NPO 世代不是被動旁觀者，而是材料與製造重鎮；但受益順序是「基板 → 散熱 → 封裝 → 器件」，不是反過來。</div>
+  <h2>结论</h2>
+  <p><strong>短期 (2025-2026)：</strong>Pluggable 800G 仍是主力规格，供应链仍以传统光模组厂为主。台湾间接受惠于高速 PCB (50G PAM4)、散热与高频材料需求增加。</p>
+  <p><strong>中期 (2026-2028)：</strong>NPO 方案开始小量导入，有机基板与 CoWoS-like 封装需求增加，日月光、台积电的 2.5D 封装产能成为 bottleneck。台厂载板 / 基板厂需通过 glass core 与 fine-pitch 的能力验证。</p>
+  <p><strong>长期 (2028+)：</strong>CPO 成为 AI 交换机主流，台厂受益机会最大的是材料 / 基板 / 散热 / OSAT 代工，但前提是标准定型、良率达标、供应链本地化通过验证。</p>
+  <div class="callout"><strong>核心结论：</strong>台厂在 CPO / NPO 世代不是被动旁观者，而是材料与制造重镇；但受益顺序是「基板 → 散热 → 封装 → 器件」，不是反过来。</div>
 </section>
 
-<footer>本報告基於公開產業資訊與技術邏輯整理，投資決策請結合專業顧問建議。</footer>
+<footer>本报告基于公开产业资讯与技术逻辑整理，投资决策请结合专业顾问建议。</footer>
 </div>
 </body>
 </html>
