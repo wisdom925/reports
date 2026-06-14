@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pluggable / NPO / CPO 供應鏈分析報告</title>
+<meta name="description" content="集中光學引擎、近封裝光學、共封裝光學技術架構與供應鏈分析">
+<meta property="og:title" content="Pluggable / NPO / CPO 供應鏈分析報告">
+<meta property="og:description" content="集中光學引擎、近封裝光學、共封裝光學技術架構與供應鏈分析">
+<meta property="og:type" content="article">
+<style>
+  :root { --bg:#f6f8fb; --surface:#ffffff; --text:#1f2937; --text-sec:#4b5563; --border:#e5e7eb; --accent:#2563eb; --green:#10b981; --amber:#f59e0b; --red:#ef4444; --shadow:0 6px 24px rgba(17,24,39,0.08); }
+  * { box-sizing:border-box; }
+  body { margin:0; font-family:-apple-system,"Segoe UI","Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif; background:var(--bg); color:var(--text); line-height:1.65; }
+  .container { max-width:1100px; margin:0 auto; padding:28px 22px 60px; }
+  header { background:linear-gradient(135deg,#1e293b,#0f172a); color:#fff; padding:42px 28px 38px; border-radius:18px; box-shadow:var(--shadow); margin-bottom:26px; }
+  header h1 { margin:0 0 8px; font-size:30px; letter-spacing:.3px; }
+  header p { margin:0; opacity:.78; font-size:15px; }
+  .badge-row { display:flex; gap:10px; flex-wrap:wrap; margin-top:14px; }
+  .badge { background:rgba(255,255,255,.15); padding:6px 12px; border-radius:999px; font-size:12px; border:1px solid rgba(255,255,255,.2); }
+  .toc { background:var(--surface); border:1px solid var(--border); border-radius:14px; padding:22px 24px; margin-bottom:26px; box-shadow:var(--shadow); }
+  .toc h2 { margin:0 0 12px; font-size:18px; }
+  .toc ol { margin:0; padding-left:18px; }
+  .toc li { margin:6px 0; }
+  .toc a { color:var(--accent); text-decoration:none; }
+  .toc a:hover { text-decoration:underline; }
+  section { background:var(--surface); border:1px solid var(--border); border-radius:14px; padding:24px 26px; margin-bottom:22px; box-shadow:var(--shadow); }
+  section h2 { margin:0 0 14px; font-size:20px; color:#0f172a; border-bottom:1px solid var(--border); padding-bottom:10px; }
+  h3 { font-size:16px; margin:18px 0 8px; color:#111827; }
+  p { margin:10px 0; color:var(--text-sec); }
+  table { width:100%; border-collapse:collapse; margin:12px 0; font-size:14px; }
+  th, td { border:1px solid var(--border); padding:10px 12px; text-align:left; vertical-align:top; }
+  th { background:#f9fafb; font-weight:600; color:#374151; }
+  tr:nth-child(even) td { background:#fcfdfe; }
+  .legend { display:flex; flex-wrap:wrap; gap:10px; margin:10px 0 4px; }
+  .legend-item { display:flex; align-items:center; gap:6px; font-size:13px; color:var(--text-sec); }
+  .dot { width:12px; height:12px; border-radius:50%; display:inline-block; border:1px solid rgba(0,0,0,.15); }
+  .callout { background:#eff6ff; border-left:4px solid var(--accent); padding:14px 16px; border-radius:0 12px 12px 0; margin:14px 0; color:#1e3a5f; }
+  .kpi-row { display:grid; grid-template-columns:repeat(4,1fr); gap:14px; margin-bottom:16px; }
+  @media (max-width:860px){ .kpi-row{grid-template-columns:repeat(2,1fr);} }
+  @media (max-width:520px){ .kpi-row{grid-template-columns:1fr;} }
+  .kpi { background:linear-gradient(180deg,#fff,#f8fafc); border:1px solid var(--border); border-radius:12px; padding:14px 14px 12px; }
+  .kpi .label { font-size:12px; color:#6b7280; letter-spacing:.3px; text-transform:uppercase; }
+  .kpi .value { font-size:22px; font-weight:700; margin-top:4px; }
+  .tier-1 { color:#16a34a; font-weight:600; }
+  .tier-2 { color:#2563eb; font-weight:600; }
+  .tier-3 { color:#d97706; font-weight:600; }
+  footer { text-align:center; color:#9ca3af; font-size:13px; margin-top:10px; }
+  a { color:var(--accent); }
+  details.risk { margin:12px 0; padding:10px 14px; border:1px solid var(--border); border-radius:10px; background:#fafafa; }
+  details.risk summary { font-weight:600; cursor:pointer; color:#991b1b; }
+  details.risk p { color:var(--text-sec); }
+</style>
+</head>
+<body>
+<div class="container">
+
+<header>
+  <h1>Pluggable / NPO / CPO 供應鏈分析報告</h1>
+  <p>技術代際遷移、生態系分工與台廠間接曝險路徑整理</p>
+  <div class="badge-row">
+    <span class="badge">光通信模組</span><span class="badge">CPO</span><span class="badge">NPO</span><span class="badge">Pluggable</span><span class="badge">Supply Chain</span><span class="badge">2026-06-14</span>
+  </div>
+</header>
+
+<nav class="toc" aria-label="目錄">
+  <h2>目录</h2>
+  <ol>
+    <li><a href="#executive-summary">執行摘要</a></li>
+    <li><a href="#terminology">名詞定義與技術代際</a></li>
+    <li><a href="#architecture">技術架構圖與資料流向</a></li>
+    <li><a href="#layers">供應鏈層級拆解</a></li>
+    <li><a href="#ecosystem">生態系與關鍵廠商</a></li>
+    <li><a href="#taiwan-exposure">台廠間接曝險路徑</a></li>
+    <li><a href="#trends">趨勢、風險與不確定因素</a></li>
+    <li><a href="#conclusion">結論</a></li>
+  </ol>
+</nav>
+
+<section id="executive-summary">
+  <h2>執行摘要</h2>
+  <div class="kpi-row">
+    <div class="kpi"><div class="label">主流節點</div><div class="value">400G → 800G → 1.6T</div></div>
+    <div class="kpi"><div class="label">CPO 預計放量</div><div class="value">2027+</div></div>
+    <div class="kpi"><div class="label">關鍵驅動</div><div class="value">AI 以太網路 / 功耗密度</div></div>
+    <div class="kpi"><div class="label">台廠核心角色</div><div class="value">PCB / 基板 / 散熱 / 封裝代工</div></div>
+  </div>
+  <p>在 AI 数据中心带动的 800G/1.6T 升级周期中，光通信模组正从可插拔 (Pluggable) 形态演进到近封装 (NPO) 与共封装 (CPO) 方案。这篇报告整理技术架构差异、供应链分层、生态厂商，以及台湾 PCB/半导体/散热厂商的间接曝险路径。</p>
+  <div class="callout"><strong>核心观点：</strong>Pluggable 仍是 2025-2027 年主流交付形态；NPO 是过渡路线；CPO 是 2028 年以后长期方向。对台湾供应链而言，最先落地的价值增量在有机基板 (Organic Substrate)、高多层 PCB、散熱模組與钻石散热材料，而非 immediately 替换既有光模块厂。</div>
+</section>
+
+<section id="terminology">
+  <h2>名詞定義與技術代際</h2>
+  <p>为避免混淆，本报告采用业界最常用定义：Pluggable 指可插拔光模块 (如 QSFP-DD/OSFP)，NPO 指 Near Package Optics（光引擎靠近封装基板但仍在封装体外部），CPO 指 Co-packaged Optics（光引擎直接封装在 switch ASIC 同一条封装线内）。</p>
+  <table>
+    <thead><tr><th>技术代际</th><th>定义</th><th>技术特征</th><th>预计量产窗口</th><th>代表方案</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Pluggable</strong></td><td>可插拔光模块，以电连到主机板</td><td>标准的外插模块形态，易维护、易升级</td><td>当前主流</td><td>QSFP-DD 800G、OSFP 800G</td></tr>
+      <tr><td><strong>NPO</strong></td><td>光引擎靠近封装体但仍独立物理存在</td><td>缩短 golden bonding length，降低功耗与延迟</td><td>2025-2027 过渡期</td><td>Broadcom / NVIDIA 发表中的 NPO 方案</td></tr>
+      <tr><td><strong>CPO</strong></td><td>光引擎直接与 switch ASIC 共封装</td><td>最大程度缩短 optical-electric 转换距离</td><td>2027+ 小批量，2029+ 规模化</td><td>Broadcom / Intel / TSMC CoWoS 衍伸路线</td></tr>
+    </tbody>
+  </table>
+  <p>演进驱动力：功耗密度提升、SerDes 损耗、信号完整性、co-packaging 所需 heatsink / 封装材料技术成熟。</p>
+</section>
+
+<section id="architecture">
+  <h2>技術架構圖與資料流向</h2>
+  <p>下方 SVG 呈现三种形态在同一页上的横向对比：左侧为传统 Pluggable，中间为 NPO，右侧为 CPO。蓝色系代表电信号路径，绿色系代表光信号路径，灰色系代表封装 / 基板结构，黄色代表 ASIC。</p>
+  <div class="legend">
+    <span class="legend-item"><span class="dot" style="background:#2563eb"></span> 电信号 / 铜通道 (PCIe / Ethernet PHY)</span>
+    <span class="legend-item"><span class="dot" style="background:#10b981"></span> 光信号 / 光纤 (Optical I/O)</span>
+    <span class="legend-item"><span class="dot" style="background:#94a3b8"></span> 封装 / 基板 / 散热结构</span>
+    <span class="legend-item"><span class="dot" style="background:#f59e0b"></span> ASIC / Switch 逻辑</span>
+  </div>
+  <div style="overflow:auto; border:1px solid var(--border); border-radius:12px; padding:12px; background:#f8fafc;">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 520" width="100%" height="auto" role="img" aria-label="Pluggable, NPO, CPO 技术架构对比图">
+    <defs><style>text{font-family:-apple-system,"Noto Sans TC",sans-serif}.title{font-size:17px;font-weight:700;fill:#0f172a}.subtitle{font-size:12px;fill:#64748b}.label{font-size:12px;fill:#334155}.note{font-size:11px;fill:#64748b;font-style:italic}.wire-e{stroke:#2563eb;stroke-width:3;fill:none}.wire-o{stroke:#10b981;stroke-width:3;fill:none}.struct{fill:#e2e8f0;stroke:#94a3b8;stroke-width:1.5}.chip{fill:#fef3c7;stroke:#d97706;stroke-width:1.5}.optics{fill:#dcfce7;stroke:#16a34a;stroke-width:1.5}</style></defs>
+    <rect width="1080" height="520" fill="#f8fafc" rx="10"/>
+    <!-- PLUGGABLE -->
+    <g id="pluggable">
+      <rect x="10" y="10" width="340" height="490" fill="#fff" stroke="#e5e7eb" rx="10"/>
+      <text x="180" y="34" text-anchor="middle" class="title">Pluggable</text>
+      <text x="180" y="52" text-anchor="middle" class="subtitle">QSFP-DD / OSFP · 可插拔</text>
+      <rect x="40" y="70" width="120" height="70" class="chip" rx="8"/>
+      <text x="100" y="96" text-anchor="middle" class="label">Switch ASIC</text>
+      <text x="100" y="112" text-anchor="middle" class="note">Ethernet PHY</text>
+      <rect x="220" y="80" width="90" height="50" class="struct" rx="6"/>
+      <text x="265" y="103" text-anchor="middle" class="label">Connector</text>
+      <rect x="220" y="150" width="90" height="70" class="optics" rx="8"/>
+      <text x="265" y="178" text-anchor="middle" class="label">光模块</text>
+      <text x="265" y="194" text-anchor="middle" class="note">QSFP-DD / OSFP</text>
+      <rect x="250" y="240" width="30" height="60" fill="#bbf7d0" stroke="#10b981" rx="4"/>
+      <text x="265" y="265" text-anchor="middle" class="label">光纤</text>
+      <text x="265" y="281" text-anchor="middle" class="note">MPO / MMF / SMF</text>
+      <rect x="40" y="340" width="280" height="140" class="struct" rx="8"/>
+      <text x="180" y="366" text-anchor="middle" class="label">主机板 / Front Panel</text>
+      <line x1="160" y1="100" x2="220" y2="105" class="wire-e"/>
+      <text x="196" y="92" text-anchor="middle" class="note">高速 PCB trace</text>
+      <line x1="265" y1="220" x2="265" y2="240" class="wire-o"/>
+      <text x="180" y="398" text-anchor="middle" class="note">铜通道最长 · 功耗 / 延迟较大</text>
+      <text x="180" y="414" text-anchor="middle" class="note">可热插拔维护</text>
+    </g>
+    <!-- NPO -->
+    <g id="npo">
+      <rect x="370" y="10" width="340" height="490" fill="#fff" stroke="#e5e7eb" rx="10"/>
+      <text x="540" y="34" text-anchor="middle" class="title">NPO</text>
+      <text x="540" y="52" text-anchor="middle" class="subtitle">Near Package Optics · 近封装光学</text>
+      <rect x="400" y="70" width="120" height="70" class="chip" rx="8"/>
+      <text x="460" y="96" text-anchor="middle" class="label">Switch ASIC</text>
+      <text x="460" y="112" text-anchor="middle" class="note">SerDes / PLL</text>
+      <rect x="400" y="180" width="120" height="40" class="struct" rx="6"/>
+      <text x="460" y="205" text-anchor="middle" class="label">有机 interposer</text>
+      <rect x="400" y="250" width="120" height="50" class="optics" rx="8"/>
+      <text x="460" y="273" text-anchor="middle" class="label">光引擎</text>
+      <text x="460" y="289" text-anchor="middle" class="note">TOSA / ROSA 合封</text>
+      <rect x="420" y="340" width="240" height="130" class="struct" rx="8"/>
+      <text x="540" y="366" text-anchor="middle" class="label">高密度有机基板 / 散热屏蔽</text>
+      <rect x="490" y="180" width="30" height="40" fill="#bbf7d0" stroke="#10b981" rx="4"/>
+      <text x="505" y="205" text-anchor="middle" class="label">光纤</text>
+      <line x1="460" y1="140" x2="460" y2="180" class="wire-e"/>
+      <line x1="460" y1="220" x2="460" y2="250" class="wire-o"/>
+      <line x1="490" y1="225" x2="490" y2="220" class="wire-o"/>
+      <text x="540" y="398" text-anchor="middle" class="note">铜通道缩短 · 功耗与延迟下降</text>
+      <text x="540" y="414" text-anchor="middle" class="note">可单独维修光引擎</text>
+    </g>
+    <!-- CPO -->
+    <g id="cpo">
+      <rect x="730" y="10" width="340" height="490" fill="#fff" stroke="#e5e7eb" rx="10"/>
+      <text x="900" y="34" text-anchor="middle" class="title">CPO</text>
+      <text x="900" y="52" text-anchor="middle" class="subtitle">Co-packaged Optics · 共封装光学</text>
+      <rect x="760" y="70" width="280" height="130" class="optics" rx="8"/>
+      <text x="900" y="96" text-anchor="middle" class="label">Switch ASIC + 光引擎</text>
+      <text x="900" y="114" text-anchor="middle" class="note">CoWoS / EMIB / SoIC 衍伸</text>
+      <text x="900" y="132" text-anchor="middle" class="note">共同使用同一封装基板</text>
+      <rect x="780" y="230" width="240" height="56" class="struct" rx="6"/>
+      <text x="900" y="252" text-anchor="middle" class="label">封装基板 + 散热屏蔽</text>
+      <text x="900" y="270" text-anchor="middle" class="note">ABF / glass core / large organic</text>
+      <rect x="860" y="310" width="30" height="50" fill="#bbf7d0" stroke="#10b981" rx="4"/>
+      <text x="875" y="340" text-anchor="middle" class="label">光纤阵列</text>
+      <rect x="780" y="390" width="240" height="100" class="struct" rx="8"/>
+      <text x="900" y="420" text-anchor="middle" class="label">系统级载板 / ODI connector</text>
+      <text x="900" y="438" text-anchor="middle" class="note">OMA / UIV 等标准制定中</text>
+      <text x="900" y="454" text-anchor="middle" class="note">维修需更换整个 CPO 模组</text>
+      <text x="900" y="480" text-anchor="middle" class="note">电通道最短 · 功耗最低</text>
+    </g>
+  </svg>
+  </div>
+</section>
+
+<section id="layers">
+  <h2>供應鏈層級拆解</h2>
+  <p>以下将 CPO/NPO 产业链拆成材料、器件、模组、设备、标准与软件五层，并标注各层的台厂机会与门槛。</p>
+  <table>
+    <thead><tr><th>层级</th><th>主要环节</th><th>关键材料 / 器件</th><th>代表性厂商 (海外)</th><th>台厂机会 / 门槛</th></tr></thead>
+    <tbody>
+      <tr><td><strong>材料层</strong></td><td>封装基板、玻璃 / 有机 interposer、散热材料、PCB</td><td>ABF film、玻璃 core、Diamond 散热片、PTFE 高频板</td><td>Ajinkya (NSG)、Nan Ya、台光、金居</td><td><span class="tier-1">高</span> 台厂在 HDI / 高多层 PCB、玻璃基板验证已有布局</td></tr>
+      <tr><td><strong>器件层</strong></td><td>EML / 硅光调制器、探测器、VCSEL、driver / TIA</td><td>100G PAM4 EML、硅光调制器、SOA、APD</td><td>Broadcom、Coherent、Fabrinet、光迅、海信</td><td><span class="tier-2">中</span> 台厂以封测代工、砷化镓 / 磷化铟磊晶体系产能为主</td></tr>
+      <tr><td><strong>模组层</strong></td><td>光引擎、微透镜阵列、光纤阵列、micro-connector</td><td>CPO 光学引擎、NPO 合封光引擎、FA 连接头</td><td>Broadcom、Cisco、Mellanox (NVIDIA)、Intel</td><td><span class="tier-2">中</span> 垂直整合厂商若能在封装制程切入，才有机会</td></tr>
+      <tr><td><strong>设备层</strong></td><td>hybrid bonding 设备、主动对准耦合设备、测试</td><td>热压键合、microlens 对准、ATE 测试方案</td><td>BESI、ASMPT、EV Group、Cohu</td><td><span class="tier-3">低</span> 关键设备多掌握在欧日设备大厂</td></tr>
+      <tr><td><strong>标准与软件</strong></td><td>OIF、IEEE、TBD 的 CPO connector / API 标准</td><td>PMA/PMD 标准、Digital Twin、link training</td><td>OIF、IEEE 802.3、Optical Interconnect Forum</td><td><span class="tier-2">间接</span> 台湾软件厂有机会切入 Digital Twin / simulate 环节</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section id="ecosystem">
+  <h2>生態系與關鍵廠商</h2>
+  <p>海外主要玩家分为三种路线：ASIC 主导 (Broadcom / NVIDIA / Intel)、网络设备整合 (Cisco / Juniper)、代工 / 材料 (台积电 / 日月光 / Ajinkya)。台厂最直接的切入点是载板 / 基板、散热结构与封装代工。</p>
+  <table>
+    <thead><tr><th>角色</th><th>公司</th><th>路线 / 产品</th><th>在供应链中的位置</th><th>对台厂的影响</th></tr></thead>
+    <tbody>
+      <tr><td><strong>ASIC 主导</strong></td><td>Broadcom</td><td>Tomahawk 5 / 6 系列，NPO / CPO 自有方案</td><td>Switch 核心 + 光学整合方案定义权</td><td>台厂基板 / 散热供应商首要验证对象</td></tr>
+      <tr><td><strong>ASIC 主导</strong></td><td>NVIDIA</td><td>Spectrum-4 / Spectrum-X，DGX 系统</td><td>GPU 互联 + 网络 switch</td><td>载板 (CoWoS)、PCB、ODM 散热</td></tr>
+      <tr><td><strong>ASIC 主导</strong></td><td>Intel</td><td>Foveros / EMIB、Tofino 系列</td><td>3D 封装技术成熟，CPO 路线之一</td><td>矽堆叠、基板、组件</td></tr>
+      <tr><td><strong>设备 / 网络</strong></td><td>Cisco</td><td>Silicon One，CPO 交换卡</td><td>上游规格制定 + 系统整合</td><td>台网通设备代工间接受惠</td></tr>
+      <tr><td><strong>代工</strong></td><td>日月光</td><td>FOCoS、SiP 封装</td><td>高级封装代工 (substrate + assembly)</td><td>台湾最大 CPO 封装候选代工</td></tr>
+      <tr><td><strong>基板</strong></td><td>台积电</td><td>CoWoS / SoIC 延伸至光引擎</td><td>2.5D / 3D interposer + 封装</td><td>关键 interposer / 基板来源</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section id="taiwan-exposure">
+  <h2>台廠間接曝險路徑</h2>
+  <p>台厂大多不是直接生产 CPO / NPO 光引擎，而是从 PCB、基板、散热、封装测试切入。以下按曝险等级排序：</p>
+  <table>
+    <thead><tr><th>曝险等级</th><th>标的类型</th><th>代表标的 / 说明</th><th>受益逻辑</th></tr></thead>
+    <tbody>
+      <tr><td class="tier-1">高</td><td>载板 / ABF 基板 / 玻璃 core</td><td>南电、景硕、欣兴、臻鼎</td><td>NPO / CPO 均需更高密度有机基板与玻璃基板验证</td></tr>
+      <tr><td class="tier-1">高</td><td>高多层 / 高频 PTFE PCB</td><td>台光、金居、燿华、定颖</td><td>50G+ PAM4 铜通道对 low-loss 材料需求提升</td></tr>
+      <tr><td class="tier-2">中高</td><td>封装代工 (OSAT)</td><td>日月光、矽品、力成</td><td>NPO 阶段已有合封封装需求</td></tr>
+      <tr><td class="tier-2">中</td><td>散热材料 / 热管 / 风扇</td><td>双鸿、奇鋐、泰硕、光颉</td><td>CPO 模组功耗密度极高，散热成瓶颈</td></tr>
+      <tr><td class="tier-2">中</td><td>钻石 / 类钻石散热</td><td>相关散热材料厂商</td><td>先进封装热解决方案 (thermal interface material)</td></tr>
+      <tr><td class="tier-3">间接</td><td>网通设备代工 / 测试</td><td>智邦、广达、纬创、英业达</td><td>上游 AI server / switch 订单周期带动</td></tr>
+      <tr><td class="tier-3">间接</td><td>砷化镓 / 磷化铟磊晶</td><td>全新、曜鸿、光燿</td><td>激光器 chip 台厂代工，受益幅度取决于是否进入 CPO 供应链</td></tr>
+    </tbody>
+  </table>
+  <div class="callout"><strong>注意：</strong>以上曝险路径基于公开产业逻辑推断，不等同公司已确认订单或技术到位。台厂是否真实受惠，仍需追踪实际 product qualification 进度。</div>
+</section>
+
+<section id="trends">
+  <h2>趨勢、風險與不確定因素</h2>
+  <details class="risk"><summary>CPO 量产时程可能再次延后</summary><p>OIF / IEEE 的 connector / PMD 标准仍在制定中，供货商担心过早押注单一路线，导致实际放量时程可能延后至 2029 年。</p></details>
+  <details class="risk"><summary>Co-packaging 良率挑战</summary><p>光引擎与 ASIC 直接封装对封装厂的热处理、hybrid bonding、clean room 等级都要求极高，初始良率若过低会影响客户导入意愿。</p></details>
+  <details class="risk"><summary>标准化竞争</summary><p>CPO 目前有 OIF、MDF、EDSFF 等多种路线竞争，connector / mechanical standard 若分裂，会导致供应链碎片化。</p></details>
+  <details class="risk"><summary>美中贸易与出口管制</summary><p>高速 AI 芯片与先进封装技术受到出口管制影响，若限制扩大，可能会影响台厂的设备与材料来源，进而拖慢 CPO 本地化生产节奏。</p></details>
+  <details class="risk"><summary>散热的滚雪球效应</summary><p>CPO 的功耗集中度大幅提升，若散热方案迟迟未能成熟，会直接造成 ASIC 无法 safe operate，进而打乱 adoption 曲线。</p></details>
+</section>
+
+<section id="conclusion">
+  <h2>結論</h2>
+  <p><strong>短期 (2025-2026)：</strong>Pluggable 800G 仍是主力规格，供应链仍以传统光模块厂为主。台湾间接受惠于高速 PCB (50G PAM4)、散热与高频材料需求增加。</p>
+  <p><strong>中期 (2026-2028)：</strong>NPO 方案开始小量导入，有机基板与 CoWoS-like 封装需求增加，日月光、台积电的 2.5D 封装产能成为 bottleneck。台厂载板 / 基板厂需通过 glass core 与 fine-pitch 的能力验证。</p>
+  <p><strong>长期 (2028+)：</strong>CPO 成为 AI 交换机主流，台厂受益机会最大的是材料 / 基板 / 散热 / OSAT 代工，但前提是标准定型、良率达标、供应链本地化通过验证。</p>
+  <div class="callout"><strong>核心结论：</strong>台厂在 CPO / NPO 世代不是被动旁观者，而是材料与制造重镇；但受益顺序是「基板 → 散热 → 封装 → 器件」，不是反过来。</div>
+</section>
+
+<footer>本报告基于公开产业资讯与技术逻辑整理，投资决策请结合专业顾问建议。</footer>
+</div>
+</body>
+</html>
