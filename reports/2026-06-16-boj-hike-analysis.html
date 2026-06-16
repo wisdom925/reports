@@ -1,0 +1,295 @@
+<!doctype html>
+<html lang="zh-Hant-TW">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>日本央行升息至 1%：政策正常化與市場影響分析</title>
+  <meta name="description" content="分析日本央行將政策利率調升至 1%、明年起暫停縮減購債規模，及其對日圓、日債、日股與亞洲資金流的影響。">
+  <meta property="og:title" content="日本央行升息至 1%：政策正常化與市場影響分析">
+  <meta property="og:description" content="日本央行升息至 31 年高點，同時調整公債購買節奏。這不是單純鷹派升息，而是受控正常化。">
+  <meta property="og:type" content="article">
+  <style>
+    :root {
+      --bg: #0b1020;
+      --panel: #111936;
+      --panel-2: #162143;
+      --ink: #edf3ff;
+      --muted: #aab7d4;
+      --line: rgba(255,255,255,.12);
+      --gold: #f6c453;
+      --blue: #79a7ff;
+      --red: #ff7a90;
+      --green: #65d6a6;
+      --shadow: 0 24px 70px rgba(0,0,0,.35);
+      --radius: 22px;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 20% 0%, rgba(121,167,255,.24), transparent 32rem),
+        radial-gradient(circle at 85% 12%, rgba(246,196,83,.18), transparent 28rem),
+        linear-gradient(180deg, #070a14 0%, var(--bg) 42%, #070a14 100%);
+      line-height: 1.72;
+    }
+    a { color: var(--blue); text-decoration: none; }
+    .wrap { width: min(1180px, calc(100% - 40px)); margin: 0 auto; }
+    header { padding: 58px 0 34px; }
+    .eyebrow { color: var(--gold); font-weight: 700; letter-spacing: .08em; text-transform: uppercase; font-size: 13px; }
+    h1 { font-size: clamp(34px, 5.4vw, 68px); line-height: 1.05; margin: 16px 0 18px; letter-spacing: -.045em; }
+    .lead { max-width: 920px; color: #d8e2ff; font-size: clamp(18px, 2.1vw, 23px); margin: 0; }
+    .meta { display:flex; flex-wrap:wrap; gap:10px; margin-top: 24px; color: var(--muted); font-size: 14px; }
+    .pill { border: 1px solid var(--line); background: rgba(255,255,255,.06); border-radius: 999px; padding: 7px 12px; }
+    .hero-grid { display: grid; grid-template-columns: 1.35fr .65fr; gap: 22px; margin: 28px 0 38px; }
+    .card { background: linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.045)); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); }
+    .thesis { padding: 28px; position: relative; overflow: hidden; }
+    .thesis:after { content:""; position:absolute; inset:auto -80px -100px auto; width:260px; height:260px; border-radius:50%; background: rgba(246,196,83,.13); filter: blur(8px); }
+    .thesis h2, section h2 { margin: 0 0 14px; font-size: 26px; letter-spacing: -.02em; }
+    .thesis p { margin: 0 0 14px; color: #dce5ff; }
+    .verdict { display:grid; gap: 14px; padding: 22px; }
+    .metric { padding: 18px; background: rgba(10,17,36,.55); border: 1px solid var(--line); border-radius: 18px; }
+    .metric .label { color: var(--muted); font-size: 13px; }
+    .metric .value { font-size: 30px; font-weight: 800; margin-top: 4px; }
+    .metric .note { color: var(--muted); font-size: 13px; margin-top: 2px; }
+    nav { position: sticky; top: 0; z-index: 10; backdrop-filter: blur(14px); background: rgba(7,10,20,.78); border-block: 1px solid var(--line); }
+    nav .wrap { display:flex; gap: 10px; overflow:auto; padding: 10px 0; }
+    nav a { white-space: nowrap; color: #dce5ff; border:1px solid var(--line); border-radius:999px; padding:8px 12px; font-size:14px; }
+    main { padding: 34px 0 64px; }
+    section { margin: 0 0 26px; padding: 28px; }
+    .section-kicker { color: var(--gold); font-weight: 700; font-size: 13px; letter-spacing: .06em; margin-bottom: 8px; }
+    .grid-2 { display:grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 18px; }
+    .grid-3 { display:grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 18px; }
+    .mini h3 { margin: 0 0 8px; font-size: 19px; }
+    .mini p { margin: 0; color: var(--muted); }
+    .callout { border-left: 4px solid var(--gold); padding: 16px 18px; background: rgba(246,196,83,.09); border-radius: 16px; color: #f7edd3; }
+    .timeline { display:grid; gap: 13px; margin-top: 18px; }
+    .step { display:grid; grid-template-columns: 128px 1fr; gap: 18px; padding: 16px; background: rgba(255,255,255,.045); border:1px solid var(--line); border-radius: 16px; }
+    .step .time { color: var(--gold); font-weight: 800; }
+    .step p { margin: 0; color: var(--muted); }
+    .bars { display:grid; gap: 12px; margin-top: 12px; }
+    .bar-row { display:grid; grid-template-columns: 110px 1fr 56px; gap:12px; align-items:center; color: var(--muted); }
+    .bar { height: 12px; border-radius:999px; background: rgba(255,255,255,.08); overflow:hidden; }
+    .bar > span { display:block; height:100%; border-radius:999px; background: linear-gradient(90deg, var(--blue), var(--gold)); }
+    table { width:100%; border-collapse: collapse; overflow:hidden; border-radius: 16px; background: rgba(255,255,255,.035); }
+    th, td { padding: 14px 15px; border-bottom:1px solid var(--line); text-align:left; vertical-align: top; }
+    th { color:#f3d58a; font-size: 13px; letter-spacing:.04em; background: rgba(246,196,83,.08); }
+    td { color:#dce5ff; }
+    tr:last-child td { border-bottom: 0; }
+    .tag { display:inline-block; border-radius:999px; padding:3px 9px; font-size:12px; font-weight:700; }
+    .tag.red { background: rgba(255,122,144,.16); color:#ff9caf; }
+    .tag.green { background: rgba(101,214,166,.14); color:#8ce3bf; }
+    .tag.blue { background: rgba(121,167,255,.16); color:#a9c4ff; }
+    .scenario { display:grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+    .scenario .mini { padding: 20px; background: rgba(255,255,255,.045); border:1px solid var(--line); border-radius: 18px; }
+    .score { font-size: 38px; font-weight: 900; letter-spacing:-.04em; }
+    .footer { color: var(--muted); font-size: 13px; border-top:1px solid var(--line); padding-top: 22px; margin-top: 30px; }
+    @media (max-width: 860px) {
+      .hero-grid, .grid-2, .grid-3, .scenario { grid-template-columns: 1fr; }
+      .step { grid-template-columns: 1fr; gap: 4px; }
+      .bar-row { grid-template-columns: 92px 1fr 46px; }
+      section, .thesis { padding: 22px; }
+      .wrap { width: min(100% - 28px, 1180px); }
+    }
+  </style>
+</head>
+<body>
+  <header class="wrap">
+    <div class="eyebrow">Macro Policy Analysis · Japan</div>
+    <h1>日本央行升息至 1%：這是「受控正常化」，不是單純鷹派衝刺</h1>
+    <p class="lead">日本央行將短期政策利率由 0.75% 調升至 1.00%，來到 1995 年以來高點；同時規劃 2027 年 4 月起維持每月約 2 兆日圓公債購買規模。重點在於政策訊號的平衡：利率端繼續正常化，流動性端保留穩定器。</p>
+    <div class="meta">
+      <span class="pill">報告日期：2026-06-16</span>
+      <span class="pill">主題：日本央行（Bank of Japan, BOJ）</span>
+      <span class="pill">焦點：利率、購債、日圓、日股</span>
+    </div>
+  </header>
+
+  <nav>
+    <div class="wrap">
+      <a href="#summary">結論</a>
+      <a href="#decision">政策拆解</a>
+      <a href="#markets">市場影響</a>
+      <a href="#scenarios">情境推演</a>
+      <a href="#watch">觀察清單</a>
+    </div>
+  </nav>
+
+  <main class="wrap">
+    <div id="summary" class="hero-grid">
+      <article class="card thesis">
+        <h2>一句話結論</h2>
+        <p><strong>日本央行正在把「升息」與「債市穩定」綁在一起推進。</strong> 25 個基點升息確認政策正常化方向，但暫停進一步縮減購債規模，降低長天期殖利率失控風險。</p>
+        <p>這對市場的含意不是全面風險趨避，而是重新定價日本資產：日圓中期有支撐，日本公債殖利率上緣被政策彈性壓住，日股則從「弱日圓利多」轉向「企業獲利與資金回流」的品質篩選。</p>
+        <div class="callout">真正的波動來源會落在後續談話：若政策委員會暗示下一站 1.25%，日圓與日債殖利率會先反應，銀行股受惠，出口與高估值成長股壓力增加。</div>
+      </article>
+      <aside class="card verdict">
+        <div class="metric">
+          <div class="label">政策利率</div>
+          <div class="value">1.00%</div>
+          <div class="note">由 0.75% 調升 25 個基點</div>
+        </div>
+        <div class="metric">
+          <div class="label">決策票數</div>
+          <div class="value">7 : 1</div>
+          <div class="note">顯示委員會內部支持度高</div>
+        </div>
+        <div class="metric">
+          <div class="label">日股位置</div>
+          <div class="value">70,000+</div>
+          <div class="note">日經 225 指數創關鍵心理關卡</div>
+        </div>
+      </aside>
+    </div>
+
+    <section id="decision" class="card">
+      <div class="section-kicker">POLICY DECISION</div>
+      <h2>政策拆解：升息是方向，停縮購債是煞車</h2>
+      <div class="grid-3">
+        <div class="mini">
+          <h3>1. 利率端：確認正常化</h3>
+          <p>政策利率來到 31 年高點，代表日本央行不再把超低利率視為理所當然。只要薪資與服務通膨維持韌性，後續升息路徑仍存在。</p>
+        </div>
+        <div class="mini">
+          <h3>2. 購債端：避免債市失序</h3>
+          <p>2027 年 4 月起每月購債規模維持約 2 兆日圓，並保留彈性增購與固定利率購債機制，等於對長天期利率設下隱性保險。</p>
+        </div>
+        <div class="mini">
+          <h3>3. 溝通端：把下一次升息留給數據</h3>
+          <p>央行強調依經濟、物價與金融環境調整政策，市場會把焦點放在官員對 1.25% 的態度，而不是這次已被充分預期的 1%。</p>
+        </div>
+      </div>
+      <div class="timeline">
+        <div class="step">
+          <div class="time">現在至 2027Q1</div>
+          <p>原則上每季減少約 2,000 億日圓的月度公債收購額度，延續溫和縮表節奏。</p>
+        </div>
+        <div class="step">
+          <div class="time">2027Q2 起</div>
+          <p>每月公債收購額度維持約 2 兆日圓，降低市場對連續流動性收縮的擔憂。</p>
+        </div>
+        <div class="step">
+          <div class="time">若利率急升</div>
+          <p>央行保留彈性工具，包含增加購債、固定利率購債與資金供應作業，避免金融條件突然收緊。</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="markets" class="card">
+      <div class="section-kicker">MARKET IMPACT</div>
+      <h2>市場影響：短線平淡，中線重新定價</h2>
+      <div class="grid-2">
+        <div>
+          <h3>資產影響熱度</h3>
+          <div class="bars">
+            <div class="bar-row"><span>日圓</span><div class="bar"><span style="width:82%"></span></div><span>高</span></div>
+            <div class="bar-row"><span>日債</span><div class="bar"><span style="width:76%"></span></div><span>高</span></div>
+            <div class="bar-row"><span>銀行股</span><div class="bar"><span style="width:68%"></span></div><span>中高</span></div>
+            <div class="bar-row"><span>出口股</span><div class="bar"><span style="width:56%"></span></div><span>中</span></div>
+            <div class="bar-row"><span>亞洲資金</span><div class="bar"><span style="width:48%"></span></div><span>中</span></div>
+          </div>
+        </div>
+        <div>
+          <h3>核心判讀</h3>
+          <p>市場反應平淡，通常代表這次決議本身已被價格吸收。接下來波動更可能來自兩個變數：第一，官員是否暗示更快升至 1.25%；第二，日債長端殖利率是否突破央行能容忍的區間。</p>
+          <p>日經 225 指數站上 70,000 點，與其說是升息利空被忽略，不如說是市場把日本視為「通膨正常化後仍有獲利動能」的資產。這會讓資金偏好從廣泛買進轉向更嚴格的獲利品質篩選。</p>
+        </div>
+      </div>
+      <table aria-label="主要資產影響表">
+        <thead>
+          <tr><th>資產</th><th>短線反應</th><th>中線邏輯</th><th>偏向</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>日圓</td>
+            <td>若談話偏鷹，日圓容易走強。</td>
+            <td>利差收斂提高日圓吸引力，但若全球風險偏好強，升值速度會受限。</td>
+            <td><span class="tag green">支撐增加</span></td>
+          </tr>
+          <tr>
+            <td>日本公債</td>
+            <td>短端殖利率反映升息，長端受購債承諾抑制。</td>
+            <td>央行不希望長端利率失控，債市波動會被政策工具管理。</td>
+            <td><span class="tag blue">曲線重塑</span></td>
+          </tr>
+          <tr>
+            <td>日本銀行股</td>
+            <td>淨利差改善預期升溫。</td>
+            <td>若升息路徑延續，銀行與保險股相對受惠。</td>
+            <td><span class="tag green">相對受惠</span></td>
+          </tr>
+          <tr>
+            <td>出口與成長股</td>
+            <td>日圓升值會壓抑匯兌利多。</td>
+            <td>高估值公司面臨折現率上升壓力，獲利能見度會更重要。</td>
+            <td><span class="tag red">需篩選</span></td>
+          </tr>
+          <tr>
+            <td>台灣與亞洲市場</td>
+            <td>初步影響有限。</td>
+            <td>若日圓升值帶動日資回流，亞洲高估值市場可能出現資金面干擾。</td>
+            <td><span class="tag blue">觀察資金流</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section id="scenarios" class="card">
+      <div class="section-kicker">SCENARIO MAP</div>
+      <h2>三種情境推演</h2>
+      <div class="scenario">
+        <div class="mini">
+          <div class="score">55%</div>
+          <h3>基準情境：溫和正常化</h3>
+          <p>央行維持依數據調整，短期不承諾下一次升息時間。日圓偏強但不失控，日股維持高檔震盪。</p>
+        </div>
+        <div class="mini">
+          <div class="score">30%</div>
+          <h3>偏鷹情境：暗示 1.25%</h3>
+          <p>若官員明確指向下一次升息，日圓與短端利率先行反應；銀行股表現優於大盤，出口股承壓。</p>
+        </div>
+        <div class="mini">
+          <div class="score">15%</div>
+          <h3>壓力情境：債市波動升高</h3>
+          <p>若長端殖利率快速上升，央行可能加大購債或啟動固定利率工具，市場會轉向檢驗政策可信度。</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="watch" class="card">
+      <div class="section-kicker">WHAT TO WATCH</div>
+      <h2>接下來最該盯的 6 個訊號</h2>
+      <div class="grid-2">
+        <div class="mini">
+          <h3>1. 官員談話是否提到下一站利率</h3>
+          <p>市場真正害怕的不是 1%，而是 1.25% 是否比預期更早到來。</p>
+        </div>
+        <div class="mini">
+          <h3>2. 10 年期日本公債殖利率</h3>
+          <p>若長端利率快速上衝，央行穩定工具啟動機率提高。</p>
+        </div>
+        <div class="mini">
+          <h3>3. 日圓匯率與套利交易平倉</h3>
+          <p>日圓急升可能牽動全球槓桿資金，影響風險資產波動。</p>
+        </div>
+        <div class="mini">
+          <h3>4. 薪資與服務通膨</h3>
+          <p>這是升息路徑能否延續的基本面支撐。</p>
+        </div>
+        <div class="mini">
+          <h3>5. 日經高檔後的類股輪動</h3>
+          <p>銀行、保險與內需股若接棒，代表市場接受利率正常化。</p>
+        </div>
+        <div class="mini">
+          <h3>6. 亞洲外資流向</h3>
+          <p>若日圓升值吸引資金回流，日本以外亞洲市場可能出現估值壓力。</p>
+        </div>
+      </div>
+      <div class="callout" style="margin-top:18px;">投資結論：這次決議本身偏可控，但後續談話可能改變市場對升息速度的定價。短線不宜只看「升息」兩字，應同時看購債承諾與長端利率反應。</div>
+      <div class="footer">本頁為獨立分析報告，聚焦政策與市場含意；不構成任何投資建議。</div>
+    </section>
+  </main>
+</body>
+</html>
