@@ -116,3 +116,26 @@ Do not ship these:
 - If the script says the repo is not a git repository, install this skill as a symlink from the repo, or set `local_repo_path` in `config.json`.
 - If push fails, the report may already be committed locally. Fix GitHub authentication, then run `git push` from `/Users/wisdom/reports`.
 - If GitHub Pages returns 404 right after publishing, wait for Pages deployment and refresh.
+- If the new report stays 404, check GitHub Pages deployment status before guessing the URL:
+  ```bash
+  python3 - <<'PY'
+  import requests
+  runs=requests.get('https://api.github.com/repos/wisdom925/reports/actions/runs?per_page=3',headers={'User-Agent':'Mozilla/5.0'}).json()
+  print(runs)
+  PY
+  ```
+  Public API rate limits may apply; the browser Actions page also shows the latest Pages run.
+- If Pages deployment fails during the build step, inspect for tracked symlinks or Jekyll-sensitive files in the repo root. A bad absolute symlink can block Pages publication. Check and remove only accidental tracked symlinks:
+  ```bash
+  python3 - <<'PY'
+  import os
+  root='/Users/wisdom/reports'
+  for dirpath, dirs, files in os.walk(root):
+      if '/.git' in dirpath: continue
+      for name in dirs+files:
+          p=os.path.join(dirpath,name)
+          if os.path.islink(p): print(os.path.relpath(p,root),'->',os.readlink(p))
+  PY
+  git ls-files -s | awk '$1 ~ /^120/ {print}'
+  ```
+  Adding a repo-root `.nojekyll` file can also reduce Jekyll build fragility for static HTML reports.
