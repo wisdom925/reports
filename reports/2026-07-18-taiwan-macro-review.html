@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="zh-Hant-TW">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>台灣總經週報 2026-07-18</title>
+  <meta name="description" content="台灣總經週報：PMI、M1B、M2、EPI、CPI、外銷訂單最新官方數據與投資涵義。">
+  <meta property="og:title" content="台灣總經週報 2026-07-18">
+  <meta property="og:description" content="景氣偏強、資金偏寬、通膨偏黏，AI 與半導體仍是台灣總經主軸。">
+  <meta property="og:type" content="article">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <style>
+    :root{
+      color-scheme: light dark;
+      --bg:#f6f8fb; --panel:#ffffff; --text:#162033; --muted:#657084; --line:#dfe6f1;
+      --brand:#155eef; --brand2:#0f9f7a; --warn:#b76e00; --danger:#c2410c; --good:#0f766e;
+      --shadow:0 18px 50px rgba(22,32,51,.10); --radius:22px;
+    }
+    [data-theme="dark"]{
+      --bg:#0b1020; --panel:#121a2b; --text:#edf3ff; --muted:#a8b3c7; --line:#293449;
+      --brand:#7aa2ff; --brand2:#58d6b4; --warn:#ffd166; --danger:#ff9f80; --good:#65e4c3;
+      --shadow:0 18px 50px rgba(0,0,0,.35);
+    }
+    *{box-sizing:border-box} html{scroll-behavior:smooth} body{margin:0;background:linear-gradient(180deg,var(--bg),color-mix(in srgb,var(--bg),var(--panel) 28%));color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans TC","PingFang TC",sans-serif;line-height:1.65}
+    a{color:var(--brand);text-decoration:none} a:hover{text-decoration:underline}
+    .wrap{max-width:1180px;margin:0 auto;padding:28px 20px 60px}.hero{display:grid;grid-template-columns:1.4fr .6fr;gap:22px;align-items:stretch;margin-bottom:20px}.card,.hero-main,.toc,.risk,.source-card{background:color-mix(in srgb,var(--panel),transparent 0%);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow)}
+    .hero-main{padding:34px}.eyebrow{display:inline-flex;gap:8px;align-items:center;font-size:13px;color:var(--brand);font-weight:700;letter-spacing:.04em;text-transform:uppercase}.eyebrow span{width:9px;height:9px;border-radius:50%;background:var(--brand2);display:inline-block}.hero h1{font-size:clamp(30px,5vw,54px);line-height:1.05;margin:12px 0}.lead{font-size:20px;color:var(--muted);margin:0}.toolbar{display:flex;justify-content:space-between;gap:12px;align-items:center;margin-top:24px;flex-wrap:wrap}.btn{border:1px solid var(--line);background:var(--panel);color:var(--text);padding:10px 14px;border-radius:999px;cursor:pointer;font-weight:700}.datebox{padding:26px}.datebox .big{font-size:32px;font-weight:900}.datebox .small{color:var(--muted)}
+    .layout{display:grid;grid-template-columns:250px 1fr;gap:22px}.toc{position:sticky;top:16px;align-self:start;padding:18px}.toc h2{font-size:14px;margin:0 0 10px;color:var(--muted)}.toc a{display:block;padding:8px 10px;border-radius:12px;color:var(--text);font-size:14px}.toc a:hover{background:color-mix(in srgb,var(--brand),transparent 90%);text-decoration:none}.content{min-width:0}section{scroll-margin-top:18px;margin-bottom:22px}.section-card{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:26px}h2{font-size:26px;margin:0 0 16px}h3{font-size:19px;margin:22px 0 8px}.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}.metric{padding:18px;border:1px solid var(--line);border-radius:18px;background:linear-gradient(180deg,color-mix(in srgb,var(--panel),var(--brand) 5%),var(--panel))}.metric .name{color:var(--muted);font-size:13px}.metric .value{font-size:30px;font-weight:900;margin:4px 0}.metric .meta{font-size:13px;color:var(--muted)}.tag{display:inline-flex;align-items:center;gap:6px;border-radius:999px;padding:4px 9px;font-size:12px;font-weight:800}.tag.good{background:color-mix(in srgb,var(--good),transparent 86%);color:var(--good)}.tag.warn{background:color-mix(in srgb,var(--warn),transparent 84%);color:var(--warn)}.tag.danger{background:color-mix(in srgb,var(--danger),transparent 84%);color:var(--danger)}.tag.neutral{background:color-mix(in srgb,var(--muted),transparent 84%);color:var(--muted)}
+    .chartbox{height:340px;margin-top:16px;border:1px solid var(--line);border-radius:18px;padding:14px;background:color-mix(in srgb,var(--panel),var(--bg) 25%)}.two{display:grid;grid-template-columns:1fr 1fr;gap:16px}.interp{display:grid;grid-template-columns:180px 1fr;gap:16px;padding:16px 0;border-top:1px solid var(--line)}.interp:first-child{border-top:0}.interp strong{font-size:18px}.interp p{margin:0 0 6px}.risk{border-color:color-mix(in srgb,var(--warn),var(--line) 55%);background:color-mix(in srgb,var(--warn),transparent 92%);padding:20px}.risk h3{margin-top:0;color:var(--warn)}table{width:100%;border-collapse:collapse}th,td{text-align:left;padding:11px;border-bottom:1px solid var(--line);vertical-align:top}th{font-size:13px;color:var(--muted)}details{border:1px solid var(--line);border-radius:16px;padding:12px 14px;margin:10px 0;background:color-mix(in srgb,var(--panel),var(--bg) 20%)}summary{cursor:pointer;font-weight:800}.note{color:var(--muted);font-size:14px}.plain{font-size:20px;font-weight:800;background:color-mix(in srgb,var(--brand2),transparent 90%);border-left:5px solid var(--brand2);padding:16px;border-radius:16px}
+    @media(max-width:900px){.hero,.layout,.two{grid-template-columns:1fr}.toc{position:relative;top:auto}.grid{grid-template-columns:1fr 1fr}.interp{grid-template-columns:1fr}.hero-main{padding:24px}}
+    @media(max-width:560px){.grid{grid-template-columns:1fr}.wrap{padding:16px 12px 40px}.chartbox{height:300px}.section-card{padding:20px}.metric .value{font-size:26px}}
+    @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important}}
+    @media print{body{background:#fff;color:#000}.toc,.toolbar{display:none}.layout,.hero,.two,.grid{display:block}.section-card,.hero-main,.card,.risk{box-shadow:none;border:1px solid #bbb;margin-bottom:14px}.chartbox{break-inside:avoid}.wrap{max-width:none;padding:0}a{color:#000;text-decoration:underline}}
+  </style>
+</head>
+<body>
+<div class="wrap">
+  <header class="hero">
+    <div class="hero-main">
+      <div class="eyebrow"><span></span> Taiwan Macro Review</div>
+      <h1>台灣總經週報</h1>
+      <p class="lead">景氣動能仍強，資金環境偏寬，但 CPI 與生產者價格讓政策降溫空間變小。本週結論：持續站在 AI、半導體與電力升級主軸，但高估值部位要把通膨與利率風險算進去。</p>
+      <div class="toolbar">
+        <button class="btn" id="themeBtn" type="button">切換深色模式</button>
+        <span class="note">資料截點：2026-07-18 08:00</span>
+      </div>
+    </div>
+    <aside class="datebox card">
+      <div class="small">本期報告</div>
+      <div class="big">2026-07-18</div>
+      <p class="small">追蹤 PMI、M1B、M2、EPI、CPI、外銷訂單。未公布的新一期一律標示尚未更新。</p>
+    </aside>
+  </header>
+
+  <div class="layout">
+    <nav class="toc" aria-label="目錄">
+      <h2>目錄</h2>
+      <a href="#overview">指標總覽</a>
+      <a href="#charts">視覺化趨勢</a>
+      <a href="#details">逐項解讀</a>
+      <a href="#macro">總經整合判斷</a>
+      <a href="#investment">投資涵義</a>
+      <a href="#plain">股東白話結論</a>
+      <a href="#sources">資料來源</a>
+    </nav>
+
+    <main class="content">
+      <section id="overview" class="section-card">
+        <h2>指標總覽</h2>
+        <div class="grid">
+          <article class="metric"><div class="name">PMI 製造業採購經理人指數</div><div class="value">60.7%</div><span class="tag good">連 9 個月擴張</span><div class="meta">2026 年 6 月，2026-07-01 發布，較前月 61.4% 回落 0.7 個百分點。</div></article>
+          <article class="metric"><div class="name">M1B 年增率</div><div class="value">9.56%</div><span class="tag good">資金偏寬</span><div class="meta">2026 年 5 月，2026-06-18 發布；6 月資料尚未更新，央行預告 2026-07-23 發布。</div></article>
+          <article class="metric"><div class="name">M2 年增率</div><div class="value">7.83%</div><span class="tag good">流動性支撐</span><div class="meta">2026 年 5 月，2026-06-18 發布；6 月資料尚未更新。</div></article>
+          <article class="metric"><div class="name">EPI 電力景氣燈號</div><div class="value">紅燈</div><span class="tag good">用電熱絡</span><div class="meta">2026 年 4 月，2026-05-21 發布；5 月與 6 月尚未更新。</div></article>
+          <article class="metric"><div class="name">CPI 年增率</div><div class="value">2.60%</div><span class="tag warn">通膨偏黏</span><div class="meta">2026 年 6 月，2026-07-07 發布；核心 CPI 年增率 2.45%。</div></article>
+          <article class="metric"><div class="name">外銷訂單年增率</div><div class="value">47.2%</div><span class="tag good">AI 外需強</span><div class="meta">2026 年 5 月，2026-06-23 發布；金額 894.8 億美元，6 月尚未更新。</div></article>
+        </div>
+      </section>
+
+      <section id="charts" class="section-card">
+        <h2>視覺化趨勢</h2>
+        <div class="two">
+          <div><h3>景氣與通膨</h3><div class="chartbox"><canvas id="macroChart"></canvas></div></div>
+          <div><h3>外需與資金</h3><div class="chartbox"><canvas id="liquidityChart"></canvas></div></div>
+        </div>
+        <p class="note">圖表用最新可確認月資料。M1B、M2、外銷訂單、EPI 若官方尚未公布新一期，維持最新確認值，不外推。</p>
+      </section>
+
+      <section id="details" class="section-card">
+        <h2>逐項解讀</h2>
+        <div class="interp"><strong>PMI</strong><div><p>60.7% 代表製造業仍處明顯擴張區，但較 5 月小幅回落。新增訂單、生產與人力僱用仍擴張，電子暨光學 66.1% 是核心支撐。</p><span class="tag good">結論：強，但斜率略降</span></div></div>
+        <div class="interp"><strong>M1B / M2</strong><div><p>M1B 9.56%、M2 7.83%，顯示活期性資金與廣義貨幣都偏寬。資金面仍可支撐風險資產，但 6 月尚未發布，不能把寬鬆趨勢直接延伸。</p><span class="tag neutral">結論：等 7/23 更新</span></div></div>
+        <div class="interp"><strong>EPI</strong><div><p>4 月 EPI 紅燈，全國高壓以上產業用電量年增 3.27%。AI、高效能運算與雲端需求帶動用電，電力設備與能源效率投資仍是結構性題材。</p><span class="tag good">結論：AI 用電主軸續強</span></div></div>
+        <div class="interp"><strong>CPI</strong><div><p>6 月 CPI 年增 2.60%、核心 CPI 2.45%，較 5 月 CPI 2.20% 升溫。通膨壓力還沒完全解除，利率敏感族群與高本益比股票的折現率風險上升。</p><span class="tag warn">結論：政策不易快速轉寬</span></div></div>
+        <div class="interp"><strong>外銷訂單</strong><div><p>5 月外銷訂單 894.8 億美元、年增 47.2%，連 16 個月正成長。AI 需求仍是最強外需引擎，也讓台灣總經呈現科技出口獨強的結構。</p><span class="tag good">結論：外需仍由 AI 帶頭</span></div></div>
+      </section>
+
+      <section id="macro" class="section-card">
+        <h2>總經整合判斷</h2>
+        <p>台灣目前不是需求全面復甦，而是「AI 供應鏈拉動的偏科技型擴張」。PMI、外銷訂單與 EPI 同時指向半導體、伺服器、電子零組件、散熱、電力設備的景氣強度仍高；M1B 與 M2 顯示資金仍充足，對股市評價有支撐。</p>
+        <p>盲點在通膨。CPI 回到 2.60%，核心 CPI 也在 2.45%，加上生產者物價指數（Producer Price Index, PPI）年增率 15.10%，代表成本端壓力仍可能往終端價格傳導。這會限制貨幣政策快速轉向，也會放大高估值資產的波動。</p>
+        <div class="risk"><h3>風險提示</h3><p>若 7/23 央行公布的 6 月 M1B、M2 明顯降溫，或 6 月外銷訂單低於市場預期，科技股的「高成長加高流動性」組合會被重新定價。短線最需要留意的是估值擴張已領先基本面的部位。</p></div>
+      </section>
+
+      <section id="investment" class="section-card">
+        <h2>投資涵義</h2>
+        <table>
+          <thead><tr><th>方向</th><th>本週訊號</th><th>投資判讀</th></tr></thead>
+          <tbody>
+            <tr><td>半導體與 AI 伺服器</td><td>PMI 電子暨光學 66.1%，外銷訂單年增 47.2%</td><td>基本面仍偏多，但需避開已完全反映樂觀情境的個股。</td></tr>
+            <tr><td>電力設備、散熱、工業材料</td><td>EPI 紅燈，AI 用電與供應鏈外溢</td><td>結構性需求延續，適合追蹤訂單能見度與毛利率韌性。</td></tr>
+            <tr><td>金融與內需</td><td>M1B、M2 偏寬，但 CPI 升溫</td><td>資金環境有利金融資產；內需類股要看成本轉嫁能力。</td></tr>
+            <tr><td>高股息與債券替代品</td><td>通膨偏黏，降息期待受限</td><td>殖利率不足以補償波動時，不宜只因配息而追價。</td></tr>
+            <tr><td>傳產景氣循環</td><td>PMI 內部分化，食品紡織與交通工具展望偏弱</td><td>挑選受 AI、電力升級外溢的材料或零組件，避開需求保守的低議價力族群。</td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section id="plain" class="section-card">
+        <h2>股東白話結論</h2>
+        <p class="plain">台灣景氣還是熱，主力是 AI 與半導體；錢也還多。但物價又黏上來，所以不要用「快降息」當主要買進理由。持股可以偏多，槓桿與追高要收斂。</p>
+      </section>
+
+      <section id="sources" class="section-card">
+        <h2>資料來源</h2>
+        <details open><summary>中經院（CIER）PMI，2026-07-01</summary><p>2026 年 6 月台灣製造業 PMI 60.7%，前月 61.4%；電子暨光學 66.1%。來源：<a href="https://www.cier.edu.tw/eco_cat/pmi-ch/">台灣製造業採購經理人指數 PMI</a>、<a href="https://www.cier.edu.tw/pmi-trend/">PMI 走勢圖</a>。</p></details>
+        <details><summary>中央銀行（CBC）M1B / M2，2026-06-18</summary><p>2026 年 5 月日平均貨幣總計數 M1B 年增率 9.56%，M2 年增率 7.83%；新聞稿註明下一次發布時間為 2026-07-23 16:20。來源：<a href="https://www.cbc.gov.tw/tw/cp-302-192408-88854-1.html">115 年 5 月金融情況</a>。</p></details>
+        <details><summary>台灣綜合研究院（TRI）EPI，2026-05-21</summary><p>2026 年 4 月 EPI 電力景氣燈號紅燈，全國高壓以上產業用電量年增 3.27%。5 月與 6 月資料於本次截點尚未在官方列表確認。來源：<a href="https://www.tri.org.tw/article.php?lang=tw&amp;tb=2&amp;cid=54&amp;ot=all">EPI 電力景氣指數</a>。</p></details>
+        <details><summary>主計總處（DGBAS）CPI，2026-07-07</summary><p>2026 年 6 月 CPI 年增率 2.60%，核心 CPI 年增率 2.45%；主計總處頁面更新日期 2026-07-17，新聞稿張貼日期 115-07-07。來源：<a href="https://www.stat.gov.tw/Point.aspx?sid=t.2&amp;n=3581&amp;sms=11480">消費者物價指數年增率</a>、<a href="https://www.stat.gov.tw/News.aspx?n=3703&amp;sms=11101">主計總處新聞稿</a>。</p></details>
+        <details><summary>經濟部統計處（MOEA）與主計總處外銷訂單，2026-06-23</summary><p>2026 年 5 月外銷訂單 894.8 億美元，較上年同月增加 286.9 億美元或 47.2%；主計總處重要經社指標列外銷訂單 89,475 百萬美元。來源：<a href="https://www.moea.gov.tw/Mns/dos/bulletin/Bulletin.aspx?kind=5&amp;html=1&amp;menu_id=6724&amp;bull_id=16865">115 年 5 月外銷訂單統計</a>、<a href="https://www.stat.gov.tw/Point.aspx?sid=t.6&amp;n=3584&amp;sms=11480">主計總處外銷訂單指標</a>。</p></details>
+      </section>
+    </main>
+  </div>
+</div>
+<script>
+const root=document.documentElement;const saved=localStorage.getItem('theme');if(saved){root.dataset.theme=saved;}document.getElementById('themeBtn').addEventListener('click',()=>{const next=root.dataset.theme==='dark'?'light':'dark';root.dataset.theme=next;localStorage.setItem('theme',next);});
+const textColor=getComputedStyle(document.documentElement).getPropertyValue('--text').trim();const gridColor=getComputedStyle(document.documentElement).getPropertyValue('--line').trim();
+Chart.defaults.color=textColor;Chart.defaults.borderColor=gridColor;
+new Chart(document.getElementById('macroChart'),{type:'line',data:{labels:['2025/07','2025/08','2025/09','2025/10','2025/11','2025/12','2026/01','2026/02','2026/03','2026/04','2026/05','2026/06'],datasets:[{label:'PMI',data:[48.0,47.9,48.3,50.3,51.4,55.3,57.2,58.5,55.4,60.3,61.4,60.7],borderColor:'#155eef',backgroundColor:'rgba(21,94,239,.16)',tension:.35,fill:true,yAxisID:'y'},{label:'CPI 年增率',data:[null,null,null,null,null,null,null,null,null,1.74,2.20,2.60],borderColor:'#b76e00',backgroundColor:'rgba(183,110,0,.12)',tension:.35,fill:false,yAxisID:'y1'}]},options:{responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},plugins:{legend:{position:'bottom'}},scales:{y:{title:{display:true,text:'PMI'},suggestedMin:45,suggestedMax:65},y1:{position:'right',title:{display:true,text:'CPI %'},suggestedMin:1,suggestedMax:3,grid:{drawOnChartArea:false}}}}});
+new Chart(document.getElementById('liquidityChart'),{type:'bar',data:{labels:['M1B 年增率','M2 年增率','外銷訂單年增率','EPI 用電年增率'],datasets:[{label:'最新可確認年增率 / %',data:[9.56,7.83,47.2,3.27],backgroundColor:['rgba(15,159,122,.75)','rgba(21,94,239,.70)','rgba(15,118,110,.75)','rgba(183,110,0,.72)'],borderRadius:14}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{afterLabel:(ctx)=>['M1B、M2為2026/05','外銷訂單為2026/05','EPI用電為2026/04'][ctx.dataIndex]||''}}},scales:{y:{beginAtZero:true,title:{display:true,text:'%'}}}}});
+</script>
+</body>
+</html>
