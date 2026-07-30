@@ -57,6 +57,8 @@ If none of these fit, write a normal answer instead of forcing an HTML page.
    python3 /Users/wisdom/reports/.hermes/skills/html-report/scripts/publish.py reports/<YYYY-MM-DD>-<slug>.html "<title>" "<one-line description>"
    ```
 
+   Before publishing, run `git status --short` in `/Users/wisdom/reports`. The publish script commits and pushes pending repo changes along with the report; do not publish with unrelated dirty files unless the user explicitly wants them included.
+
    The script updates `reports/manifest.json`, commits, pushes, and prints the public URL.
 
 4. Return the printed URL verbatim. Do not fabricate the URL.
