@@ -1,0 +1,851 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>全球市場與半導體關鍵時程（未來一個月焦點）</title>
+  <meta name="description" content="美股、半導體供應鏈財報法說與重要總經數據發布精確時程表">
+  <style>
+    :root {
+      --bg-main: #0b0f17;
+      --bg-card: #151d2a;
+      --bg-card-hover: #1c273a;
+      --border-color: #263449;
+      --text-main: #f1f5f9;
+      --text-sub: #94a3b8;
+      --accent-blue: #38bdf8;
+      --accent-green: #34d399;
+      --accent-amber: #fbbf24;
+      --accent-rose: #fb7185;
+      --accent-purple: #c084fc;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      background-color: var(--bg-main);
+      color: var(--text-main);
+      line-height: 1.6;
+      padding: 2rem 1rem;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    header {
+      margin-bottom: 2rem;
+      border-bottom: 1px solid var(--border-color);
+      padding-bottom: 1.5rem;
+    }
+
+    .header-tag {
+      display: inline-block;
+      padding: 0.25rem 0.75rem;
+      background: rgba(56, 189, 248, 0.1);
+      color: var(--accent-blue);
+      border: 1px solid rgba(56, 189, 248, 0.3);
+      border-radius: 9999px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin-bottom: 0.75rem;
+    }
+
+    h1 {
+      font-size: 2rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      background: linear-gradient(135deg, #38bdf8, #c084fc);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .subtitle {
+      color: var(--text-sub);
+      font-size: 0.95rem;
+    }
+
+    /* KPI Summary Cards */
+    .summary-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    .summary-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 0.75rem;
+      padding: 1.25rem;
+    }
+
+    .summary-card .title {
+      font-size: 0.85rem;
+      color: var(--text-sub);
+      margin-bottom: 0.5rem;
+    }
+
+    .summary-card .val {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+
+    .summary-card .subtext {
+      font-size: 0.8rem;
+      margin-top: 0.25rem;
+      color: var(--accent-blue);
+    }
+
+    /* Controls Bar */
+    .controls-bar {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 0.75rem;
+      padding: 1.25rem;
+      margin-bottom: 2rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .filter-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      align-items: center;
+    }
+
+    .filter-btn {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border-color);
+      color: var(--text-sub);
+      padding: 0.4rem 0.8rem;
+      border-radius: 0.5rem;
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .filter-btn:hover, .filter-btn.active {
+      background: var(--accent-blue);
+      color: #000;
+      border-color: var(--accent-blue);
+      font-weight: 600;
+    }
+
+    .search-input {
+      background: rgba(0, 0, 0, 0.3);
+      border: 1px solid var(--border-color);
+      color: var(--text-main);
+      padding: 0.45rem 0.8rem;
+      border-radius: 0.5rem;
+      font-size: 0.85rem;
+      width: 220px;
+      outline: none;
+    }
+
+    .search-input:focus {
+      border-color: var(--accent-blue);
+    }
+
+    .view-btn-group {
+      display: flex;
+      gap: 0.25rem;
+      background: rgba(0, 0, 0, 0.3);
+      padding: 0.2rem;
+      border-radius: 0.5rem;
+      border: 1px solid var(--border-color);
+    }
+
+    .view-btn {
+      background: transparent;
+      border: none;
+      color: var(--text-sub);
+      padding: 0.35rem 0.7rem;
+      border-radius: 0.35rem;
+      font-size: 0.85rem;
+      cursor: pointer;
+    }
+
+    .view-btn.active {
+      background: var(--bg-card-hover);
+      color: var(--text-main);
+      font-weight: 600;
+    }
+
+    /* Timeline Section */
+    .timeline {
+      position: relative;
+      padding-left: 2rem;
+    }
+
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 0.75rem;
+      top: 0;
+      bottom: 0;
+      width: 2px;
+      background: var(--border-color);
+    }
+
+    .event-card {
+      position: relative;
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 0.75rem;
+      padding: 1.25rem;
+      margin-bottom: 1.25rem;
+      transition: transform 0.2s ease, border-color 0.2s ease;
+    }
+
+    .event-card:hover {
+      transform: translateX(4px);
+      border-color: var(--accent-blue);
+      background: var(--bg-card-hover);
+    }
+
+    .event-dot {
+      position: absolute;
+      left: -2.05rem;
+      top: 1.5rem;
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: var(--border-color);
+      border: 3px solid var(--bg-main);
+    }
+
+    .event-card.critical .event-dot {
+      background: var(--accent-rose);
+      box-shadow: 0 0 8px rgba(251, 113, 133, 0.6);
+    }
+
+    .event-card.earnings .event-dot {
+      background: var(--accent-blue);
+    }
+
+    .event-header {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.5rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .event-date {
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--accent-blue);
+      letter-spacing: 0.5px;
+    }
+
+    .event-badges {
+      display: flex;
+      gap: 0.35rem;
+    }
+
+    .badge-tag {
+      font-size: 0.75rem;
+      padding: 0.15rem 0.5rem;
+      border-radius: 0.25rem;
+      font-weight: 600;
+    }
+
+    .badge-critical {
+      background: rgba(251, 113, 133, 0.15);
+      color: var(--accent-rose);
+      border: 1px solid rgba(251, 113, 133, 0.3);
+    }
+
+    .badge-earnings {
+      background: rgba(56, 189, 248, 0.15);
+      color: var(--accent-blue);
+      border: 1px solid rgba(56, 189, 248, 0.3);
+    }
+
+    .badge-macro {
+      background: rgba(251, 191, 36, 0.15);
+      color: var(--accent-amber);
+      border: 1px solid rgba(251, 191, 36, 0.3);
+    }
+
+    .event-title {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--text-main);
+      margin-bottom: 0.5rem;
+    }
+
+    .event-desc {
+      font-size: 0.9rem;
+      color: var(--text-sub);
+      margin-bottom: 0.75rem;
+      line-height: 1.5;
+    }
+
+    .ticker-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+    }
+
+    .chip {
+      font-size: 0.75rem;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid var(--border-color);
+      color: var(--text-main);
+      padding: 0.1rem 0.4rem;
+      border-radius: 0.25rem;
+      font-family: monospace;
+    }
+
+    /* Table View */
+    .table-container {
+      display: none;
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 0.75rem;
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.9rem;
+    }
+
+    th, td {
+      padding: 0.85rem 1rem;
+      text-align: left;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    th {
+      background: rgba(0, 0, 0, 0.3);
+      color: var(--text-sub);
+      font-weight: 600;
+    }
+
+    tbody tr:hover {
+      background: var(--bg-card-hover);
+    }
+
+    footer {
+      text-align: center;
+      color: var(--text-sub);
+      font-size: 0.85rem;
+      margin-top: 3rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--border-color);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="header-tag">美股 & 半導體觀測行事曆</div>
+      <h1>全球關鍵財報與總經時程整理</h1>
+      <div class="subtitle">涵蓋財報法說、三大總經大關（非農、CPI、PCE）及 FOMC 紀要等精確時間點</div>
+    </header>
+
+    <!-- KPI Summary -->
+    <div class="summary-grid">
+      <div class="summary-card">
+        <div class="title">監測總事件數</div>
+        <div class="val">17 個</div>
+        <div class="subtext">涵蓋 7/31 ~ 8/29</div>
+      </div>
+      <div class="summary-card">
+        <div class="title">三大總經大關</div>
+        <div class="val">3 次</div>
+        <div class="subtext">8/7 非農 | 8/12 CPI | 8/26 PCE</div>
+      </div>
+      <div class="summary-card">
+        <div class="title">關鍵財報焦點</div>
+        <div class="val">5 家</div>
+        <div class="subtext">AAPL/AMZN, AMD, TSM, AMAT, NVDA</div>
+      </div>
+    </div>
+
+    <!-- Controls -->
+    <div class="controls-bar">
+      <div class="filter-group">
+        <button class="filter-btn active" onclick="filterCategory('all', this)">全部</button>
+        <button class="filter-btn" onclick="filterCategory('critical', this)">🔥 重大焦點</button>
+        <button class="filter-btn" onclick="filterCategory('earnings', this)">📊 財報法說</button>
+        <button class="filter-btn" onclick="filterCategory('macro', this)">🏛 總經數據</button>
+      </div>
+
+      <div style="display: flex; gap: 0.75rem; align-items: center;">
+        <input type="text" class="search-input" id="searchInput" placeholder="搜尋標的或事件..." oninput="handleSearch()">
+        <div class="view-btn-group">
+          <button class="view-btn active" id="btnTimeline" onclick="switchView('timeline')">時間軸</button>
+          <button class="view-btn" id="btnTable" onclick="switchView('table')">表格</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Timeline View -->
+    <div class="timeline" id="timelineView">
+      
+      <!-- 7/31 1 -->
+      <div class="event-card earnings" data-cat="earnings" data-tickers="AAPL,AMZN,AWS,TSM,MRVL,AMD,MU">
+        <div class="event-dot"></div>
+        <div class="event-header">
+          <div class="event-date">07/31 04:00～05:00</div>
+          <div class="event-badges">
+            <span class="badge-tag badge-earnings">財報法說</span>
+          </div>
+        </div>
+        <div class="event-title">Apple、Amazon 財報</div>
+        <div class="event-desc">Amazon 著重 AWS、AI CapEx、自研晶片；Apple 著重 iPhone 需求、記憶體成本與供應鏈狀況。</div>
+        <div class="ticker-chips">
+          <span class="chip">AAPL</span><span class="chip">AMZN</span><span class="chip">TSM</span><span class="chip">MRVL</span><span class="chip">AMD</span><span class="chip">MU</span>
+        </div>
+      </div>
+
+      <!-- 7/31 2 -->
+      <div class="event-card macro" data-cat="macro" data-tickers="美債,殖利率,半導體估值">
+        <div class="event-dot"></div>
+        <div class="event-header">
+          <div class="event-date">07/31 20:30</div>
+          <div class="event-badges">
+            <span class="badge-tag badge-macro">總經數據</span>
+          </div>
+        </div>
+        <div class="event-title">美國 Q2 就業成本指數 (ECI)</div>
+        <div class="event-desc">若薪資成本過熱，兩年期美債殖利率可能再度走升，半導體高估值個股將面臨承壓。</div>
+        <div class="ticker-chips">
+          <span class="chip">美債殖利率</span><span class="chip">半導體估值</span>
+        </div>
+      </div>
+
+      <!-- 8/3 -->
+      <div class="event-card macro" data-cat="macro" data-tickers="ISM,製造業">
+        <div class="event-dot"></div>
+        <div class="event-header">
+          <div class="event-date">08/03 22:00</div>
+          <div class="event-badges">
+            <span class="badge-tag badge-macro">總經數據</span>
+          </div>
+        </div>
+        <div class="event-title">ISM 製造業 PMI</div>
+        <div class="event-desc">重點關注新訂單分項、價格支付指數以及科技製造業終端需求強度。</div>
+        <div class="ticker-chips">
+          <span class="chip">PMI</span><span class="chip">製造業需求</span>
+        </div>
+      </div>
+
+      <!-- 8/4 1 -->
+      <div class="event-card macro" data-cat="macro" data-tickers="美債,殖利率,財政部">
+        <div class="event-dot"></div>
+        <div class="event-header">
+          <div class="event-date">08/04 03:00</div>
+          <div class="event-badges">
+            <span class="badge-tag badge-macro">總經政策</span>
+          </div>
+        </div>
+        <div class="event-title">美國財政部融資估算</div>
+        <div class="event-desc">發債規模與發債結構若高於市場預期，長期美債殖利率可能再次面臨上行壓力。</div>
+        <div class="ticker-chips">
+          <span class="chip">美債殖利率</span><span class="chip">美財政部</span>
+        </div>
+      </div>
+
+      <!-- 8/4 2 -->
+      <div class="event-card macro" data-cat="macro" data-tickers="JOLTS,勞動市場">
+        <div class="event-dot"></div>
+        <div class="event-header">
+          <div class="event-date">08/04 22:00</div>
+          <div class="event-badges">
+            <span class="badge-tag badge-macro">總經數據</span>
+          </div>
+        </div>
+        <div class="event-title">JOLTS 職缺人數</div>
+        <div class="event-desc">評估勞動力市場供需緊實度，觀察就業市場是否仍維持過熱狀態。</div>
+        <div class="ticker-chips">
+          <span class="chip">JOLTS</span><span class="chip">勞動市場</span>
+        </div>
+      </div>
+
+      <!-- 8/5 1 -->
+      <div class="event-card earnings critical" data-cat="earnings critical" data-tickers="AMD,Data Center,MI455X,Helios">
+        <div class="event-dot"></div>
+        <div class="event-header">
+          <div class="event-date">08/05 04:00 / 05:00</div>
+          <div class="event-badges">
+            <span class="badge-tag badge-critical">關鍵大關</span>
+            <span class="badge-tag badge-earnings">財報法說</span>
+          </div>
+        </div>
+        <div class="event-title">AMD 財報與法說會</div>
+        <div class="event-desc">直接驗證 Data Center 業務、MI455X 與 Helios 出貨進度、毛利率表現及下一季營運指引。此為 AMD 股價第一個關鍵檢驗關卡。</div>
+        <div class="ticker-chips">
+          <span class="chip">AMD</span><span class="chip">AI晶片</span><span class="chip">DataCenter</span>
+        </div>
+      </div>
+
+      <!-- 8/5 2 -->
+      <div class="event-card macro" data-cat="macro" data-tickers="美債,服務業PMI">
+        <div class="event-dot"></div>
+        <div class="event-header">
+          <div class="event-date">08/05 20:30 / 22:00</div>
+          <div class="event-badges">
+            <span class="badge-tag badge-macro">總經數據</span>
+          </div>
+        </div>
+        <div class="event-title">財政部再融資細節 / ISM 服務業 PMI</div>
+        <div class="event-desc">再融資細節直接干擾美債殖利率走勢；ISM 服務業指數則觀察服務業通膨黏性。</div>
+        <div class="ticker-chips">
+          <span class="chip">美債</span><span class="chip">服務通膨</span>
+        </div>
+      </div>
+
+      <!-- 8/7 -->
+      <div class="event-card macro critical" data-cat="macro critical" data-tickers="非農,失業率,薪資,大盤">
+        <div class="event-dot"></div>
+        <div class="event-header">
+          <div class="event-date">08/07 20:30</div>
+          <div class="event-badges">
+            <span class="badge-tag badge-critical">⭐ 第一個總經大關</span>
+            <span class="badge-tag badge-macro">總經數據</span>
+          </div>
+        </div>
+        <div class="event-title">7月非農就業、失業率與薪資增長</div>
+        <div class="event-desc">市場焦點在於薪資年增/月增率、前月數據修正及失業率變化，影響力遠高於單月新增就業人數。</div>
+        <div class="ticker-chips">
+          <span class="chip">非農</span><span class="chip">失業率</span><span class="chip">美股大盤</span>
+        </div>
+      </div>
+
+      <!-- 8/10 1 -->
+      <div class="event-card earnings" data-cat="earnings" data-tickers="TSM,台積電,設備股">
+        <div class="event-dot"></div>
+        <div class="event-header">
+          <div class="event-date">08/10 13:30</div>
+          <div class="event-badges">
+            <span class="badge-tag badge-earnings">營收公布</span>
+          </div>
+        </div>
+        <div class="event-title">台積電 (TSM) 公布 7 月營收</div>
+        <div class="event-desc">實體數據驗證 AI 及先進製程強勁需求是否延續，直接牽動 TSM 及半導體設備族群走勢。</div>
+        <div class="ticker-chips">
+          <span class="chip">TSM</span><span class="chip">台積電</span><span class="chip">設備股</span>
+        </div>
+      </div>
+
+      <!-- 8/10 2 -->
+      <div class="event-card earnings" data-cat="earnings" data-tickers="MU,Micron,HBM">
+        <div class="event-dot"></div>
+        <div class="event-header">
+          <div class="event-date">08/10 22:00</div>
+          <div class="event-badges">
+            <span class="badge-tag badge-earnings">產業論壇</span>
+          </div>
+        </div>
+        <div class="event-title">Micron 參加 KeyBanc 科技論壇</div>
+        <div class="event-desc">重點關注管理層對於 HBM 記憶體供需狀況、合約價格走勢以及產能擴張計畫的最新說法。</div>
+        <div class="ticker-chips">
+          <span class="chip">MU</span><span class="chip">HBM</span><span class="chip">DRAM</span>
+        </div>
+      </div>
+
+      <!-- 8/12 -->
+      <div class="event-card macro critical" data-cat="macro critical" data-tickers="CPI,通膨,美債">
+        <div class="event-dot"></div>
+        <div class="event-header">
+          <div class="event-date">08/12 20:30</div>
+          <div class="event-badges">
+            <span class="badge-tag badge-critical">⭐ 第二個總經大關</span>
+            <span class="badge-tag badge-macro">總經數據</span>
+          </div>
+        </div>
+        <div class="event-title">7 月消費者物價指數 (CPI)</div>
+        <div class="event-desc">核心 CPI 月增率、服務業、住房成本與能源價格擴散效應為主要觀察指標。</div>
+        <div class="ticker-chips">
+          <span class="chip">CPI</span><span class="chip">核心通膨</span><span class="chip">Fed政策</span>
+        </div>
+      </div>
+
+      <!-- 8/13 -->
+      <div class="event-card macro" data-cat="macro" data-tickers="PPI,生產者物價">
+        <div class="event-dot"></div>
+        <div class="event-header">
+          <div class="event-date">08/13 20:30</div>
+          <div class="event-badges">
+            <span class="badge-tag badge-macro">總經數據</span>
+          </div>
+        </div>
+        <div class="event-title">7 月生產者物價指數 (PPI)</div>
+        <div class="event-desc">觀察上游生產成本是否出現上行壓力並向終端消費者物價傳導。</div>
+        <div class="ticker-chips">
+          <span class="chip">PPI</span><span class="chip">生產成本</span>
+        </div>
+      </div>
+
+      <!-- 8/14 1 -->
+      <div class="event-card earnings critical" data-cat="earnings critical" data-tickers="AMAT,LRCX,WFE,HBM,先進封裝">
+        <div class="event-dot"></div>
+        <div class="event-header">
+          <div class="event-date">08/14 04:30</div>
+          <div class="event-badges">
+            <span class="badge-tag badge-critical">關鍵大關</span>
+            <span class="badge-tag badge-earnings">財報法說</span>
+          </div>
+        </div>
+        <div class="event-title">應材 (AMAT) 財報與法說會</div>
+        <div class="event-desc">直接驗證晶圓廠設備 (WFE) 展望、DRAM/HBM 設備、先進封裝需求、中國區營收及新訂單狀況。直接影響 AMAT 與 LRCX。</div>
+        <div class="ticker-chips">
+          <span class="chip">AMAT</span><span class="chip">LRCX</span><span class="chip">WFE</span><span class="chip">先進封裝</span>
+        </div>
+      </div>
+
+      <!-- 8/14 2 -->
+      <div class="event-card macro" data-cat="macro" data-tickers="零售銷售,消費數據">
+        <div class="event-dot"></div>
+        <div class="event-header">
+          <div class="event-date">08/14 20:30</div>
+          <div class="event-badges">
+            <span class="badge-tag badge-macro">總經數據</span>
+          </div>
+        </div>
+        <div class="event-title">7 月零售銷售數據</div>
+        <div class="event-desc">評估在長時間維持高利率環境下，美國終端消費者支出韌性。</div>
+        <div class="ticker-chips">
+          <span class="chip">零售銷售</span><span class="chip">美國消費</span>
+        </div>
+      </div>
+
+      <!-- 8/20 -->
+      <div class="event-card macro" data-cat="macro" data-tickers="FOMC,會議紀要,Fed,升息">
+        <div class="event-dot"></div>
+        <div class="event-header">
+          <div class="event-date">08/20 02:00</div>
+          <div class="event-badges">
+            <span class="badge-tag badge-macro">Fed政策</span>
+          </div>
+        </div>
+        <div class="event-title">7 月 FOMC 會議紀要</div>
+        <div class="event-desc">檢視主張升息或維持鷹派立場的官員人數，確認委員會內部是否存在更廣泛的升息傾向。</div>
+        <div class="ticker-chips">
+          <span class="chip">FOMC</span><span class="chip">Fed紀要</span><span class="chip">利率政策</span>
+        </div>
+      </div>
+
+      <!-- 8/21 -->
+      <div class="event-card macro" data-cat="macro" data-tickers="選擇權到期,波動度">
+        <div class="event-dot"></div>
+        <div class="event-header">
+          <div class="event-date">08/21 盤中</div>
+          <div class="event-badges">
+            <span class="badge-tag badge-macro">衍生商品</span>
+          </div>
+        </div>
+        <div class="event-title">美股月度選擇權到期日 (OpEx)</div>
+        <div class="event-desc">衍生性商品到期結算可能放大盤中價格劇烈波動，非基本面變因。</div>
+        <div class="ticker-chips">
+          <span class="chip">OpEx</span><span class="chip">選擇權到期</span>
+        </div>
+      </div>
+
+      <!-- 8/26 -->
+      <div class="event-card macro critical" data-cat="macro critical" data-tickers="PCE,GDP,通膨,美股">
+        <div class="event-dot"></div>
+        <div class="event-header">
+          <div class="event-date">08/26 20:30</div>
+          <div class="event-badges">
+            <span class="badge-tag badge-critical">⭐ 第三個總經大關</span>
+            <span class="badge-tag badge-macro">總經數據</span>
+          </div>
+        </div>
+        <div class="event-title">Q2 GDP 二次估值 ＋ 7 月 PCE</div>
+        <div class="event-desc">同時驗證經濟成長力道與 Fed 最重視的個人消費支出 (PCE) 通膨指標。</div>
+        <div class="ticker-chips">
+          <span class="chip">PCE</span><span class="chip">GDP</span><span class="chip">Fed偏好通膨</span>
+        </div>
+      </div>
+
+      <!-- 8/27 1 -->
+      <div class="event-card earnings critical" data-cat="earnings critical" data-tickers="NVDA,AMD,TSM,MU,MRVL,LRCX,AMAT">
+        <div class="event-dot"></div>
+        <div class="event-header">
+          <div class="event-date">08/27 05:00</div>
+          <div class="event-badges">
+            <span class="badge-tag badge-critical">🔥 終極焦點</span>
+            <span class="badge-tag badge-earnings">財報法說</span>
+          </div>
+        </div>
+        <div class="event-title">NVIDIA 財報與法說會</div>
+        <div class="event-desc">全面驗證全球 AI 資本支出鏈（CapEx），成果將同時震撼傳導至 AMD、TSM、MU、MRVL、LRCX、AMAT 等全體供應鏈。</div>
+        <div class="ticker-chips">
+          <span class="chip">NVDA</span><span class="chip">AI風向球</span><span class="chip">全半導體鏈</span>
+        </div>
+      </div>
+
+      <!-- 8/27 ~ 8/29 -->
+      <div class="event-card macro critical" data-cat="macro critical" data-tickers="Jackson Hole,Powell,央行年會">
+        <div class="event-dot"></div>
+        <div class="event-header">
+          <div class="event-date">08/27 ～ 08/29</div>
+          <div class="event-badges">
+            <span class="badge-tag badge-critical">全球央行會議</span>
+            <span class="badge-tag badge-macro">Fed政策</span>
+          </div>
+        </div>
+        <div class="event-title">Jackson Hole 全球央行年會</div>
+        <div class="event-desc">關注 Fed 主席鮑爾及各國央行官員對於原油價格、通膨趨勢及 9 月利率決議的最新表態。</div>
+        <div class="ticker-chips">
+          <span class="chip">Jackson Hole</span><span class="chip">Powell</span><span class="chip">9月升息</span>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Table View -->
+    <div class="table-container" id="tableView">
+      <table>
+        <thead>
+          <tr>
+            <th>日期時間 (TW)</th>
+            <th>事件名稱</th>
+            <th>類別</th>
+            <th>重點與影響分析</th>
+            <th>相關標的</th>
+          </tr>
+        </thead>
+        <tbody id="tableBody">
+          <!-- JS dynamic populate -->
+        </tbody>
+      </table>
+    </div>
+
+    <footer>
+      資料更新時間：2026年7月30日 | 全球市場與半導體供應鏈焦點時程
+    </footer>
+  </div>
+
+  <script>
+    const events = [
+      { date: "07/31 04:00～05:00", title: "Apple、Amazon 財報", cat: "earnings", critical: false, desc: "Amazon 的 AWS、AI CapEx、自研晶片；Apple 的 iPhone、記憶體成本與供應鏈。影響 TSM、MRVL、AMD、MU。", tickers: ["AAPL", "AMZN", "TSM", "MRVL", "AMD", "MU"] },
+      { date: "07/31 20:30", title: "美國 Q2 就業成本指數 ECI", cat: "macro", critical: false, desc: "若薪資成本過熱，兩年債可能再升，半導體估值承壓。", tickers: ["美債", "半導體估值"] },
+      { date: "08/03 22:00", title: "ISM 製造業 PMI", cat: "macro", critical: false, desc: "看新訂單、價格支付與科技製造需求。", tickers: ["PMI", "製造業"] },
+      { date: "08/04 03:00", title: "美國財政部融資估算", cat: "macro", critical: false, desc: "發債量若高於預期，長債殖利率可能再受壓力。", tickers: ["美債殖利率", "財政部"] },
+      { date: "08/04 22:00", title: "JOLTS 職缺", cat: "macro", critical: false, desc: "判斷勞動市場是否仍太緊。", tickers: ["JOLTS", "勞動市場"] },
+      { date: "08/05 04:00 / 05:00", title: "AMD 財報／法說", cat: "earnings", critical: true, desc: "直接驗證 Data Center、MI455X、Helios 出貨、毛利率及下一季指引。這是 AMD 第一個大關卡。", tickers: ["AMD", "Data Center", "MI455X"] },
+      { date: "08/05 20:30 / 22:00", title: "財政部再融資細節／ISM 服務業", cat: "macro", critical: false, desc: "前者影響殖利率，後者看服務通膨。", tickers: ["美債", "服務通膨"] },
+      { date: "08/07 20:30", title: "7月非農、失業率、薪資 (第一個總經大關)", cat: "macro", critical: true, desc: "最重要的是薪資、前月修正及失業率，不只是新增人數。", tickers: ["非農", "失業率", "美股大盤"] },
+      { date: "08/10 13:30", title: "台積電公布7月營收", cat: "earnings", critical: false, desc: "驗證 AI／先進製程需求是否延續，影響 TSM 及設備股。", tickers: ["TSM", "台積電", "設備股"] },
+      { date: "08/10 22:00", title: "Micron 參加 KeyBanc 科技論壇", cat: "earnings", critical: false, desc: "注意 HBM 供需、價格及供給擴張說法。", tickers: ["MU", "HBM", "DRAM"] },
+      { date: "08/12 20:30", title: "7月 CPI (第二個總經大關)", cat: "macro", critical: true, desc: "看核心月增、服務、住房與能源擴散。", tickers: ["CPI", "核心通膨"] },
+      { date: "08/13 20:30", title: "7月 PPI", cat: "macro", critical: false, desc: "看生產成本是否向終端通膨傳導。", tickers: ["PPI", "生產成本"] },
+      { date: "08/14 04:30", title: "AMAT 財報法說", cat: "earnings", critical: true, desc: "直接驗證 WFE 展望、DRAM／HBM、先進封裝、中國營收與訂單。影響 AMAT、LRCX。", tickers: ["AMAT", "LRCX", "WFE"] },
+      { date: "08/14 20:30", title: "7月零售銷售", cat: "macro", critical: false, desc: "判斷消費是否撐得住高利率。", tickers: ["零售銷售", "美國消費"] },
+      { date: "08/20 02:00", title: "7月 FOMC 會議紀要", cat: "macro", critical: false, desc: "看要求升息的聲音是否只有三票，還是委員會內部存在更廣泛的升息傾向。", tickers: ["FOMC", "Fed紀要"] },
+      { date: "08/21 盤中", title: "美股月度選擇權到期", cat: "macro", critical: false, desc: "可能放大盤中波動，但不是基本面事件。", tickers: ["OpEx", "選擇權到期"] },
+      { date: "08/26 20:30", title: "Q2 GDP二次估值＋7月 PCE (第三個總經大關)", cat: "macro", critical: true, desc: "同時驗證成長與 Fed 最重視的通膨指標。", tickers: ["PCE", "GDP", "Fed通膨"] },
+      { date: "08/27 05:00", title: "Nvidia 財報法說", cat: "earnings", critical: true, desc: "驗證整條 AI 資本支出鏈，會同時影響 AMD、TSM、MU、MRVL、LRCX、AMAT。", tickers: ["NVDA", "AI資本支出", "半導體鏈"] },
+      { date: "08/27～08/29", title: "Jackson Hole 全球央行年會", cat: "macro", critical: true, desc: "注意 Fed 對油價、通膨及9月升息的說法。", tickers: ["Jackson Hole", "Powell", "9月升息"] }
+    ];
+
+    // Populate Table
+    const tableBody = document.getElementById('tableBody');
+    events.forEach(e => {
+      const tr = document.createElement('tr');
+      tr.className = 'table-row';
+      tr.dataset.cat = e.critical ? `${e.cat} critical` : e.cat;
+      tr.dataset.tickers = e.tickers.join(',') + ' ' + e.title + ' ' + e.desc;
+      
+      const catBadge = e.critical 
+        ? `<span class="badge-tag badge-critical">重大焦點</span>` 
+        : (e.cat === 'earnings' ? `<span class="badge-tag badge-earnings">財報法說</span>` : `<span class="badge-tag badge-macro">總經數據</span>`);
+
+      const chips = e.tickers.map(t => `<span class="chip">${t}</span>`).join(' ');
+
+      tr.innerHTML = `
+        <td style="font-weight:700; color:var(--accent-blue); white-space:nowrap;">${e.date}</td>
+        <td style="font-weight:600; color:var(--text-main);">${e.title}</td>
+        <td>${catBadge}</td>
+        <td style="color:var(--text-sub);">${e.desc}</td>
+        <td><div class="ticker-chips">${chips}</div></td>
+      `;
+      tableBody.appendChild(tr);
+    });
+
+    let currentCategory = 'all';
+
+    function filterCategory(cat, btn) {
+      currentCategory = cat;
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      applyFilters();
+    }
+
+    function handleSearch() {
+      applyFilters();
+    }
+
+    function applyFilters() {
+      const search = document.getElementById('searchInput').value.toLowerCase().strip();
+      
+      // Filter Timeline Cards
+      const cards = document.querySelectorAll('.event-card');
+      cards.forEach(card => {
+        const catMatch = currentCategory === 'all' || card.dataset.cat.includes(currentCategory);
+        const textContent = (card.innerText || "").toLowerCase();
+        const searchMatch = !search || textContent.includes(search);
+        
+        if (catMatch && searchMatch) {
+          card.style.display = 'block';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+
+      // Filter Table Rows
+      const rows = document.querySelectorAll('.table-row');
+      rows.forEach(row => {
+        const catMatch = currentCategory === 'all' || row.dataset.cat.includes(currentCategory);
+        const textContent = (row.innerText || "").toLowerCase();
+        const searchMatch = !search || textContent.includes(search);
+        
+        if (catMatch && searchMatch) {
+          row.style.display = 'table-row';
+        } else {
+          row.style.display = 'none';
+        }
+      });
+    }
+
+    function switchView(view) {
+      const timelineView = document.getElementById('timelineView');
+      const tableView = document.getElementById('tableView');
+      const btnTimeline = document.getElementById('btnTimeline');
+      const btnTable = document.getElementById('btnTable');
+
+      if (view === 'timeline') {
+        timelineView.style.display = 'block';
+        tableView.style.display = 'none';
+        btnTimeline.classList.add('active');
+        btnTable.classList.remove('active');
+      } else {
+        timelineView.style.display = 'none';
+        tableView.style.display = 'block';
+        btnTable.classList.add('active');
+        btnTimeline.classList.remove('active');
+      }
+    }
+  </script>
+</body>
+</html>
