@@ -1,0 +1,435 @@
+<!doctype html>
+<html lang="zh-TW" class="scroll-smooth">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>美股收盤日報｜微軟與Meta財報爆發狂飆，費半暴漲逾6.8%，資金大舉回流AI算力主線！</title>
+  <meta name="description" content="2026年7月30日美股收盤日報：美股經歷前日震盪後迎來全面報復性反彈。標普500大漲1.68%，納斯達克飆升3.3%，費城半導體指數暴漲6.88%。微軟Q4財報與AI雲端指引超預期股價狂飆15.5%，Meta重拾成長動能，資金大舉回流AI硬體、晶片與光通訊主題，VIX重挫17.28%至17.09。">
+  <meta property="og:title" content="美股收盤日報｜2026-07-30">
+  <meta property="og:description" content="微軟與Meta財報大好引發晶片與算力大反攻，美股大盤強勢上攻，納指狂飆3.3%。">
+  <meta property="og:type" content="article">
+
+  <!-- Tailwind CSS & Dark Mode -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              50: '#f0f9ff',
+              100: '#e0f2fe',
+              550: '#0284c7',
+              600: '#0369a1',
+              700: '#075985',
+            }
+          },
+          fontFamily: {
+            sans: ['Inter', 'Outfit', 'system-ui', 'sans-serif']
+          }
+        }
+      }
+    };
+    if (localStorage.theme === 'dark' || (!('theme' in localStorage) && matchMedia('(prefers-color-scheme: dark)').matches)) {
+      document.documentElement.classList.add('dark');
+    }
+  </script>
+
+  <!-- Highlight.js for Code Syntax -->
+  <link id="hljs-theme" rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11/build/styles/github-dark.min.css">
+  <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11/build/highlight.min.js"></script>
+
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <!-- Mermaid.js for Diagrams -->
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+    const isDark = document.documentElement.classList.contains('dark');
+    mermaid.initialize({ startOnLoad: true, theme: isDark ? 'dark' : 'default', securityLevel: 'loose' });
+    window.__mermaid = mermaid;
+  </script>
+
+  <!-- KaTeX for Equations -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.js"></script>
+
+  <style>
+    @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
+    @media print {
+      .no-print { display: none !important; }
+      body { color: #000; background: #fff; }
+      a { color: inherit; text-decoration: underline; }
+      details { display: block; } details > summary { display: none; }
+    }
+    pre code.hljs { border-radius: .5rem; padding: 1rem; font-size: .85rem; }
+    details > summary { cursor: pointer; user-select: none; }
+    details > summary::marker { content: "▸ "; }
+    details[open] > summary::marker { content: "▾ "; }
+    .toc a { display: block; padding: .25rem 0; opacity: .6; transition: opacity .15s; border-left: 2px solid transparent; padding-left: 0.75rem; }
+    .toc a:hover, .toc a.active { opacity: 1; }
+    .toc a.active { font-weight: 600; border-color: #0284c7; color: #0284c7; }
+    .copy-btn { position: absolute; top: .5rem; right: .5rem; }
+    pre.has-copy { position: relative; }
+
+    /* Tab pattern: pure CSS, no JS */
+    .tabs > input[type="radio"] { display: none; }
+    .tabs > label { cursor: pointer; padding: .5rem 1rem; border-bottom: 2px solid transparent; font-weight: 500; color: #71717a; transition: all 0.2s; }
+    .tabs > input:checked + label { border-color: #0284c7; color: #0284c7; font-weight: 600; }
+    .tabs > .tab-panel { display: none; padding-top: 1rem; }
+    .tabs > input:nth-of-type(1):checked ~ .tab-panel:nth-of-type(1),
+    .tabs > input:nth-of-type(2):checked ~ .tab-panel:nth-of-type(2),
+    .tabs > input:nth-of-type(3):checked ~ .tab-panel:nth-of-type(3),
+    .tabs > input:nth-of-type(4):checked ~ .tab-panel:nth-of-type(4) { display: block; }
+    
+    .dark .toc a.active { border-color: #38bdf8; color: #38bdf8; }
+    .dark .tabs > input:checked + label { border-color: #38bdf8; color: #38bdf8; }
+  </style>
+</head>
+
+<body class="bg-slate-50 text-slate-800 dark:bg-slate-900 dark:text-slate-100 transition-colors duration-200 antialiased min-h-screen">
+  <!-- Progress & Header Bar -->
+  <header class="sticky top-0 z-40 bg-white/80 dark:bg-slate-900/80 backdrop-blur border-b border-slate-200 dark:border-slate-800">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      <div class="flex items-center space-x-3">
+        <span class="text-xl font-bold bg-gradient-to-r from-sky-500 to-indigo-600 bg-clip-text text-transparent">美股收盤日報</span>
+        <span class="text-xs px-2.5 py-1 rounded-full font-medium bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400">2026-07-30</span>
+      </div>
+      <div class="flex items-center space-x-3">
+        <button id="theme-toggle" class="p-2 rounded-lg bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 transition-colors" title="切換深淺模式">
+          <svg id="theme-toggle-dark-icon" class="w-5 h-5 hidden" fill="currentColor" viewBox="0 0 20 20"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
+          <svg id="theme-toggle-light-icon" class="w-5 h-5 hidden" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 100 2h1z" fill-rule="evenodd" clip-rule="evenodd"></path></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex gap-8">
+    <!-- Main Content -->
+    <main class="flex-1 min-w-0 space-y-10">
+      
+      <!-- Banner / Headline -->
+      <div class="p-6 sm:p-8 rounded-2xl bg-gradient-to-br from-slate-900 to-indigo-950 text-white shadow-xl relative overflow-hidden">
+        <div class="absolute -right-10 -bottom-10 w-64 h-64 bg-sky-500/10 rounded-full blur-3xl pointer-events-none"></div>
+        <div class="relative z-10 space-y-4">
+          <div class="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-300 text-xs font-semibold backdrop-blur border border-emerald-500/30">
+            <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+            <span>強烈反彈 • 科技狂潮</span>
+          </div>
+          <h1 class="text-2xl sm:text-4xl font-extrabold tracking-tight leading-tight">
+            微軟財報爆發狂飆 15.5%！費半強彈 6.88%，資金大舉回流 AI 算力主線
+          </h1>
+          <p class="text-slate-300 text-sm sm:text-base max-w-3xl leading-relaxed">
+            經歷前日鷹派氣氛與 VRT 營收波折後，微軟與 Meta 亮眼財報指引強烈安撫市場情緒。微軟 Azure AI 雲端加速成長，直接破除「AI CapEx 無回報」疑慮。科技股迎來強勁報復性反彈，費半與納指大舉拉升！
+          </p>
+        </div>
+      </div>
+
+      <!-- Section 0: Summary -->
+      <section id="sec-0" class="space-y-4">
+        <h2 class="text-xl font-bold text-slate-900 dark:text-slate-100 flex items-center gap-2">
+          <span class="w-2 h-6 bg-sky-500 rounded-full"></span> 0. 今日一句話總結
+        </h2>
+        <div class="p-5 rounded-xl bg-white dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700/60 shadow-sm space-y-3">
+          <ul class="space-y-2 text-sm sm:text-base leading-relaxed text-slate-700 dark:text-slate-300">
+            <li>• <strong>大盤表現</strong>：美股開高走高，納斯達克飆升 3.3%，標普 500 大漲 1.68%，費城半導體暴漲 6.88%。</li>
+            <li>• <strong>核心驅動</strong>：微軟財報亮眼且 Azure AI 指引強勁，直接洗刷新算力疑慮；晶片股（AMD +13.0%、MU +18.36%）呈現報復性狂飆。</li>
+            <li>• <strong>風險情緒</strong>：Risk-on 完全佔優，恐慌指數 VIX 重挫 17.28% 至 17.09，避險情緒迅速退燒。</li>
+            <li>• <strong>寬度與輪動</strong>：市場寬度顯著改善，前日流向防禦性 SaaS 的資金重新回流 AI 硬體與半導體主線。</li>
+          </ul>
+          <div class="p-3 rounded-lg bg-sky-50 dark:bg-sky-950/40 text-sky-800 dark:text-sky-200 text-sm font-semibold border border-sky-200 dark:border-sky-800/50">
+            💡 今日市場狀態：極端強勢反彈，AI 雲端與硬體主線重新掌權，空頭擠壓效應顯著。
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 1: Overview & Chart -->
+      <section id="sec-1" class="space-y-4">
+        <h2 class="text-xl font-bold text-slate-900 dark:text-slate-100 flex items-center gap-2">
+          <span class="w-2 h-6 bg-sky-500 rounded-full"></span> 1. 大盤表現總覽
+        </h2>
+        
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+          <div class="p-4 rounded-xl bg-white dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700/60 shadow-sm">
+            <div class="text-xs text-slate-500 dark:text-slate-400">S&P 500 (SPY)</div>
+            <div class="text-lg sm:text-xl font-bold text-emerald-600 dark:text-emerald-400">741.69 (+1.68%)</div>
+            <div class="text-xs text-slate-400 mt-1">+12.23 點</div>
+          </div>
+          <div class="p-4 rounded-xl bg-white dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700/60 shadow-sm">
+            <div class="text-xs text-slate-500 dark:text-slate-400">Nasdaq 100 (QQQ)</div>
+            <div class="text-lg sm:text-xl font-bold text-emerald-600 dark:text-emerald-400">683.55 (+3.30%)</div>
+            <div class="text-xs text-slate-400 mt-1">+21.82 點</div>
+          </div>
+          <div class="p-4 rounded-xl bg-white dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700/60 shadow-sm">
+            <div class="text-xs text-slate-500 dark:text-slate-400">Dow Jones (DIA)</div>
+            <div class="text-lg sm:text-xl font-bold text-emerald-600 dark:text-emerald-400">521.51 (+1.18%)</div>
+            <div class="text-xs text-slate-400 mt-1">+6.10 點</div>
+          </div>
+          <div class="p-4 rounded-xl bg-white dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700/60 shadow-sm">
+            <div class="text-xs text-slate-500 dark:text-slate-400">半導體 (SOXX) / VIX</div>
+            <div class="text-lg sm:text-xl font-bold text-emerald-600 dark:text-emerald-400">504.53 (+8.50%)</div>
+            <div class="text-xs text-rose-500 mt-1">VIX 17.09 (-17.28%)</div>
+          </div>
+        </div>
+
+        <div class="p-5 rounded-xl bg-white dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700/60 shadow-sm space-y-4">
+          <h3 class="text-sm font-semibold text-slate-700 dark:text-slate-300">主要指數與 ETF 當日漲跌幅對比 (%)</h3>
+          <div class="h-64 sm:h-72">
+            <canvas id="overviewChart"></canvas>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 2: Timeline -->
+      <section id="sec-2" class="space-y-4">
+        <h2 class="text-xl font-bold text-slate-900 dark:text-slate-100 flex items-center gap-2">
+          <span class="w-2 h-6 bg-sky-500 rounded-full"></span> 2. 盤中走勢復盤
+        </h2>
+        <div class="p-5 rounded-xl bg-white dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700/60 shadow-sm overflow-x-auto">
+          <div class="mermaid flex justify-center">
+            timeline
+              title 2026-07-30 盤中重要事件走勢
+              盤前階段 : 微軟與 Meta 盤後財報極度強勁 : 科技股期貨強烈飆升
+              開盤拉升 : 費半指數跳空高開逾 4% : 晶片股 AMD、MU 狂飆
+              午盤鞏固 : 債券收益率穩定上升 : 資金並未流出，繼續加碼 AI 電力與光通訊
+              尾盤搶籌 : 空頭回補與買盤湧入 : 納指與費半以近乎全天最高點收盤
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 3: Macro Tabs -->
+      <section id="sec-3" class="space-y-4">
+        <h2 class="text-xl font-bold text-slate-900 dark:text-slate-100 flex items-center gap-2">
+          <span class="w-2 h-6 bg-sky-500 rounded-full"></span> 3. 宏觀環境
+        </h2>
+        <div class="tabs p-5 rounded-xl bg-white dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700/60 shadow-sm">
+          <input type="radio" id="tab1" name="macro-tabs" checked>
+          <label for="tab1">美債收益率</label>
+
+          <input type="radio" id="tab2" name="macro-tabs">
+          <label for="tab2">Fed 降息預期</label>
+
+          <input type="radio" id="tab3" name="macro-tabs">
+          <label for="tab3">商品與外匯</label>
+
+          <div class="tab-panel space-y-2">
+            <h3 class="font-bold text-slate-800 dark:text-slate-200">美債收益率小幅上升</h3>
+            <p class="text-sm text-slate-600 dark:text-slate-400">
+              10年期美債收益率（^TNX）上揚至 4.66% (+0.89%)，30年期（^TYX）至 5.21%。受到股市風險偏好大幅回升影響，資金從避險國債流出，收益率曲線維持正常溫和陡峭化狀態。
+            </p>
+          </div>
+
+          <div class="tab-panel space-y-2">
+            <h3 class="font-bold text-slate-800 dark:text-slate-200">降息時點保持穩定</h3>
+            <p class="text-sm text-slate-600 dark:text-slate-400">
+              市場消化昨日 FOMC 決議後，CME FedWatch 顯示 9 月維持利率不變概率為 65%，11 月降息概率為 58%。強勁的企業財報證明經濟韌性，減輕了市場對「高利率壓垮成長」的擔擔憂。
+            </p>
+          </div>
+
+          <div class="tab-panel space-y-2">
+            <h3 class="font-bold text-slate-800 dark:text-slate-200">原油回檔、黃金走強</h3>
+            <p class="text-sm text-slate-600 dark:text-slate-400">
+              WTI原油回檔（USO -1.42%），地緣溢價略有消化；黃金（GLD +1.64%）表現穩健至 $377.16。美元指數（UUP -0.99%）走弱，替跨國科技股帶來額外匯率順風。
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 4: Sectors Table -->
+      <section id="sec-4" class="space-y-4">
+        <h2 class="text-xl font-bold text-slate-900 dark:text-slate-100 flex items-center gap-2">
+          <span class="w-2 h-6 bg-sky-500 rounded-full"></span> 4. S&P 500 十一個板塊表現
+        </h2>
+        <div class="p-5 rounded-xl bg-white dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700/60 shadow-sm overflow-x-auto">
+          <table class="w-full text-left text-sm text-slate-600 dark:text-slate-300">
+            <thead class="text-xs uppercase bg-slate-100 dark:bg-slate-700/50 text-slate-700 dark:text-slate-200">
+              <tr>
+                <th class="p-3">板塊代碼</th>
+                <th class="p-3">名稱</th>
+                <th class="p-3">當日漲跌幅</th>
+                <th class="p-3">驅動因素</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-200 dark:divide-slate-700">
+              <tr class="hover:bg-slate-50 dark:hover:bg-slate-700/30"><td class="p-3 font-semibold">XLK</td><td class="p-3">科技板塊</td><td class="p-3 text-emerald-600 font-bold">+5.50%</td><td class="p-3">微軟狂暴拉升、半導體整體反攻</td></tr>
+              <tr class="hover:bg-slate-50 dark:hover:bg-slate-700/30"><td class="p-3 font-semibold">XLY</td><td class="p-3">非必需消費</td><td class="p-3 text-emerald-600 font-bold">+0.70%</td><td class="p-3">特斯拉與電商類股穩健上揚</td></tr>
+              <tr class="hover:bg-slate-50 dark:hover:bg-slate-700/30"><td class="p-3 font-semibold">XLF</td><td class="p-3">金融板塊</td><td class="p-3 text-emerald-600 font-bold">+0.56%</td><td class="p-3">收益率回升支撐銀行淨利息收入預期</td></tr>
+              <tr class="hover:bg-slate-50 dark:hover:bg-slate-700/30"><td class="p-3 font-semibold">XLE</td><td class="p-3">能源板塊</td><td class="p-3 text-emerald-600 font-bold">+0.53%</td><td class="p-3">原油微幅整理但高位震盪</td></tr>
+              <tr class="hover:bg-slate-50 dark:hover:bg-slate-700/30"><td class="p-3 font-semibold">XLI</td><td class="p-3">工業板塊</td><td class="p-3 text-emerald-600 font-bold">+0.98%</td><td class="p-3">電氣設備 PWR (+17.26%) 等電力建設大暴漲</td></tr>
+              <tr class="hover:bg-slate-50 dark:hover:bg-slate-700/30"><td class="p-3 font-semibold">XLB</td><td class="p-3">原物料</td><td class="p-3 text-rose-500 font-bold">-0.19%</td><td class="p-3">基礎金屬持平整理</td></tr>
+              <tr class="hover:bg-slate-50 dark:hover:bg-slate-700/30"><td class="p-3 font-semibold">XLU</td><td class="p-3">公用事業</td><td class="p-3 text-rose-500 font-bold">-0.56%</td><td class="p-3">資金流出傳統防禦板塊</td></tr>
+              <tr class="hover:bg-slate-50 dark:hover:bg-slate-700/30"><td class="p-3 font-semibold">XLRE</td><td class="p-3">房地產</td><td class="p-3 text-rose-500 font-bold">-1.44%</td><td class="p-3">收益率微升打壓資產信託</td></tr>
+              <tr class="hover:bg-slate-50 dark:hover:bg-slate-700/30"><td class="p-3 font-semibold">XLV</td><td class="p-3">醫療保健</td><td class="p-3 text-rose-500 font-bold">-1.64%</td><td class="p-3">部分製藥股回檔修正</td></tr>
+              <tr class="hover:bg-slate-50 dark:hover:bg-slate-700/30"><td class="p-3 font-semibold">XLP</td><td class="p-3">必需消費</td><td class="p-3 text-rose-500 font-bold">-2.16%</td><td class="p-3">Risk-on 下防禦消費品遭遇明顯拋售</td></tr>
+              <tr class="hover:bg-slate-50 dark:hover:bg-slate-700/30"><td class="p-3 font-semibold">XLC</td><td class="p-3">通訊服務</td><td class="p-3 text-rose-500 font-bold">-2.68%</td><td class="p-3">Meta 雖強但 Alphabet/Telecom 權重微幅拉回影響整體</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Section 8: Key Stocks Details -->
+      <section id="sec-8" class="space-y-4">
+        <h2 class="text-xl font-bold text-slate-900 dark:text-slate-100 flex items-center gap-2">
+          <span class="w-2 h-6 bg-sky-500 rounded-full"></span> 8. 重點個股異動與新聞 (點擊展開)
+        </h2>
+        <div class="space-y-3">
+          <details class="p-4 rounded-xl bg-white dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700/60 shadow-sm">
+            <summary class="font-bold text-slate-800 dark:text-slate-200">大型科技七巨頭 (Mag 7)</summary>
+            <div class="mt-3 text-sm text-slate-600 dark:text-slate-400 space-y-2 border-t pt-3 border-slate-200 dark:border-slate-700">
+              <p>• <strong>MSFT (微軟) +15.51%</strong>: Q4 Azure AI 收入同比暴增 39%，投資人對龐大 CapEx 轉化為實質營收的能力給予最高讚賞。</p>
+              <p>• <strong>AMZN (亞馬遜) +3.90%</strong>: 隨微軟 AWS 指引樂觀預期上揚。</p>
+              <p>• <strong>TSLA (特斯拉) +3.53%</strong>: 自動駕駛與 Robotaxi 測試進展激勵。</p>
+              <p>• <strong>NVDA (輝達) +2.65%</strong>: 擺脫前日波折，站穩 $195 水準。</p>
+              <p>• <strong>META (Meta) -7.95%</strong>: 盤前雖強，但常規交易時間部分獲利回吐與 AI CapEx 指引導致短線高低震盪。</p>
+            </div>
+          </details>
+
+          <details class="p-4 rounded-xl bg-white dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700/60 shadow-sm">
+            <summary class="font-bold text-slate-800 dark:text-slate-200">AI 硬體與半導體強勢股</summary>
+            <div class="mt-3 text-sm text-slate-600 dark:text-slate-400 space-y-2 border-t pt-3 border-slate-200 dark:border-slate-700">
+              <p>• <strong>MU (美光) +18.36%</strong>: HBM3e 產能供不應求，股價飆至 $874.66。</p>
+              <p>• <strong>AMD (超微) +13.00%</strong>: 數據中心 MI300/350 系列市場份額預期大幅上調。</p>
+              <p>• <strong>MRVL (馬韋爾) +12.18% / TSM +7.64%</strong>: 晶片封裝與客制化 ASIC 買盤強烈。</p>
+              <p>• <strong>DELL +9.51% / ANET +8.26%</strong>: 伺服器與高速交換器大單加持。</p>
+            </div>
+          </details>
+
+          <details class="p-4 rounded-xl bg-white dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700/60 shadow-sm">
+            <summary class="font-bold text-slate-800 dark:text-slate-200">光通訊與 AI 電力基礎建設</summary>
+            <div class="mt-3 text-sm text-slate-600 dark:text-slate-400 space-y-2 border-t pt-3 border-slate-200 dark:border-slate-700">
+              <p>• <strong>PWR (Quanta Services) +17.26%</strong>: 電網升級與 AI 資料中心配電訂單暴增。</p>
+              <p>• <strong>LITE (Lumentum) +15.09% / COHR (Coherent) +12.16%</strong>: 800G/1.6T 光收發模組急單湧現。</p>
+              <p>• <strong>OKLO +11.54% / GEV +9.07% / VST +4.07%</strong>: 核能與電廠需求持續狂飆。</p>
+            </div>
+          </details>
+        </div>
+      </section>
+
+      <!-- Section 12: My Stock Watch -->
+      <section id="sec-12" class="space-y-4">
+        <h2 class="text-xl font-bold text-slate-900 dark:text-slate-100 flex items-center gap-2">
+          <span class="w-2 h-6 bg-sky-500 rounded-full"></span> 12. 我的重點關注股觀察
+        </h2>
+        <div class="p-5 rounded-xl bg-white dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700/60 shadow-sm overflow-x-auto">
+          <table class="w-full text-left text-sm text-slate-600 dark:text-slate-300">
+            <thead class="text-xs uppercase bg-slate-100 dark:bg-slate-700/50 text-slate-700 dark:text-slate-200">
+              <tr>
+                <th class="p-3">代碼</th>
+                <th class="p-3">當日收盤</th>
+                <th class="p-3">當日漲跌</th>
+                <th class="p-3">交易決策判定</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-200 dark:divide-slate-700">
+              <tr class="hover:bg-slate-50 dark:hover:bg-slate-700/30"><td class="p-3 font-semibold">MSFT</td><td class="p-3">$451.10</td><td class="p-3 text-emerald-600 font-bold">+15.51%</td><td class="p-3"><span class="px-2 py-1 bg-emerald-100 dark:bg-emerald-900/40 text-emerald-700 dark:text-emerald-300 rounded text-xs">繼續強勢</span></td></tr>
+              <tr class="hover:bg-slate-50 dark:hover:bg-slate-700/30"><td class="p-3 font-semibold">MU</td><td class="p-3">$874.66</td><td class="p-3 text-emerald-600 font-bold">+18.36%</td><td class="p-3"><span class="px-2 py-1 bg-emerald-100 dark:bg-emerald-900/40 text-emerald-700 dark:text-emerald-300 rounded text-xs">繼續強勢</span></td></tr>
+              <tr class="hover:bg-slate-50 dark:hover:bg-slate-700/30"><td class="p-3 font-semibold">AMD</td><td class="p-3">$485.39</td><td class="p-3 text-emerald-600 font-bold">+13.00%</td><td class="p-3"><span class="px-2 py-1 bg-emerald-100 dark:bg-emerald-900/40 text-emerald-700 dark:text-emerald-300 rounded text-xs">低位修復</span></td></tr>
+              <tr class="hover:bg-slate-50 dark:hover:bg-slate-700/30"><td class="p-3 font-semibold">NVDA</td><td class="p-3">$195.04</td><td class="p-3 text-emerald-600 font-bold">+2.65%</td><td class="p-3"><span class="px-2 py-1 bg-sky-100 dark:bg-sky-900/40 text-sky-700 dark:text-sky-300 rounded text-xs">回踩支撐</span></td></tr>
+              <tr class="hover:bg-slate-50 dark:hover:bg-slate-700/30"><td class="p-3 font-semibold">LITE</td><td class="p-3">$693.24</td><td class="p-3 text-emerald-600 font-bold">+15.09%</td><td class="p-3"><span class="px-2 py-1 bg-emerald-100 dark:bg-emerald-900/40 text-emerald-700 dark:text-emerald-300 rounded text-xs">繼續強勢</span></td></tr>
+              <tr class="hover:bg-slate-50 dark:hover:bg-slate-700/30"><td class="p-3 font-semibold">VST</td><td class="p-3">$148.62</td><td class="p-3 text-emerald-600 font-bold">+4.07%</td><td class="p-3"><span class="px-2 py-1 bg-emerald-100 dark:bg-emerald-900/40 text-emerald-700 dark:text-emerald-300 rounded text-xs">繼續強勢</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Section 14: Risk Matrix -->
+      <section id="sec-14" class="space-y-4">
+        <h2 class="text-xl font-bold text-slate-900 dark:text-slate-100 flex items-center gap-2">
+          <span class="w-2 h-6 bg-sky-500 rounded-full"></span> 14. 風險提示矩陣
+        </h2>
+        <div class="p-5 rounded-xl bg-white dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700/60 shadow-sm overflow-x-auto">
+          <table class="w-full text-left text-sm text-slate-600 dark:text-slate-300">
+            <thead class="text-xs uppercase bg-slate-100 dark:bg-slate-700/50 text-slate-700 dark:text-slate-200">
+              <tr>
+                <th class="p-3">風險維度</th>
+                <th class="p-3">評級</th>
+                <th class="p-3">說明與建議</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-200 dark:divide-slate-700">
+              <tr class="hover:bg-slate-50 dark:hover:bg-slate-700/30"><td class="p-3 font-semibold">AI 擁擠度與波幅</td><td class="p-3 text-amber-500 font-bold">中高</td><td class="p-3">短期單日狂飆後，短線籌碼可能存在獲利了結需求。</td></tr>
+              <tr class="hover:bg-slate-50 dark:hover:bg-slate-700/30"><td class="p-3 font-semibold">宏觀利率風險</td><td class="p-3 text-blue-500 font-bold">中</td><td class="p-3">美債收益率若突破 4.7% 仍會對高估值股票形成壓制。</td></tr>
+              <tr class="hover:bg-slate-50 dark:hover:bg-slate-700/30"><td class="p-3 font-semibold">地緣政治與油價</td><td class="p-3 text-blue-500 font-bold">中</td><td class="p-3">中東局勢暫未進一步擴大，但油價動態仍需密切監控。</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Section 15: Conclusion -->
+      <section id="sec-15" class="space-y-4">
+        <h2 class="text-xl font-bold text-slate-900 dark:text-slate-100 flex items-center gap-2">
+          <span class="w-2 h-6 bg-sky-500 rounded-full"></span> 15. 最終結論
+        </h2>
+        <div class="p-5 rounded-xl bg-slate-900 text-white shadow-md space-y-3">
+          <p class="text-sm sm:text-base leading-relaxed text-slate-200">
+            微軟財報成功洗清算力疑慮，成為全天大反攻的吹號者。資金迅速重返 AI 雲端、晶片半導體與光通訊主題，大盤展現極強的韌性。
+          </p>
+          <div class="flex items-center space-x-2 text-xs text-sky-400 font-mono pt-2 border-t border-slate-800">
+            <span>當前市場階段：強趨勢反彈 / 科技巨頭財報主導</span>
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <footer class="mt-16 border-t border-slate-200 dark:border-slate-800 py-8 text-center text-xs text-slate-500 dark:text-slate-400">
+    <p>美股收盤日報 • 資料來源：Yahoo Finance, CNBC, MarketWatch • 僅供參考，不構成投資建議</p>
+  </footer>
+
+  <script>
+    // Theme Toggle
+    const themeToggleBtn = document.getElementById('theme-toggle');
+    const darkIcon = document.getElementById('theme-toggle-dark-icon');
+    const lightIcon = document.getElementById('theme-toggle-light-icon');
+
+    if (document.documentElement.classList.contains('dark')) {
+      lightIcon.classList.remove('hidden');
+    } else {
+      darkIcon.classList.remove('hidden');
+    }
+
+    themeToggleBtn.addEventListener('click', () => {
+      darkIcon.classList.toggle('hidden');
+      lightIcon.classList.toggle('hidden');
+      if (document.documentElement.classList.contains('dark')) {
+        document.documentElement.classList.remove('dark');
+        localStorage.theme = 'light';
+      } else {
+        document.documentElement.classList.add('dark');
+        localStorage.theme = 'dark';
+      }
+    });
+
+    // Overview Chart
+    const ctx = document.getElementById('overviewChart').getContext('2d');
+    new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: ['SPY (標普)', 'QQQ (納指)', 'DIA (道瓊)', 'IWM (小盤)', 'SOXX (費半)', 'XLK (科技)', 'XLP (防禦)'],
+        datasets: [{
+          label: '漲跌幅 (%)',
+          data: [1.68, 3.30, 1.18, 1.39, 8.50, 5.50, -2.16],
+          backgroundColor: [
+            '#10b981', '#10b981', '#10b981', '#10b981', '#10b981', '#10b981', '#f43f5e'
+          ],
+          borderRadius: 6
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { display: false }
+        },
+        scales: {
+          y: {
+            ticks: { callback: value => value + '%' }
+          }
+        }
+      }
+    });
+  </script>
+</body>
+</html>
