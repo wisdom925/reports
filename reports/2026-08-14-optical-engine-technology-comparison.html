@@ -1,0 +1,351 @@
+<!doctype html>
+<html lang="zh-Hant" class="scroll-smooth">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>VCSEL、DML、EML 與 SiPh 光引擎技術整理</title>
+  <meta name="description" content="整理 VCSEL、DML、EML、CW+SiPh 與相干光技術的原理、光纖波長、距離、每 lane 速率演進與應用邊界。">
+  <meta property="og:title" content="VCSEL、DML、EML 與 SiPh 光引擎技術整理">
+  <meta property="og:description" content="把光引擎原理、鏈路距離、速率演進與 800G、1.6T、相干 ZR 應用放在同一張圖表。">
+  <meta property="og:type" content="article">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = { darkMode: 'class' };
+    if (localStorage.theme === 'dark' || (!('theme' in localStorage) && matchMedia('(prefers-color-scheme: dark)').matches)) document.documentElement.classList.add('dark');
+  </script>
+  <style>
+    :root { color-scheme: light; }
+    .dark { color-scheme: dark; }
+    @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; scroll-behavior: auto !important; } }
+    @media print { .no-print { display: none !important; } body { color: #111827; background: #fff; } a { color: inherit; text-decoration: underline; } details { display: block; } details > summary { display: none; } }
+    .toc a { display:block; padding:.25rem 0; color:#64748b; transition:color .15s; }
+    .toc a:hover, .toc a.active { color:#0f766e; }
+    .dark .toc a { color:#94a3b8; }
+    .dark .toc a:hover, .dark .toc a.active { color:#5eead4; }
+    .section-title { scroll-margin-top: 5rem; }
+    .data-table th { position: sticky; top: 0; z-index: 2; }
+    .data-table th button { text-align: left; width: 100%; }
+    .data-table td, .data-table th { vertical-align: top; }
+    .tag { display:inline-flex; align-items:center; border-radius:999px; padding:.2rem .55rem; font-size:.72rem; font-weight:700; letter-spacing:.02em; }
+    .callout { border-left: 4px solid #0f766e; }
+    .flow-line { stroke-dasharray: 6 5; animation: dash 18s linear infinite; }
+    @keyframes dash { to { stroke-dashoffset: -110; } }
+    .dark .flow-line { stroke:#5eead4; }
+    .sort-asc::after { content:" ↑"; }
+    .sort-desc::after { content:" ↓"; }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-900 dark:bg-slate-950 dark:text-slate-100 antialiased">
+  <div class="fixed right-4 top-4 z-50 flex gap-2 no-print">
+    <button id="theme-toggle" class="rounded-lg border border-slate-300 bg-white/85 px-3 py-2 text-sm shadow-sm backdrop-blur hover:bg-slate-100 dark:border-slate-700 dark:bg-slate-900/85 dark:hover:bg-slate-800" type="button">☼ / ☾</button>
+    <button class="rounded-lg border border-slate-300 bg-white/85 px-3 py-2 text-sm shadow-sm backdrop-blur hover:bg-slate-100 dark:border-slate-700 dark:bg-slate-900/85 dark:hover:bg-slate-800" type="button" onclick="window.print()">列印</button>
+  </div>
+
+  <div class="mx-auto max-w-7xl px-5 py-10 lg:grid lg:grid-cols-[210px_minmax(0,1fr)] lg:gap-12">
+    <nav class="toc mb-8 text-sm lg:sticky lg:top-10 lg:mb-0 lg:self-start no-print" aria-label="章節導覽">
+      <div class="mb-2 text-xs font-bold uppercase tracking-widest text-slate-400">Contents</div>
+      <a href="#summary">先看結論</a>
+      <a href="#comparison">技術比較</a>
+      <a href="#evolution">速率與封裝</a>
+      <a href="#tfln">TFLN 與相干</a>
+      <a href="#corrections">原始內容修正</a>
+      <a href="#sources">資料來源</a>
+    </nav>
+
+    <main class="min-w-0">
+      <header class="mb-12">
+        <div class="mb-3 flex flex-wrap items-center gap-2 text-sm text-slate-500 dark:text-slate-400">
+          <span class="tag bg-teal-100 text-teal-800 dark:bg-teal-950 dark:text-teal-300">技術整理</span>
+          <time datetime="2026-08-14">2026-08-14</time>
+        </div>
+        <h1 class="max-w-4xl text-4xl font-black tracking-tight sm:text-5xl">VCSEL、DML、EML 與 SiPh 光引擎</h1>
+        <p class="mt-4 max-w-4xl text-lg leading-8 text-slate-600 dark:text-slate-300">把四種短距離與資料中心光互連技術，連同相干 ZR/ZR+ 與薄膜鈮酸鋰（TFLN）放到同一個比較框架。重點在於先分清楚雷射、調變器、光纖波段與鏈路距離，才不會把 800G-SR8、CWDM4、PON、相干 ZR 混成同一類。</p>
+      </header>
+
+      <section id="summary" class="section-title mb-12">
+        <h2 class="mb-5 text-2xl font-black">先看結論</h2>
+        <div class="grid gap-4 md:grid-cols-2">
+          <div class="callout rounded-2xl bg-white p-5 shadow-sm ring-1 ring-slate-200 dark:bg-slate-900 dark:ring-slate-800">
+            <div class="mb-2 text-sm font-bold text-teal-700 dark:text-teal-300">短距離多模</div>
+            <p class="leading-7">VCSEL 以 850 nm 搭配多模光纖（MMF）為主，元件與耦合成本低，適合機櫃內與資料中心短距離。實際上限取決於模組、光纖等級與通道損耗，不能一律寫成 100 m。</p>
+          </div>
+          <div class="callout rounded-2xl bg-white p-5 shadow-sm ring-1 ring-slate-200 dark:bg-slate-900 dark:ring-slate-800">
+            <div class="mb-2 text-sm font-bold text-blue-700 dark:text-blue-300">單模中短距離</div>
+            <p class="leading-7">DML 直接調變 DFB 雷射，結構簡單、每 bit 功耗具競爭力。EML 把 DFB 與電吸收調變器（EAM）單片整合，通常換取更佳的高速訊號完整度與低啁啾，代價是元件與驅動設計更複雜。[1][2]</p>
+          </div>
+          <div class="callout rounded-2xl bg-white p-5 shadow-sm ring-1 ring-slate-200 dark:bg-slate-900 dark:ring-slate-800">
+            <div class="mb-2 text-sm font-bold text-violet-700 dark:text-violet-300">高整合光引擎</div>
+            <p class="leading-7">CW + SiPh 是「外部連續波雷射加矽光子調變器」的架構組合，可用 MZM 或微環調變器。它有利於多通道整合、封裝與 CPO，但距離與功耗不能只由 SiPh 三個字決定。</p>
+          </div>
+          <div class="callout rounded-2xl bg-white p-5 shadow-sm ring-1 ring-slate-200 dark:bg-slate-900 dark:ring-slate-800">
+            <div class="mb-2 text-sm font-bold text-amber-700 dark:text-amber-300">相干長距離</div>
+            <p class="leading-7">相干 ZR/ZR+ 應獨立看待：可調式 CW 雷射、相干調變器與 DSP 共同工作，常見於 DCI、都會與長途網路。這類系統常落在 C-band，不能直接套用 1310 nm IM/DD 的距離表。[6][7]</p>
+          </div>
+        </div>
+        <div class="mt-5 rounded-2xl border border-amber-300 bg-amber-50 p-5 text-amber-950 dark:border-amber-900 dark:bg-amber-950/40 dark:text-amber-100">
+          <strong>最重要的修正：</strong>800G-SR8 通常屬於 850 nm VCSEL 加 MMF 的短距離路線；CWDM4 則是 1271、1291、1311、1331 nm 附近的四波長單模架構，常見於 DR/FR 類模組。PON 是接取網路架構，三者不能併寫成同一個規格。[3][5]
+        </div>
+      </section>
+
+      <section id="comparison" class="section-title mb-12">
+        <div class="mb-5 flex flex-wrap items-end justify-between gap-4">
+          <div>
+            <h2 class="text-2xl font-black">技術比較</h2>
+            <p class="mt-2 text-slate-600 dark:text-slate-400">表內距離是工程選型的典型範圍或產品例子，最終仍要以 IEEE 介面、MSA、光纖等級與模組資料表為準。</p>
+          </div>
+          <label class="no-print flex items-center gap-2 text-sm text-slate-600 dark:text-slate-400">
+            <span>篩選</span>
+            <input id="table-filter" class="w-48 rounded-lg border border-slate-300 bg-white px-3 py-2 outline-none ring-teal-500 focus:ring-2 dark:border-slate-700 dark:bg-slate-900" type="search" placeholder="輸入技術或關鍵字">
+          </label>
+        </div>
+        <div class="overflow-x-auto rounded-2xl bg-white shadow-sm ring-1 ring-slate-200 dark:bg-slate-900 dark:ring-slate-800">
+          <table id="tech-table" class="data-table min-w-[1040px] w-full text-left text-sm">
+            <thead class="bg-slate-100 text-xs uppercase tracking-wide text-slate-600 dark:bg-slate-800 dark:text-slate-300">
+              <tr>
+                <th class="w-36 px-4 py-4"><button data-sort="0" type="button">技術</button></th>
+                <th class="w-64 px-4 py-4"><button data-sort="1" type="button">原理</button></th>
+                <th class="w-56 px-4 py-4"><button data-sort="2" type="button">光纖／波長</button></th>
+                <th class="w-44 px-4 py-4"><button data-sort="3" type="button">典型距離</button></th>
+                <th class="w-64 px-4 py-4"><button data-sort="4" type="button">每 lane 速率</button></th>
+                <th class="w-72 px-4 py-4"><button data-sort="5" type="button">定位與限制</button></th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-200 dark:divide-slate-800">
+              <tr>
+                <td class="px-4 py-4 font-bold">VCSEL<br><span class="text-xs font-normal text-slate-500">850 nm MMF</span></td>
+                <td class="px-4 py-4 leading-6">垂直腔面射型雷射（Vertical-Cavity Surface-Emitting Laser），直接調變雷射輸出。</td>
+                <td class="px-4 py-4 leading-6">多模光纖（MMF）<br>常見 850 nm</td>
+                <td class="px-4 py-4 leading-6">短距離，常見數十公尺至 100 m 級。400G AOC 產品可達 100 m，實際取決於光纖與模組。[5]</td>
+                <td class="px-4 py-4 leading-6">10G → 25G → 50G PAM4 → 100G/lane。200G/lane 屬新一代研發與規格演進，不能視為普遍量產能力。[8][9]</td>
+                <td class="px-4 py-4 leading-6">成本、功耗與耦合優勢明顯。距離與色散裕度受 MMF、溫度與通道品質限制，不適合直接延伸到長距離 SMF。</td>
+              </tr>
+              <tr>
+                <td class="px-4 py-4 font-bold">DML<br><span class="text-xs font-normal text-slate-500">DFB directly modulated</span></td>
+                <td class="px-4 py-4 leading-6">以分佈回授雷射（DFB）直接改變注入電流，讓光功率隨電訊號變化。</td>
+                <td class="px-4 py-4 leading-6">單模光纖（SMF）<br>O-band 約 1270–1330 nm</td>
+                <td class="px-4 py-4 leading-6">依介面可落在約 500 m、2 km、10 km 級。距離不是 DML 元件單獨決定。[1]</td>
+                <td class="px-4 py-4 leading-6">25G → 50G PAM4 → 100G/lane，依產品與鏈路條件而定。Lumentum 已列出 100G、50G 與 25G DML 產品。[1]</td>
+                <td class="px-4 py-4 leading-6">架構簡潔、成本與每 bit 功耗有優勢。高速率下啁啾、色散與線性度需要更嚴格的鏈路設計。</td>
+              </tr>
+              <tr>
+                <td class="px-4 py-4 font-bold">EML<br><span class="text-xs font-normal text-slate-500">DFB + EAM</span></td>
+                <td class="px-4 py-4 leading-6">DFB 雷射與電吸收調變器（EAM）單片整合，利用吸收變化調變光訊號，降低啁啾並維持訊號完整度。[2]</td>
+                <td class="px-4 py-4 leading-6">SMF、O-band CWDM4<br>1271／1291／1311／1331 nm</td>
+                <td class="px-4 py-4 leading-6">100G/lane 產品可支援 DR、FR 至 2 km；更遠距離需看模組與色散預算。[3]</td>
+                <td class="px-4 py-4 leading-6">100G/lane 已用於 400G DR4、FR4；200G/lane 產品以約 115 GBd PAM4 支援 1.6T 八 lane 路線。[3][4]</td>
+                <td class="px-4 py-4 leading-6">高速與訊號品質較有餘裕，適合 400G、800G、1.6T 資料中心互連。成本、熱設計與驅動複雜度高於 DML。</td>
+              </tr>
+              <tr>
+                <td class="px-4 py-4 font-bold">CW + SiPh<br><span class="text-xs font-normal text-slate-500">IM/DD 光引擎</span></td>
+                <td class="px-4 py-4 leading-6">外部連續波雷射（CW laser）提供光載波，由矽光子（SiPh）MZM 或微環調變器承載資料。</td>
+                <td class="px-4 py-4 leading-6">依架構可用 O-band 或其他波段；通常搭配 SMF。波長不能只用「SiPh」判定。</td>
+                <td class="px-4 py-4 leading-6">可涵蓋 DR、FR、LR 等級，實際距離由雷射、調變器、驅動器、DSP 與封裝共同決定。</td>
+                <td class="px-4 py-4 leading-6">100G → 200G/lane，並朝更高 baud rate 發展。800G → 1.6T 的多 lane 整合與 CPO 是主要方向。[8][9]</td>
+                <td class="px-4 py-4 leading-6">多通道整合與封裝彈性強，有利降低每 bit 功耗與導入 CPO。外部雷射耦合、熱管理、良率與雷射備援是關鍵風險。</td>
+              </tr>
+              <tr>
+                <td class="px-4 py-4 font-bold">相干 ZR／ZR+<br><span class="text-xs font-normal text-slate-500">另列，避免混淆</span></td>
+                <td class="px-4 py-4 leading-6">可調式 CW 雷射、相干調變器（SiPh 或 InP）與相干 DSP，利用振幅、相位、偏振與高階調變傳輸。</td>
+                <td class="px-4 py-4 leading-6">通常為 C-band 約 1550 nm<br>單模光纖</td>
+                <td class="px-4 py-4 leading-6">DCI、都會到長途，距離受 FEC、光纖、放大器、功率與線路系統影響，不能填一個固定公里數。[6][7]</td>
+                <td class="px-4 py-4 leading-6">400G ZR、800G ZR+ 已有產業規格與產品路線；更高速率持續由 IEEE 與產業路線圖推進。[6][8][9]</td>
+                <td class="px-4 py-4 leading-6">頻譜效率與距離優勢強。DSP、散熱、功耗、封裝與線路工程複雜度遠高於 IM/DD。</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p id="empty-state" class="mt-4 hidden rounded-xl border border-dashed border-slate-300 p-5 text-center text-slate-500 dark:border-slate-700">找不到符合關鍵字的列。</p>
+      </section>
+
+      <section id="evolution" class="section-title mb-12">
+        <h2 class="mb-5 text-2xl font-black">速率與封裝：先分清 aggregate 與 per lane</h2>
+        <div class="grid gap-4 md:grid-cols-3">
+          <div class="rounded-2xl bg-slate-900 p-5 text-white shadow-sm dark:bg-slate-800">
+            <div class="text-sm text-teal-300">400G</div>
+            <div class="mt-2 text-3xl font-black">4 × 100G</div>
+            <p class="mt-2 text-sm leading-6 text-slate-300">常見 DR4、FR4、LR4 或 SR8 等不同通道組合。4 lane 與 8 lane 不是同一個光纖配置。</p>
+          </div>
+          <div class="rounded-2xl bg-slate-900 p-5 text-white shadow-sm dark:bg-slate-800">
+            <div class="text-sm text-teal-300">800G</div>
+            <div class="mt-2 text-3xl font-black">8 × 100G<br><span class="text-xl">或 4 × 200G</span></div>
+            <p class="mt-2 text-sm leading-6 text-slate-300">800G-SR8 的「SR8」描述通道與短距離介面；CWDM4 則描述四波長單模配置，不能互換。</p>
+          </div>
+          <div class="rounded-2xl bg-slate-900 p-5 text-white shadow-sm dark:bg-slate-800">
+            <div class="text-sm text-teal-300">1.6T</div>
+            <div class="mt-2 text-3xl font-black">8 × 200G</div>
+            <p class="mt-2 text-sm leading-6 text-slate-300">200G/lane 需要更高 baud rate、電氣通道品質、封裝與散熱能力。IEEE P802.3dj 已將 1.6 Tb/s 納入工作範圍。[8]</p>
+          </div>
+        </div>
+        <div class="mt-6 overflow-hidden rounded-2xl bg-white p-5 shadow-sm ring-1 ring-slate-200 dark:bg-slate-900 dark:ring-slate-800">
+          <h3 class="mb-4 text-lg font-bold">光引擎位置示意</h3>
+          <svg class="h-auto w-full" viewBox="0 0 920 150" role="img" aria-label="電氣訊號經由雷射與調變器轉成光纖鏈路的示意圖">
+            <rect x="10" y="45" width="160" height="60" rx="14" fill="#0f766e" />
+            <text x="90" y="80" text-anchor="middle" fill="white" font-size="16">Host ASIC / DSP</text>
+            <line class="flow-line" x1="170" y1="75" x2="265" y2="75" stroke="#0f766e" stroke-width="3" />
+            <polygon points="265,75 252,68 252,82" fill="#0f766e" />
+            <rect x="280" y="25" width="170" height="100" rx="14" fill="#dbeafe" class="dark:fill-slate-700" />
+            <text x="365" y="57" text-anchor="middle" fill="#1e3a8a" class="dark:fill-blue-200" font-size="15">雷射光源</text>
+            <text x="365" y="82" text-anchor="middle" fill="#1e3a8a" class="dark:fill-blue-200" font-size="13">VCSEL / DFB / CW</text>
+            <text x="365" y="103" text-anchor="middle" fill="#1e3a8a" class="dark:fill-blue-200" font-size="13">EML 內含 DFB</text>
+            <line class="flow-line" x1="450" y1="75" x2="535" y2="75" stroke="#0f766e" stroke-width="3" />
+            <polygon points="535,75 522,68 522,82" fill="#0f766e" />
+            <rect x="550" y="25" width="160" height="100" rx="14" fill="#fef3c7" class="dark:fill-amber-950" />
+            <text x="630" y="57" text-anchor="middle" fill="#92400e" class="dark:fill-amber-200" font-size="15">調變器</text>
+            <text x="630" y="82" text-anchor="middle" fill="#92400e" class="dark:fill-amber-200" font-size="13">直接調變 / EAM</text>
+            <text x="630" y="103" text-anchor="middle" fill="#92400e" class="dark:fill-amber-200" font-size="13">SiPh MZM / 微環</text>
+            <line class="flow-line" x1="710" y1="75" x2="805" y2="75" stroke="#0f766e" stroke-width="3" />
+            <polygon points="805,75 792,68 792,82" fill="#0f766e" />
+            <rect x="820" y="45" width="90" height="60" rx="14" fill="#334155" />
+            <text x="865" y="80" text-anchor="middle" fill="white" font-size="15">SMF / MMF</text>
+          </svg>
+          <p class="mt-4 text-sm leading-6 text-slate-600 dark:text-slate-400">這張圖的重點是分層：VCSEL、DFB、CW 是光源；EAM、MZM、微環是調變方式；SMF、MMF 是傳輸媒介。EML 將 DFB 與 EAM 整合在同一顆光電元件中。</p>
+        </div>
+      </section>
+
+      <section id="tfln" class="section-title mb-12">
+        <h2 class="mb-5 text-2xl font-black">TFLN 與相干：補充後的正確說法</h2>
+        <div class="grid gap-5 lg:grid-cols-2">
+          <div class="rounded-2xl bg-white p-6 shadow-sm ring-1 ring-slate-200 dark:bg-slate-900 dark:ring-slate-800">
+            <h3 class="text-lg font-bold">薄膜鈮酸鋰（TFLN）</h3>
+            <ul class="mt-4 space-y-3 text-sm leading-7 text-slate-700 dark:text-slate-300">
+              <li><span class="font-bold text-teal-700 dark:text-teal-300">材料：</span>Thin-Film Lithium Niobate，中文是薄膜鈮酸鋰，不是「薄膜標酸鋰」。</li>
+              <li><span class="font-bold text-teal-700 dark:text-teal-300">優勢：</span>高電光效應、低損耗潛力與高頻寬。已有研究展示超過 110 GHz 的電光調變器頻寬。[10]</li>
+              <li><span class="font-bold text-teal-700 dark:text-teal-300">電壓：</span>低驅動電壓是方向，但 Vπ 會受電極結構、互動長度、損耗與封裝影響。Vπ ≤ 1 V 不能當成所有 TFLN 產品的通用規格。</li>
+              <li><span class="font-bold text-teal-700 dark:text-teal-300">速率：</span>研究與展示可觸及 200G/lane 甚至更高的方向，但量產、可靠度、耦合、驅動器與成本仍要和 EML、SiPh MZM 一起比較。[11]</li>
+            </ul>
+          </div>
+          <div class="rounded-2xl bg-white p-6 shadow-sm ring-1 ring-slate-200 dark:bg-slate-900 dark:ring-slate-800">
+            <h3 class="text-lg font-bold">相干 ZR／ZR+</h3>
+            <ul class="mt-4 space-y-3 text-sm leading-7 text-slate-700 dark:text-slate-300">
+              <li><span class="font-bold text-violet-700 dark:text-violet-300">組成：</span>可調式 CW 雷射、相干調變器、接收端混頻與 DSP。調變器可以採用 SiPh 或 InP 混合光子整合。[6]</li>
+              <li><span class="font-bold text-violet-700 dark:text-violet-300">波段：</span>常見 C-band 約 1550 nm，與 1310 nm O-band 的資料中心 IM/DD 產品應分開比較。</li>
+              <li><span class="font-bold text-violet-700 dark:text-violet-300">距離：</span>ZR、ZR+ 的實際距離受線路系統與 FEC 影響，OIF 已有 400ZR、800ZR 等實作協議，不能直接用 DR、FR、LR 的 0.5 km、2 km、10 km 表格取代。[7]</li>
+            </ul>
+          </div>
+        </div>
+        <div class="mt-5 rounded-2xl border border-blue-200 bg-blue-50 p-5 text-blue-950 dark:border-blue-900 dark:bg-blue-950/40 dark:text-blue-100">
+          <strong>關於「OFC 2026 是轉折點」：</strong>這句話可以當成產業觀察，不能當成已驗證的技術結論。OFC 2026 確實可看到 200G/lane、400G/lane 與 CWDM IM/DD 相關研究題目，但距離大規模量產、MSA 固化與實際部署仍需分階段判斷。[9][11]
+        </div>
+      </section>
+
+      <section id="corrections" class="section-title mb-12">
+        <h2 class="mb-5 text-2xl font-black">原始內容修正清單</h2>
+        <div class="overflow-hidden rounded-2xl bg-white shadow-sm ring-1 ring-slate-200 dark:bg-slate-900 dark:ring-slate-800">
+          <div class="divide-y divide-slate-200 dark:divide-slate-800">
+            <div class="grid gap-3 p-5 md:grid-cols-[180px_1fr]">
+              <div class="font-bold text-rose-700 dark:text-rose-300">名詞</div>
+              <div><span class="text-rose-700 dark:text-rose-300">垂直腔面射型智射</span> → 垂直腔面射型雷射（VCSEL）。<br><span class="text-rose-700 dark:text-rose-300">薄膜标酸鋰</span> → 薄膜鈮酸鋰（TFLN）。</div>
+            </div>
+            <div class="grid gap-3 p-5 md:grid-cols-[180px_1fr]">
+              <div class="font-bold text-rose-700 dark:text-rose-300">DML／EML</div>
+              <div>DML 是 DFB 直接調變。EML 是 DFB 加 EAM 的整合元件。兩者都可能出現在 1310 nm 單模鏈路，差別在調變方式與高速鏈路性能，不宜只用「DML 1310、EML 1310/LWDM」切開。</div>
+            </div>
+            <div class="grid gap-3 p-5 md:grid-cols-[180px_1fr]">
+              <div class="font-bold text-rose-700 dark:text-rose-300">距離</div>
+              <div>把「DR/FR ≤2 km、低速可 10 km」改為：DR 約 500 m、FR 約 2 km、LR 約 10 km 是常見介面級距，實際要看單模模組與標準。EML 的 2 km 例子有產品資料支持。[3]</div>
+            </div>
+            <div class="grid gap-3 p-5 md:grid-cols-[180px_1fr]">
+              <div class="font-bold text-rose-700 dark:text-rose-300">CWDM4／PON</div>
+              <div>800G-SR8 不等於 CWDM4。前者通常是短距離 MMF／VCSEL 路線，後者是四波長 SMF 配置。PON 屬接取網路架構，應移出這張資料中心光引擎表。</div>
+            </div>
+            <div class="grid gap-3 p-5 md:grid-cols-[180px_1fr]">
+              <div class="font-bold text-rose-700 dark:text-rose-300">市場數字</div>
+              <div>「800G 佔比 40%～45%、1.6T 佔比 60%」缺少市場範圍、年份、統計母體與來源。此版刪除，避免把未定義的市場占比當成通用事實。</div>
+            </div>
+            <div class="grid gap-3 p-5 md:grid-cols-[180px_1fr]">
+              <div class="font-bold text-rose-700 dark:text-rose-300">競爭敘述</div>
+              <div>「Lumentum 領先 200G/lane」屬市場排名判斷，單一產品頁無法證明。此版改為「Lumentum 已公開 200G PAM4 CWDM EML 產品資料」，保留可驗證的產品事實。[4]</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="sources" class="section-title mb-12">
+        <h2 class="mb-5 text-2xl font-black">資料來源</h2>
+        <ol class="space-y-3 rounded-2xl bg-white p-6 text-sm leading-6 shadow-sm ring-1 ring-slate-200 dark:bg-slate-900 dark:ring-slate-800">
+          <li>[1] <a class="text-teal-700 underline decoration-teal-300 underline-offset-2 dark:text-teal-300" href="https://www.lumentum.com/en/products/data-center/modulated-lasers/dmls" target="_blank" rel="noreferrer">Lumentum DMLs</a>，DML 產品、1270–1330 nm 與 25G／50G／100G 應用。</li>
+          <li>[2] <a class="text-teal-700 underline decoration-teal-300 underline-offset-2 dark:text-teal-300" href="https://www.lumentum.com/en/products/data-center/modulated-lasers/emls" target="_blank" rel="noreferrer">Lumentum EMLs</a>，DFB 加單片 EAM、100G／200G EML 與 400G／800G 應用。</li>
+          <li>[3] <a class="text-teal-700 underline decoration-teal-300 underline-offset-2 dark:text-teal-300" href="https://www.lumentum.com/en/products/eml-100g-pam4-cwdm-laser" target="_blank" rel="noreferrer">Lumentum 100G PAM4 CWDM EML</a>，1271／1291／1311／1331 nm、50 GBd PAM4、DR／FR 至 2 km。</li>
+          <li>[4] <a class="text-teal-700 underline decoration-teal-300 underline-offset-2 dark:text-teal-300" href="https://www.lumentum.com/en/products/eml-200g-pam4-cwdm-laser" target="_blank" rel="noreferrer">Lumentum 200G PAM4 CWDM EML</a>，115 GBd PAM4、200G/lane 與 1.6T 八 lane 路線。</li>
+          <li>[5] <a class="text-teal-700 underline decoration-teal-300 underline-offset-2 dark:text-teal-300" href="https://www.lumentum.com/en/products/400g-qsfp-dd-active-optical-cable-aoc" target="_blank" rel="noreferrer">Lumentum 400G QSFP-DD AOC</a>，850 nm VCSEL、PAM4、100 m AOC 產品例子。</li>
+          <li>[6] <a class="text-teal-700 underline decoration-teal-300 underline-offset-2 dark:text-teal-300" href="https://www.lumentum.com/en/optical-communications/products/dwdm-and-coherent-optical-transceivers/coherent-transceivers" target="_blank" rel="noreferrer">Lumentum Coherent Transceivers</a>，400G／800G ZR+、InP 與 SiPh 混合 PIC、相干 DSP。</li>
+          <li>[7] <a class="text-teal-700 underline decoration-teal-300 underline-offset-2 dark:text-teal-300" href="https://www.oiforum.com/technical-work/implementation-agreements-ias" target="_blank" rel="noreferrer">OIF Implementation Agreements</a>，400ZR、800ZR 等相干互通協議。</li>
+          <li>[8] <a class="text-teal-700 underline decoration-teal-300 underline-offset-2 dark:text-teal-300" href="https://www.ieee802.org/3" target="_blank" rel="noreferrer">IEEE 802.3 Ethernet Working Group</a>，P802.3dj 200G、400G、800G、1.6T Ethernet 工作議題。</li>
+          <li>[9] <a class="text-teal-700 underline decoration-teal-300 underline-offset-2 dark:text-teal-300" href="https://ethernetalliance.org/technology/ethernet-roadmap/" target="_blank" rel="noreferrer">Ethernet Alliance 2026 Roadmap</a>，100G～800G 互連、1.6 Tb/s 與新一代光互連方向。</li>
+          <li>[10] <a class="text-teal-700 underline decoration-teal-300 underline-offset-2 dark:text-teal-300" href="https://doi.org/10.3788/col202220.022502" target="_blank" rel="noreferrer">Monolithic thin film lithium niobate electro-optic modulator with over 110 GHz bandwidth</a>，TFLN 高頻寬研究。</li>
+          <li>[11] <a class="text-teal-700 underline decoration-teal-300 underline-offset-2 dark:text-teal-300" href="https://doi.org/10.1364/ofc.2026.th1c.2" target="_blank" rel="noreferrer">OFC 2026：Dispersion Managed Transceiver</a>，CWDM IM/DD 與 100G／200G／400G per lane 研究方向。</li>
+        </ol>
+      </section>
+
+      <footer class="border-t border-slate-200 pt-8 text-sm text-slate-500 dark:border-slate-800 dark:text-slate-400">
+        本頁將產品資料、標準工作項目與研究方向分開標示。距離、每 lane 速率與市場占比都必須綁定具體介面、模組版本、光纖等級與統計範圍。
+      </footer>
+    </main>
+  </div>
+
+  <!--
+  Sources:
+  [1] https://www.lumentum.com/en/products/data-center/modulated-lasers/dmls
+  [2] https://www.lumentum.com/en/products/data-center/modulated-lasers/emls
+  [3] https://www.lumentum.com/en/products/eml-100g-pam4-cwdm-laser
+  [4] https://www.lumentum.com/en/products/eml-200g-pam4-cwdm-laser
+  [5] https://www.lumentum.com/en/products/400g-qsfp-dd-active-optical-cable-aoc
+  [6] https://www.lumentum.com/en/optical-communications/products/dwdm-and-coherent-optical-transceivers/coherent-transceivers
+  [7] https://www.oiforum.com/technical-work/implementation-agreements-ias
+  [8] https://www.ieee802.org/3
+  [9] https://ethernetalliance.org/technology/ethernet-roadmap
+  [10] https://doi.org/10.3788/col202220.022502
+  [11] https://doi.org/10.1364/ofc.2026.th1c.2
+  -->
+
+  <script>
+    const toggle = document.getElementById('theme-toggle');
+    toggle.addEventListener('click', () => {
+      const dark = document.documentElement.classList.toggle('dark');
+      localStorage.theme = dark ? 'dark' : 'light';
+    });
+
+    const filter = document.getElementById('table-filter');
+    const table = document.getElementById('tech-table');
+    const empty = document.getElementById('empty-state');
+    const rows = [...table.querySelectorAll('tbody tr')];
+    filter.addEventListener('input', () => {
+      const q = filter.value.trim().toLowerCase();
+      let visible = 0;
+      rows.forEach(row => {
+        const show = row.innerText.toLowerCase().includes(q);
+        row.hidden = !show;
+        if (show) visible += 1;
+      });
+      empty.classList.toggle('hidden', visible !== 0);
+    });
+
+    table.querySelectorAll('th button').forEach(button => {
+      button.addEventListener('click', () => {
+        const index = Number(button.dataset.sort);
+        const current = button.dataset.direction === 'asc' ? 'desc' : 'asc';
+        table.querySelectorAll('th button').forEach(b => { b.dataset.direction = ''; b.classList.remove('sort-asc', 'sort-desc'); });
+        button.dataset.direction = current;
+        button.classList.add(current === 'asc' ? 'sort-asc' : 'sort-desc');
+        const sorted = [...rows].sort((a, b) => {
+          const av = a.cells[index].innerText.trim();
+          const bv = b.cells[index].innerText.trim();
+          return current === 'asc' ? av.localeCompare(bv, 'zh-Hant') : bv.localeCompare(av, 'zh-Hant');
+        });
+        sorted.forEach(row => table.tBodies.item(0).appendChild(row));
+      });
+    });
+
+    const tocLinks = [...document.querySelectorAll('.toc a')];
+    const sections = tocLinks.map(link => document.querySelector(link.getAttribute('href'))).filter(Boolean);
+    const updateToc = () => {
+      const y = window.scrollY + 120;
+      let active = sections.find(Boolean);
+      sections.forEach(section => { if (section.offsetTop <= y) active = section; });
+      tocLinks.forEach(link => link.classList.toggle('active', link.getAttribute('href') === '#' + active.id));
+    };
+    window.addEventListener('scroll', updateToc, { passive: true });
+    updateToc();
+  </script>
+</body>
+</html>
