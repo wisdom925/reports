@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>台灣總經數據週報 (2026-08-15)</title>
+  <meta name="description" content="台灣總體經濟週報：最新PMI、M1B/M2、EPI電力景氣指數、CPI通膨與外銷訂單數據追蹤與深度投資解析。">
+  <meta property="og:title" content="台灣總經數據週報 (2026-08-15)">
+  <meta property="og:description" content="追蹤分析最新台灣製造業PMI、外銷訂單、物價通膨、貨幣總量與電力景氣指數。">
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Chart.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              50: '#f0f7ff',
+              100: '#e0effe',
+              500: '#0284c7',
+              600: '#0369a1',
+              700: '#075985',
+              900: '#0c4a6e',
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+TC:wght@400;500;700&display=swap');
+    body {
+      font-family: 'Noto Sans TC', 'Inter', sans-serif;
+    }
+    .glass-card {
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(12px);
+    }
+    .dark .glass-card {
+      background: rgba(30, 41, 59, 0.85);
+      backdrop-filter: blur(12px);
+    }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-800 dark:bg-slate-900 dark:text-slate-100 transition-colors duration-200 min-h-screen">
+
+  <!-- Header Section -->
+  <header class="sticky top-0 z-40 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border-b border-slate-200 dark:border-slate-800">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
+      <div class="flex items-center space-x-3">
+        <span class="p-2 bg-sky-500 text-white rounded-lg font-bold text-lg">TW</span>
+        <div>
+          <h1 class="text-xl font-bold text-slate-900 dark:text-white leading-tight">台灣總體經濟數據週報</h1>
+          <p class="text-xs text-slate-500 dark:text-slate-400">報告發布日期：2026年8月15日 | 專業研判與投資觀點</p>
+        </div>
+      </div>
+      <div class="flex items-center space-x-3">
+        <button id="themeToggle" class="p-2 text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200 rounded-lg border border-slate-200 dark:border-slate-700">
+          <span id="themeIcon">🌙</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Container -->
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex flex-col lg:flex-row gap-8">
+
+    <!-- Sticky Sidebar Navigation (Desktop) -->
+    <aside class="w-full lg:w-64 flex-shrink-0">
+      <div class="sticky top-24 space-y-4">
+        <div class="p-4 bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm">
+          <h3 class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-3">目錄導覽</h3>
+          <nav class="space-y-1 text-sm">
+            <a href="#summary" class="block px-3 py-2 rounded-md font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700">核心指標總覽</a>
+            <a href="#indicators" class="block px-3 py-2 rounded-md font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700">逐項數據解讀</a>
+            <a href="#charts" class="block px-3 py-2 rounded-md font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700">走勢圖表分析</a>
+            <a href="#macro-assessment" class="block px-3 py-2 rounded-md font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700">總經整合判斷</a>
+            <a href="#investment" class="block px-3 py-2 rounded-md font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700">投資涵義與部署</a>
+            <a href="#risks" class="block px-3 py-2 rounded-md font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700">風險提醒</a>
+            <a href="#sources" class="block px-3 py-2 rounded-md font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700">官方資料來源</a>
+          </nav>
+        </div>
+
+        <div class="p-4 bg-amber-50 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-800/60 rounded-xl">
+          <h4 class="text-xs font-bold text-amber-800 dark:text-amber-300 uppercase">本週快訊摘要</h4>
+          <p class="text-xs text-amber-700 dark:text-amber-400 mt-1 leading-relaxed">
+            外銷訂單創952.6億美元歷史新高（年增59.4%），7月出口物價（EPI）年增率飆升至19.71%，通膨與外需同步處於高檔熱絡。
+          </p>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="flex-1 space-y-10">
+
+      <!-- Section 1: 核心指標總覽 -->
+      <section id="summary" class="scroll-mt-24">
+        <div class="flex items-center justify-between mb-4">
+          <h2 class="text-2xl font-bold text-slate-900 dark:text-white">核心指標總覽</h2>
+          <span class="text-xs bg-sky-100 text-sky-800 dark:bg-sky-900/50 dark:text-sky-300 px-2.5 py-1 rounded-full font-medium">資料更新至 2026-08-15</span>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <!-- Card 1: PMI -->
+          <div class="p-5 bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm relative overflow-hidden">
+            <div class="flex justify-between items-start">
+              <span class="text-xs font-semibold text-slate-400">製造業 PMI</span>
+              <span class="px-2 py-0.5 text-xs font-semibold bg-emerald-100 text-emerald-800 dark:bg-emerald-900/50 dark:text-emerald-300 rounded">擴張強勁</span>
+            </div>
+            <div class="mt-3 flex items-baseline justify-between">
+              <span class="text-3xl font-extrabold text-slate-900 dark:text-white">61.5%</span>
+              <span class="text-xs text-emerald-600 dark:text-emerald-400 font-semibold">月增 +0.8%</span>
+            </div>
+            <p class="text-xs text-slate-500 dark:text-slate-400 mt-2">資料期間：2026年7月（前值 60.7%）</p>
+          </div>
+
+          <!-- Card 2: 外銷訂單 -->
+          <div class="p-5 bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm relative overflow-hidden">
+            <div class="flex justify-between items-start">
+              <span class="text-xs font-semibold text-slate-400">外銷訂單</span>
+              <span class="px-2 py-0.5 text-xs font-semibold bg-purple-100 text-purple-800 dark:bg-purple-900/50 dark:text-purple-300 rounded">歷史新高</span>
+            </div>
+            <div class="mt-3 flex items-baseline justify-between">
+              <span class="text-3xl font-extrabold text-slate-900 dark:text-white">952.6 億</span>
+              <span class="text-xs text-emerald-600 dark:text-emerald-400 font-semibold">年增 +59.4%</span>
+            </div>
+            <p class="text-xs text-slate-500 dark:text-slate-400 mt-2">資料期間：2026年6月（月增 +6.5%）</p>
+          </div>
+
+          <!-- Card 3: EPI 出口物價 -->
+          <div class="p-5 bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm relative overflow-hidden">
+            <div class="flex justify-between items-start">
+              <span class="text-xs font-semibold text-slate-400">EPI 出口物價指數</span>
+              <span class="px-2 py-0.5 text-xs font-semibold bg-rose-100 text-rose-800 dark:bg-rose-900/50 dark:text-rose-300 rounded">價格飆升</span>
+            </div>
+            <div class="mt-3 flex items-baseline justify-between">
+              <span class="text-3xl font-extrabold text-slate-900 dark:text-white">19.71%</span>
+              <span class="text-xs text-rose-600 dark:text-rose-400 font-semibold">年增擴大</span>
+            </div>
+            <p class="text-xs text-slate-500 dark:text-slate-400 mt-2">資料期間：2026年7月（前值 18.75%）</p>
+          </div>
+
+          <!-- Card 4: CPI 通膨率 -->
+          <div class="p-5 bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm relative overflow-hidden">
+            <div class="flex justify-between items-start">
+              <span class="text-xs font-semibold text-slate-400">CPI 物價年增率</span>
+              <span class="px-2 py-0.5 text-xs font-semibold bg-amber-100 text-amber-800 dark:bg-amber-900/50 dark:text-amber-300 rounded">高於警戒</span>
+            </div>
+            <div class="mt-3 flex items-baseline justify-between">
+              <span class="text-3xl font-extrabold text-slate-900 dark:text-white">2.54%</span>
+              <span class="text-xs text-slate-500 dark:text-slate-400 font-semibold">核心 2.38%</span>
+            </div>
+            <p class="text-xs text-slate-500 dark:text-slate-400 mt-2">資料期間：2026年7月（季調月增 0.18%）</p>
+          </div>
+
+          <!-- Card 5: M1B / M2 -->
+          <div class="p-5 bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm relative overflow-hidden">
+            <div class="flex justify-between items-start">
+              <span class="text-xs font-semibold text-slate-400">M1B / M2 年增率</span>
+              <span class="px-2 py-0.5 text-xs font-semibold bg-sky-100 text-sky-800 dark:bg-sky-900/50 dark:text-sky-300 rounded">資金活絡</span>
+            </div>
+            <div class="mt-3 flex items-baseline justify-between">
+              <span class="text-2xl font-extrabold text-slate-900 dark:text-white">9.40% / 8.13%</span>
+            </div>
+            <p class="text-xs text-slate-500 dark:text-slate-400 mt-2">資料期間：2026年6月（M1B -0.16%, M2 +0.3%）</p>
+          </div>
+
+          <!-- Card 6: EPI 電力景氣 -->
+          <div class="p-5 bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm relative overflow-hidden">
+            <div class="flex justify-between items-start">
+              <span class="text-xs font-semibold text-slate-400">EPI 電力景氣指數</span>
+              <span class="px-2 py-0.5 text-xs font-semibold bg-red-100 text-red-800 dark:bg-red-900/50 dark:text-red-300 rounded">熱絡紅燈</span>
+            </div>
+            <div class="mt-3 flex items-baseline justify-between">
+              <span class="text-3xl font-extrabold text-slate-900 dark:text-white">紅燈</span>
+              <span class="text-xs text-emerald-600 dark:text-emerald-400 font-semibold">用電年增 0.58%</span>
+            </div>
+            <p class="text-xs text-slate-500 dark:text-slate-400 mt-2">資料期間：2026年6月（綠電自發轉移）</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 2: 逐項解讀 -->
+      <section id="indicators" class="scroll-mt-24 space-y-6">
+        <h2 class="text-2xl font-bold text-slate-900 dark:text-white border-b border-slate-200 dark:border-slate-700 pb-3">逐項數據解讀</h2>
+
+        <!-- PMI -->
+        <div class="bg-white dark:bg-slate-800 rounded-xl p-6 border border-slate-200 dark:border-slate-700 shadow-sm space-y-3">
+          <div class="flex items-center justify-between">
+            <h3 class="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
+              <span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span> 1. 製造業 PMI（中華經濟研究院）
+            </h3>
+            <span class="text-xs text-slate-500">最新期間：2026年7月</span>
+          </div>
+          <p class="text-sm leading-relaxed text-slate-600 dark:text-slate-300">
+            2026年7月台灣製造業採購經理人指數（PMI）上升至 <strong>61.5%</strong>，較6月的 60.7% 進一步擴大 0.8 個百分點，連續數月穩居 60% 以上的強勁擴張區間。
+          </p>
+          <div class="bg-slate-50 dark:bg-slate-900/50 p-3 rounded-lg text-xs text-slate-600 dark:text-slate-400 space-y-1">
+            <p>• <strong>動能來源：</strong> 人工智慧（AI）伺服器、高效能運算（HPC）與先進半導體晶片拉貨動能極為強勁，新新增訂單與生產指數均維持高檔。</p>
+            <p>• <strong>產業分化：</strong> 電子與光學產業 PMI 高達 65% 以上，而傳統產業（化材、機械）則受制於全球部分成熟產能競爭，呈現溫和復甦。</p>
+          </div>
+        </div>
+
+        <!-- 外銷訂單 -->
+        <div class="bg-white dark:bg-slate-800 rounded-xl p-6 border border-slate-200 dark:border-slate-700 shadow-sm space-y-3">
+          <div class="flex items-center justify-between">
+            <h3 class="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
+              <span class="w-2.5 h-2.5 rounded-full bg-purple-500"></span> 2. 外銷訂單（經濟部統計處 / 主計總處）
+            </h3>
+            <span class="text-xs text-slate-500">最新期間：2026年6月</span>
+          </div>
+          <p class="text-sm leading-relaxed text-slate-600 dark:text-slate-300">
+            2026年6月台灣外銷訂單金額達到 <strong>952.6 億美元</strong>，不僅遠優於市場預期的 915 億美元，更刷新歷史單月最高紀錄，年增率高達 <strong>59.4%</strong>（月增 6.5%）。累計 2026 上半年外銷訂單已達 5,041.0 億美元（年增 50.9%）。
+          </p>
+          <div class="bg-slate-50 dark:bg-slate-900/50 p-3 rounded-lg text-xs text-slate-600 dark:text-slate-400 space-y-1">
+            <p>• <strong>結構剖析：</strong> 資通訊產品與電子產品為主要支柱，AI 供應鏈從晶片代光封裝、伺服器組裝到散熱零組件需求全面爆發。</p>
+            <p>• <strong>前景預期：</strong> 經濟部統計處預估下半年進入消費性電子傳統旺季，單月訂單金額有機會挑戰常態性 900 億美元關卡。</p>
+          </div>
+        </div>
+
+        <!-- 物價 CPI & EPI -->
+        <div class="bg-white dark:bg-slate-800 rounded-xl p-6 border border-slate-200 dark:border-slate-700 shadow-sm space-y-3">
+          <div class="flex items-center justify-between">
+            <h3 class="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
+              <span class="w-2.5 h-2.5 rounded-full bg-rose-500"></span> 3. 物價指數 CPI & EPI（行政院主計總處）
+            </h3>
+            <span class="text-xs text-slate-500">最新期間：2026年7月</span>
+          </div>
+          <p class="text-sm leading-relaxed text-slate-600 dark:text-slate-300">
+            2026年7月消費者物價指數（CPI）年增率為 <strong>2.54%</strong>（前值 2.59%），核心 CPI 年增率為 <strong>2.38%</strong>，持續高於央行 2% 的通膨警戒線。季調後 CPI 月增率為 0.18%。
+          </p>
+          <p class="text-sm leading-relaxed text-slate-600 dark:text-slate-300">
+            同月以美元計價之出口物價指數（EPI）年增率高達 <strong>19.71%</strong>（前值 18.75%），生產者物價指數（PPI）年增率更達 <strong>16.94%</strong>，反映高階晶片與電子零組件在全球供不應求下的強勁定價能力。
+          </p>
+        </div>
+
+        <!-- 貨幣 M1B/M2 -->
+        <div class="bg-white dark:bg-slate-800 rounded-xl p-6 border border-slate-200 dark:border-slate-700 shadow-sm space-y-3">
+          <div class="flex items-center justify-between">
+            <h3 class="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
+              <span class="w-2.5 h-2.5 rounded-full bg-sky-500"></span> 4. 金融貨幣總量 M1B & M2（中央銀行）
+            </h3>
+            <span class="text-xs text-slate-500">最新期間：2026年6月</span>
+          </div>
+          <p class="text-sm leading-relaxed text-slate-600 dark:text-slate-300">
+            2026年6月日平均貨幣總計數 M1B 年增率為 <strong>9.40%</strong>（較5月 9.56% 微降），M2 年增率上升至 <strong>8.13%</strong>（較5月 7.83% 上升）。M1B 年增率高於 M2 年增率（續呈「黃金交叉」架構），顯示國內資本市場資金動能極為充沛。
+          </p>
+          <div class="bg-slate-50 dark:bg-slate-900/50 p-3 rounded-lg text-xs text-slate-600 dark:text-slate-400 space-y-1">
+            <p>• <strong>發布時程提醒：</strong> 依央行預告，7月金融情況數據將於 <strong>2026年8月24日</strong> 發布，本期維持6月官方數據。</p>
+          </div>
+        </div>
+
+        <!-- EPI 電力景氣指數 -->
+        <div class="bg-white dark:bg-slate-800 rounded-xl p-6 border border-slate-200 dark:border-slate-700 shadow-sm space-y-3">
+          <div class="flex items-center justify-between">
+            <h3 class="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
+              <span class="w-2.5 h-2.5 rounded-full bg-amber-500"></span> 5. EPI 電力景氣指數（台灣綜合研究院 TRI）
+            </h3>
+            <span class="text-xs text-slate-500">最新期間：2026年6月</span>
+          </div>
+          <p class="text-sm leading-relaxed text-slate-600 dark:text-slate-300">
+            2026年6月全國高壓以上產業用電量較去年同期成長 <strong>0.58%</strong>，整體電力景氣燈號連續維持象徵熱絡的 <strong>紅燈</strong>。
+          </p>
+          <p class="text-sm leading-relaxed text-slate-600 dark:text-slate-300">
+            特別注意事項：6月台電高壓售電量年減 2.25%（製造業減 2.56%），主因大型半導體與高科技企業大幅增加綠電直購與自發自用比重，台電售電量未能完整反映實際產業高強度的用電需求。
+          </p>
+        </div>
+      </section>
+
+      <!-- Section 3: 走勢圖表分析 -->
+      <section id="charts" class="scroll-mt-24 space-y-6">
+        <h2 class="text-2xl font-bold text-slate-900 dark:text-white border-b border-slate-200 dark:border-slate-700 pb-3">走勢圖表分析</h2>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <!-- Chart 1: 外銷訂單與PMI走勢 -->
+          <div class="bg-white dark:bg-slate-800 p-5 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm">
+            <h3 class="text-sm font-bold text-slate-800 dark:text-slate-200 mb-4">外銷訂單金額 (億美元) vs PMI (%) 走勢</h3>
+            <div class="h-64 relative">
+              <canvas id="exportPmiChart"></canvas>
+            </div>
+          </div>
+
+          <!-- Chart 2: CPI & EPI 年增率 -->
+          <div class="bg-white dark:bg-slate-800 p-5 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm">
+            <h3 class="text-sm font-bold text-slate-800 dark:text-slate-200 mb-4">CPI 通膨與 EPI 出口物價年增率走勢 (%)</h3>
+            <div class="h-64 relative">
+              <canvas id="cpiEpiChart"></canvas>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 4: 總經整合判斷 -->
+      <section id="macro-assessment" class="scroll-mt-24">
+        <div class="bg-gradient-to-br from-slate-900 to-slate-800 text-white rounded-2xl p-6 sm:p-8 shadow-lg space-y-4">
+          <h2 class="text-xl font-bold text-sky-400">總經整合判斷：外需爆發與高通膨下的「強景氣、緊政策」</h2>
+          <div class="space-y-3 text-sm leading-relaxed text-slate-200">
+            <p>
+              1. <strong>實體經濟極度熱絡：</strong> 6月外銷訂單創下 952.6 億美元的驚人紀錄，加上 7月 PMI 直指 61.5%，顯示全球 AI 浪潮對於台灣半導體與先進製造供應鏈的需求並非短期過熱，而是進入長期資本支出變現期。
+            </p>
+            <p>
+              2. <strong>通膨黏著與售價轉嫁能力強：</strong> 7月 CPI 2.54% 與核心 CPI 2.38% 均顯示國內消費物價仍有壓力；同時 EPI 出口物價年增率高達 19.71%，說明台灣出口業者擁有強大的全球定價權，將高昂的晶片與封裝成本順利轉嫁給海外客戶。
+            </p>
+            <p>
+              3. <strong>資金面穩健流動：</strong> M1B 年增率（9.40%）維持高於 M2（8.13%），金融市場資金結構活絡，為台股與企業擴產提供充沛的流動性支持。
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 5: 投資涵義 -->
+      <section id="investment" class="scroll-mt-24 space-y-4">
+        <h2 class="text-2xl font-bold text-slate-900 dark:text-white border-b border-slate-200 dark:border-slate-700 pb-3">投資涵義與產業部署</h2>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div class="p-5 bg-white dark:bg-slate-800 rounded-xl border-t-4 border-sky-500 shadow-sm space-y-2">
+            <h3 class="font-bold text-slate-900 dark:text-white text-base">AI & 先進半導體</h3>
+            <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
+              外銷訂單與 EPI 雙高驗證台積電與晶片封裝龍頭之競爭壁壘。建議持續加碼先進製程、CoWoS 設備與伺服器水冷散熱供應鏈。
+            </p>
+          </div>
+          <div class="p-5 bg-white dark:bg-slate-800 rounded-xl border-t-4 border-emerald-500 shadow-sm space-y-2">
+            <h3 class="font-bold text-slate-900 dark:text-white text-base">重電與綠電基礎設施</h3>
+            <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
+              EPI 電力景氣紅燈與高科技廠綠電自發轉移趨勢，凸顯強固電網、綠電售電業者與儲能系統業者長期訂單能見度極高。
+            </p>
+          </div>
+          <div class="p-5 bg-white dark:bg-slate-800 rounded-xl border-t-4 border-amber-500 shadow-sm space-y-2">
+            <h3 class="font-bold text-slate-900 dark:text-white text-base">金融與資產配置</h3>
+            <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
+              CPI 持續高於 2%，央行貨幣政策難以放鬆。放款與投資穩健成長下，利差擴大的本國核心銀行股具備良好防禦性。
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 6: 風險提醒 -->
+      <section id="risks" class="scroll-mt-24">
+        <div class="p-5 bg-rose-50 dark:bg-rose-950/30 border border-rose-200 dark:border-rose-900/50 rounded-xl space-y-2">
+          <h3 class="text-sm font-bold text-rose-800 dark:text-rose-300 flex items-center gap-2">
+            ⚠️ 關鍵風險提示
+          </h3>
+          <ul class="list-disc list-inside text-xs text-rose-700 dark:text-rose-400 space-y-1">
+            <li><strong>地緣政治與地緣貿易壁壘：</strong> 出口高度集中於資通訊產品，需密關注主要大國對高科技出口政策之調整。</li>
+            <li><strong>基期墊高風險：</strong> 2026 下半年外銷訂單將面臨 2025 年同期高基期挑戰，年增率數字可能於 Q4 呈現階段性放緩。</li>
+            <li><strong>通膨壓迫央行再升息/調升準備金：</strong> 若 CPI 持續居高不下，央行可能進一步實施選擇性信用管制或貨幣緊縮。</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- Section 7: 資料來源 -->
+      <section id="sources" class="scroll-mt-24">
+        <div class="bg-white dark:bg-slate-800 rounded-xl p-6 border border-slate-200 dark:border-slate-700 shadow-sm space-y-4">
+          <h2 class="text-lg font-bold text-slate-900 dark:text-white">資料來源與發布機構</h2>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
+            <div class="p-3 bg-slate-50 dark:bg-slate-900/50 rounded-lg">
+              <span class="font-semibold text-slate-700 dark:text-slate-300">中華經濟研究院 (CIER)</span>
+              <p class="text-slate-500 mt-0.5">台灣製造業 PMI 報告 (2026/07/01 發布 6月, 2026/08/03 發布 7月)</p>
+            </div>
+            <div class="p-3 bg-slate-50 dark:bg-slate-900/50 rounded-lg">
+              <span class="font-semibold text-slate-700 dark:text-slate-300">行政院主計總處 (DGBAS)</span>
+              <p class="text-slate-500 mt-0.5">CPI/PPI/EPI 物價統計 (2026/08/07 發布 7月數據)</p>
+            </div>
+            <div class="p-3 bg-slate-50 dark:bg-slate-900/50 rounded-lg">
+              <span class="font-semibold text-slate-700 dark:text-slate-300">經濟部統計處 (MOEA)</span>
+              <p class="text-slate-500 mt-0.5">外銷訂單統計 (2026/07/21 發布 6月數據 952.6 億美元)</p>
+            </div>
+            <div class="p-3 bg-slate-50 dark:bg-slate-900/50 rounded-lg">
+              <span class="font-semibold text-slate-700 dark:text-slate-300">中央銀行 (CBC)</span>
+              <p class="text-slate-500 mt-0.5">金融情況新聞稿 (2026/07/23 發布 6月數據, 7月將於 08/24 發布)</p>
+            </div>
+            <div class="p-3 bg-slate-50 dark:bg-slate-900/50 rounded-lg md:col-span-2">
+              <span class="font-semibold text-slate-700 dark:text-slate-300">台灣綜合研究院 (TRI)</span>
+              <p class="text-slate-500 mt-0.5">EPI 電力景氣指數 (2026/07/24 發布 6月數據)</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- Footer -->
+  <footer class="bg-white dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800 mt-12 py-6">
+    <div class="max-w-7xl mx-auto px-4 text-center text-xs text-slate-500 dark:text-slate-400">
+      <p>© 2026 Hermes Taiwan Macro Review. 本報告僅供參考，不構成任何投資建議。</p>
+    </div>
+  </footer>
+
+  <!-- Scripts: Theme & Charts -->
+  <script>
+    // Dark mode toggle logic
+    const themeToggleBtn = document.getElementById('themeToggle');
+    const themeIcon = document.getElementById('themeIcon');
+
+    if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+      document.documentElement.classList.add('dark');
+      themeIcon.textContent = '☀️';
+    } else {
+      document.documentElement.classList.remove('dark');
+      themeIcon.textContent = '🌙';
+    }
+
+    themeToggleBtn.addEventListener('click', function() {
+      if (document.documentElement.classList.contains('dark')) {
+        document.documentElement.classList.remove('dark');
+        localStorage.setItem('color-theme', 'light');
+        themeIcon.textContent = '🌙';
+      } else {
+        document.documentElement.classList.add('dark');
+        localStorage.setItem('color-theme', 'dark');
+        themeIcon.textContent = '☀️';
+      }
+    });
+
+    // Chart.js Render
+    window.addEventListener('DOMContentLoaded', () => {
+      // Chart 1: Export Orders vs PMI
+      const ctx1 = document.getElementById('exportPmiChart').getContext('2d');
+      new Chart(ctx1, {
+        type: 'bar',
+        data: {
+          labels: ['2026/02', '2026/03', '2026/04', '2026/05', '2026/06', '2026/07'],
+          datasets: [
+            {
+              label: '外銷訂單 (億美元)',
+              data: [638.8, 911.3, 874.5, 894.8, 952.6, null],
+              backgroundColor: 'rgba(56, 189, 248, 0.7)',
+              borderColor: 'rgb(14, 165, 233)',
+              borderWidth: 1,
+              yAxisID: 'y'
+            },
+            {
+              label: 'PMI (%)',
+              data: [58.5, 55.4, 60.3, 61.4, 60.7, 61.5],
+              type: 'line',
+              borderColor: 'rgb(16, 185, 129)',
+              backgroundColor: 'rgb(16, 185, 129)',
+              borderWidth: 3,
+              pointRadius: 4,
+              yAxisID: 'y1'
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          scales: {
+            y: {
+              type: 'linear',
+              position: 'left',
+              title: { display: true, text: '億美元' }
+            },
+            y1: {
+              type: 'linear',
+              position: 'right',
+              min: 45,
+              max: 70,
+              grid: { drawOnChartArea: false },
+              title: { display: true, text: 'PMI (%)' }
+            }
+          }
+        }
+      });
+
+      // Chart 2: CPI & EPI
+      const ctx2 = document.getElementById('cpiEpiChart').getContext('2d');
+      new Chart(ctx2, {
+        type: 'line',
+        data: {
+          labels: ['2026/03', '2026/04', '2026/05', '2026/06', '2026/07'],
+          datasets: [
+            {
+              label: 'EPI 出口物價年增率 (%)',
+              data: [18.00, 18.00, 18.09, 18.75, 19.71],
+              borderColor: 'rgb(244, 63, 94)',
+              backgroundColor: 'rgba(244, 63, 94, 0.1)',
+              fill: true,
+              tension: 0.3,
+              yAxisID: 'y'
+            },
+            {
+              label: 'CPI 年增率 (%)',
+              data: [1.20, 1.72, 2.20, 2.59, 2.54],
+              borderColor: 'rgb(245, 158, 11)',
+              backgroundColor: 'rgb(245, 158, 11)',
+              borderWidth: 2.5,
+              yAxisID: 'y1'
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          scales: {
+            y: {
+              type: 'linear',
+              position: 'left',
+              title: { display: true, text: 'EPI (%)' }
+            },
+            y1: {
+              type: 'linear',
+              position: 'right',
+              min: 0,
+              max: 4,
+              grid: { drawOnChartArea: false },
+              title: { display: true, text: 'CPI (%)' }
+            }
+          }
+        }
+      });
+    });
+  </script>
+</body>
+</html>
