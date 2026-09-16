@@ -1,0 +1,1307 @@
+<!doctype html>
+<html lang="zh-TW" class="scroll-smooth">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>美股收盤日報｜WTI油價飆破$105推升能源，美債10Y殖利率重返5%引發FOMC前謹慎；半導體止跌反彈、超微重登$500，Meta續刷天價，大盤窄幅休整蓄勢 (2026-09-15)</title>
+  <meta name="description" content="2026年9月15日美股收盤日報：週二美股在FOMC為期兩天利率會議開幕之際呈現「宏觀油價飆升帶動能源領漲、美債殖利率升至5.00%引發高位謹慎、半導體晶片超跌修復」的結構特徵。WTI原油大漲+3.92%衝上$105.36推動能源板塊（XLE +2.17%）奪冠；半導體板塊（SOX +0.40%）成功止跌企穩，超微（AMD）大漲+2.19%重登$504.20，Meta（META）逆勢續漲+0.70%收報$670.24續創歷史新天價！標普微跌-0.45%收報7,585.73點，道瓊跌-0.63%，納指跌-0.78%，市場屏息以待週三FOMC利率決議與點陣圖。">
+  <meta property="og:title" content="美股收盤日報｜2026-09-15">
+  <meta property="og:description" content="油價暴漲破$105能源板塊領跑，美債10Y重返5%關卡；半導體超跌反彈AMD重回$500，Meta續刷天價，FOMC前夕大盤窄幅整固！">
+  <meta property="og:type" content="article">
+
+  <!-- Tailwind CSS & Font family -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              50: '#f0f9ff',
+              100: '#e0f2fe',
+              200: '#bae6fd',
+              500: '#0284c7',
+              600: '#0369a1',
+              700: '#075985',
+              900: '#0c4a6e',
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Chart.js & Mermaid.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+  <script>
+    mermaid.initialize({ startOnLoad: true, theme: 'default', securityLevel: 'loose' });
+  </script>
+
+  <style>
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 3px; }
+    .dark ::-webkit-scrollbar-thumb { background: #334155; }
+    
+    /* Table hover & sort */
+    th.sortable { cursor: pointer; user-select: none; }
+    th.sortable:hover { background-color: rgba(0, 0, 0, 0.05); }
+    .dark th.sortable:hover { background-color: rgba(255, 255, 255, 0.05); }
+    
+    /* Pure CSS Tabs */
+    .tabs input[type="radio"] { display: none; }
+    .tabs label {
+      display: inline-block;
+      padding: 0.5rem 1rem;
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: #64748b;
+      cursor: pointer;
+      border-radius: 0.5rem 0.5rem 0 0;
+      transition: all 0.2s;
+    }
+    .tabs label:hover { color: #0284c7; }
+    .dark .tabs label { color: #94a3b8; }
+    .dark .tabs label:hover { color: #38bdf8; }
+    
+    .tabs input[type="radio"]:checked + label {
+      color: #0284c7;
+      background: white;
+      border-bottom: 2px solid #0284c7;
+    }
+    .dark .tabs input[type="radio"]:checked + label {
+      color: #38bdf8;
+      background: #18181b;
+      border-bottom: 2px solid #38bdf8;
+    }
+    
+    .tab-panel { display: none; }
+    #tab-yields:checked ~ .tab-panel:nth-of-type(1),
+    #tab-fed:checked ~ .tab-panel:nth-of-type(2),
+    #tab-commodities:checked ~ .tab-panel:nth-of-type(3),
+    #tab-data:checked ~ .tab-panel:nth-of-type(4) {
+      display: block;
+    }
+    
+    /* Active TOC */
+    .toc a.active {
+      color: #0284c7;
+      font-weight: 700;
+      border-left-color: #0284c7;
+    }
+    .dark .toc a.active {
+      color: #38bdf8;
+      border-left-color: #38bdf8;
+    }
+  </style>
+</head>
+<body class="bg-slate-50 dark:bg-zinc-950 text-slate-800 dark:text-zinc-200 antialiased min-h-screen">
+
+<!-- Top Navigation -->
+<nav class="sticky top-0 z-40 w-full bg-white/85 dark:bg-zinc-900/85 backdrop-blur border-b border-slate-200 dark:border-zinc-800 px-4 py-3 flex items-center justify-between">
+  <div class="flex items-center gap-3">
+    <span class="text-xl font-black tracking-tight text-slate-900 dark:text-white flex items-center gap-2">
+      <span class="text-brand-500">📈</span> US Stock Daily Report
+    </span>
+    <span class="text-xs px-2 py-0.5 rounded-full bg-blue-100 dark:bg-blue-950 text-blue-700 dark:text-blue-300 font-semibold">2026-09-15 交易日（週二收盤）</span>
+  </div>
+  <div class="flex items-center gap-3">
+    <a href="../index.html" class="text-xs font-semibold text-slate-600 dark:text-zinc-300 hover:text-brand-500 transition">歷史報告索引</a>
+    <button id="theme-toggle" class="p-1.5 rounded-lg border border-slate-200 dark:border-zinc-700 text-slate-500 hover:bg-slate-100 dark:hover:bg-zinc-800 transition text-sm">
+      🌓
+    </button>
+  </div>
+</nav>
+
+<!-- Layout Wrapper -->
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 grid grid-cols-1 lg:grid-cols-[250px_1fr] gap-8">
+
+  <!-- Desktop Sticky Sidebar / TOC -->
+  <aside class="hidden lg:block">
+    <div class="sticky top-20 space-y-4 text-xs font-medium text-slate-500 dark:text-zinc-400 toc border-l-2 border-slate-200 dark:border-zinc-800 pl-3">
+      <div class="font-bold text-slate-900 dark:text-zinc-100 text-sm mb-3">目錄導航</div>
+      <div><a href="#sec-0" class="block py-1 hover:text-brand-500 transition">0. 今日一句話總結</a></div>
+      <div><a href="#sec-1" class="block py-1 hover:text-brand-500 transition">1. 大盤表現總覽</a></div>
+      <div><a href="#sec-2" class="block py-1 hover:text-brand-500 transition">2. 盤中走勢復盤</a></div>
+      <div><a href="#sec-3" class="block py-1 hover:text-brand-500 transition">3. 宏觀環境 (債/息/大宗/數據)</a></div>
+      <div><a href="#sec-4" class="block py-1 hover:text-brand-500 transition">4. 板塊表現 (11 行業排序)</a></div>
+      <div><a href="#sec-5" class="block py-1 hover:text-brand-500 transition">5. 主題與風格表現</a></div>
+      <div><a href="#sec-6" class="block py-1 hover:text-brand-500 transition">6. 市場寬度與參與度</a></div>
+      <div><a href="#sec-7" class="block py-1 hover:text-brand-500 transition">7. 技術面分析 (SPY/QQQ/SMH)</a></div>
+      <div><a href="#sec-8" class="block py-1 hover:text-brand-500 transition">8. 重點個股新聞與異動</a></div>
+      <div><a href="#sec-9" class="block py-1 hover:text-brand-500 transition">9. 財報日曆與財報解讀</a></div>
+      <div><a href="#sec-10" class="block py-1 hover:text-brand-500 transition">10. 機構觀點與資金流</a></div>
+      <div><a href="#sec-11" class="block py-1 hover:text-brand-500 transition">11. 板塊輪動判斷</a></div>
+      <div><a href="#sec-12" class="block py-1 hover:text-brand-500 transition">12. 重點關注股觀察 (23 標的)</a></div>
+      <div><a href="#sec-13" class="block py-1 hover:text-brand-500 transition">13. 次日交易計畫 (FOMC決議日)</a></div>
+      <div><a href="#sec-14" class="block py-1 hover:text-brand-500 transition">14. 風險提示矩陣</a></div>
+      <div><a href="#sec-15" class="block py-1 hover:text-brand-500 transition">15. 最終結論</a></div>
+    </div>
+  </aside>
+
+  <!-- Main content wrapper -->
+  <main class="space-y-14">
+
+    <!-- Header Section -->
+    <header class="pb-6 border-b border-slate-200 dark:border-zinc-800">
+      <div class="flex items-center gap-2 text-xs text-blue-600 dark:text-blue-400 font-semibold tracking-wider uppercase mb-2">
+        <span>Daily Market Analysis</span>
+        <span>•</span>
+        <span>美股交易日：<strong>2026-09-15</strong>（週二收盤）</span>
+      </div>
+      <h1 class="text-3xl font-extrabold tracking-tight text-slate-900 dark:text-white sm:text-4xl mb-4 font-sans font-bold">
+        美股收盤日報｜WTI油價飆破$105推升能源，美債10Y殖利率重返5%引發FOMC前謹慎；半導體止跌反彈、超微重登$500，Meta續刷天價，大盤窄幅休整蓄勢
+      </h1>
+      <p class="text-base text-slate-500 dark:text-zinc-400 leading-relaxed max-w-4xl font-sans">
+        週二（2026年9月15日），美股市場進入為期兩天的聯準會9月FOMC議息會議時間窗口，盤面呈現<strong>「原油飆漲推升能源奪冠、美債殖利率重返5.00%關卡壓制成長估值、半導體晶片超跌修復止血」</strong>的多空拉鋸格局！受到中東產油國地緣風險升溫與原油庫存大幅吃緊提振，<strong>WTI原油期貨狂飆+3.92%強勢突破$105.36/桶</strong>（布蘭特原油大漲+2.63%至$108.46），刺激<strong>能源板塊（XLE）放量大漲+2.17%</strong>領跑全市場！然而，油價飆升再度點燃通膨頑固預期，<strong>10年期美債基準殖利率上行至5.00%整數心理警戒線</strong>，推動公用事業（XLU -1.20%）與非必需消費（XLY -1.25%）承壓回調。值得振奮的是，經歷週一近6%暴跌洗禮的半導體晶片板塊展現強大承接底氣：<strong>費城半導體指數（SOX）逆勢翻紅+0.40%</strong>（SOXX +0.29%、SMH +0.11%），<strong>超微半導體（AMD）強勁大漲+2.19%重新收復$504.20歷史里程碑</strong>，邁威爾（MRVL +1.32%）、戴爾（DELL +1.73%）、Arista Networks（ANET +2.68%）集體走強！社交龍頭<strong>Meta（META）更是逆市大漲+0.70%收報$670.24</strong>，再度改寫收盤歷史新天價！全市場各大指數在歷史高位平台窄幅收跌：<strong>標普500指數微跌-0.45%</strong>收報7,585.73點（SPY $757.39 -0.46%），<strong>道瓊微跌-0.63%</strong>收報52,093.11點，<strong>納斯達克指數下跌-0.78%</strong>收報25,981.57點，<strong>羅素2000小盤股下跌-0.76%</strong>收報2,870.29點。市場主力資金在週三FOMC利率決議揭曉前保持有節制的防禦與再平衡。
+      </p>
+    </header>
+
+    <!-- 0. 今日一句話總結 -->
+    <section id="sec-0" class="scroll-mt-6 font-sans">
+      <h2 class="text-xl font-bold mb-4 flex items-center gap-2 border-b border-slate-100 dark:border-zinc-850 pb-2">
+        <span class="text-brand-500">0.</span> 今日一句話總結
+      </h2>
+      <div class="p-5 rounded-xl bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-850/80 shadow-sm leading-relaxed space-y-3">
+        <ul class="list-disc pl-5 space-y-2 text-slate-650 dark:text-zinc-300 text-sm sm:text-base">
+          <li><strong>大盤狀態</strong>：大盤維持高位窄幅震盪休整（標普500 -0.45%、道瓊 -0.63%、納指 -0.78%、等權標普 -0.49%），主要指數牢守關鍵均線支撐，並未出現系統性拋售。</li>
+          <li><strong>驅動因素</strong>：主導力量為<strong>「FOMC會議前夕的宏觀利率觀望 + WTI原油暴漲破$105推升能源 + 晶片半導體超跌修復」</strong>。10年期美債利率重探5.00%使高估值板塊受到壓抑，而油價大漲吸引多頭湧入上游能源資產。</li>
+          <li><strong>資金態度</strong>：呈現<strong>「防禦性再平衡（Cautious Risk-off & Rebalancing）」</strong>特徵。投機性加密貨幣回調（比特幣回踩$75,500），黃金抗通膨資產微漲，資金高度聚焦即將公佈的點陣圖降息路徑指引；VIX小幅微升至17.20，整體恐慌情緒極度克制。</li>
+          <li><strong>市場寬度</strong>：市場寬度小幅收窄，紐約與納斯達克交易所下跌家數稍多於上漲家數，但能源、原物料及底層晶片股的抗跌買盤確保了多頭結構底線。</li>
+        </ul>
+        <div class="p-3.5 bg-blue-50 dark:bg-blue-950/40 border border-blue-200 dark:border-blue-800/50 rounded-lg text-blue-900 dark:text-blue-300 text-xs sm:text-sm font-semibold">
+          💡 今日市場狀態：宏觀利率重返5%警戒線引發高位謹慎，原油暴漲點燃能源狂歡，半導體超跌企穩、Meta續刷天價，全市場屏息靜待週三FOMC決議定調。
+        </div>
+      </div>
+    </section>
+
+    <!-- 1. 大盤表現總覽 -->
+    <section id="sec-1" class="scroll-mt-6 font-sans">
+      <h2 class="text-xl font-bold mb-4 flex items-center gap-2 border-b border-slate-100 dark:border-zinc-850 pb-2">
+        <span class="text-brand-500">1.</span> 大盤表現總覽
+      </h2>
+      
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-6">
+        <div class="p-4 rounded-xl bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800/80 shadow-sm">
+          <div class="text-xs text-slate-400 dark:text-zinc-500 font-semibold mb-1">S&P 500 (SPY)</div>
+          <div class="text-lg sm:text-xl font-bold text-rose-500 font-bold">757.39</div>
+          <div class="text-xs font-semibold mt-1 text-rose-500 font-bold">-0.46% (-3.49 點)</div>
+        </div>
+        <div class="p-4 rounded-xl bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800/80 shadow-sm">
+          <div class="text-xs text-slate-400 dark:text-zinc-500 font-semibold mb-1">Nasdaq 100 (QQQ)</div>
+          <div class="text-lg sm:text-xl font-bold text-rose-500 font-bold">704.54</div>
+          <div class="text-xs font-semibold mt-1 text-rose-500 font-bold">-0.65% (-4.64 點)</div>
+        </div>
+        <div class="p-4 rounded-xl bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800/80 shadow-sm">
+          <div class="text-xs text-slate-400 dark:text-zinc-500 font-semibold mb-1">Dow Jones (DIA)</div>
+          <div class="text-lg sm:text-xl font-bold text-rose-500 font-bold">521.23</div>
+          <div class="text-xs font-semibold mt-1 text-rose-500 font-bold">-0.62% (-3.26 點)</div>
+        </div>
+        <div class="p-4 rounded-xl bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800/80 shadow-sm">
+          <div class="text-xs text-slate-400 dark:text-zinc-500 font-semibold mb-1">Russell 2000 (IWM) / VIX</div>
+          <div class="text-lg sm:text-xl font-bold text-rose-500 font-bold">285.72</div>
+          <div class="text-xs font-semibold mt-1 text-rose-500 font-bold">-0.76% (VIX: 17.20)</div>
+        </div>
+      </div>
+
+      <div class="p-5 rounded-xl bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800/80 shadow-sm">
+        <h3 class="text-sm font-semibold text-slate-700 dark:text-zinc-300 mb-4">主要指數與板塊 ETF 當日漲跌幅對比 (%)</h3>
+        <div class="h-64 sm:h-80 relative">
+          <canvas id="overviewChart"></canvas>
+        </div>
+      </div>
+
+      <div class="mt-4 p-4 rounded-xl bg-slate-100 dark:bg-zinc-800/50 text-xs text-slate-600 dark:text-zinc-400 space-y-1">
+        <p>• <strong>標普500指數 (^GSPC)</strong>：收報 7,585.73 點，下跌 -34.25 點 (-0.45%)，日內波動區間 7,575.20 - 7,612.40 點，穩穩收在50日均線（7,582點）附近關鍵支撐位，技術性多頭防線牢固。</p>
+        <p>• <strong>納斯達克綜合指數 (^IXIC)</strong>：收報 25,981.57 點，下跌 -204.84 點 (-0.78%)；納指100 (^NDX) 下跌 -189.32 點 (-0.65%) 收報 28,937.84 點，QQQ 收報 $704.54 (-0.65%)，微軟與亞馬遜回踩壓制指數，但半導體與Meta強勢托底。</p>
+        <p>• <strong>道瓊工業指數 (^DJI)</strong>：收報 52,093.11 點，下跌 -328.09 點 (-0.63%)，DIA ETF 收報 $521.23 (-0.62%)，主要受消費與工業重磅股小幅休整影響，能源股雪佛龍強勢護盤。</p>
+        <p>• <strong>費城半導體指數 (^SOX)</strong>：收報 11,175.55 點，逆勢上揚 <strong>+44.27 點 (+0.40%)</strong>；SOXX 晶片 ETF 收報 $498.85 (+0.29%)，SMH 收報 $542.11 (+0.11%)，在週一重挫近6%後迅速止跌企穩，展現極強超跌修復動能。</p>
+        <p>• <strong>羅素2000小盤股 (^RUT)</strong>：收報 2,870.29 點 (-0.76%)，IWM ETF 收報 $285.72 (-0.76%)，美債殖利率升至5.00%令小盤成長股短線承壓，但在$285支撐平台展現買盤承接。</p>
+        <p>• <strong>波動率指數 (^VIX)</strong>：微幅上漲 +0.58%（+0.10 點）收報 17.20 點，全天波動平緩，反映市場在聯準會決議前夕保持理性的對沖心態，未出現恐慌性買盤。</p>
+      </div>
+    </section>
+
+    <!-- 2. 盤中走勢復盤 -->
+    <section id="sec-2" class="scroll-mt-6 font-sans">
+      <h2 class="text-xl font-bold mb-4 flex items-center gap-2 border-b border-slate-100 dark:border-zinc-850 pb-2">
+        <span class="text-brand-500">2.</span> 盤中走勢復盤
+      </h2>
+      <div class="p-5 rounded-xl bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800/80 shadow-sm space-y-6">
+        <div class="mermaid flex justify-center py-2">
+          timeline
+            title 2026-09-15 盤中走勢大事記 (油價飆破$105，美債殖利率觸及5%，晶片超跌反彈)
+            盤前階段 : WTI原油期貨跳空暴漲突破$105，布蘭特原油逼近$109；10年期美債殖利率上測5.00%整數關，半導體期指出現超跌反彈買盤。
+            開盤走勢 : 能源股XLE全線高開，埃克森美孚與雪佛龍大漲；AMD迅速站上$500大關引領晶片股修復；微軟與軟體SaaS板塊遭遇週一大漲後的常規獲利回吐。
+            午盤博弈 : FOMC第一天會議正式閉門召開，債市在5.00%一線窄幅僵持，Meta全天強勢逆市拉升突破$670創歷史天價，大盤維持窄幅區間拉鋸。
+            尾盤收官 : 尾盤多空換手平穩，半導體SOX指數穩穩收紅+0.40%，能源板塊大漲超2%奪得日內冠軍，標普微跌0.45%守在關鍵均線之上。
+        </div>
+        <p class="text-sm text-slate-500 dark:text-zinc-400 leading-relaxed">
+          <strong>復盤深度解析：</strong>週二市場展現了高度成熟的<strong>「宏觀事件前夕動態再平衡（Pre-FOMC Dynamic Rebalancing）」</strong>特徵。盤前國際油價因供應端消息暴漲突破$105，直接推高通膨預期，10年期美債殖利率跳升至5.00%心理關卡，引發部分依賴寬鬆流動性估值的板塊（如公用事業與非必需消費）開盤走弱。然而，盤面的兩大積極信號極為耀眼：第一，<strong>半導體板塊沒有出現二次下探恐慌，而是堅定走出止跌修復</strong>，超微（AMD +2.19%）憑藉強大的算力訂單爆發力強勢攻克$500大關，邁威爾（MRVL +1.32%）、戴爾（DELL +1.73%）與Arista（ANET +2.68%）同步收紅，確認了硬體底層的買盤支撐；第二，<strong>Meta（META +0.70%）以極致韌性收報$670.24再度刷新歷史天價</strong>，展示了超級科技巨頭驚人的護盤效應。午後FOMC會議有條不紊進行，市場並未出現大規模資金外逃，全天成交量維持在中性水平，顯示多頭主力在耐心等待週三聯準會政策決議塵埃落定後的方向選擇。
+        </p>
+      </div>
+    </section>
+
+    <!-- 3. 宏觀環境 -->
+    <section id="sec-3" class="scroll-mt-6 font-sans">
+      <h2 class="text-xl font-bold mb-4 flex items-center gap-2 border-b border-slate-100 dark:border-zinc-850 pb-2">
+        <span class="text-brand-500">3.</span> 宏觀環境
+      </h2>
+      
+      <div class="tabs p-1 bg-slate-150 dark:bg-zinc-800 rounded-lg inline-flex mb-4">
+        <input type="radio" id="tab-yields" name="macro-tabs" checked>
+        <label for="tab-yields">3.1 美債收益率</label>
+        
+        <input type="radio" id="tab-fed" name="macro-tabs">
+        <label for="tab-fed">3.2 Fed 政策預期</label>
+        
+        <input type="radio" id="tab-commodities" name="macro-tabs">
+        <label for="tab-commodities">3.3 大宗與加密</label>
+        
+        <input type="radio" id="tab-data" name="macro-tabs">
+        <label for="tab-data">3.4 重要經濟數據</label>
+        
+        <!-- Tab panel 1 -->
+        <div class="tab-panel text-sm text-slate-650 dark:text-zinc-300 leading-relaxed bg-white dark:bg-zinc-900 p-5 rounded-xl border border-slate-200 dark:border-zinc-800/80 mt-2">
+          <h4 class="font-bold text-slate-800 dark:text-white mb-2">基準 10 年期美債殖利率重返 5.00% 整數關卡，長端利率走高</h4>
+          <p class="mb-3">
+            受到國際原油價格狂飆破百元與FOMC利率會議開幕影響，債券市場今日遭遇溫和拋壓，殖利率全線走高：
+          </p>
+          <ul class="list-disc pl-5 space-y-1 font-mono text-xs sm:text-sm">
+            <li><strong>3個月國庫券收益率 (IRX)</strong>：收報 <strong>3.96%</strong>（微升 +0.64% 至 3.96%）。</li>
+            <li><strong>5年期國債收益率 (FVX)</strong>：收報 <strong>4.83%</strong>（上升 +0.75% 至 4.83%）。</li>
+            <li><strong>10年期基準國債收益率 (TNX)</strong>：收報 <strong>5.00%</strong>（上揚 +4 bps 觸及 <strong>5.00%</strong> 關鍵心理整數大關，日內波動 4.96% - 5.01%）。</li>
+            <li><strong>30年期超長國債收益率 (TYX)</strong>：收報 <strong>5.36%</strong>（小幅上漲 +0.66% 至 5.36%）。</li>
+            <li><strong>2年期國債收益率</strong>：小幅回升至 <strong>4.61%</strong> 附近，市場短端預期維持在9月降息25bps的共識上。</li>
+          </ul>
+          <p class="mt-3 text-xs text-slate-500 dark:text-zinc-400">
+            <strong>市場含義：</strong>收益率曲線今日呈現「全線微幅上移」特徵。10年期美債利率重新觸碰5.00%紅線，引發高本益比成長股的一定估值壓抑，但利率並未失控突破，債市交易員在等待週三聯準會最新經濟預測與鮑威爾講話定調。
+          </p>
+        </div>
+
+        <!-- Tab panel 2 -->
+        <div class="tab-panel text-sm text-slate-650 dark:text-zinc-300 leading-relaxed bg-white dark:bg-zinc-900 p-5 rounded-xl border border-slate-200 dark:border-zinc-800/80 mt-2">
+          <h4 class="font-bold text-slate-800 dark:text-white mb-2">FOMC 議息首日：降息 25 bps 成壓倒性共識，核心聚焦「點陣圖」指引</h4>
+          <p class="mb-3">
+            美東時間9月15日，聯邦公開市場委員會（FOMC）為期兩天的利率決策會議正式展開。CME FedWatch 期貨市場最新定價如下：
+          </p>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-3">
+            <div class="p-3 bg-slate-50 dark:bg-zinc-800/60 rounded-lg border border-slate-200 dark:border-zinc-700">
+              <div class="text-xs text-slate-400">9月降息 25 bps 預期機率</div>
+              <div class="text-lg font-bold text-emerald-600 dark:text-emerald-400">88.5%</div>
+              <div class="text-xs text-slate-500">基準利率預計下調至 5.00%-5.25% 區間</div>
+            </div>
+            <div class="p-3 bg-slate-50 dark:bg-zinc-800/60 rounded-lg border border-slate-200 dark:border-zinc-700">
+              <div class="text-xs text-slate-400">9月維持利率不變機率</div>
+              <div class="text-lg font-bold text-slate-600 dark:text-zinc-400">11.5%</div>
+              <div class="text-xs text-slate-500">非農超預期與油價反彈構成小幅鷹派制約</div>
+            </div>
+          </div>
+          <p class="text-xs text-slate-500 dark:text-zinc-400 leading-relaxed">
+            <strong>核心看點：</strong>市場已經完全消化本次降息25bps的決定。明天的真正重頭戲是季度發布的「經濟預測摘要（SEP）」以及2026-2027年利率「點陣圖（Dot Plot）」。華爾街目前定價2026年內累計降息50-75 bps，鮑威爾在記者會上如何平衡「就業市場降溫」與「油價引發二次通膨風險」將決定第四季全球流動性定價。
+          </p>
+        </div>
+
+        <!-- Tab panel 3 -->
+        <div class="tab-panel text-sm text-slate-650 dark:text-zinc-300 leading-relaxed bg-white dark:bg-zinc-900 p-5 rounded-xl border border-slate-200 dark:border-zinc-850/80 mt-2">
+          <h4 class="font-bold text-slate-800 dark:text-white mb-2">原油暴漲飆破$105、黃金抗通膨收紅、加密貨幣高位洗盤</h4>
+          <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 font-mono text-xs sm:text-sm">
+            <div class="p-3 bg-slate-50 dark:bg-zinc-800/50 rounded-lg">
+              <div class="text-xs text-slate-400 font-sans">WTI原油 (CL=F)</div>
+              <div class="font-bold text-emerald-600 dark:text-emerald-400">$105.36 (+3.92%)</div>
+              <div class="text-xs text-slate-500 font-sans">狂飆+3.92%強勢站上$105.36</div>
+            </div>
+            <div class="p-3 bg-slate-50 dark:bg-zinc-800/50 rounded-lg">
+              <div class="text-xs text-slate-400 font-sans">布蘭特原油 (BZ=F)</div>
+              <div class="font-bold text-emerald-600 dark:text-emerald-400">$108.46 (+2.63%)</div>
+              <div class="text-xs text-slate-500 font-sans">地緣溢價激增逼近$110大關</div>
+            </div>
+            <div class="p-3 bg-slate-50 dark:bg-zinc-800/50 rounded-lg">
+              <div class="text-xs text-slate-400 font-sans">現貨黃金 (GC=F / GLD)</div>
+              <div class="font-bold text-emerald-600 dark:text-emerald-400">$4343.18/oz (+0.33%)</div>
+              <div class="text-xs text-slate-500 font-sans">微漲+0.33%站穩$4,343/oz抗通膨</div>
+            </div>
+            <div class="p-3 bg-slate-50 dark:bg-zinc-800/50 rounded-lg">
+              <div class="text-xs text-slate-400 font-sans">美元指數 (DXY)</div>
+              <div class="font-bold text-slate-700 dark:text-zinc-300">99.68 (+0.22%)</div>
+              <div class="text-xs text-slate-500 font-sans">微升至99.68，整固於百點下方</div>
+            </div>
+            <div class="p-3 bg-slate-50 dark:bg-zinc-800/50 rounded-lg">
+              <div class="text-xs text-slate-400 font-sans">比特幣 (BTC-USD)</div>
+              <div class="font-bold text-rose-500">$75,566.52 (-3.32%)</div>
+              <div class="text-xs text-slate-500 font-sans">回落-3.32%至$75,566高位洗盤</div>
+            </div>
+            <div class="p-3 bg-slate-50 dark:bg-zinc-800/50 rounded-lg">
+              <div class="text-xs text-slate-400 font-sans">以太坊 (ETH-USD)</div>
+              <div class="font-bold text-rose-500">$2397.08 (-4.67%)</div>
+              <div class="text-xs text-slate-500 font-sans">回調-4.67%報$2,397尋求支撐</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tab panel 4 -->
+        <div class="tab-panel text-sm text-slate-650 dark:text-zinc-300 leading-relaxed bg-white dark:bg-zinc-900 p-5 rounded-xl border border-slate-200 dark:border-zinc-800/80 mt-2">
+          <h4 class="font-bold text-slate-800 dark:text-white mb-2">重要經濟數據解讀 (製造業指標溫和築底，靜待FOMC壓軸)</h4>
+          <div class="overflow-x-auto">
+            <table class="w-full text-xs sm:text-sm text-left border-collapse">
+              <thead>
+                <tr class="border-b border-slate-200 dark:border-zinc-700 text-slate-400">
+                  <th class="p-2">經濟指標</th>
+                  <th class="p-2">公佈值 / 現況</th>
+                  <th class="p-2">市場預期</th>
+                  <th class="p-2">前值</th>
+                  <th class="p-2">市場解讀與影響</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-slate-100 dark:divide-zinc-800">
+                <tr>
+                  <td class="p-2 font-semibold">9月紐約帝國州製造業指數</td>
+                  <td class="p-2 font-mono text-emerald-600 font-bold">-1.8</td>
+                  <td class="p-2 font-mono">-0.5</td>
+                  <td class="p-2 font-mono">-4.7</td>
+                  <td class="p-2">自上月的-4.7明顯回升，顯示紐約區域製造業萎縮態勢大幅收斂，符合溫和軟著陸預期。</td>
+                </tr>
+                <tr>
+                  <td class="p-2 font-semibold">美國8月進口物價指數月率</td>
+                  <td class="p-2 font-mono text-slate-700 dark:text-zinc-300">+0.2%</td>
+                  <td class="p-2 font-mono">+0.2%</td>
+                  <td class="p-2 font-mono">+0.1%</td>
+                  <td class="p-2">符合預期，能源成本反彈帶來輕微推力，但整體海外通膨輸入效應依然受控。</td>
+                </tr>
+                <tr>
+                  <td class="p-2 font-semibold">聯準會 9月 FOMC 利率決議 (週三)</td>
+                  <td class="p-2 font-mono text-brand-600 font-bold">待公佈 (明日)</td>
+                  <td class="p-2 font-mono">降息 25 bps</td>
+                  <td class="p-2 font-mono">5.25%-5.50%</td>
+                  <td class="p-2">全市場萬眾矚目，決議將於美東時間週三下午2點揭曉，鮑威爾記者會2:30登場。</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. 板塊表現 -->
+    <section id="sec-4" class="scroll-mt-6 font-sans">
+      <h2 class="text-xl font-bold mb-4 flex items-center gap-2 border-b border-slate-100 dark:border-zinc-850 pb-2">
+        <span class="text-brand-500">4.</span> 板塊表現 (S&P 500 十一個行業)
+      </h2>
+      
+      <div class="flex flex-col sm:flex-row gap-3 mb-4 items-start sm:items-center justify-between">
+        <input type="text" id="sectorSearch" placeholder="搜尋板塊名稱或 ETF 代碼..." class="w-full sm:w-72 px-3 py-1.5 text-xs sm:text-sm rounded-lg border border-slate-300 dark:border-zinc-700 bg-white dark:bg-zinc-900 focus:outline-none focus:ring-2 focus:ring-brand-500">
+        <div class="text-xs text-slate-400">點擊表頭可快速排序 ⇅</div>
+      </div>
+
+      <div class="overflow-x-auto rounded-xl border border-slate-200 dark:border-zinc-800/80 bg-white dark:bg-zinc-900 shadow-sm">
+        <table id="sectorTable" class="w-full text-xs sm:text-sm text-left border-collapse" data-sort-dir="asc">
+          <thead class="bg-slate-50 dark:bg-zinc-800/60 border-b border-slate-200 dark:border-zinc-700 text-slate-500 dark:text-zinc-400">
+            <tr>
+              <th class="p-3 sortable" onclick="sortTable('sectorTable', 0, true)">排名</th>
+              <th class="p-3 sortable" onclick="sortTable('sectorTable', 1)">行業板塊</th>
+              <th class="p-3 sortable" onclick="sortTable('sectorTable', 2)">ETF</th>
+              <th class="p-3 sortable" onclick="sortTable('sectorTable', 3, true)">當日漲跌</th>
+              <th class="p-3">近5日</th>
+              <th class="p-3">近1月</th>
+              <th class="p-3 sortable" onclick="sortTable('sectorTable', 6)">相對標普</th>
+              <th class="p-3">核心驅動因素</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-slate-100 dark:divide-zinc-800">
+            <tr class="hover:bg-slate-50 dark:hover:bg-zinc-800/30">
+              <td class="p-3">1</td>
+              <td class="p-3 font-semibold">能源板塊</td>
+              <td class="p-3 font-mono">XLE</td>
+              <td class="p-3 text-emerald-600 font-bold">+2.17%</td>
+              <td class="p-3">+1.80%</td>
+              <td class="p-3">+19.50%</td>
+              <td class="p-3 text-emerald-600 font-semibold">跑贏 (+2.63%)</td>
+              <td class="p-3">WTI原油期貨狂飆+3.92%突破$105關口，中東地緣供應擔憂引發資金大舉回流傳統油氣開採巨頭。</td>
+            </tr>
+            <tr class="hover:bg-slate-50 dark:hover:bg-zinc-800/30">
+              <td class="p-3">2</td>
+              <td class="p-3 font-semibold">原物料板塊</td>
+              <td class="p-3 font-mono">XLB</td>
+              <td class="p-3 text-emerald-600 font-bold">+0.48%</td>
+              <td class="p-3">-2.31%</td>
+              <td class="p-3">-0.27%</td>
+              <td class="p-3 text-emerald-600 font-semibold">跑贏 (+0.94%)</td>
+              <td class="p-3">現貨黃金微漲守住$4,343/oz高位，抗通膨屬性與工業金屬隨油價反彈逆勢收紅。</td>
+            </tr>
+            <tr class="hover:bg-slate-50 dark:hover:bg-zinc-800/30">
+              <td class="p-3">3</td>
+              <td class="p-3 font-semibold">房地產</td>
+              <td class="p-3 font-mono">XLRE</td>
+              <td class="p-3 text-rose-500 font-bold">-0.12%</td>
+              <td class="p-3">-1.90%</td>
+              <td class="p-3">-3.53%</td>
+              <td class="p-3 text-emerald-600 font-semibold">跑贏 (+0.34%)</td>
+              <td class="p-3">10年期美債利率重返5.00%關卡，商業地產REITs在FOMC利率決議前窄幅抗跌微挫。</td>
+            </tr>
+            <tr class="hover:bg-slate-50 dark:hover:bg-zinc-800/30">
+              <td class="p-3">4</td>
+              <td class="p-3 font-semibold">醫療保健</td>
+              <td class="p-3 font-mono">XLV</td>
+              <td class="p-3 text-rose-500 font-bold">-0.28%</td>
+              <td class="p-3">+0.09%</td>
+              <td class="p-3">+9.95%</td>
+              <td class="p-3 text-emerald-600 font-semibold">跑贏 (+0.18%)</td>
+              <td class="p-3">禮來與默沙東等大型製藥防禦類股維持堅挺，機構在宏觀議息前維持高防禦底倉配置。</td>
+            </tr>
+            <tr class="hover:bg-slate-50 dark:hover:bg-zinc-800/30">
+              <td class="p-3">5</td>
+              <td class="p-3 font-semibold">科技板塊</td>
+              <td class="p-3 font-mono">XLK</td>
+              <td class="p-3 text-rose-500 font-bold">-0.29%</td>
+              <td class="p-3">-2.20%</td>
+              <td class="p-3">-0.24%</td>
+              <td class="p-3 text-emerald-600 font-semibold">跑贏 (+0.17%)</td>
+              <td class="p-3">半導體晶片（SOX +0.40%）與伺服器硬體反彈，對沖了微軟（-1.64%）高位回踩影響。</td>
+            </tr>
+            <tr class="hover:bg-slate-50 dark:hover:bg-zinc-800/30">
+              <td class="p-3">6</td>
+              <td class="p-3 font-semibold">金融板塊</td>
+              <td class="p-3 font-mono">XLF</td>
+              <td class="p-3 text-rose-500 font-bold">-0.32%</td>
+              <td class="p-3">-0.79%</td>
+              <td class="p-3">+5.53%</td>
+              <td class="p-3 text-emerald-600 font-semibold">跑贏 (+0.14%)</td>
+              <td class="p-3">長端美債殖利率回升擴大銀行淨息差預期，摩根大通與高盛等多元大行全天表現平穩。</td>
+            </tr>
+            <tr class="hover:bg-slate-50 dark:hover:bg-zinc-800/30">
+              <td class="p-3">7</td>
+              <td class="p-3 font-semibold">工業板塊</td>
+              <td class="p-3 font-mono">XLI</td>
+              <td class="p-3 text-rose-500 font-bold">-0.64%</td>
+              <td class="p-3">-3.21%</td>
+              <td class="p-3">-5.25%</td>
+              <td class="p-3 text-rose-500 font-semibold">跑輸 (-0.18%)</td>
+              <td class="p-3">重電設備伊頓（ETN -0.19%）跌勢大幅收斂企穩，但航運與機械設備微幅回調拖累板塊。</td>
+            </tr>
+            <tr class="hover:bg-slate-50 dark:hover:bg-zinc-800/30">
+              <td class="p-3">8</td>
+              <td class="p-3 font-semibold">必需消費</td>
+              <td class="p-3 font-mono">XLP</td>
+              <td class="p-3 text-rose-500 font-bold">-0.82%</td>
+              <td class="p-3">-0.34%</td>
+              <td class="p-3">+0.02%</td>
+              <td class="p-3 text-rose-500 font-semibold">跑輸 (-0.36%)</td>
+              <td class="p-3">沃爾瑪與好市多等民生消費巨頭在昨日大漲後小幅休整，防禦性資金短線轉向能源板塊。</td>
+            </tr>
+            <tr class="hover:bg-slate-50 dark:hover:bg-zinc-800/30">
+              <td class="p-3">9</td>
+              <td class="p-3 font-semibold">通訊服務</td>
+              <td class="p-3 font-mono">XLC</td>
+              <td class="p-3 text-rose-500 font-bold">-0.90%</td>
+              <td class="p-3">+2.28%</td>
+              <td class="p-3">+6.37%</td>
+              <td class="p-3 text-rose-500 font-semibold">跑輸 (-0.44%)</td>
+              <td class="p-3">谷歌（GOOGL -1.26%）天價附近技術回踩，但Meta（+0.70%）逆勢續刷收盤歷史新天價護盤。</td>
+            </tr>
+            <tr class="hover:bg-slate-50 dark:hover:bg-zinc-800/30">
+              <td class="p-3">10</td>
+              <td class="p-3 font-semibold">公用事業</td>
+              <td class="p-3 font-mono">XLU</td>
+              <td class="p-3 text-rose-500 font-bold">-1.20%</td>
+              <td class="p-3">-4.95%</td>
+              <td class="p-3">-8.41%</td>
+              <td class="p-3 text-rose-500 font-semibold">跑輸 (-0.74%)</td>
+              <td class="p-3">美債殖利率回升至5.00%打壓高股息電力類股，核電發電股（CEG -1.77%）震盪探底尋求承接。</td>
+            </tr>
+            <tr class="hover:bg-slate-50 dark:hover:bg-zinc-800/30">
+              <td class="p-3">11</td>
+              <td class="p-3 font-semibold">非必需消費</td>
+              <td class="p-3 font-mono">XLY</td>
+              <td class="p-3 text-rose-500 font-bold">-1.25%</td>
+              <td class="p-3">-2.25%</td>
+              <td class="p-3">-2.05%</td>
+              <td class="p-3 text-rose-500 font-semibold">跑輸 (-0.79%)</td>
+              <td class="p-3">亞馬遜（AMZN -2.02%）回測關鍵均線支撐，特斯拉（TSLA -0.67%）箱體整理，壓制板塊表現。</td>
+            </tr>
+
+          </tbody>
+        </table>
+      </div>
+      
+      <div class="mt-4 p-4 rounded-xl bg-slate-100 dark:bg-zinc-800/50 text-xs text-slate-600 dark:text-zinc-400 space-y-1">
+        <p>• <strong>最強板塊</strong>：能源板塊（XLE +2.17%）受WTI原油飆漲破$105強力催化勇奪全市場第一；原物料板塊（XLB +0.48%）抗通膨資產同步收紅。</p>
+        <p>• <strong>最弱板塊</strong>：公用事業（XLU -1.20%）與非必需消費（XLY -1.25%）居末，10年期美債利率重返5.00%對高負債公用事業與高估值消費股構成壓抑，亞馬遜（-2.02%）走弱亦拖累可選消費。</p>
+        <p>• <strong>風格特徵</strong>：今日市場展現<strong>「強大宗週期（能源/材料領跑）、半導體超跌修復、高股息與高利率敏感板塊承壓」</strong>的輪動特徵。晶片股止跌避免了大盤進一步失速，能源板塊承接了部分避險多頭資金。</p>
+      </div>
+    </section>
+
+    <!-- 5. 主題與風格表現 -->
+    <section id="sec-5" class="scroll-mt-6 font-sans">
+      <h2 class="text-xl font-bold mb-4 flex items-center gap-2 border-b border-slate-100 dark:border-zinc-850 pb-2">
+        <span class="text-brand-500">5.</span> 主題與風格表現
+      </h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs sm:text-sm">
+        <div class="p-4 rounded-xl bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800/80 shadow-sm space-y-2">
+          <h3 class="font-bold text-slate-800 dark:text-white flex justify-between items-center">
+            <span>🔥 晶片半導體 (SOX) 止跌反彈、超微重登$500</span>
+            <span class="text-emerald-600 font-mono font-bold">+0.40% (SOX) / +2.19% (AMD)</span>
+          </h3>
+          <p class="text-slate-650 dark:text-zinc-300 leading-relaxed">
+            在經歷週一近6%的史詩級洗盤後，費城半導體指數（SOX）迅速止跌翻紅+0.40%！超微半導體（AMD）放量大漲+2.19%重回$504.20，邁威爾（MRVL +1.32%）、戴爾（DELL +1.73%）、Arista Networks（ANET +2.68%）集體走強，硬體底層技術承接力強勁。
+          </p>
+        </div>
+
+        <div class="p-4 rounded-xl bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800/80 shadow-sm space-y-2">
+          <h3 class="font-bold text-slate-800 dark:text-white flex justify-between items-center">
+            <span>🛢️ 能源大宗狂歡、WTI原油強破百元天價</span>
+            <span class="text-emerald-600 font-mono font-bold">+2.17% (XLE) / +3.92% (WTI)</span>
+          </h3>
+          <p class="text-slate-650 dark:text-zinc-300 leading-relaxed">
+            WTI原油期貨飆漲近4美元突破$105.36/桶，布蘭特原油突破$108.46，美國石油基金USO大漲+3.32%！地緣衝突隱憂引發上游原油資產暴力重估，能源ETF（XLE）逆勢大漲超2%成為大盤定海神針。
+          </p>
+        </div>
+
+        <div class="p-4 rounded-xl bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800/80 shadow-sm space-y-2">
+          <h3 class="font-bold text-slate-800 dark:text-white flex justify-between items-center">
+            <span>💻 軟體 SaaS 正常整固、資安 CRWD 續飆+3%</span>
+            <span class="text-rose-500 font-mono font-bold">-1.02% (IGV) / +3.02% (CRWD)</span>
+          </h3>
+          <p class="text-slate-650 dark:text-zinc-300 leading-relaxed">
+            科技軟體ETF（IGV）在週一暴漲5%後正常休整回調-1.02%，Adobe（-2.95%）與Snowflake（-2.82%）獲利回吐；但網路安全龍頭CrowdStrike（CRWD）延續強大逼空動能逆勢續漲+3.02%突破$242，資金對企業級安全剛性需求信心十足。
+          </p>
+        </div>
+
+        <div class="p-4 rounded-xl bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800/80 shadow-sm space-y-2">
+          <h3 class="font-bold text-slate-800 dark:text-white flex justify-between items-center">
+            <span>👑 Meta 逆天改命續破歷史天價</span>
+            <span class="text-emerald-600 font-mono font-bold">+0.70% (META $670.24)</span>
+          </h3>
+          <p class="text-slate-650 dark:text-zinc-300 leading-relaxed">
+            社交萬億巨頭Meta（META）逆大盤走強續漲+0.70%，收盤正式突破$670大關收報$670.24再刷歷史天價！AI廣告引擎帶來的強大現金流回報讓機構資金持續無懼大盤波動加倉。
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 6. 市場寬度與參與度 -->
+    <section id="sec-6" class="scroll-mt-6 font-sans">
+      <h2 class="text-xl font-bold mb-4 flex items-center gap-2 border-b border-slate-100 dark:border-zinc-850 pb-2">
+        <span class="text-brand-500">6.</span> 市場寬度與參與度
+      </h2>
+      
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs sm:text-sm">
+        <div class="p-4 rounded-xl bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800/80 shadow-sm space-y-2">
+          <h4 class="font-bold text-slate-800 dark:text-white">6.1 均線參與度</h4>
+          <ul class="space-y-1 text-slate-600 dark:text-zinc-400">
+            <li>• S&P 500 > 20日均線比例：<strong>61.5%</strong>（回踩維持在中高位區間）</li>
+            <li>• S&P 500 > 50日均線比例：<strong>66.2%</strong>（中期多頭生命線未破）</li>
+            <li>• S&P 500 > 200日均線比例：<strong>72.1%</strong>（長線健康度維持良好）</li>
+            <li>• Nasdaq > 50日均線比例：<strong>60.8%</strong>（晶片股企穩修復提供關鍵支撐）</li>
+          </ul>
+        </div>
+
+        <div class="p-4 rounded-xl bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800/80 shadow-sm space-y-2">
+          <h4 class="font-bold text-slate-800 dark:text-white">6.2 漲跌家數與新高新低</h4>
+          <ul class="space-y-1 text-slate-650 dark:text-zinc-400">
+            <li>• NYSE 上漲/下跌：1,280 / 1,540（漲跌比 <strong>0.83</strong>）</li>
+            <li>• Nasdaq 上漲/下跌：1,840 / 2,420（漲跌比 <strong>0.76</strong>）</li>
+            <li>• NYSE 52週新高/新低：65 / 28（淨新高 <strong>+37</strong>）</li>
+            <li>• Nasdaq 52週新高/新低：112 / 48（淨新高 <strong>+64</strong>，能源與資安新高湧現）</li>
+          </ul>
+        </div>
+
+        <div class="p-4 rounded-xl bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800/80 shadow-sm space-y-2">
+          <h4 class="font-bold text-slate-800 dark:text-white">6.3 內部情緒與資金指標</h4>
+          <ul class="space-y-1 text-slate-650 dark:text-zinc-400">
+            <li>• McClellan 擺動指標：<strong>-12.4</strong>（處於輕微超賣溫和築底區間）</li>
+            <li>• CBOE 股權 Put/Call Ratio：<strong>0.78</strong>（FOMC決議前夕維持審慎避險）</li>
+            <li>• VIX 恐慌指數：<strong>17.20</strong>（微漲 +0.58%，未見極端避險脈衝）</li>
+            <li>• 等權標普 (RSP)：收報 $213.96 (-0.49%)，與市值權重標普跌幅高度一致。</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- 7. 技術面分析 -->
+    <section id="sec-7" class="scroll-mt-6 font-sans">
+      <h2 class="text-xl font-bold mb-4 flex items-center gap-2 border-b border-slate-100 dark:border-zinc-850 pb-2">
+        <span class="text-brand-500">7.</span> 技術面分析
+      </h2>
+
+      <div class="overflow-x-auto rounded-xl border border-slate-200 dark:border-zinc-800/80 bg-white dark:bg-zinc-900 shadow-sm mb-4">
+        <table class="w-full text-xs sm:text-sm text-left border-collapse">
+          <thead class="bg-slate-50 dark:bg-zinc-800/60 border-b border-slate-200 dark:border-zinc-700 text-slate-500 dark:text-zinc-400">
+            <tr>
+              <th class="p-3">標的 ETF</th>
+              <th class="p-3">最新價格</th>
+              <th class="p-3">20日均線</th>
+              <th class="p-3">50日均線</th>
+              <th class="p-3">200日均線</th>
+              <th class="p-3">14日 RSI</th>
+              <th class="p-3">MACD 趨勢</th>
+              <th class="p-3">關鍵支撐 / 壓力</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-slate-100 dark:divide-zinc-800 font-mono">
+            <tr>
+              <td class="p-3 font-semibold font-sans">SPY (標普500)</td>
+              <td class="p-3 font-bold text-rose-500 font-bold">757.39</td>
+              <td class="p-3">$764.80</td>
+              <td class="p-3">$758.20</td>
+              <td class="p-3">$719.10</td>
+              <td class="p-3">50.2</td>
+              <td class="p-3 text-slate-600 dark:text-zinc-300 font-sans">50日均線精準守穩高位蓄勢</td>
+              <td class="p-3 font-sans">$755.00 / $765.00</td>
+            </tr>
+            <tr>
+              <td class="p-3 font-semibold font-sans">QQQ (納指100)</td>
+              <td class="p-3 font-bold text-rose-500 font-bold">704.54</td>
+              <td class="p-3">$712.50</td>
+              <td class="p-3">$709.80</td>
+              <td class="p-3">$666.00</td>
+              <td class="p-3">49.8</td>
+              <td class="p-3 text-slate-600 dark:text-zinc-300 font-sans">回測50日線尋求支撐整固</td>
+              <td class="p-3 font-sans">$700.00 / $714.00</td>
+            </tr>
+            <tr>
+              <td class="p-3 font-semibold font-sans">IWM (羅素2000)</td>
+              <td class="p-3 font-bold text-rose-500 font-bold">285.72</td>
+              <td class="p-3">$294.50</td>
+              <td class="p-3">$293.10</td>
+              <td class="p-3">$276.50</td>
+              <td class="p-3">39.5</td>
+              <td class="p-3 text-yellow-600 font-sans">考驗箱體下軌強支撐</td>
+              <td class="p-3 font-sans">$283.00 / $290.00</td>
+            </tr>
+            <tr>
+              <td class="p-3 font-semibold font-sans">SMH (半導體)</td>
+              <td class="p-3 font-bold text-emerald-600 dark:text-emerald-400 font-bold">542.11</td>
+              <td class="p-3">$558.20</td>
+              <td class="p-3">$566.50</td>
+              <td class="p-3">$488.20</td>
+              <td class="p-3">44.9</td>
+              <td class="p-3 text-emerald-600 font-sans">止跌十字星企穩修復</td>
+              <td class="p-3 font-sans">$535.00 / $555.00</td>
+            </tr>
+            <tr>
+              <td class="p-3 font-semibold font-sans">IGV (科技軟體)</td>
+              <td class="p-3 font-bold text-rose-500 font-bold">105.55</td>
+              <td class="p-3">$104.80</td>
+              <td class="p-3">$99.80</td>
+              <td class="p-3">$95.40</td>
+              <td class="p-3">61.5</td>
+              <td class="p-3 text-emerald-600 font-sans">長陽突破後良性回踩整固</td>
+              <td class="p-3 font-sans">$103.50 / $110.00</td>
+            </tr>
+            <tr>
+              <td class="p-3 font-semibold font-sans">XLK (科技行業)</td>
+              <td class="p-3 font-bold text-rose-500 font-bold">183.74</td>
+              <td class="p-3">$184.80</td>
+              <td class="p-3">$183.80</td>
+              <td class="p-3">$163.40</td>
+              <td class="p-3">50.1</td>
+              <td class="p-3 text-slate-600 dark:text-zinc-300 font-sans">50日均線獲得強承接</td>
+              <td class="p-3 font-sans">$182.00 / $188.00</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="p-4 rounded-xl bg-slate-100 dark:bg-zinc-800/50 text-xs sm:text-sm text-slate-600 dark:text-zinc-400 space-y-2">
+        <p><strong>技術形態深度解讀：</strong></p>
+        <p>1. <strong>SPY 精準踩在 50 日均線（$758.20）上方收報 $757.39，整體仍處於歷史箱體上沿</strong>：標普500連日微跌幅度極其克制，並未破壞自8月以來的上升趨勢通道，RSI回落至50中性水位，成功洗掉高位浮籌。</p>
+        <p>2. <strong>半導體 SMH 與 SOXX 形成經典「止跌孕線」K棒組合</strong>：SMH在回踩$540後逆勢收漲+0.11%，SOXX收漲+0.29%，成交量未見恐慌性放大，表明週一的大跌屬於多頭主動調倉而非崩盤破位，短線在50日均線附近構建扎實底部。</p>
+      </div>
+    </section>
+
+    <!-- 8. 重點個股新聞與異動 -->
+    <section id="sec-8" class="scroll-mt-6 font-sans">
+      <h2 class="text-xl font-bold mb-4 flex items-center gap-2 border-b border-slate-100 dark:border-zinc-850 pb-2">
+        <span class="text-brand-500">8.</span> 重點個股新聞與異動
+      </h2>
+
+      <div class="space-y-3 text-xs sm:text-sm">
+        <details class="p-4 rounded-xl bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800/80 shadow-sm" open>
+          <summary class="font-bold text-slate-800 dark:text-white cursor-pointer">8.1 大型科技七巨頭 (Magnificent 7) 異動與核心動態 (Meta續刷天價、微軟回踩、超微強攻)</summary>
+          <div class="mt-3 space-y-2 text-slate-650 dark:text-zinc-300 leading-relaxed border-t border-slate-100 dark:border-zinc-800 pt-3">
+            <p>• <strong>Meta (META +0.70% 報 $670.24)</strong>：<strong>再刷歷史新天價！</strong>全天走勢極度頑強，收盤正式衝破$670大關！摩根士丹利重申其為「生成式AI商業化變現最確定標的」，Llama 4開源大模型在企業端採用率直線攀升，帶動機構資金持續買進。</p>
+            <p>• <strong>超微半導體 (AMD +2.19% 報 $504.20)</strong>：<strong>大漲重奪$500天價大關！</strong>MI350加速器在大型北美雲廠商集群測試超預期，帶動晶片族群展開強勢超跌修復。</p>
+            <p>• <strong>微軟 (MSFT -1.64% 報 $497.12)</strong>：在昨日突破$505歷史天價後正常獲利了結回踩，回測$495-$500平台支撐帶，38GW自建清潔電網與Copilot長線商業化基本面依然固若金湯。</p>
+            <p>• <strong>蘋果 (AAPL -0.52% 報 $331.34)</strong>：窄幅震盪休整守住$331高位，iPhone Duo折疊旗艦供應鏈排產順暢，券商預測首發季銷量將超出預期15%。</p>
+            <p>• <strong>谷歌 (GOOGL -1.26% 報 $344.98)</strong>：在逼近$350天價後進行技術性蓄勢，Gemini 2.5企業API調用量保持翻倍增速，高位承接有力。</p>
+            <p>• <strong>輝達 (NVDA +0.57% 報 $212.17)</strong>：止跌翻紅收復$212，Blackwell伺服器機櫃量產出貨動能強勁，摩根大通指出硬體調整提供絕佳長線加倉點。</p>
+            <p>• <strong>特斯拉 (TSLA -0.67% 報 $356.58)</strong>：在$355-$360區間橫盤築底，市場靜待下月FSD V13版本推播與Robotaxi測試數據。</p>
+            <p>• <strong>亞馬遜 (AMZN -2.02% 報 $248.42)</strong>：回踩$248重要支撐線，受可選消費板塊拖累，但AWS雲計算增長穩健。</p>
+          </div>
+        </details>
+
+        <details class="p-4 rounded-xl bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800/80 shadow-sm" open>
+          <summary class="font-bold text-slate-800 dark:text-white cursor-pointer">8.2 AI 硬體 / 半導體重點股異動分析 (超跌買盤湧入、戴爾續漲、光通訊修復)</summary>
+          <div class="mt-3 space-y-2 text-slate-650 dark:text-zinc-300 leading-relaxed border-t border-slate-100 dark:border-zinc-800 pt-3">
+            <p>• <strong>戴爾科技 (DELL +1.73% 報 $543.51)</strong>：AI伺服器需求爆棚，股價迅速反彈收復昨天下跌失地，衝上$543.51，AI硬體供應鏈王者地位凸顯。</p>
+            <p>• <strong>Arista Networks (ANET +2.68% 報 $192.84)</strong>：大漲超5美元逼近$200歷史天價，800G以太網交換機在超大規模資料中心集群中份額持續擴大。</p>
+            <p>• <strong>Coherent (COHR +1.75% 報 $271.17) & LITE (+0.47% 報 $838.96)</strong>：光模組雙雄在昨日劇烈洗盤後雙雙止跌回升，COHR重返$270上方，逢低買盤展現極強承接意願。</p>
+            <p>• <strong>邁威爾科技 (MRVL +1.32% 報 $221.70)</strong>：光互聯DSP龍頭止跌反彈守住$220，機構調研顯示其AI ASIC客製化晶片能見度延伸至2027年。</p>
+            <p>• <strong>ARM Holdings (ARM +1.18% 報 $241.83)</strong>：重返$240大關，Neoverse架構授權費收入增長預期穩固。</p>
+            <p>• <strong>ASML (ASML +1.04% 報 $1,591.48)</strong>：反彈站上$1,590，先進製程光刻機需求確定性極高。</p>
+            <p>• <strong>美光科技 (MU +0.39% 報 $927.60)</strong>：HBM3E與HBM4產能全滿，高位穩步消化浮籌。</p>
+            <p>• <strong>台積電 ADR (TSM -1.02% 報 $413.75)</strong>：小幅休整守在$413，2nm產能投產排程如期推進。</p>
+          </div>
+        </details>
+
+        <details class="p-4 rounded-xl bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800/80 shadow-sm" open>
+          <summary class="font-bold text-slate-800 dark:text-white cursor-pointer">8.3 軟體 / SaaS / AI 應用重點股分析 (CRWD逼空狂歡續漲+3%、SaaS大漲後常規休整)</summary>
+          <div class="mt-3 space-y-2 text-slate-650 dark:text-zinc-300 leading-relaxed border-t border-slate-100 dark:border-zinc-800 pt-3">
+            <p>• <strong>CrowdStrike (CRWD +3.02% 報 $242.49)</strong>：<strong>資安領頭羊持續逼空！</strong>在昨日暴漲近14%後今日再度放量大漲逾7美元衝上$242.49！Falcon平台在企業AI安全部署中的不可替代性獲高盛再次上調目標價。</p>
+            <p>• <strong>Palo Alto Networks (PANW +0.31% 報 $375.09)</strong>：高位穩健收紅站上$375，跨平台AI防禦訂單續創歷史新高。</p>
+            <p>• <strong>ServiceNow (NOW -0.32% 報 $141.90)</strong>：在昨日狂飆7%創歷史天價後展現極強的高位橫盤抗跌性，守穩$141上方。</p>
+            <p>• <strong>Salesforce (CRM -1.20% 報 $256.32)</strong>：Dreamforce 2026大會進入第二天，Agentforce 2.0客戶試用反響熱烈，股價在昨日大漲近5%後健康換手整固。</p>
+            <p>• <strong>Palantir (PLTR -0.43% 報 $172.56)</strong>：高位平盤附近整固，AIP商業化合約能見度高，多頭架構完好。</p>
+            <p>• <strong>Adobe (ADBE -2.95% 報 $257.76) & Snowflake (SNOW -2.82% 報 $322.98)</strong>：昨日大漲後正常回吐獲利籌碼，均線支撐依然完好。</p>
+            <p>• <strong>甲骨文 (ORCL -3.07% 報 $140.35)</strong>：財報大漲後技術性回測$140平台尋求均線支撐。</p>
+          </div>
+        </details>
+
+        <details class="p-4 rounded-xl bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800/80 shadow-sm" open>
+          <summary class="font-bold text-slate-800 dark:text-white cursor-pointer">8.4 AI 電力 / 重電 / 基礎設施重點股分析 (液冷VRT止跌反彈、伊頓ETN企穩、核電震盪築底)</summary>
+          <div class="mt-3 space-y-2 text-slate-650 dark:text-zinc-300 leading-relaxed border-t border-slate-100 dark:border-zinc-800 pt-3">
+            <p>• <strong>Vertiv Holdings (VRT +1.20% 報 $240.24)</strong>：液冷散熱龍頭止跌反攻重返$240大關，資料中心高密散熱剛性需求無虞。</p>
+            <p>• <strong>Vistra (VST +0.57% 報 $141.53)</strong>：逆市收紅報$141.53，發電資產在AI資料中心直供電合約溢價支撐下展現強大防禦韌性。</p>
+            <p>• <strong>伊頓 (ETN -0.19% 報 $392.40)</strong>：在昨日大跌後全天企穩於$392上方，變壓器與配電設備在手訂單排期至2028年，殺跌動能竭盡。</p>
+            <p>• <strong>GE Vernova (GEV -0.49% 報 $870.50)</strong>：在昨日重跌後跌幅急劇收窄至0.5%，於$870一線獲得強支撐。</p>
+            <p>• <strong>Constellation Energy (CEG -1.77% 報 $259.89)</strong>：回測$260支撐帶，微軟38GW長期用電協議為其構築堅固價值底座。</p>
+            <p>• <strong>Oklo (OKLO -0.64% 報 $35.98)</strong>：小幅震盪牢守$36趨勢線，SMR小型模組化反應堆概念具備極強獨立抗跌性。</p>
+          </div>
+        </details>
+
+        <details class="p-4 rounded-xl bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800/80 shadow-sm">
+          <summary class="font-bold text-slate-800 dark:text-white cursor-pointer">8.5 其他顯著大漲/大跌個股與異動原因</summary>
+          <div class="mt-3 space-y-2 text-slate-650 dark:text-zinc-300 leading-relaxed border-t border-slate-100 dark:border-zinc-800 pt-3">
+            <p>• <strong>埃克森美孚 (XOM +2.35%) & 雪佛龍 (CVX +1.98%)</strong>：國際油價暴漲突破$105，石油上游巨頭全線放量走強，力挺道瓊與標普指數。</p>
+            <p>• <strong>西方石油 (OXY +3.12%) & 斯倫貝謝 (SLB +2.85%)</strong>：油服與頁岩油開採標的迎來大量週期多頭資金湧入。</p>
+            <p>• <strong>Lennar (LEN -1.85%)</strong>：盤後即將公佈財報，市場在近5%高抵押貸款利率環境下保持謹慎，早盤震盪收跌。</p>
+          </div>
+        </details>
+      </div>
+    </section>
+
+    <!-- 9. 財報日曆與財報解讀 -->
+    <section id="sec-9" class="scroll-mt-6 font-sans">
+      <h2 class="text-xl font-bold mb-4 flex items-center gap-2 border-b border-slate-100 dark:border-zinc-850 pb-2">
+        <span class="text-brand-500">9.</span> 財報日曆與財報解讀
+      </h2>
+      
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs sm:text-sm">
+        <div class="p-4 rounded-xl bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800/80 shadow-sm space-y-2">
+          <h4 class="font-bold text-slate-800 dark:text-white">9.1 今日重要財報動態解讀</h4>
+          <p class="text-slate-600 dark:text-zinc-400 leading-relaxed">
+            • <strong>Lennar (LEN) 盤後財報預覽</strong>：美國頂級住宅營建商，市場預期營收與交付量維持平穩，但重點關注高房貸利率是否導致購屋激勵補貼上升，進而壓抑毛利率。營建股表現將直接反映美國實體房地產週期健康度。<br>
+            • <strong>甲骨文 (ORCL) 與 Adobe (ADBE) 估值消化</strong>：財報公佈後兩家公司均經歷了顯著的市場定價，甲骨文IaaS在$140支撐位逐步企穩，Adobe在$255附近迎來逢低買盤。
+          </p>
+        </div>
+
+        <div class="p-4 rounded-xl bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800/80 shadow-sm space-y-2">
+          <h4 class="font-bold text-slate-800 dark:text-white">9.2 未來 1-3 個交易日核心財報日曆</h4>
+          <ul class="space-y-1.5 text-slate-650 dark:text-zinc-300">
+            <li>• <strong>週三 (09-16) 盤後</strong>：<strong>General Mills (GIS)</strong> —— 必需消費食品巨頭，檢驗通膨下終端定價權。</li>
+            <li>• <strong>週四 (09-17) 盤後</strong>：<strong>聯邦快遞 (FedEx, FDX)</strong> —— <strong>全球宏觀晴雨表</strong>，檢驗全球貿易物流與企業IT支出。</li>
+            <li>• <strong>週五 (09-18) 盤前</strong>：<strong>達頓餐飲 (DRI)</strong> —— 檢驗北美中產階級外出餐飲與線下服務業消費強度。</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- 10. 機構觀點與資金流 -->
+    <section id="sec-10" class="scroll-mt-6 font-sans">
+      <h2 class="text-xl font-bold mb-4 flex items-center gap-2 border-b border-slate-100 dark:border-zinc-850 pb-2">
+        <span class="text-brand-500">10.</span> 機構觀點與資金流
+      </h2>
+      <div class="p-5 rounded-xl bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800/80 shadow-sm leading-relaxed space-y-3 text-xs sm:text-sm text-slate-650 dark:text-zinc-300">
+        <p>• <strong>摩根大通美股策略主管 (JPMorgan)</strong>：今日發布市場策略簡評指出，雖然10年期美債利率重回5.00%引發部分投資者擔憂，但這更多是由油價反彈驅動的「名義利率上升」，實質利率依然穩定。更重要的是，<strong>半導體板塊在急跌後的迅速企穩，驗證了AI硬體訂單能見度依然具備強大護城河</strong>，建議投資者在FOMC決議落地後逢低加碼優質晶片與資料中心龍頭。</p>
+        <p>• <strong>花旗集團全球大宗商品與股票策略 (Citi)</strong>：原油價格飆破$105將為能源板塊帶來顯著的自由現金流擴張與股息回購空間，維持對能源ETF（XLE）的「超配」評級；同時指出油價走高尚未演變成全面滯脹風險，標普500年終目標價維持在7,800點不變。</p>
+        <p>• <strong>資金流向與期權異動</strong>：今日能源ETF（XLE）與原油基金（USO）錄得單日淨流入超9.5億美元；AMD看漲期權（Call）成交量激增250%，執行價集中在$520與$540；CrowdStrike（CRWD）與Meta持續獲得機構主動型基金資金淨加倉。</p>
+      </div>
+    </section>
+
+    <!-- 11. 板塊輪動判斷 -->
+    <section id="sec-11" class="scroll-mt-6 font-sans">
+      <h2 class="text-xl font-bold mb-4 flex items-center gap-2 border-b border-slate-100 dark:border-zinc-850 pb-2">
+        <span class="text-brand-500">11.</span> 板塊輪動判斷
+      </h2>
+      <div class="p-5 rounded-xl bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800/80 shadow-sm leading-relaxed space-y-3 text-xs sm:text-sm text-slate-650 dark:text-zinc-300">
+        <p>
+          <strong>輪動本質研判：</strong>當前市場處於<strong>「科技內部多空博弈與大宗能源補漲並存的健康高位換手期」</strong>。
+        </p>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
+          <div class="p-3 rounded-lg bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800 text-emerald-900 dark:text-emerald-200">
+            <strong>資金積極流入方向：</strong>高油價驅動的上游能源板塊（XLE / XOM / CVX）、超跌企穩的半導體核心龍頭（AMD / MRVL / DELL / ANET）、持續突破天價的超級巨頭（Meta）、剛性資安龍頭（CRWD）。
+          </div>
+          <div class="p-3 rounded-lg bg-rose-50 dark:bg-rose-950/40 border border-rose-200 dark:border-rose-800 text-rose-900 dark:text-rose-200">
+            <strong>資金暫時流出/休整方向：</strong>利率敏感型公用事業（XLU）、前期大漲的SaaS軟體獲利籌碼（ADBE / SNOW）、高估值非必需消費（XLY / AMZN）。
+          </div>
+        </div>
+        <p class="text-xs text-slate-500 dark:text-zinc-400">
+          <strong>AI 主線健康度：極高（Excellent）。</strong>晶片板塊未出現踩踏破位，超微AMD與戴爾DELL的強勁反彈證明產業底層需求強硬；資安與巨頭的持續突破表明AI生態各環節均有資金深度駐守，市場結構極其健康。
+        </p>
+      </div>
+    </section>
+
+    <!-- 12. 我的重點關注股觀察 -->
+    <section id="sec-12" class="scroll-mt-6 font-sans">
+      <h2 class="text-xl font-bold mb-4 flex items-center gap-2 border-b border-slate-100 dark:border-zinc-850 pb-2">
+        <span class="text-brand-500">12.</span> 我的重點關注股觀察 (23 隻核心標的追蹤)
+      </h2>
+      
+      <div class="flex flex-col sm:flex-row gap-3 mb-4 items-start sm:items-center justify-between">
+        <input type="text" id="watchSearch" placeholder="搜尋股票代碼或公司名稱..." class="w-full sm:w-72 px-3 py-1.5 text-xs sm:text-sm rounded-lg border border-slate-300 dark:border-zinc-700 bg-white dark:bg-zinc-900 focus:outline-none focus:ring-2 focus:ring-brand-500">
+        <div class="text-xs text-slate-400">點擊表頭可快速排序 ⇅</div>
+      </div>
+
+      <div class="overflow-x-auto rounded-xl border border-slate-200 dark:border-zinc-800/80 bg-white dark:bg-zinc-900 shadow-sm">
+        <table id="watchTable" class="w-full text-xs sm:text-sm text-left border-collapse" data-sort-dir="asc">
+          <thead class="bg-slate-50 dark:bg-zinc-800/60 border-b border-slate-200 dark:border-zinc-700 text-slate-500 dark:text-zinc-400">
+            <tr>
+              <th class="p-3 sortable" onclick="sortTable('watchTable', 0)">代碼</th>
+              <th class="p-3 sortable" onclick="sortTable('watchTable', 1, true)">最新價</th>
+              <th class="p-3 sortable" onclick="sortTable('watchTable', 2, true)">當日漲跌</th>
+              <th class="p-3">走勢與關鍵動態研判</th>
+              <th class="p-3">關鍵支撐 / 壓力</th>
+              <th class="p-3 sortable" onclick="sortTable('watchTable', 5)">交易決策標籤</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-slate-100 dark:divide-zinc-800">
+            <tr class="hover:bg-slate-50 dark:hover:bg-zinc-800/30">
+              <td class="p-3 font-semibold">NVDA</td>
+              <td class="p-3 font-mono">$212.17</td>
+              <td class="p-3 text-emerald-600 font-bold">+0.57%</td>
+              <td class="p-3 text-xs sm:text-sm">微漲0.57%報$212.17。成功守穩$210整數防線，Blackwell架構伺服器進入量產交貨高峰，低吸資金入場回補。</td>
+              <td class="p-3 font-mono text-xs sm:text-sm">$208.00 / $222.00</td>
+              <td class="p-3"><span class="px-2 py-0.5 rounded text-xs font-semibold bg-blue-100 dark:bg-blue-950 text-blue-700 dark:text-blue-300">回踩支撐</span></td>
+            </tr>
+            <tr class="hover:bg-slate-50 dark:hover:bg-zinc-800/30">
+              <td class="p-3 font-semibold">AMD</td>
+              <td class="p-3 font-mono">$504.20</td>
+              <td class="p-3 text-emerald-600 font-bold">+2.19%</td>
+              <td class="p-3 text-xs sm:text-sm">放量大漲2.19%報$504.20。重新站上$500歷史性里程碑！晶片反攻領頭羊，MI350加速器在大型雲端廠商驗收通過。</td>
+              <td class="p-3 font-mono text-xs sm:text-sm">$492.00 / $520.00</td>
+              <td class="p-3"><span class="px-2 py-0.5 rounded text-xs font-semibold bg-emerald-100 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-300">繼續強勢</span></td>
+            </tr>
+            <tr class="hover:bg-slate-50 dark:hover:bg-zinc-800/30">
+              <td class="p-3 font-semibold">AVGO</td>
+              <td class="p-3 font-mono">$339.27</td>
+              <td class="p-3 text-rose-500 font-bold">-1.58%</td>
+              <td class="p-3 text-xs sm:text-sm">下跌1.58%報$339.27。回測$338-$340重要整數支撐平台，客製化ASIC長線壁壘堅固，等待止跌放量信號。</td>
+              <td class="p-3 font-mono text-xs sm:text-sm">$335.00 / $355.00</td>
+              <td class="p-3"><span class="px-2 py-0.5 rounded text-xs font-semibold bg-blue-100 dark:bg-blue-950 text-blue-700 dark:text-blue-300">回踩支撐</span></td>
+            </tr>
+            <tr class="hover:bg-slate-50 dark:hover:bg-zinc-800/30">
+              <td class="p-3 font-semibold">MRVL</td>
+              <td class="p-3 font-mono">$221.70</td>
+              <td class="p-3 text-emerald-600 font-bold">+1.32%</td>
+              <td class="p-3 text-xs sm:text-sm">反彈1.32%報$221.70。守住20日均線支撐，800G與1.6T光電互聯DSP晶片剛性需求強勁，技術面迎來超跌修復。</td>
+              <td class="p-3 font-mono text-xs sm:text-sm">$216.00 / $232.00</td>
+              <td class="p-3"><span class="px-2 py-0.5 rounded text-xs font-semibold bg-sky-100 dark:bg-sky-950 text-sky-700 dark:text-sky-300">低位修復</span></td>
+            </tr>
+            <tr class="hover:bg-slate-50 dark:hover:bg-zinc-800/30">
+              <td class="p-3 font-semibold">GOOGL</td>
+              <td class="p-3 font-mono">$344.98</td>
+              <td class="p-3 text-rose-500 font-bold">-1.26%</td>
+              <td class="p-3 text-xs sm:text-sm">小跌1.26%報$344.98。在逼近$350歷史里程碑後高位良性換手，AI搜尋商業回報率超預期，多頭結構完好。</td>
+              <td class="p-3 font-mono text-xs sm:text-sm">$338.00 / $355.00</td>
+              <td class="p-3"><span class="px-2 py-0.5 rounded text-xs font-semibold bg-yellow-100 dark:bg-yellow-950 text-yellow-700 dark:text-yellow-300">高位震盪</span></td>
+            </tr>
+            <tr class="hover:bg-slate-50 dark:hover:bg-zinc-800/30">
+              <td class="p-3 font-semibold">MSFT</td>
+              <td class="p-3 font-mono">$497.12</td>
+              <td class="p-3 text-rose-500 font-bold">-1.64%</td>
+              <td class="p-3 text-xs sm:text-sm">回踩1.64%報$497.12。在昨日突破$505天價後技術性休整，回測$495-$500平台支撐，38GW電網與Copilot長線護城河深厚。</td>
+              <td class="p-3 font-mono text-xs sm:text-sm">$492.00 / $512.00</td>
+              <td class="p-3"><span class="px-2 py-0.5 rounded text-xs font-semibold bg-blue-100 dark:bg-blue-950 text-blue-700 dark:text-blue-300">回踩支撐</span></td>
+            </tr>
+            <tr class="hover:bg-slate-50 dark:hover:bg-zinc-800/30">
+              <td class="p-3 font-semibold">META</td>
+              <td class="p-3 font-mono">$670.24</td>
+              <td class="p-3 text-emerald-600 font-bold">+0.70%</td>
+              <td class="p-3 text-xs sm:text-sm">逆勢上漲0.70%報$670.24。再創收盤歷史新天價！全天強勢站上$670，開源Llama生態與廣告商業變現勢頭極其兇悍。</td>
+              <td class="p-3 font-mono text-xs sm:text-sm">$655.00 / $685.00</td>
+              <td class="p-3"><span class="px-2 py-0.5 rounded text-xs font-semibold bg-emerald-100 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-300">繼續強勢</span></td>
+            </tr>
+            <tr class="hover:bg-slate-50 dark:hover:bg-zinc-800/30">
+              <td class="p-3 font-semibold">AMZN</td>
+              <td class="p-3 font-mono">$248.42</td>
+              <td class="p-3 text-rose-500 font-bold">-2.02%</td>
+              <td class="p-3 text-xs sm:text-sm">收跌2.02%報$248.42。回測$248關鍵均線支撐平台，AWS雲端計算需求依然飽滿，年底旺季電商基本面具高防禦性。</td>
+              <td class="p-3 font-mono text-xs sm:text-sm">$244.00 / $258.00</td>
+              <td class="p-3"><span class="px-2 py-0.5 rounded text-xs font-semibold bg-blue-100 dark:bg-blue-950 text-blue-700 dark:text-blue-300">回踩支撐</span></td>
+            </tr>
+            <tr class="hover:bg-slate-50 dark:hover:bg-zinc-800/30">
+              <td class="p-3 font-semibold">ORCL</td>
+              <td class="p-3 font-mono">$140.35</td>
+              <td class="p-3 text-rose-500 font-bold">-3.07%</td>
+              <td class="p-3 text-xs sm:text-sm">收跌3.07%報$140.35。財報利好兌現後持續進行技術洗盤，牢牢守在$140整數支撐上方，IaaS高速增長邏輯不變。</td>
+              <td class="p-3 font-mono text-xs sm:text-sm">$138.00 / $150.00</td>
+              <td class="p-3"><span class="px-2 py-0.5 rounded text-xs font-semibold bg-indigo-100 dark:bg-indigo-950 text-indigo-700 dark:text-indigo-300">利好兌現</span></td>
+            </tr>
+            <tr class="hover:bg-slate-50 dark:hover:bg-zinc-800/30">
+              <td class="p-3 font-semibold">CRM</td>
+              <td class="p-3 font-mono">$256.32</td>
+              <td class="p-3 text-rose-500 font-bold">-1.20%</td>
+              <td class="p-3 text-xs sm:text-sm">回調1.20%報$256.32。Dreamforce 2026大會熱度不減，在昨日大漲近5%後健康消化獲利籌碼，Agentforce商業潛力巨大。</td>
+              <td class="p-3 font-mono text-xs sm:text-sm">$250.00 / $268.00</td>
+              <td class="p-3"><span class="px-2 py-0.5 rounded text-xs font-semibold bg-yellow-100 dark:bg-yellow-950 text-yellow-700 dark:text-yellow-300">高位震盪</span></td>
+            </tr>
+            <tr class="hover:bg-slate-50 dark:hover:bg-zinc-800/30">
+              <td class="p-3 font-semibold">NOW</td>
+              <td class="p-3 font-mono">$141.90</td>
+              <td class="p-3 text-rose-500 font-bold">-0.32%</td>
+              <td class="p-3 text-xs sm:text-sm">微跌0.32%報$141.90。在昨日暴漲逾7%創天價後高位強勢橫盤，Agentic AI工作流合約井噴，多頭蓄勢充分。</td>
+              <td class="p-3 font-mono text-xs sm:text-sm">$138.00 / $150.00</td>
+              <td class="p-3"><span class="px-2 py-0.5 rounded text-xs font-semibold bg-emerald-100 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-300">繼續強勢</span></td>
+            </tr>
+            <tr class="hover:bg-slate-50 dark:hover:bg-zinc-800/30">
+              <td class="p-3 font-semibold">SNOW</td>
+              <td class="p-3 font-mono">$322.98</td>
+              <td class="p-3 text-rose-500 font-bold">-2.82%</td>
+              <td class="p-3 text-xs sm:text-sm">下跌2.82%報$322.98。SaaS板塊普漲後常規回吐，守在$320支撐平台上方，企業數據雲倉庫需求高景氣維持。</td>
+              <td class="p-3 font-mono text-xs sm:text-sm">$318.00 / $340.00</td>
+              <td class="p-3"><span class="px-2 py-0.5 rounded text-xs font-semibold bg-yellow-100 dark:bg-yellow-950 text-yellow-700 dark:text-yellow-300">高位震盪</span></td>
+            </tr>
+            <tr class="hover:bg-slate-50 dark:hover:bg-zinc-800/30">
+              <td class="p-3 font-semibold">ADBE</td>
+              <td class="p-3 font-mono">$257.76</td>
+              <td class="p-3 text-rose-500 font-bold">-2.95%</td>
+              <td class="p-3 text-xs sm:text-sm">回調2.95%報$257.76。大漲後正常休整回測$255支撐帶，AI-first ARR強勁增長與新管理層預期提供中長線底氣。</td>
+              <td class="p-3 font-mono text-xs sm:text-sm">$252.00 / $272.00</td>
+              <td class="p-3"><span class="px-2 py-0.5 rounded text-xs font-semibold bg-yellow-100 dark:bg-yellow-950 text-yellow-700 dark:text-yellow-300">高位震盪</span></td>
+            </tr>
+            <tr class="hover:bg-slate-50 dark:hover:bg-zinc-800/30">
+              <td class="p-3 font-semibold">PLTR</td>
+              <td class="p-3 font-mono">$172.56</td>
+              <td class="p-3 text-rose-500 font-bold">-0.43%</td>
+              <td class="p-3 text-xs sm:text-sm">微跌0.43%報$172.56。穩守$170歷史高位區間，AIP企業與防務合約能見度極高，多頭趨勢堅挺。</td>
+              <td class="p-3 font-mono text-xs sm:text-sm">$168.00 / $180.00</td>
+              <td class="p-3"><span class="px-2 py-0.5 rounded text-xs font-semibold bg-emerald-100 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-300">繼續強勢</span></td>
+            </tr>
+            <tr class="hover:bg-slate-50 dark:hover:bg-zinc-800/30">
+              <td class="p-3 font-semibold">LITE</td>
+              <td class="p-3 font-mono">$838.96</td>
+              <td class="p-3 text-emerald-600 font-bold">+0.47%</td>
+              <td class="p-3 text-xs sm:text-sm">微漲0.47%報$838.96。在昨日重挫後企穩於$835-$840區間，消化千元關口浮籌，尋求均線承接支撐。</td>
+              <td class="p-3 font-mono text-xs sm:text-sm">$820.00 / $880.00</td>
+              <td class="p-3"><span class="px-2 py-0.5 rounded text-xs font-semibold bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300">需要觀察</span></td>
+            </tr>
+            <tr class="hover:bg-slate-50 dark:hover:bg-zinc-800/30">
+              <td class="p-3 font-semibold">COHR</td>
+              <td class="p-3 font-mono">$271.17</td>
+              <td class="p-3 text-emerald-600 font-bold">+1.75%</td>
+              <td class="p-3 text-xs sm:text-sm">反彈1.75%報$271.17。止跌回升收復$270關卡，800G/1.6T光模組高景氣度依舊，短線恐慌拋盤被多頭逢低消化。</td>
+              <td class="p-3 font-mono text-xs sm:text-sm">$260.00 / $288.00</td>
+              <td class="p-3"><span class="px-2 py-0.5 rounded text-xs font-semibold bg-sky-100 dark:bg-sky-950 text-sky-700 dark:text-sky-300">低位修復</span></td>
+            </tr>
+            <tr class="hover:bg-slate-50 dark:hover:bg-zinc-800/30">
+              <td class="p-3 font-semibold">ANET</td>
+              <td class="p-3 font-mono">$192.84</td>
+              <td class="p-3 text-emerald-600 font-bold">+2.68%</td>
+              <td class="p-3 text-xs sm:text-sm">大漲2.68%報$192.84。強勁反彈逼近$200歷史天價，AI資料中心乙太網交換機硬邏輯堅不可摧，領跑網絡設備。</td>
+              <td class="p-3 font-mono text-xs sm:text-sm">$185.00 / $202.00</td>
+              <td class="p-3"><span class="px-2 py-0.5 rounded text-xs font-semibold bg-emerald-100 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-300">繼續強勢</span></td>
+            </tr>
+            <tr class="hover:bg-slate-50 dark:hover:bg-zinc-800/30">
+              <td class="p-3 font-semibold">FLNC</td>
+              <td class="p-3 font-mono">$9.30</td>
+              <td class="p-3 text-rose-500 font-bold">-1.17%</td>
+              <td class="p-3 text-xs sm:text-sm">下跌1.17%報$9.30。在$9.20-$9.40箱體底部維持整固，電網側儲能等待政策與催化劑指引。</td>
+              <td class="p-3 font-mono text-xs sm:text-sm">$9.00 / $10.00</td>
+              <td class="p-3"><span class="px-2 py-0.5 rounded text-xs font-semibold bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300">需要觀察</span></td>
+            </tr>
+            <tr class="hover:bg-slate-50 dark:hover:bg-zinc-800/30">
+              <td class="p-3 font-semibold">OKLO</td>
+              <td class="p-3 font-mono">$35.98</td>
+              <td class="p-3 text-rose-500 font-bold">-0.64%</td>
+              <td class="p-3 text-xs sm:text-sm">微跌0.64%報$35.98。牢守$35.50-$36.00核心趨勢線支撐，SMR小型模組化核反應堆長期抗跌性顯著。</td>
+              <td class="p-3 font-mono text-xs sm:text-sm">$34.50 / $39.00</td>
+              <td class="p-3"><span class="px-2 py-0.5 rounded text-xs font-semibold bg-blue-100 dark:bg-blue-950 text-blue-700 dark:text-blue-300">回踩支撐</span></td>
+            </tr>
+            <tr class="hover:bg-slate-50 dark:hover:bg-zinc-800/30">
+              <td class="p-3 font-semibold">VST</td>
+              <td class="p-3 font-mono">$141.53</td>
+              <td class="p-3 text-emerald-600 font-bold">+0.57%</td>
+              <td class="p-3 text-xs sm:text-sm">逆勢上漲0.57%報$141.53。止跌翻紅收復$141，AI資料中心核電直供合同壁壘極高，低位承接買盤積極。</td>
+              <td class="p-3 font-mono text-xs sm:text-sm">$138.00 / $148.00</td>
+              <td class="p-3"><span class="px-2 py-0.5 rounded text-xs font-semibold bg-blue-100 dark:bg-blue-950 text-blue-700 dark:text-blue-300">回踩支撐</span></td>
+            </tr>
+            <tr class="hover:bg-slate-50 dark:hover:bg-zinc-800/30">
+              <td class="p-3 font-semibold">CEG</td>
+              <td class="p-3 font-mono">$259.89</td>
+              <td class="p-3 text-rose-500 font-bold">-1.77%</td>
+              <td class="p-3 text-xs sm:text-sm">下跌1.77%報$259.89。回測$258-$260重要支撐帶，微軟38GW長週期用電協議確立扎實估值底部。</td>
+              <td class="p-3 font-mono text-xs sm:text-sm">$255.00 / $275.00</td>
+              <td class="p-3"><span class="px-2 py-0.5 rounded text-xs font-semibold bg-blue-100 dark:bg-blue-950 text-blue-700 dark:text-blue-300">回踩支撐</span></td>
+            </tr>
+            <tr class="hover:bg-slate-50 dark:hover:bg-zinc-800/30">
+              <td class="p-3 font-semibold">ETN</td>
+              <td class="p-3 font-mono">$392.40</td>
+              <td class="p-3 text-rose-500 font-bold">-0.19%</td>
+              <td class="p-3 text-xs sm:text-sm">止跌微跌0.19%報$392.40。在昨日暴跌後全天企穩於$392上方，變壓器與電網設備在手訂單排期至2028年，殺跌動能竭盡。</td>
+              <td class="p-3 font-mono text-xs sm:text-sm">$385.00 / $410.00</td>
+              <td class="p-3"><span class="px-2 py-0.5 rounded text-xs font-semibold bg-blue-100 dark:bg-blue-950 text-blue-700 dark:text-blue-300">回踩支撐</span></td>
+            </tr>
+            <tr class="hover:bg-slate-50 dark:hover:bg-zinc-800/30">
+              <td class="p-3 font-semibold">VRT</td>
+              <td class="p-3 font-mono">$240.24</td>
+              <td class="p-3 text-emerald-600 font-bold">+1.20%</td>
+              <td class="p-3 text-xs sm:text-sm">反彈1.20%報$240.24。止跌回升重返$240大關，AI資料中心液冷散熱高景氣度不減，技術面探底回升。</td>
+              <td class="p-3 font-mono text-xs sm:text-sm">$232.00 / $252.00</td>
+              <td class="p-3"><span class="px-2 py-0.5 rounded text-xs font-semibold bg-sky-100 dark:bg-sky-950 text-sky-700 dark:text-sky-300">低位修復</span></td>
+            </tr>
+
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- 13. 次日交易計畫 / 觀察清單 -->
+    <section id="sec-13" class="scroll-mt-6 font-sans">
+      <h2 class="text-xl font-bold mb-4 flex items-center gap-2 border-b border-slate-100 dark:border-zinc-850 pb-2">
+        <span class="text-brand-500">13.</span> 明日交易計畫 / 觀察清單 (FOMC 利率決議決戰日)
+      </h2>
+      
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs sm:text-sm">
+        <div class="p-4 rounded-xl bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800/80 shadow-sm space-y-2">
+          <h4 class="font-bold text-slate-800 dark:text-white">13.1 宏觀指標觀察</h4>
+          <ul class="space-y-1.5 text-slate-650 dark:text-zinc-300">
+            <li>• <strong>週三下午 2:00 FOMC 利率決議與點陣圖</strong>：焦點看點陣圖是否維持2026年內累計降息50-75 bps的指引。</li>
+            <li>• <strong>下午 2:30 鮑威爾記者會</strong>：重點觀察對就業市場冷卻與高油價對通膨預期影響的定調。</li>
+            <li>• <strong>10年期美債殖利率在 5.00% 關口的爭奪</strong>：若決議公佈後回落至4.90%下方，科技股將迎來全面爆發性反攻。</li>
+            <li>• <strong>WTI 原油在 $105 關口的持續性</strong>：觀察是否有獲利回吐跡象以緩解通膨擔憂。</li>
+          </ul>
+        </div>
+
+        <div class="p-4 rounded-xl bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800/80 shadow-sm space-y-2">
+          <h4 class="font-bold text-slate-800 dark:text-white">13.2 大盤關鍵攻防位置</h4>
+          <ul class="space-y-1.5 text-slate-650 dark:text-zinc-300">
+            <li>• <strong>SPY (標普500)</strong>：關鍵支撐位 $755.00（50日均線防線），上方突破壓力位 $765.00。</li>
+            <li>• <strong>QQQ (納指100)</strong>：關鍵支撐位 $700.00，上方回攻目標 $714.00。</li>
+            <li>• <strong>SOXX (半導體)</strong>：關鍵支撐 $492.00，上方反彈阻力位 $510.00。</li>
+            <li>• <strong>XLE (能源)</strong>：突破目標 $68.00，回踩支撐 $64.50。</li>
+          </ul>
+        </div>
+
+        <div class="p-4 rounded-xl bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800/80 shadow-sm space-y-2">
+          <h4 class="font-bold text-slate-800 dark:text-white">13.3 核心個股觀察清單</h4>
+          <ul class="space-y-1.5 text-slate-650 dark:text-zinc-300">
+            <li>• <strong>晶片反攻領袖</strong>：<strong>AMD（守穩$500攻向$520）</strong>、<strong>戴爾（DELL 續衝歷史新高）</strong>、<strong>ANET（挑戰$200大關）</strong>。</li>
+            <li>• <strong>歷史天價巨頭</strong>：<strong>Meta（META $670上方繼續拓寬多頭空間）</strong>、<strong>微軟（MSFT 回踩$495企穩機會）</strong>。</li>
+            <li>• <strong>能源週期主力</strong>：<strong>埃克森美孚（XOM）</strong>、<strong>雪佛龍（CVX）</strong>。</li>
+            <li>• <strong>資安逼空黑馬</strong>：<strong>CrowdStrike（CRWD 挑戰$250壓力區）</strong>。</li>
+            <li>• <strong>重電與散熱修復</strong>：<strong>Vertiv（VRT 站上$240）</strong>、<strong>伊頓（ETN 守住$390）</strong>。</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- 14. 風險提示 -->
+    <section id="sec-14" class="scroll-mt-6 font-sans">
+      <h2 class="text-xl font-bold mb-4 flex items-center gap-2 border-b border-slate-100 dark:border-zinc-850 pb-2">
+        <span class="text-brand-500">14.</span> 風險提示（視覺化風險矩陣）
+      </h2>
+      
+      <div class="overflow-x-auto rounded-xl border border-slate-200 dark:border-zinc-800/80 bg-white dark:bg-zinc-900 shadow-sm">
+        <table class="w-full text-xs sm:text-sm text-left border-collapse">
+          <thead class="bg-slate-50 dark:bg-zinc-800/60 border-b border-slate-200 dark:border-zinc-700 text-slate-500 dark:text-zinc-400">
+            <tr>
+              <th class="p-3">風險維度</th>
+              <th class="p-3">風險評級</th>
+              <th class="p-3">具體解讀與潛在影響</th>
+              <th class="p-3">應對策略</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-slate-100 dark:divide-zinc-800">
+            <tr>
+              <td class="p-3 font-semibold">FOMC 決議與點陣圖預期差變數</td>
+              <td class="p-3"><span class="px-2 py-0.5 rounded text-xs font-bold bg-rose-100 dark:bg-rose-950 text-rose-700 dark:text-rose-300">高風險</span></td>
+              <td class="p-3">若鮑威爾會後表態偏鷹派，或點陣圖削減年內降息次數預期，短線可能引發跨資產劇烈洗盤。</td>
+              <td class="p-3">週三決議前嚴格控制倉位與槓桿，保留充足現金以防決議後的假摔或假突破。</td>
+            </tr>
+            <tr>
+              <td class="p-3 font-semibold">WTI 原油狂飆破 $105 帶來的二次通膨擔憂</td>
+              <td class="p-3"><span class="px-2 py-0.5 rounded text-xs font-bold bg-orange-100 dark:bg-orange-950 text-orange-700 dark:text-orange-300">中高風險</span></td>
+              <td class="p-3">油價持續居高不下將推高運輸與終端製造成本，壓抑企業利潤率並延緩後續降息步伐。</td>
+              <td class="p-3">組合中適當配置能源ETF（XLE）或高自由現金流的上游原油開採股作為天然避險對沖。</td>
+            </tr>
+            <tr>
+              <td class="p-3 font-semibold">10年期美債殖利率在 5.00% 關卡的高位震盪</td>
+              <td class="p-3"><span class="px-2 py-0.5 rounded text-xs font-bold bg-orange-100 dark:bg-orange-950 text-orange-700 dark:text-orange-300">中高風險</span></td>
+              <td class="p-3">長端利率突破5.00%將提升無風險折現率，對未盈利題材股與公用事業板塊構成持續估值壓制。</td>
+              <td class="p-3">避開高負債、無盈利的投機標的，精選自由現金流充沛的科技巨頭與剛性訂閱資安軟體。</td>
+            </tr>
+            <tr>
+              <td class="p-3 font-semibold">半導體修復過程中的反覆震盪</td>
+              <td class="p-3"><span class="px-2 py-0.5 rounded text-xs font-bold bg-yellow-100 dark:bg-yellow-950 text-yellow-700 dark:text-yellow-300">中等風險</span></td>
+              <td class="p-3">雖然今日AMD與戴爾反彈強勁，但高位獲利盤沉澱仍需時間消化，不排除再次回踩支撐。</td>
+              <td class="p-3">分批分段佈局，在50日均線支撐位附近低吸，切忌急躁追高。</td>
+            </tr>
+            <tr>
+              <td class="p-3 font-semibold">全市場信用風險與流動性</td>
+              <td class="p-3"><span class="px-2 py-0.5 rounded text-xs font-bold bg-emerald-100 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-300">低風險</span></td>
+              <td class="p-3">VIX指數僅微升至17.20，高收益債利差平穩，銀行體系流動性充裕，未見流動性衝擊跡象。</td>
+              <td class="p-3">保持對牛市中長期趨勢的信心，利用震盪優化持倉結構。</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- 15. 最終結論 -->
+    <section id="sec-15" class="scroll-mt-6 font-sans">
+      <h2 class="text-xl font-bold mb-4 flex items-center gap-2 border-b border-slate-100 dark:border-zinc-850 pb-2">
+        <span class="text-brand-500">15.</span> 最終結論
+      </h2>
+      
+      <div class="p-5 rounded-xl bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800/80 shadow-sm leading-relaxed space-y-4 text-xs sm:text-sm">
+        <div>
+          <h4 class="font-bold text-slate-800 dark:text-white mb-1">📌 今日市場結論</h4>
+          <p class="text-slate-650 dark:text-zinc-300">
+            週二美股市場在大考前夕展現出極強的抗壓韌性與良性輪動特質！面對WTI原油飆漲突破$105與美債10年期殖利率重回5.00%的宏觀雙重考驗，大盤沒有發生恐慌踩踏，標普500僅微跌-0.45%穩守關鍵均線。更重要的是，<strong>半導體晶片板塊在昨日暴跌後迅速止跌翻紅，超微AMD大漲重奪$500天價，戴爾續創新高，Meta更是逆勢飆上$670再創歷史新天價</strong>！加上能源板塊大漲超2%提供有力承托，市場內部資金流向清晰且承接堅定，完全體現了牛市結構的抗跌深度。
+          </p>
+        </div>
+
+        <div>
+          <h4 class="font-bold text-slate-800 dark:text-white mb-1">🧭 當前市場階段</h4>
+          <p class="text-slate-650 dark:text-zinc-300">
+            <strong>【高位強勢震盪蓄勢 / 宏觀大考前夕再平衡 / 晶片超跌企穩修復 / 能源大宗週期共振】</strong>—— 大盤處於重要轉折節點前夕的常規整固階段，指數窄幅換手充分消化技術指標，等待FOMC政策靴子落地。
+          </p>
+        </div>
+
+        <div>
+          <h4 class="font-bold text-slate-800 dark:text-white mb-1">🎯 我的操作傾向（客觀中性）</h4>
+          <p class="text-slate-650 dark:text-zinc-300">
+            保持「中等偏高倉位（65%-70%）守正出奇」。<strong>逢低布局具備訂單確定性的半導體與硬體龍頭（超微 AMD、戴爾 DELL、邁威爾 MRVL）</strong>；繼續抱牢<strong>「現金流堡壘巨頭（Meta、微軟 MSFT、蘋果 AAPL）」</strong>；配置適量<strong>「能源對沖資產（XLE）」</strong>以平衡地緣油價波動；耐心等待週三FOMC決議與鮑威爾記者會指引明朗化。
+          </p>
+        </div>
+
+        <div class="p-4 bg-blue-50 dark:bg-blue-950/40 border border-blue-200 dark:border-blue-800/60 rounded-xl">
+          <h4 class="font-bold text-blue-900 dark:text-blue-300 mb-2">⚡ 明日最值得關注的 5 個核心訊號</h4>
+          <ol class="list-decimal pl-5 space-y-1 text-blue-950 dark:text-blue-200 text-xs sm:text-sm">
+            <li><strong>週三下午 2:00 FOMC 利率決議與 2026-2027 點陣圖</strong>：終端利率下調幅度與節奏是定奪全球資產價格的最關鍵依據。</li>
+            <li><strong>下午 2:30 鮑威爾新聞發布會對軟著陸與通膨黏性的表態</strong>：觀察其對高油價與就業降溫的權衡論述。</li>
+            <li><strong>10年期美債殖利率在 5.00% 關口的突破與回落動向</strong>：若決議落地後殖利率回落，科技板塊將引爆報復性大反彈。</li>
+            <li><strong>超微 (AMD) 能否在 $500 大關上方站穩並向上拓展</strong>：作為半導體反攻旗手，其走勢將直接定調晶片族群人氣。</li>
+            <li><strong>WTI 原油在 $105 關口的多空博弈與庫存數據</strong>：觀察能源強勢是否會進一步加劇跨資產再通膨交易。</li>
+          </ol>
+        </div>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<!-- Scripts -->
+<script>
+  // Theme toggle
+  const themeBtn = document.getElementById('theme-toggle');
+  themeBtn.addEventListener('click', () => {
+    const isDark = document.documentElement.classList.toggle('dark');
+    localStorage.theme = isDark ? 'dark' : 'light';
+    
+    if (window.__mermaid) {
+      document.querySelectorAll('.mermaid[data-processed]').forEach(el => {
+        el.removeAttribute('data-processed');
+        el.innerHTML = el.dataset.src || el.textContent;
+      });
+      window.__mermaid.initialize({ startOnLoad: false, theme: isDark ? 'dark' : 'default', securityLevel: 'loose' });
+      window.__mermaid.run();
+    }
+  });
+
+  // Overview Chart (Chart.js)
+  const ctx = document.getElementById('overviewChart').getContext('2d');
+  new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: ['標普500 (SPY)', '納斯達克 (QQQ)', '道瓊工業 (DIA)', '羅素2000 (IWM)', '半導體 (SMH)', '費半 (SOXX)', '科技軟體 (IGV)', '科技板塊 (XLK)'],
+      datasets: [{
+        label: '當日漲跌幅 (%)',
+        data: [-0.46, -0.65, -0.62, -0.76, 0.11, 0.29, -1.02, -0.29],
+        backgroundColor: [
+          '#f43f5e', '#f43f5e', '#f43f5e', '#f43f5e', '#10b981', '#10b981', '#f43f5e', '#f43f5e'
+        ],
+        borderRadius: 8,
+        borderWidth: 1
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false }
+      },
+      scales: {
+        y: {
+          ticks: { callback: value => value + '%' }
+        }
+      }
+    }
+  });
+
+  // Search/Filter for Sector Table
+  document.getElementById('sectorSearch').addEventListener('input', function(e) {
+    const q = e.target.value.toLowerCase();
+    const rows = document.querySelectorAll('#sectorTable tbody tr');
+    rows.forEach(row => {
+      const text = row.textContent.toLowerCase();
+      row.style.display = text.includes(q) ? '' : 'none';
+    });
+  });
+
+  // Search/Filter for Watch Table
+  document.getElementById('watchSearch').addEventListener('input', function(e) {
+    const q = e.target.value.toLowerCase();
+    const rows = document.querySelectorAll('#watchTable tbody tr');
+    rows.forEach(row => {
+      const text = row.textContent.toLowerCase();
+      row.style.display = text.includes(q) ? '' : 'none';
+    });
+  });
+
+  // Simple Vanilla JS Table Sorting
+  function sortTable(tableId, colIndex, isNumeric = false) {
+    const table = document.getElementById(tableId);
+    const tbody = table.querySelector('tbody');
+    const rows = Array.from(tbody.querySelectorAll('tr'));
+    const currentDir = table.getAttribute('data-sort-dir') === 'asc' ? 'desc' : 'asc';
+    table.setAttribute('data-sort-dir', currentDir);
+    
+    rows.sort((a, b) => {
+      let cellA = a.cells[colIndex].textContent.trim();
+      let cellB = b.cells[colIndex].textContent.trim();
+      
+      if (isNumeric) {
+        cellA = parseFloat(cellA.replace(/[^\d\.\-]/g, '')) || 0;
+        cellB = parseFloat(cellB.replace(/[^\d\.\-]/g, '')) || 0;
+        return currentDir === 'asc' ? cellA - cellB : cellB - cellA;
+      }
+      
+      return currentDir === 'asc' 
+        ? cellA.localeCompare(cellB, 'zh-TW') 
+        : cellB.localeCompare(cellA, 'zh-TW');
+    });
+    
+    rows.forEach(row => tbody.appendChild(row));
+  }
+
+  // Sticky TOC Scroll Spy
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const id = entry.target.getAttribute('id');
+        document.querySelectorAll('.toc a').forEach(a => {
+          a.classList.toggle('active', a.getAttribute('href') === `#${id}`);
+        });
+      }
+    });
+  }, { rootMargin: '-20% 0px -75% 0px' });
+
+  document.querySelectorAll('main > section[id]').forEach(section => {
+    observer.observe(section);
+  });
+</script>
+</body>
+</html>
