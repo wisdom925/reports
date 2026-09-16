@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="zh-TW" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>400G per Lane MSA 單通道 400G 主動式銅纜（AEC）技術規範解析：邁向 3.2T 算力中心高速互連架構</title>
+  <meta name="description" content="深度解析全球固定網路創新聯盟（NIDA）與 400G per Lane MSA 最新發布之單通道 400G 有源銅纜（AEC）技術規範，剖析 3.2T 乙太網路物理層演進、DSP 插損補償等級與跨協定 SerDes 底座趨勢。">
+  <meta property="og:title" content="400G per Lane MSA 單通道 400G 主動式銅纜（AEC）技術規範解析：邁向 3.2T 算力中心高速互連架構">
+  <meta property="og:description" content="聚焦 3.2T 乙太網路實體層關鍵突破：單通道 400G SerDes 聚合機制、三檔線纜插損劃分、主動式銅纜（AEC）工程架構及產業鏈生態深度檢視。">
+  <meta property="og:type" content="article">
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Chart.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <!-- Mermaid -->
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+    const isDark = document.documentElement.classList.contains('dark');
+    mermaid.initialize({ startOnLoad: true, theme: isDark ? 'dark' : 'default', securityLevel: 'loose' });
+    window.__mermaid = mermaid;
+  </script>
+
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              50: '#f0f9ff',
+              100: '#e0f2fe',
+              200: '#bae6fd',
+              500: '#0284c7',
+              600: '#0369a1',
+              700: '#075985',
+              800: '#075985',
+              900: '#0c4a6e',
+            }
+          }
+        }
+      }
+    };
+    if (localStorage.theme === 'dark' || (!('theme' in localStorage) && matchMedia('(prefers-color-scheme: dark)').matches)) {
+      document.documentElement.classList.add('dark');
+    }
+  </script>
+
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+TC:wght@400;500;700&display=swap');
+    body {
+      font-family: 'Noto Sans TC', 'Inter', sans-serif;
+    }
+    @media (prefers-reduced-motion: reduce) {
+      * { animation: none !important; transition: none !important; }
+    }
+    @media print {
+      .no-print { display: none !important; }
+      body { color: #000; background: #fff; }
+      aside { display: none !important; }
+      main { width: 100% !important; }
+    }
+    .glass-card {
+      background: rgba(255, 255, 255, 0.9);
+      backdrop-filter: blur(12px);
+    }
+    .dark .glass-card {
+      background: rgba(30, 41, 59, 0.9);
+      backdrop-filter: blur(12px);
+    }
+    .toc a {
+      display: block;
+      padding: 0.35rem 0.75rem;
+      border-radius: 0.375rem;
+      color: #64748b;
+      transition: all 0.15s ease-in-out;
+    }
+    .dark .toc a {
+      color: #94a3b8;
+    }
+    .toc a:hover {
+      color: #0284c7;
+      background-color: rgba(2, 132, 199, 0.08);
+    }
+  </style>
+</head>
+
+<body class="bg-slate-50 text-slate-800 dark:bg-slate-950 dark:text-slate-100 transition-colors duration-200 min-h-screen">
+
+  <!-- Floating controls -->
+  <div class="fixed top-4 right-4 z-50 flex gap-2 no-print">
+    <button id="themeToggle" class="px-3 py-1.5 rounded-lg border border-slate-300 dark:border-slate-700 bg-white/80 dark:bg-slate-900/80 backdrop-blur text-sm shadow-sm hover:bg-slate-100 dark:hover:bg-slate-800 transition">
+      <span id="themeIcon">🌙</span>
+    </button>
+    <button onclick="window.print()" class="px-3 py-1.5 rounded-lg border border-slate-300 dark:border-slate-700 bg-white/80 dark:bg-slate-900/80 backdrop-blur text-sm shadow-sm hover:bg-slate-100 dark:hover:bg-slate-800 transition">
+      列印報告
+    </button>
+  </div>
+
+  <!-- Header -->
+  <header class="sticky top-0 z-40 bg-white/85 dark:bg-slate-900/85 backdrop-blur-md border-b border-slate-200 dark:border-slate-800">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between">
+      <div class="flex items-center space-x-3">
+        <span class="px-2.5 py-1 bg-sky-600 text-white font-bold text-sm rounded-md tracking-wider">NET-TECH</span>
+        <div>
+          <h1 class="text-lg sm:text-xl font-bold text-slate-900 dark:text-white leading-tight">
+            400G per Lane MSA 單通道 400G 主動式銅纜（AEC）技術規範全方位解析
+          </h1>
+          <p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
+            報告發布日期：2026 年 9 月 16 日 | 智算互連底座、實體層演進與生態系觀察
+          </p>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Grid Layout -->
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex flex-col lg:flex-row gap-8">
+
+    <!-- Sticky Navigation Sidebar -->
+    <aside class="w-full lg:w-64 flex-shrink-0 no-print">
+      <div class="sticky top-24 space-y-4">
+        <div class="p-4 bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
+          <h3 class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-3">章節目錄</h3>
+          <nav class="space-y-1 text-xs sm:text-sm toc">
+            <a href="#executive-summary">核心成果提要</a>
+            <a href="#serdes-evolution">SerDes 演進與 3.2T 聚合架構</a>
+            <a href="#technical-spec">AEC 初版規範三大核心突破</a>
+            <a href="#interconnect-comparison">機櫃內互連方案全維度對比</a>
+            <a href="#protocol-ecosystem">多互連協定底層依賴分析</a>
+            <a href="#industry-impact">產業鏈佈局與工程化落地</a>
+            <a href="#official-source">資料來源與發布背景</a>
+          </nav>
+        </div>
+
+        <div class="p-4 bg-sky-50 dark:bg-sky-950/40 border border-sky-200 dark:border-sky-800/60 rounded-xl">
+          <h4 class="text-xs font-bold text-sky-800 dark:text-sky-300 uppercase tracking-wide">關鍵快訊</h4>
+          <p class="text-xs text-sky-700 dark:text-sky-400 mt-1.5 leading-relaxed">
+            400G per Lane MSA 在 CIOE 2026 正式公開初版規範，標誌著乙太網路實體層從單通道 200G 跨越至 400G，為 AI 叢集 3.2T 連接埠建立起關鍵標準。
+          </p>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Content Area -->
+    <main class="flex-1 min-w-0 space-y-8">
+
+      <!-- Section: Executive Summary -->
+      <section id="executive-summary" class="scroll-mt-24">
+        <div class="p-6 bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm">
+          <div class="flex items-center space-x-2 mb-3">
+            <span class="w-2.5 h-2.5 rounded-full bg-sky-500"></span>
+            <span class="text-xs font-bold uppercase tracking-wider text-sky-600 dark:text-sky-400">Executive Summary</span>
+          </div>
+          <h2 class="text-xl sm:text-2xl font-bold text-slate-900 dark:text-white mb-4">
+            核心成果提要：填補全球單通道 400G AEC 標準空白
+          </h2>
+          <p class="text-sm sm:text-base text-slate-600 dark:text-slate-300 leading-relaxed mb-6">
+            在全球固定網路創新聯盟（Network Innovation and Development Alliance, NIDA）架構下，由中國移動與華為專家擔任主要起草人的 <strong>400G per Lane MSA</strong> 正式公開《單通道 400G 有源銅纜（AEC）技術規範》初版。這是繼 2026 年 4 月發布《單通道 400G 乙太網路物理層白皮書》後之實質工程進展，首次全面定義支援單通道 400Gbps 訊號傳輸的有源銅纜架構、電氣指標、插損分級與合規測試規範。
+          </p>
+
+          <!-- Key Metrics Grid -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div class="p-4 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700">
+              <span class="text-xs font-medium text-slate-500 dark:text-slate-400">單通道傳輸速率</span>
+              <div class="text-2xl font-bold text-sky-600 dark:text-sky-400 mt-1">400 Gbps</div>
+              <span class="text-xs text-slate-400">SerDes 單 Lane 翻倍躍進</span>
+            </div>
+
+            <div class="p-4 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700">
+              <span class="text-xs font-medium text-slate-500 dark:text-slate-400">支援最高連接埠規格</span>
+              <div class="text-2xl font-bold text-indigo-600 dark:text-indigo-400 mt-1">3.2 Tbps</div>
+              <span class="text-xs text-slate-400">8 × 400G SerDes 聚合</span>
+            </div>
+
+            <div class="p-4 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700">
+              <span class="text-xs font-medium text-slate-500 dark:text-slate-400">線纜插損分級</span>
+              <div class="text-2xl font-bold text-emerald-600 dark:text-emerald-400 mt-1">3 檔等級</div>
+              <span class="text-xs text-slate-400">適配 1m 至 2m+ 傳輸距離</span>
+            </div>
+
+            <div class="p-4 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700">
+              <span class="text-xs font-medium text-slate-500 dark:text-slate-400">聯盟成員規模</span>
+              <div class="text-2xl font-bold text-amber-600 dark:text-amber-400 mt-1">30+ 家</div>
+              <span class="text-xs text-slate-400">晶片、線纜、儀表全產業鏈</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section: SerDes Evolution -->
+      <section id="serdes-evolution" class="scroll-mt-24">
+        <div class="p-6 bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm space-y-6">
+          <div class="flex items-center space-x-2">
+            <span class="w-2.5 h-2.5 rounded-full bg-indigo-500"></span>
+            <span class="text-xs font-bold uppercase tracking-wider text-indigo-600 dark:text-indigo-400">Architecture Evolution</span>
+          </div>
+          <h2 class="text-xl sm:text-2xl font-bold text-slate-900 dark:text-white">
+            SerDes 演進驅動 3.2T 乙太網路物理層變革
+          </h2>
+          <p class="text-sm sm:text-base text-slate-600 dark:text-slate-300 leading-relaxed">
+            當前人工智慧（AI）大語言模型參數量正式跨入十萬億（10 Trillion）等級，智算中心 GPU 叢集節點間的大量並行計算，引發了東西向通訊流量的呈倍數膨脹。交換器連接埠的傳輸頻寬底座，實質取決於<strong>串列解串器（Serializer/Deserializer, SerDes）</strong>的單通道速率。
+          </p>
+
+          <!-- Interactive Chart 1 -->
+          <div class="p-4 bg-slate-50 dark:bg-slate-800/50 rounded-xl border border-slate-200 dark:border-slate-700">
+            <h3 class="text-sm font-semibold text-slate-800 dark:text-slate-200 mb-4 flex justify-between items-center">
+              <span>乙太網路介面演進：連接埠總頻寬 vs 單通道 SerDes 速率</span>
+              <span class="text-xs font-normal text-slate-400">單位：Gbps</span>
+            </h3>
+            <div class="relative h-64 sm:h-72 w-full">
+              <canvas id="serdesChart"></canvas>
+            </div>
+          </div>
+
+          <!-- Mermaid Architecture -->
+          <div class="p-4 bg-slate-50 dark:bg-slate-800/50 rounded-xl border border-slate-200 dark:border-slate-700">
+            <h3 class="text-sm font-semibold text-slate-800 dark:text-slate-200 mb-3">
+              3.2T 乙太網路 8 通道聚合與實體層映射拓撲
+            </h3>
+            <div class="mermaid overflow-x-auto text-xs sm:text-sm py-2">
+flowchart LR
+    subgraph NetworkSwitch["3.2T Switch ASIC"]
+        direction TB
+        ASIC["Switch Core (3.2Tbps MAC)"]
+        S1["400G SerDes #1"]
+        S2["400G SerDes #2"]
+        Sdots["... 400G SerDes #3~#7 ..."]
+        S8["400G SerDes #8"]
+        ASIC --> S1 & S2 & Sdots & S8
+    end
+
+    subgraph AEC["3.2T Active Electrical Cable (AEC)"]
+        direction TB
+        subgraph DSP_Tx["Module Host Side DSP / Retimer"]
+            R1["DSP Ch 1"]
+            R2["DSP Ch 2"]
+            Rdots["... Ch 3~7 ..."]
+            R8["DSP Ch 8"]
+        end
+        subgraph CopperCable["High-Speed Copper Twinax"]
+            C1["Twinax Lane 1 (Loss Tier 1/2/3)"]
+            C2["Twinax Lane 2"]
+            Cdots["... Twinax 3~7 ..."]
+            C8["Twinax Lane 8"]
+        end
+        subgraph DSP_Rx["Module Remote Side DSP / Retimer"]
+            RX1["DSP Ch 1"]
+            RX2["DSP Ch 2"]
+            RXdots["... Ch 3~7 ..."]
+            RX8["DSP Ch 8"]
+        end
+        R1 --> C1 --> RX1
+        R2 --> C2 --> RX2
+        Rdots --> Cdots --> RXdots
+        R8 --> C8 --> RX8
+    end
+
+    subgraph GPU_Node["GPU Acceleration Node"]
+        direction TB
+        NIC["NIC / OAM SerDes Interface"]
+    end
+
+    S1 --> R1
+    S2 --> R2
+    Sdots --> Rdots
+    S8 --> R8
+    RX1 & RX2 & RXdots & RX8 --> NIC
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section: Technical Spec -->
+      <section id="technical-spec" class="scroll-mt-24">
+        <div class="p-6 bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm space-y-6">
+          <div class="flex items-center space-x-2">
+            <span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span>
+            <span class="text-xs font-bold uppercase tracking-wider text-emerald-600 dark:text-emerald-400">Technical Specifications</span>
+          </div>
+          <h2 class="text-xl sm:text-2xl font-bold text-slate-900 dark:text-white">
+            AEC 初版規範三大核心突破
+          </h2>
+          <p class="text-sm sm:text-base text-slate-600 dark:text-slate-300 leading-relaxed">
+            單通道 400G 訊號的波特率高達 200+ GBaud（PAM4 調變架構下），高頻衰減（Attenuation）極度劇烈。初版規範針對高頻物理限制提出三大核心機制：
+          </p>
+
+          <!-- 3 Breakthrough Cards -->
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div class="p-5 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-800/40">
+              <div class="w-8 h-8 rounded-lg bg-sky-100 dark:bg-sky-900/50 flex items-center justify-center text-sky-600 dark:text-sky-400 font-bold mb-3">1</div>
+              <h4 class="font-bold text-slate-900 dark:text-white text-base mb-2">DSP 插損三檔等級劃分</h4>
+              <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
+                規範創新性依據 DSP 補償能力定義三檔線纜插損等級（Insertion Loss Tiers），避免「一刀切」的高昂線材成本，支援 1 公尺機架內連接至 2 公尺以上跨機櫃距離彈性配置。
+              </p>
+            </div>
+
+            <div class="p-5 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-800/40">
+              <div class="w-8 h-8 rounded-lg bg-emerald-100 dark:bg-emerald-900/50 flex items-center justify-center text-emerald-600 dark:text-emerald-400 font-bold mb-3">2</div>
+              <h4 class="font-bold text-slate-900 dark:text-white text-base mb-2">多重 FEC 編碼彈性適配</h4>
+              <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
+                明確定義主動式銅纜內部組成與運行模式，支援前向錯誤更正（FEC）的多種組合配置，兼顧超低延遲（Low Latency）算力叢集與高可靠度鏈路之雙重需求。
+              </p>
+            </div>
+
+            <div class="p-5 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-800/40">
+              <div class="w-8 h-8 rounded-lg bg-purple-100 dark:bg-purple-900/50 flex items-center justify-center text-purple-600 dark:text-purple-400 font-bold mb-3">3</div>
+              <h4 class="font-bold text-slate-900 dark:text-white text-base mb-2">端到端合規測試判據</h4>
+              <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
+                沿用業界成熟量測方法，完整界定發送端（Tx）、接收端（Rx）與整體通道（Channel）的合規測試點（TP1/TP1a/TP4/TP4a），自起步階段即鎖定多晶片廠商互聯互通。
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section: Interconnect Comparison -->
+      <section id="interconnect-comparison" class="scroll-mt-24">
+        <div class="p-6 bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm space-y-6">
+          <div class="flex items-center space-x-2">
+            <span class="w-2.5 h-2.5 rounded-full bg-amber-500"></span>
+            <span class="text-xs font-bold uppercase tracking-wider text-amber-600 dark:text-amber-400">Technology Comparison</span>
+          </div>
+          <h2 class="text-xl sm:text-2xl font-bold text-slate-900 dark:text-white">
+            伺服器機櫃內部主流互連技術全維度對比
+          </h2>
+          <p class="text-sm sm:text-base text-slate-600 dark:text-slate-300 leading-relaxed">
+            進入單通道 400G 世代，傳統無源被動銅纜（Direct Attach Copper, DAC）因物理高頻衰減限制，有效距離縮減至 1 公尺以內甚至不足以跨越單一標準機櫃；光模組雖傳輸距離長但成本與功耗顯著居高。AEC（主動式銅纜）在兩端連接器整合 DSP 重定時晶片，成為機櫃內 1 至 3 公尺黃金互連距離的最優解。
+          </p>
+
+          <!-- Radar Chart Comparison -->
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
+            <div class="p-4 bg-slate-50 dark:bg-slate-800/50 rounded-xl border border-slate-200 dark:border-slate-700">
+              <h3 class="text-sm font-semibold text-slate-800 dark:text-slate-200 mb-2">
+                400G/Lane 世代不同互連介質能力雷達圖
+              </h3>
+              <div class="relative h-64 sm:h-72 w-full">
+                <canvas id="comparisonRadarChart"></canvas>
+              </div>
+            </div>
+
+            <!-- Detailed Comparison Table -->
+            <div class="overflow-x-auto">
+              <table class="w-full text-left text-xs sm:text-sm border-collapse">
+                <thead>
+                  <tr class="border-b border-slate-200 dark:border-slate-700 text-slate-500 dark:text-slate-400">
+                    <th class="py-2.5 px-3 font-semibold">互連型式</th>
+                    <th class="py-2.5 px-3 font-semibold">典型極限距離</th>
+                    <th class="py-2.5 px-3 font-semibold">每通道功耗</th>
+                    <th class="py-2.5 px-3 font-semibold">相對成本</th>
+                    <th class="py-2.5 px-3 font-semibold">線徑與彎折性</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-100 dark:divide-slate-800 text-slate-700 dark:text-slate-300">
+                  <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/40">
+                    <td class="py-2.5 px-3 font-medium">被動銅纜（DAC）</td>
+                    <td class="py-2.5 px-3 text-red-600 dark:text-red-400 font-semibold">&lt; 0.8~1m</td>
+                    <td class="py-2.5 px-3 text-emerald-600 dark:text-emerald-400 font-semibold">~0 W (無主動元件)</td>
+                    <td class="py-2.5 px-3 font-bold">基準（最低）</td>
+                    <td class="py-2.5 px-3 text-slate-500">線徑極粗（24~26AWG），佈線困難</td>
+                  </tr>
+                  <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/40 bg-sky-50/40 dark:bg-sky-950/20">
+                    <td class="py-2.5 px-3 font-medium text-sky-700 dark:text-sky-300">主動式銅纜（AEC）</td>
+                    <td class="py-2.5 px-3 font-semibold text-sky-700 dark:text-sky-300">1.0 ~ 2.5m+</td>
+                    <td class="py-2.5 px-3 text-sky-700 dark:text-sky-300 font-semibold">中等（DSP ~2.5-4W/端）</td>
+                    <td class="py-2.5 px-3 font-semibold text-sky-700 dark:text-sky-300">約為光模組之 35~45%</td>
+                    <td class="py-2.5 px-3 text-sky-700 dark:text-sky-300">線徑細（32~34AWG），易彎折散熱</td>
+                  </tr>
+                  <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/40">
+                    <td class="py-2.5 px-3 font-medium">主動式光纜（AOC）</td>
+                    <td class="py-2.5 px-3">5 ~ 30m</td>
+                    <td class="py-2.5 px-3 text-amber-600 dark:text-amber-400">較高（光電轉換）</td>
+                    <td class="py-2.5 px-3">中高（約 2.5~3x DAC）</td>
+                    <td class="py-2.5 px-3 text-slate-500">光纖纖細，需注意最小彎折半徑</td>
+                  </tr>
+                  <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/40">
+                    <td class="py-2.5 px-3 font-medium">光模組（Optical Transceiver）</td>
+                    <td class="py-2.5 px-3 text-emerald-600 dark:text-emerald-400 font-semibold">100m ~ 2km+</td>
+                    <td class="py-2.5 px-3 text-rose-600 dark:text-rose-400 font-semibold">最高（10~14W / 3.2T）</td>
+                    <td class="py-2.5 px-3 text-rose-600 dark:text-rose-400 font-semibold">最高（約 3~5x DAC）</td>
+                    <td class="py-2.5 px-3 text-slate-500">標準光纖，但模組成本居高不下</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section: Protocol Ecosystem -->
+      <section id="protocol-ecosystem" class="scroll-mt-24">
+        <div class="p-6 bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm space-y-6">
+          <div class="flex items-center space-x-2">
+            <span class="w-2.5 h-2.5 rounded-full bg-cyan-500"></span>
+            <span class="text-xs font-bold uppercase tracking-wider text-cyan-600 dark:text-cyan-400">Protocol Co-existence</span>
+          </div>
+          <h2 class="text-xl sm:text-2xl font-bold text-slate-900 dark:text-white">
+            跨協定底層依賴：SerDes 400G 為各大架構共通基石
+          </h2>
+          <p class="text-sm sm:text-base text-slate-600 dark:text-slate-300 leading-relaxed">
+            在算力互聯領域，上層傳輸協定存在多條技術路線：輝達（NVIDIA）主導之 InfiniBand、跨晶片聯盟推動之超加速鏈路（Ultra Accelerator Link, UALink）、超乙太網路聯盟（Ultra Ethernet Consortium, UEC）以及超匯流排（Ultra Bus, UB）。各協定雖在上層傳輸層（Transport）、壅塞控制（Congestion Control）與封包格式存在競爭，但<strong>底層物理介面皆完全依賴高速 SerDes</strong>。
+          </p>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 pt-2">
+            <div class="p-4 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-800/30">
+              <span class="text-xs font-bold px-2 py-0.5 rounded bg-emerald-100 dark:bg-emerald-900/60 text-emerald-700 dark:text-emerald-300">Scale-Up / Scale-Out</span>
+              <h4 class="font-bold text-slate-900 dark:text-white mt-2 mb-1">UALink 聯盟</h4>
+              <p class="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
+                面向開源晶片與加速器直連（GPU-to-GPU memory pool），需極低延遲與高頻寬 SerDes 物理層提供支撐。
+              </p>
+            </div>
+
+            <div class="p-4 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-800/30">
+              <span class="text-xs font-bold px-2 py-0.5 rounded bg-sky-100 dark:bg-sky-900/60 text-sky-700 dark:text-sky-300">Ethernet Evolution</span>
+              <h4 class="font-bold text-slate-900 dark:text-white mt-2 mb-1">UEC 聯盟</h4>
+              <p class="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
+                重構標準乙太網路傳輸層，支援亂序封包處理與動態多路徑，底層完全無縫相容 400G per Lane 規範。
+              </p>
+            </div>
+
+            <div class="p-4 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-800/30">
+              <span class="text-xs font-bold px-2 py-0.5 rounded bg-purple-100 dark:bg-purple-900/60 text-purple-700 dark:text-purple-300">HPC & AI Domain</span>
+              <h4 class="font-bold text-slate-900 dark:text-white mt-2 mb-1">InfiniBand 體系</h4>
+              <p class="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
+                隨 NDR (400G) 與 XDR (800G) 推進，未來的更高階連接埠亦直接受惠於單通道 400G 訊號完整性與通道建模技術。
+              </p>
+            </div>
+
+            <div class="p-4 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-800/30">
+              <span class="text-xs font-bold px-2 py-0.5 rounded bg-amber-100 dark:bg-amber-900/60 text-amber-700 dark:text-amber-300">Custom Interconnect</span>
+              <h4 class="font-bold text-slate-900 dark:text-white mt-2 mb-1">Ultra Bus (UB)</h4>
+              <p class="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
+                伺服器背板與節點互聯專用匯流排，透過單通道 400G AEC 可突破印刷電路板（PCB）板材損耗極限。
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section: Industry Impact -->
+      <section id="industry-impact" class="scroll-mt-24">
+        <div class="p-6 bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm space-y-6">
+          <div class="flex items-center space-x-2">
+            <span class="w-2.5 h-2.5 rounded-full bg-blue-500"></span>
+            <span class="text-xs font-bold uppercase tracking-wider text-blue-600 dark:text-blue-400">Ecosystem & Outlook</span>
+          </div>
+          <h2 class="text-xl sm:text-2xl font-bold text-slate-900 dark:text-white">
+            產業鏈佈局與工程化落地趨勢
+          </h2>
+          <p class="text-sm sm:text-base text-slate-600 dark:text-slate-300 leading-relaxed">
+            400G per Lane MSA 涵蓋逾 30 家國際級產業夥伴，貫通「晶片設計、纜線製造、光電模組、測試儀器、系統設備與雲端運營商」完整生態鏈。本次研討會匯聚了中國移動研究院、華為、中國信通院、中興通訊、阿里巴巴、是德科技（Keysight）、MultiLane、集益微、唯亞威（Viavi Solutions）等機構。
+          </p>
+
+          <div class="p-4 bg-slate-50 dark:bg-slate-800/40 rounded-xl border border-slate-200 dark:border-slate-700 space-y-3">
+            <h3 class="font-bold text-sm text-slate-800 dark:text-slate-200">
+              工程化落地的三大推進階段
+            </h3>
+            <div class="space-y-2 text-xs sm:text-sm text-slate-600 dark:text-slate-400">
+              <div class="flex items-start space-x-2">
+                <span class="font-semibold text-sky-600 dark:text-sky-400">階段一（已完成）：</span>
+                <span>2026 年 4 月發布《單通道 400G 乙太網路物理層白皮書》，確立物理層通道建模與可行性論證。</span>
+              </div>
+              <div class="flex items-start space-x-2">
+                <span class="font-semibold text-sky-600 dark:text-sky-400">階段二（當前進展）：</span>
+                <span>2026 年 9 月公開《單通道 400G 有源銅纜（AEC）技術初版規範》，完成電氣參數、DSP 插損三檔等級及測試架構制定。</span>
+              </div>
+              <div class="flex items-start space-x-2">
+                <span class="font-semibold text-sky-600 dark:text-sky-400">階段三（後續目標）：</span>
+                <span>跨廠商樣品互聯互通（Interoperability）驗證測試、插拔相容性試驗，推進 3.2T 乙太網路交換器與 AEC 模組之商用量產。</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section: Official Source -->
+      <section id="official-source" class="scroll-mt-24">
+        <div class="p-6 bg-slate-100 dark:bg-slate-800/60 rounded-2xl border border-slate-200 dark:border-slate-700 space-y-3">
+          <h3 class="text-xs font-bold text-slate-400 uppercase tracking-wider">原始發布資訊與資料來源</h3>
+          <ul class="text-xs text-slate-500 dark:text-slate-400 space-y-1">
+            <li><strong>消息來源：</strong>全球固定網絡創新聯盟（NIDA）與 400G per Lane MSA 成果發布暨高速光電互連技術研討會</li>
+            <li><strong>主辦與起草單位：</strong>中國移動、華為技術有限公司（主要起草單位）</li>
+            <li><strong>公開場合：</strong>第 27 屆中國國際光電博覽會（CIOE 2026）</li>
+            <li><strong>參考文件：</strong>《單通道 400G 有源銅纜（AEC）技術規範》初版、《單通道 400G 乙太網路物理層白皮書》</li>
+          </ul>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- Scripts: Theme & Charts -->
+  <script>
+    // Theme Toggle Handler
+    const themeBtn = document.getElementById('themeToggle');
+    const themeIcon = document.getElementById('themeIcon');
+
+    function updateThemeIcon() {
+      const isDark = document.documentElement.classList.contains('dark');
+      themeIcon.textContent = isDark ? '☀️' : '🌙';
+    }
+    updateThemeIcon();
+
+    themeBtn.addEventListener('click', () => {
+      if (document.documentElement.classList.contains('dark')) {
+        document.documentElement.classList.remove('dark');
+        localStorage.theme = 'light';
+      } else {
+        document.documentElement.classList.add('dark');
+        localStorage.theme = 'dark';
+      }
+      updateThemeIcon();
+      location.reload(); // reload for mermaid theme synchronization
+    });
+
+    // Chart 1: SerDes & Port Speeds
+    const ctx1 = document.getElementById('serdesChart').getContext('2d');
+    const isDarkChart = document.documentElement.classList.contains('dark');
+    const gridColor = isDarkChart ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.08)';
+    const textColor = isDarkChart ? '#94a3b8' : '#64748b';
+
+    new Chart(ctx1, {
+      type: 'bar',
+      data: {
+        labels: ['800GE (主流商用)', '1.6TE (放量初期)', '3.2TE (下一代標準)'],
+        datasets: [
+          {
+            label: '連接埠總傳輸速率 (Gbps)',
+            data: [800, 1600, 3200],
+            backgroundColor: 'rgba(2, 132, 199, 0.85)',
+            borderColor: '#0284c7',
+            borderWidth: 1,
+            yAxisID: 'y'
+          },
+          {
+            label: '單通道 SerDes 速率 (Gbps)',
+            data: [100, 200, 400],
+            backgroundColor: 'rgba(99, 102, 241, 0.85)',
+            borderColor: '#6366f1',
+            borderWidth: 1,
+            yAxisID: 'y1'
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            labels: { color: textColor, font: { family: 'Noto Sans TC' } }
+          }
+        },
+        scales: {
+          x: {
+            grid: { color: gridColor },
+            ticks: { color: textColor }
+          },
+          y: {
+            type: 'linear',
+            position: 'left',
+            grid: { color: gridColor },
+            ticks: { color: textColor },
+            title: { display: true, text: '連接埠總速率 (Gbps)', color: textColor }
+          },
+          y1: {
+            type: 'linear',
+            position: 'right',
+            grid: { drawOnChartArea: false },
+            ticks: { color: textColor },
+            title: { display: true, text: '單通道速率 (Gbps)', color: textColor }
+          }
+        }
+      }
+    });
+
+    // Chart 2: Interconnect Comparison Radar
+    const ctx2 = document.getElementById('comparisonRadarChart').getContext('2d');
+    new Chart(ctx2, {
+      type: 'radar',
+      data: {
+        labels: ['傳輸距離能力', '能耗效率', '性價比優勢', '佈線彎折彈性', '訊號裕度容忍'],
+        datasets: [
+          {
+            label: 'AEC (主動式銅纜)',
+            data: [75, 80, 85, 88, 85],
+            borderColor: '#0284c7',
+            backgroundColor: 'rgba(2, 132, 199, 0.25)',
+            pointBackgroundColor: '#0284c7'
+          },
+          {
+            label: 'DAC (被動銅纜)',
+            data: [30, 98, 95, 35, 40],
+            borderColor: '#10b981',
+            backgroundColor: 'rgba(16, 185, 129, 0.15)',
+            pointBackgroundColor: '#10b981'
+          },
+          {
+            label: '光模組 (Optical)',
+            data: [98, 45, 40, 80, 90],
+            borderColor: '#f43f5e',
+            backgroundColor: 'rgba(244, 63, 94, 0.15)',
+            pointBackgroundColor: '#f43f5e'
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            position: 'bottom',
+            labels: { color: textColor, font: { family: 'Noto Sans TC' } }
+          }
+        },
+        scales: {
+          r: {
+            angleLines: { color: gridColor },
+            grid: { color: gridColor },
+            pointLabels: { color: textColor, font: { size: 11, family: 'Noto Sans TC' } },
+            ticks: { display: false, min: 0, max: 100 }
+          }
+        }
+      }
+    });
+  </script>
+</body>
+</html>
