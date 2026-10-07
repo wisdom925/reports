@@ -1,0 +1,422 @@
+<!doctype html>
+<html lang="zh-TW" class="scroll-smooth">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>美股收盤日報｜2026-10-06｜標普納指雙創收盤新高、殖利率回落、電力股爆發 (2026-10-06)</title>
+  <meta name="description" content="週二（2026年10月6日）美股收高：標普500 +0.58%報7,818.93點、納指 +0.45%報27,599.89點，兩者創歷史收盤新高、道瓊 +0.49%報51,521.28點；10年期殖利率回落至5.27%，電力股爆發（CEG +12.3%、VST +10.8%）、Marvell 投資人日帶動AI客製晶片股（MRVL +5.8%、AVGO +3.7%）；小型股逆勢走弱（羅素2000 -0.59%）。">
+  <meta property="og:title" content="美股收盤日報｜2026-10-06">
+  <meta property="og:description" content="標普、納指創收盤新高，殖利率回落至5.27%，電力股與AI客製晶片股領漲，小型股走弱。">
+  <meta property="og:type" content="article">
+
+  <!-- Tailwind CSS & Font family -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              50: '#f0f9ff',
+              100: '#e0f2fe',
+              500: '#0284c7',
+              600: '#0369a1',
+              700: '#075985',
+            },
+            zinc: {
+              850: '#1f1f23',
+              950: '#09090b',
+            }
+          }
+        }
+      }
+    };
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+
+  <!-- Chart.js & Mermaid -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      mermaid.initialize({
+        startOnLoad: true,
+        theme: document.documentElement.classList.contains('dark') ? 'dark' : 'default',
+        securityLevel: 'loose',
+      });
+      window.__mermaid = mermaid;
+    });
+  </script>
+
+  <style>
+    /* Tabs pure CSS support */
+    .tabs input[type="radio"] { display: none; }
+    .tabs label {
+      cursor: pointer;
+      padding: 0.5rem 1rem;
+      border-radius: 0.5rem;
+      font-weight: 600;
+      font-size: 0.875rem;
+      color: #64748b;
+      transition: all 0.2s ease;
+    }
+    .dark .tabs label { color: #94a3b8; }
+    .tabs input[type="radio"]:checked + label {
+      background-color: #0284c7;
+      color: #ffffff !important;
+    }
+    .tab-panel { display: none; }
+    #tab-yields:checked ~ .tab-content #panel-yields,
+    #tab-fed:checked ~ .tab-content #panel-fed,
+    #tab-commodities:checked ~ .tab-content #panel-commodities,
+    #tab-data:checked ~ .tab-content #panel-data {
+      display: block;
+    }
+    th.sortable { cursor: pointer; user-select: none; }
+    th.sortable:hover { background-color: rgba(148, 163, 184, 0.15); }
+  </style>
+</head>
+
+<body class="bg-slate-50 dark:bg-zinc-950 text-slate-900 dark:text-zinc-100 transition-colors duration-200 antialiased min-h-screen">
+
+<!-- Top sticky navbar -->
+<nav class="sticky top-0 z-50 backdrop-blur-md bg-white/80 dark:bg-zinc-900/80 border-b border-slate-200 dark:border-zinc-800">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-14 flex items-center justify-between">
+    <div class="flex items-center gap-3">
+      <a href="manifest.json" class="flex items-center gap-2 font-bold text-slate-900 dark:text-white">
+        <span class="w-7 h-7 rounded-lg bg-brand-500 text-white flex items-center justify-center text-sm font-extrabold shadow-sm">US</span>
+        <span class="text-sm tracking-tight sm:inline hidden">美股收盤日報</span>
+      </a>
+      <span class="text-xs px-2 py-0.5 rounded-full bg-slate-200 dark:bg-zinc-800 text-slate-600 dark:text-zinc-400 font-medium">2026-10-06</span>
+    </div>
+
+    <!-- Quick index pill pills -->
+    <div class="hidden lg:flex items-center gap-1 text-xs font-medium text-slate-600 dark:text-zinc-400">
+      <a href="#sec-0" class="px-2 py-1 rounded hover:bg-slate-100 dark:hover:bg-zinc-800 transition">總結</a>
+      <a href="#sec-1" class="px-2 py-1 rounded hover:bg-slate-100 dark:hover:bg-zinc-800 transition">大盤</a>
+      <a href="#sec-2" class="px-2 py-1 rounded hover:bg-slate-100 dark:hover:bg-zinc-800 transition">走勢</a>
+      <a href="#sec-3" class="px-2 py-1 rounded hover:bg-slate-100 dark:hover:bg-zinc-800 transition">宏觀</a>
+      <a href="#sec-4" class="px-2 py-1 rounded hover:bg-slate-100 dark:hover:bg-zinc-800 transition">板塊</a>
+      <a href="#sec-5" class="px-2 py-1 rounded hover:bg-slate-100 dark:hover:bg-zinc-800 transition">主題</a>
+      <a href="#sec-6" class="px-2 py-1 rounded hover:bg-slate-100 dark:hover:bg-zinc-800 transition">寬度</a>
+      <a href="#sec-7" class="px-2 py-1 rounded hover:bg-slate-100 dark:hover:bg-zinc-800 transition">技術</a>
+      <a href="#sec-8" class="px-2 py-1 rounded hover:bg-slate-100 dark:hover:bg-zinc-800 transition">個股</a>
+      <a href="#sec-9" class="px-2 py-1 rounded hover:bg-slate-100 dark:hover:bg-zinc-800 transition">財報</a>
+      <a href="#sec-12" class="px-2 py-1 rounded hover:bg-slate-100 dark:hover:bg-zinc-800 transition">關注股</a>
+      <a href="#sec-14" class="px-2 py-1 rounded hover:bg-slate-100 dark:hover:bg-zinc-800 transition">風險</a>
+      <a href="#sec-15" class="px-2 py-1 rounded hover:bg-slate-100 dark:hover:bg-zinc-800 transition">結論</a>
+    </div>
+
+    <!-- Right controls (Dark mode toggle) -->
+    <div class="flex items-center gap-3">
+      <button id="themeToggle" class="p-2 rounded-lg border border-slate-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-slate-600 dark:text-zinc-300 hover:bg-slate-50 dark:hover:bg-zinc-700 transition" aria-label="Toggle theme">
+        <svg id="sunIcon" class="w-4 h-4 hidden dark:block text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+        <svg id="moonIcon" class="w-4 h-4 block dark:hidden text-slate-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex gap-8">
+  <!-- Desktop Left Quick Sidebar Navigation -->
+  <aside class="hidden xl:block w-56 shrink-0 sticky top-20 h-[calc(100vh-6rem)] overflow-y-auto pr-2 text-xs border-r border-slate-200 dark:border-zinc-800 text-slate-600 dark:text-zinc-400 space-y-1">
+    <div class="font-bold text-slate-900 dark:text-zinc-100 uppercase tracking-wider mb-2">日報導航目錄</div>
+    <div><a href="#sec-0" class="block py-1 hover:text-brand-500 transition">0. 今日一句話總結</a></div>
+    <div><a href="#sec-1" class="block py-1 hover:text-brand-500 transition">1. 大盤表現總覽</a></div>
+    <div><a href="#sec-2" class="block py-1 hover:text-brand-500 transition">2. 盤中走勢復盤</a></div>
+    <div><a href="#sec-3" class="block py-1 hover:text-brand-500 transition">3. 宏觀環境 (Tabs)</a></div>
+    <div><a href="#sec-4" class="block py-1 hover:text-brand-500 transition">4. 板塊表現</a></div>
+    <div><a href="#sec-5" class="block py-1 hover:text-brand-500 transition">5. 主題與風格</a></div>
+    <div><a href="#sec-6" class="block py-1 hover:text-brand-500 transition">6. 市場寬度</a></div>
+    <div><a href="#sec-7" class="block py-1 hover:text-brand-500 transition">7. 技術面分析</a></div>
+    <div><a href="#sec-8" class="block py-1 hover:text-brand-500 transition">8. 重點個股新聞</a></div>
+    <div><a href="#sec-9" class="block py-1 hover:text-brand-500 transition">9. 財報與公司事件</a></div>
+    <div><a href="#sec-10" class="block py-1 hover:text-brand-500 transition">10. 機構觀點資金流</a></div>
+    <div><a href="#sec-11" class="block py-1 hover:text-brand-500 transition">11. 板塊輪動判斷</a></div>
+    <div><a href="#sec-12" class="block py-1 hover:text-brand-500 transition">12. 重點關注股追蹤</a></div>
+    <div><a href="#sec-13" class="block py-1 hover:text-brand-500 transition">13. 明日交易計畫</a></div>
+    <div><a href="#sec-14" class="block py-1 hover:text-brand-500 transition">14. 風險提示矩陣</a></div>
+    <div><a href="#sec-15" class="block py-1 hover:text-brand-500 transition">15. 最終結論</a></div>
+  </aside>
+
+  <!-- Main Content Area -->
+  <main class="flex-1 max-w-5xl space-y-10">
+
+    <!-- Header Block -->
+    <header class="border-b border-slate-200 dark:border-zinc-800 pb-6">
+      <div class="flex flex-wrap items-center justify-between gap-3 mb-2">
+        <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300">
+          <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span> 標普納指雙創收盤新高・殖利率回落・電力股爆發
+        </span>
+        <span class="text-xs text-slate-500 dark:text-zinc-500 font-mono">美東時間 2026-10-06 16:00 收盤</span>
+      </div>
+      <h1 class="text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight text-slate-900 dark:text-white">美股收盤日報｜2026-10-06</h1>
+      <p class="mt-2 text-sm sm:text-base text-slate-600 dark:text-zinc-400">週二（2026年10月6日）美股收高：標普500 +0.58%報7,818.93點、納指 +0.45%報27,599.89點，兩者創歷史收盤新高、道瓊 +0.49%報51,521.28點；10年期殖利率回落至5.27%，電力股爆發（CEG +12.3%、VST +10.8%）、Marvell 投資人日帶動AI客製晶片股（MRVL +5.8%、AVGO +3.7%）；小型股逆勢走弱（羅素2000 -0.59%）。</p>
+    </header>
+
+    <section id="sec-0" class="scroll-mt-6 p-6 rounded-2xl bg-gradient-to-br from-white to-slate-50 dark:from-zinc-900 dark:to-zinc-950 border border-slate-200 dark:border-zinc-800 shadow-sm">
+      <h2 class="text-xl font-bold mb-4 flex items-center gap-2 border-b border-slate-100 dark:border-zinc-800 pb-2"><span class="text-brand-500">0.</span> 今日一句話總結</h2>
+      <div class="space-y-3 text-sm sm:text-base leading-relaxed text-slate-700 dark:text-zinc-300">
+        <p><strong class="text-slate-900 dark:text-white font-semibold">【大盤走勢】</strong> 美股週二續創新高。標普500 <strong>+0.58%</strong> 收 <strong>7,818.93</strong>，納斯達克綜合指數 <strong>+0.45%</strong> 收 <strong>27,599.89</strong>（兩者創歷史收盤新高），道瓊 <strong>+0.49%</strong> 收 <strong>51,521.28</strong>；但羅素2000 -0.59%，費半 +0.34% 收 13,217.82。</p>
+        <p><strong class="text-slate-900 dark:text-white font-semibold">【驅動因素】</strong> 美債殖利率自多年高位回落（10年期 5.27%，較前日下降約4bp）、Q3財報季前盈利預期樂觀，以及AI主線擴散。個股面：Constellation 與Google簽20年購電協議（CEG +12.25%）、DOE 向 Vistra 提供最高42億美元有條件貸款承諾（VST +10.77%）引爆電力股；Marvell 投資人日將FY2028營收目標上調至200億美元（MRVL +5.81%），帶動 AVGO +3.67%、ANET +4.09%。宏觀面，8月貿易逆差擴大至1,056億美元（高於預期約1,020億）。</p>
+        <p><strong class="text-slate-900 dark:text-white font-semibold">【資金偏好】</strong> Risk-On：VIX 收 15.01（-3.29%），日內區間 14.96–15.54，低波動；WTI 原油 +0.78%（收 $90.13）、黃金期貨 +0.89%；美元（UUP）-0.31%。</p>
+        <p><strong class="text-slate-900 dark:text-white font-semibold">【市場寬度】</strong> 大型股強、小型股弱：11個板塊中10個收高（僅醫療保健 XLV -0.17% 下跌），公用事業 XLU +2.98% 領漲，等權 RSP +0.57% 與 SPY（+0.55%）同步；但羅素2000 -0.59%、IWO -0.90%，近一個月小型股仍落後（IWM -4.96% vs SPY +1.16%）。</p>
+        <p><strong class="text-slate-900 dark:text-white font-semibold">【核心主線】</strong> AI 基礎設施「電力＋客製晶片＋網通」擴散：CEG、VST、NRG +7.02%、PWR +5.29%、GEV +3.96%、ETN +2.89% 全線走強。今日盤後 Constellation Brands 公布財報；10月7日（週三）FOMC會議紀要為下一個催化。</p>
+        <div class="mt-4 p-4 rounded-xl bg-brand-50 dark:bg-zinc-800/60 border border-brand-100 dark:border-brand-900/40 text-brand-900 dark:text-brand-200 font-medium">
+          💡 <strong>今日市場狀態判斷：</strong>「指數創高、AI電力與客製晶片領漲、殖利率回落提供支撐；但小型股走弱、寬度分歧，短線擁擠度仍高。」
+        </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="sec-1" class="scroll-mt-6 font-sans ">
+      <h2 class="text-xl font-bold mb-4 flex items-center gap-2 border-b border-slate-100 dark:border-zinc-800 pb-2"><span class="text-brand-500">1.</span> 大盤表現總覽</h2>
+      
+      <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 mb-6"><div class="p-4 rounded-xl bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-850 shadow-sm"><div class="text-xs text-slate-500 dark:text-zinc-400 font-medium">S&P 500 (標普500)</div><div class="text-xl font-extrabold font-mono mt-1">7,818.93</div><div class="text-xs mt-1 flex items-center justify-between"><span class="text-emerald-600 dark:text-emerald-400 font-bold">+0.58%</span><span class="text-slate-400 font-mono">SPY $779.09</span></div></div><div class="p-4 rounded-xl bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-850 shadow-sm"><div class="text-xs text-slate-500 dark:text-zinc-400 font-medium">Nasdaq Composite</div><div class="text-xl font-extrabold font-mono mt-1">27,599.89</div><div class="text-xs mt-1 flex items-center justify-between"><span class="text-emerald-600 dark:text-emerald-400 font-bold">+0.45%</span><span class="text-slate-400 font-mono">創收盤新高</span></div></div><div class="p-4 rounded-xl bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-850 shadow-sm"><div class="text-xs text-slate-500 dark:text-zinc-400 font-medium">Dow Jones (道瓊)</div><div class="text-xl font-extrabold font-mono mt-1">51,521.28</div><div class="text-xs mt-1 flex items-center justify-between"><span class="text-emerald-600 dark:text-emerald-400 font-bold">+0.49%</span><span class="text-slate-400 font-mono">+253.38 點</span></div></div><div class="p-4 rounded-xl bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-850 shadow-sm"><div class="text-xs text-slate-500 dark:text-zinc-400 font-medium">Nasdaq 100</div><div class="text-xl font-extrabold font-mono mt-1">31,224.69</div><div class="text-xs mt-1 flex items-center justify-between"><span class="text-emerald-600 dark:text-emerald-400 font-bold">+0.48%</span><span class="text-slate-400 font-mono">QQQ $759.66</span></div></div><div class="p-4 rounded-xl bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-850 shadow-sm"><div class="text-xs text-slate-500 dark:text-zinc-400 font-medium">Russell 2000</div><div class="text-xl font-extrabold font-mono mt-1">2,830.30</div><div class="text-xs mt-1 flex items-center justify-between"><span class="text-rose-500 font-bold">-0.59%</span><span class="text-slate-400 font-mono">IWM $281.34</span></div></div><div class="p-4 rounded-xl bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-850 shadow-sm"><div class="text-xs text-slate-500 dark:text-zinc-400 font-medium">SOX (費城半導體)</div><div class="text-xl font-extrabold font-mono mt-1">13,217.82</div><div class="text-xs mt-1 flex items-center justify-between"><span class="text-emerald-600 dark:text-emerald-400 font-bold">+0.34%</span><span class="text-slate-400 font-mono">SMH $632.50</span></div></div><div class="p-4 rounded-xl bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-850 shadow-sm"><div class="text-xs text-slate-500 dark:text-zinc-400 font-medium">Software (IGV)</div><div class="text-xl font-extrabold font-mono mt-1">111.16</div><div class="text-xs mt-1 flex items-center justify-between"><span class="text-emerald-600 dark:text-emerald-400 font-bold">+1.31%</span><span class="text-slate-400 font-mono">軟體續彈</span></div></div><div class="p-4 rounded-xl bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-850 shadow-sm"><div class="text-xs text-slate-500 dark:text-zinc-400 font-medium">VIX</div><div class="text-xl font-extrabold font-mono mt-1">15.01</div><div class="text-xs mt-1 flex items-center justify-between"><span class="text-emerald-600 dark:text-emerald-400 font-bold">-3.29%</span><span class="text-slate-400 font-mono">前收 15.52</span></div></div></div>
+      <div class="p-5 rounded-2xl bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-850 shadow-sm">
+        <h3 class="text-sm font-semibold text-slate-700 dark:text-zinc-300 mb-3 flex items-center justify-between"><span>主要指數與核心資產當日漲跌幅對比 (Chart.js)</span><span class="text-xs font-normal text-slate-500">2026-10-06 基準</span></h3>
+        <div class="relative h-64 sm:h-72 w-full"><canvas id="overviewChart"></canvas></div>
+      </div>
+      <div class="mt-6"><div class="p-5 rounded-2xl bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-850 shadow-sm overflow-x-auto"><table class="w-full text-xs sm:text-sm text-left border-collapse"><thead class="bg-slate-50 dark:bg-zinc-800/60 border-b border-slate-200 dark:border-zinc-700 text-slate-500 dark:text-zinc-400"><tr><th class="p-3">指數名稱</th><th class="p-3">代表ETF</th><th class="p-3">收盤點位</th><th class="p-3">當日漲跌幅</th><th class="p-3">日內高/低</th><th class="p-3">技術狀態</th></tr></thead><tbody class="divide-y divide-slate-100 dark:divide-zinc-800 font-mono"><tr class="hover:bg-slate-50 dark:hover:bg-zinc-800/30"><td class="p-3"><span class="font-semibold font-sans">S&P 500</span></td><td class="p-3">SPY</td><td class="p-3"><b>7,818.93</b></td><td class="p-3"><span class="text-emerald-600 dark:text-emerald-400 font-bold">+0.58%</span></td><td class="p-3">7,844.52 / 7,805.96</td><td class="p-3"><span class="font-sans">創歷史收盤新高（據報導），收盤 7,818.93 距日高(7,844.52)約25點；SPY 在20/50/100/200日均線之上，RSI 72</span></td></tr><tr class="hover:bg-slate-50 dark:hover:bg-zinc-800/30"><td class="p-3"><span class="font-semibold font-sans">Nasdaq Composite</span></td><td class="p-3">—</td><td class="p-3"><b>27,599.89</b></td><td class="p-3"><span class="text-emerald-600 dark:text-emerald-400 font-bold">+0.45%</span></td><td class="p-3">27,722.75 / 27,592.56</td><td class="p-3"><span class="font-sans">創歷史收盤新高，開盤後窄幅整理</span></td></tr><tr class="hover:bg-slate-50 dark:hover:bg-zinc-800/30"><td class="p-3"><span class="font-semibold font-sans">Nasdaq 100</span></td><td class="p-3">QQQ</td><td class="p-3"><b>31,224.69</b></td><td class="p-3"><span class="text-emerald-600 dark:text-emerald-400 font-bold">+0.48%</span></td><td class="p-3">31,361.37 / 31,208.20</td><td class="p-3"><span class="font-sans">QQQ 收759.66，創20日新高區；RSI 83 偏超買</span></td></tr><tr class="hover:bg-slate-50 dark:hover:bg-zinc-800/30"><td class="p-3"><span class="font-semibold font-sans">Dow Jones</span></td><td class="p-3">DIA</td><td class="p-3"><b>51,521.28</b></td><td class="p-3"><span class="text-emerald-600 dark:text-emerald-400 font-bold">+0.49%</span></td><td class="p-3">51,672.25 / 51,422.90</td><td class="p-3"><span class="font-sans">收51,521.28，跟隨大盤；近一個月仍偏弱 (-3.54%)</span></td></tr><tr class="hover:bg-slate-50 dark:hover:bg-zinc-800/30"><td class="p-3"><span class="font-semibold font-sans">Russell 2000</span></td><td class="p-3">IWM</td><td class="p-3"><b>2,830.30</b></td><td class="p-3"><span class="text-rose-500 font-bold">-0.59%</span></td><td class="p-3">2,864.83 / 2,825.98</td><td class="p-3"><span class="font-sans">小盤逆勢下跌(-0.59%)，明顯跑輸標普(+0.58%)；IWM 仍低於20/50日均線</span></td></tr><tr class="hover:bg-slate-50 dark:hover:bg-zinc-800/30"><td class="p-3"><span class="font-semibold font-sans">SOX 半導體</span></td><td class="p-3">SOXX / SMH</td><td class="p-3"><b>13,217.82</b></td><td class="p-3"><span class="text-emerald-600 dark:text-emerald-400 font-bold">+0.34%</span></td><td class="p-3">13,349.96 / 13,196.50</td><td class="p-3"><span class="font-sans">近5日 +4.66%、近1月 +12.63%；今日 +0.34%，SMH/SOXX 小幅下跌，高位整固</span></td></tr><tr class="hover:bg-slate-50 dark:hover:bg-zinc-800/30"><td class="p-3"><span class="font-semibold font-sans">CBOE VIX</span></td><td class="p-3">^VIX</td><td class="p-3"><b>15.01</b></td><td class="p-3"><span class="text-emerald-600 dark:text-emerald-400 font-bold">-3.29%</span></td><td class="p-3">15.54 / 14.96</td><td class="p-3"><span class="font-sans">收15.01，日內自15.54回落，仍處低波動區</span></td></tr></tbody></table></div></div>
+      <p class="mt-3 text-sm text-slate-600 dark:text-zinc-400">補充：標普500 與納指均創歷史收盤新高；小盤股（羅素2000 -0.59%）明顯跑輸標普500（+0.58%）；VIX 收15.01，較前收下降 0.51。</p>
+
+    </section>
+
+    <section id="sec-2" class="scroll-mt-6 font-sans ">
+      <h2 class="text-xl font-bold mb-4 flex items-center gap-2 border-b border-slate-100 dark:border-zinc-800 pb-2"><span class="text-brand-500">2.</span> 盤中走勢復盤（時間線 Timeline）</h2>
+      
+      <div class="p-5 rounded-2xl bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-850 shadow-sm overflow-x-auto"><div class="mermaid">
+graph LR
+  subgraph PreMarket["盤前"]
+    A["8月貿易逆差擴至1,056億美元<br/>殖利率自高位回落<br/>CEG-Google購電協議、VST獲DOE貸款承諾"]
+  end
+  subgraph Open["開盤"]
+    B["標普開 7,805.96（小幅高開）<br/>納指開 27,641.17<br/>VIX 開 15.50"]
+  end
+  subgraph Day["日內"]
+    C["標普自開盤價(日低 7,805.96)<br/>逐步走高至日高 7,844.52<br/>Marvell投資人日帶動AI客製晶片股"]
+  end
+  subgraph Close["收盤與盤後"]
+    D["標普 +0.58% / 納指 +0.45% 創收盤新高<br/>10年期殖利率 5.27%<br/>盤後: STZ 財報；下一關注: 週三FOMC會議紀要"]
+  end
+  PreMarket --> Open --> Day --> Close
+      </div></div>
+      <div class="mt-4 p-5 rounded-2xl bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-850 shadow-sm"><div class="space-y-3 text-sm leading-relaxed text-slate-700 dark:text-zinc-300"><p><strong class="text-slate-900 dark:text-white font-semibold">【盤前】</strong> 美國8月貿易逆差擴大至1,056億美元（預期約1,020億，7月修正值928億），進口創歷史新高（半導體、資本財、原油）。Constellation 宣布與Google 20年購電協議（投資逾43億美元提升11座核反應爐出力），DOE 確認對 Vistra 最高42億美元有條件貸款承諾。</p><p><strong class="text-slate-900 dark:text-white font-semibold">【開盤後】</strong> 標普500 開 7,805.96（前收 7,773.95），開盤價即為日內低點，顯示賣壓有限；納指開 27,641.17、日低 27,592.56。電力股開盤即跳空走高。</p><p><strong class="text-slate-900 dark:text-white font-semibold">【午盤】</strong> （日內分時資料以高低點推斷）指數自低位墊高；Marvell 投資人日公布FY2028營收目標200億美元、FY2031目標700–900億美元，MRVL 日內區間 267.26–301.27，自低位大幅拉升，AVGO、ANET 同步走強；SOX 日內區間 13,196.50–13,349.96。</p><p><strong class="text-slate-900 dark:text-white font-semibold">【尾盤】</strong> 標普500 收 7,818.93，距日高 25.59 點；納指收 27,599.89 創收盤新高，VIX 收 15.01。</p><p><strong class="text-slate-900 dark:text-white font-semibold">【盤後與核心原因】</strong> 漲跌核心：殖利率回落（10年期 5.27%）＋AI基礎設施題材（電力、客製晶片、網通）。盤後 Constellation Brands(STZ) 公布FQ2：EPS $3.74（預期$3.61）、營收$26.3億（預期$25.4億），但維持全年EPS指引$11.20–11.90（中值低於共識$11.72），股價盤後約跌2.7%。半導體ETF（SMH/SOXX）微跌屬高位整理，未見明顯 sell-the-news。</p></div></div>
+
+    </section>
+
+    <section id="sec-3" class="scroll-mt-6 font-sans ">
+      <h2 class="text-xl font-bold mb-4 flex items-center gap-2 border-b border-slate-100 dark:border-zinc-800 pb-2"><span class="text-brand-500">3.</span> 宏觀環境（利率、Fed、大宗商品與經濟數據）</h2>
+      
+      <div class="tabs p-5 rounded-2xl bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-850 shadow-sm">
+        <div class="flex flex-wrap items-center gap-2 border-b border-slate-200 dark:border-zinc-800 pb-3 mb-4">
+          <input type="radio" id="tab-yields" name="macro-tabs" checked><label for="tab-yields">3.1 美債收益率</label>
+          <input type="radio" id="tab-fed" name="macro-tabs"><label for="tab-fed">3.2 Fed 預期</label>
+          <input type="radio" id="tab-commodities" name="macro-tabs"><label for="tab-commodities">3.3 美元・黃金・原油・加密</label>
+          <input type="radio" id="tab-data" name="macro-tabs"><label for="tab-data">3.4 當日數據</label>
+        </div>
+        <div class="tab-content text-sm leading-relaxed text-slate-700 dark:text-zinc-300"><div id="panel-yields" class="tab-panel space-y-4"><h4 class="font-bold text-slate-900 dark:text-white text-base">長天期殖利率自高位回落，10年期降至5.27%</h4>
+  <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 font-mono"><div class="p-3 rounded-lg bg-slate-50 dark:bg-zinc-800/50 border border-slate-200 dark:border-zinc-700"><div class="text-xs text-slate-500">13週 (^IRX)</div><div class="text-lg font-bold">4.04%</div><div class="text-xs">+2bp</div></div><div class="p-3 rounded-lg bg-slate-50 dark:bg-zinc-800/50 border border-slate-200 dark:border-zinc-700"><div class="text-xs text-slate-500">5年 (^FVX)</div><div class="text-lg font-bold">5.03%</div><div class="text-xs">-4bp</div></div><div class="p-3 rounded-lg bg-slate-50 dark:bg-zinc-800/50 border border-slate-200 dark:border-zinc-700"><div class="text-xs text-slate-500">10年 (^TNX)</div><div class="text-lg font-bold">5.27%</div><div class="text-xs">-4bp</div></div><div class="p-3 rounded-lg bg-slate-50 dark:bg-zinc-800/50 border border-slate-200 dark:border-zinc-700"><div class="text-xs text-slate-500">30年 (^TYX)</div><div class="text-lg font-bold">5.64%</div><div class="text-xs">-2bp</div></div></div>
+  <p>10年期收 5.27%（前收5.31%，日內區間 5.26–5.30%），較前日下降約4bp，近一個月上升約 10.1%（相對變動）；30年期 5.64%（-2bp）、5年期 5.03%（-4bp）。30年減5年利差由約59bp擴至約61bp，曲線略微陡峭化（2年期殖利率本次未取得）。市場含義：中長端殖利率自多年高位回落，緩解成長股估值壓力，但仍處高位。</p></div><div id="panel-fed" class="tab-panel space-y-4"><h4 class="font-bold text-slate-900 dark:text-white text-base">Fed 10月會議：市場傾向按兵不動，12月升息仍有定價</h4>
+  <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 font-mono"><div class="p-3 rounded-lg bg-slate-50 dark:bg-zinc-800/50 border border-slate-200 dark:border-zinc-700"><div class="text-xs text-slate-500">10/27–28 維持利率</div><div class="text-lg font-bold">多數定價</div><div class="text-xs">據報導，上週就業數據弱於預期後升息機率降溫</div></div><div class="p-3 rounded-lg bg-slate-50 dark:bg-zinc-800/50 border border-slate-200 dark:border-zinc-700"><div class="text-xs text-slate-500">12月升息</div><div class="text-lg font-bold">仍有定價</div><div class="text-xs">據報導大致已定價（二手來源）</div></div><div class="p-3 rounded-lg bg-slate-50 dark:bg-zinc-800/50 border border-slate-200 dark:border-zinc-700"><div class="text-xs text-slate-500">下一個催化</div><div class="text-lg font-bold">10/7 週三</div><div class="text-xs">FOMC會議紀要與Fed官員講話</div></div></div>
+  <p>FedWatch 具體機率本次未取得可查證的官方即時數據（前一份報告引述的約82%維持／18%升息為二手來源，未更新），請以 CME 官網為準；年內預期次數未取得可查證數據。市場關注會議紀要對利率路徑與縮表的措辭。</p></div><div id="panel-commodities" class="tab-panel space-y-4"><h4 class="font-bold text-slate-900 dark:text-white text-base">美元走弱、黃金反彈、油價小幅上揚</h4>
+  <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 font-mono">
+  <div class="p-3 rounded-lg bg-slate-50 dark:bg-zinc-800/50 border border-slate-200 dark:border-zinc-700"><div class="text-xs text-slate-500">美元（UUP代理）</div><div class="text-lg font-bold">$28.90</div><div class="text-xs"><span class="text-rose-500 font-bold">-0.31%</span></div></div><div class="p-3 rounded-lg bg-slate-50 dark:bg-zinc-800/50 border border-slate-200 dark:border-zinc-700"><div class="text-xs text-slate-500">黃金期貨</div><div class="text-lg font-bold">$4,193.6/oz</div><div class="text-xs"><span class="text-emerald-600 dark:text-emerald-400 font-bold">+0.89%</span></div></div><div class="p-3 rounded-lg bg-slate-50 dark:bg-zinc-800/50 border border-slate-200 dark:border-zinc-700"><div class="text-xs text-slate-500">WTI 原油</div><div class="text-lg font-bold">$90.13</div><div class="text-xs"><span class="text-rose-500 font-bold">+0.78%</span></div></div>
+  <div class="p-3 rounded-lg bg-slate-50 dark:bg-zinc-800/50 border border-slate-200 dark:border-zinc-700"><div class="text-xs text-slate-500">Brent 原油</div><div class="text-lg font-bold">$101.25</div><div class="text-xs"><span class="text-rose-500 font-bold">+0.93%</span></div></div><div class="p-3 rounded-lg bg-slate-50 dark:bg-zinc-800/50 border border-slate-200 dark:border-zinc-700"><div class="text-xs text-slate-500">比特幣</div><div class="text-lg font-bold">$85,568</div><div class="text-xs"><span class="text-rose-500 font-bold">-0.25%</span></div></div><div class="p-3 rounded-lg bg-slate-50 dark:bg-zinc-800/50 border border-slate-200 dark:border-zinc-700"><div class="text-xs text-slate-500">以太幣</div><div class="text-lg font-bold">$2,698</div><div class="text-xs"><span class="text-rose-500 font-bold">-0.49%</span></div></div></div>
+  <p>DXY 指數本次未取得，使用美元ETF UUP（-0.31%）作為代理，顯示美元小幅走弱；WTI 期貨 $90.13（+0.78%），Brent $101.25（+0.93%），Yahoo 期貨報價為收盤後時點，與盤中走勢可能有差；黃金期貨 +0.89%，但近1個月仍 -6.3%，在實質利率高位下承壓。加密資產小幅回落（加密貨幣為全天候交易，數字為該日收盤）。</p></div><div id="panel-data" class="tab-panel space-y-4"><h4 class="font-bold text-slate-900 dark:text-white text-base">8月貿易逆差擴大至1,056億美元，高於預期</h4>
+  <div class="overflow-x-auto"><table class="w-full text-sm text-left"><thead class="bg-slate-50 dark:bg-zinc-800/60"><tr><th class="p-3">數據</th><th class="p-3">實際</th><th class="p-3">預期</th><th class="p-3">前值</th><th class="p-3">市場解讀</th></tr></thead><tbody class="divide-y divide-slate-100 dark:divide-zinc-800">
+  <tr><td class="p-3 font-semibold">貿易收支（8月）</td><td class="p-3 font-mono">-$105.6B</td><td class="p-3 font-mono">約 -$102.0B</td><td class="p-3 font-mono">-$92.8B（修正）</td><td class="p-3">進口創歷史新高$420.8B（+4.3%，原油、半導體、資本財），出口$315.2B（+1.4%）；反映內需強勁與AI設備進口，對股市影響偏中性。</td></tr></tbody></table></div>
+  <p>本日無其他主要經濟數據（CPI/PPI/非農等）公布。</p></div></div>
+      </div>
+    </section>
+
+    <section id="sec-4" class="scroll-mt-6 font-sans ">
+      <h2 class="text-xl font-bold mb-4 flex items-center gap-2 border-b border-slate-100 dark:border-zinc-800 pb-2"><span class="text-brand-500">4.</span> 板塊表現（可排序／搜尋表格）</h2>
+      
+      <input id="sectorSearch" type="text" placeholder="搜尋板塊 / ETF…" class="mb-3 w-full sm:w-72 px-3 py-2 text-sm rounded-lg border border-slate-200 dark:border-zinc-700 bg-white dark:bg-zinc-900">
+      <div class="p-5 rounded-2xl bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-850 shadow-sm overflow-x-auto"><table id="sectorTable" class="w-full text-xs sm:text-sm text-left border-collapse"><thead class="bg-slate-50 dark:bg-zinc-800/60 border-b border-slate-200 dark:border-zinc-700 text-slate-500 dark:text-zinc-400"><tr><th class="p-3 sortable" onclick="sortTable('sectorTable',0,true)">排名 ⇅</th><th class="p-3 sortable" onclick="sortTable('sectorTable',1,false)">板塊 ⇅</th><th class="p-3 sortable" onclick="sortTable('sectorTable',2,false)">ETF ⇅</th><th class="p-3 sortable" onclick="sortTable('sectorTable',3,true)">當日 ⇅</th><th class="p-3 sortable" onclick="sortTable('sectorTable',4,true)">近5日 ⇅</th><th class="p-3 sortable" onclick="sortTable('sectorTable',5,true)">近1月 ⇅</th><th class="p-3 sortable" onclick="sortTable('sectorTable',6,false)">相對SPY ⇅</th><th class="p-3 sortable" onclick="sortTable('sectorTable',7,false)">主要驅動 ⇅</th></tr></thead><tbody class="divide-y divide-slate-100 dark:divide-zinc-800"><tr class="hover:bg-slate-50 dark:hover:bg-zinc-800/30"><td class="p-3">1</td><td class="p-3"><b>公用事業</b></td><td class="p-3">XLU</td><td class="p-3"><span class="text-emerald-600 dark:text-emerald-400 font-bold">+2.98%</span></td><td class="p-3">+3.65%</td><td class="p-3">-4.46%</td><td class="p-3"><span class="text-emerald-600 dark:text-emerald-400 font-bold">跑贏 (+2.43%)</span></td><td class="p-3">CEG +12.25%、VST +10.77%、NRG +7.02% 領漲</td></tr><tr class="hover:bg-slate-50 dark:hover:bg-zinc-800/30"><td class="p-3">2</td><td class="p-3"><b>非必需消費</b></td><td class="p-3">XLY</td><td class="p-3"><span class="text-emerald-600 dark:text-emerald-400 font-bold">+1.18%</span></td><td class="p-3">+2.35%</td><td class="p-3">-2.78%</td><td class="p-3"><span class="text-emerald-600 dark:text-emerald-400 font-bold">跑贏 (+0.63%)</span></td><td class="p-3">AMZN +1.95%、TSLA +0.51% 支撐</td></tr><tr class="hover:bg-slate-50 dark:hover:bg-zinc-800/30"><td class="p-3">3</td><td class="p-3"><b>房地產</b></td><td class="p-3">XLRE</td><td class="p-3"><span class="text-emerald-600 dark:text-emerald-400 font-bold">+1.06%</span></td><td class="p-3">-0.58%</td><td class="p-3">-6.44%</td><td class="p-3"><span class="text-emerald-600 dark:text-emerald-400 font-bold">跑贏 (+0.51%)</span></td><td class="p-3">殖利率回落帶動反彈</td></tr><tr class="hover:bg-slate-50 dark:hover:bg-zinc-800/30"><td class="p-3">4</td><td class="p-3"><b>必需消費</b></td><td class="p-3">XLP</td><td class="p-3"><span class="text-emerald-600 dark:text-emerald-400 font-bold">+0.94%</span></td><td class="p-3">-0.06%</td><td class="p-3">-3.29%</td><td class="p-3"><span class="text-emerald-600 dark:text-emerald-400 font-bold">跑贏 (+0.39%)</span></td><td class="p-3">防禦資金回流</td></tr><tr class="hover:bg-slate-50 dark:hover:bg-zinc-800/30"><td class="p-3">5</td><td class="p-3"><b>工業</b></td><td class="p-3">XLI</td><td class="p-3"><span class="text-emerald-600 dark:text-emerald-400 font-bold">+0.87%</span></td><td class="p-3">+1.45%</td><td class="p-3">-2.11%</td><td class="p-3"><span class="text-emerald-600 dark:text-emerald-400 font-bold">跑贏 (+0.32%)</span></td><td class="p-3">PWR +5.29%、GEV +3.96%、ETN +2.89% 電力基建帶動</td></tr><tr class="hover:bg-slate-50 dark:hover:bg-zinc-800/30"><td class="p-3">6</td><td class="p-3"><b>科技</b></td><td class="p-3">XLK</td><td class="p-3"><span class="text-emerald-600 dark:text-emerald-400 font-bold">+0.53%</span></td><td class="p-3">+3.86%</td><td class="p-3">+7.86%</td><td class="p-3"><span class="text-rose-500 font-bold">跑輸 (-0.02%)</span></td><td class="p-3">AVGO +3.67%、MSFT +0.78%、NVDA +0.14%</td></tr><tr class="hover:bg-slate-50 dark:hover:bg-zinc-800/30"><td class="p-3">7</td><td class="p-3"><b>能源</b></td><td class="p-3">XLE</td><td class="p-3"><span class="text-emerald-600 dark:text-emerald-400 font-bold">+0.47%</span></td><td class="p-3">+3.59%</td><td class="p-3">-0.48%</td><td class="p-3"><span class="text-rose-500 font-bold">跑輸 (-0.08%)</span></td><td class="p-3">油價小幅上揚，近5日 +3.6%</td></tr><tr class="hover:bg-slate-50 dark:hover:bg-zinc-800/30"><td class="p-3">8</td><td class="p-3"><b>原物料</b></td><td class="p-3">XLB</td><td class="p-3"><span class="text-emerald-600 dark:text-emerald-400 font-bold">+0.46%</span></td><td class="p-3">+1.28%</td><td class="p-3">-5.17%</td><td class="p-3"><span class="text-rose-500 font-bold">跑輸 (-0.09%)</span></td><td class="p-3">溫和收高，近1月仍偏弱 (-5.2%)</td></tr><tr class="hover:bg-slate-50 dark:hover:bg-zinc-800/30"><td class="p-3">9</td><td class="p-3"><b>金融</b></td><td class="p-3">XLF</td><td class="p-3"><span class="text-emerald-600 dark:text-emerald-400 font-bold">+0.24%</span></td><td class="p-3">+0.00%</td><td class="p-3">-7.04%</td><td class="p-3"><span class="text-rose-500 font-bold">跑輸 (-0.31%)</span></td><td class="p-3">小幅收高，近1月仍落後 (-7.0%)</td></tr><tr class="hover:bg-slate-50 dark:hover:bg-zinc-800/30"><td class="p-3">10</td><td class="p-3"><b>通訊服務</b></td><td class="p-3">XLC</td><td class="p-3"><span class="text-emerald-600 dark:text-emerald-400 font-bold">+0.04%</span></td><td class="p-3">+0.16%</td><td class="p-3">-0.34%</td><td class="p-3"><span class="text-rose-500 font-bold">跑輸 (-0.51%)</span></td><td class="p-3">近乎持平，META -0.41% 拖累</td></tr><tr class="hover:bg-slate-50 dark:hover:bg-zinc-800/30"><td class="p-3">11</td><td class="p-3"><b>醫療保健</b></td><td class="p-3">XLV</td><td class="p-3"><span class="text-rose-500 font-bold">-0.17%</span></td><td class="p-3">-2.13%</td><td class="p-3">-2.54%</td><td class="p-3"><span class="text-rose-500 font-bold">跑輸 (-0.72%)</span></td><td class="p-3">唯一下跌板塊，近5日 -2.1%</td></tr></tbody></table></div>
+      <p class="mt-3 text-sm text-slate-600 dark:text-zinc-400">最強：公用事業 XLU（+2.98%）、工業 XLI（+0.87%）、非必需消費 XLY（+1.18%）；最弱：醫療保健 XLV（-0.17%）。成長 vs 價值：IWO -0.90% 與 IWN -0.42% 均下跌，小盤成長更弱；大型成長（QQQ +0.46%）勝過小盤。AI→傳統電力/能源輪動：電力股（CEG、VST、NRG）與電力設備（PWR、GEV、ETN）同日大漲，XLU 與 XLI 領漲而 XLK 僅 +0.53%，屬「AI主線向電力基礎設施擴散」的明確跡象，但 XLK 近5日仍 +3.86%，並非替代而是擴散。</p>
+    </section>
+
+    <section id="sec-5" class="scroll-mt-6 font-sans ">
+      <h2 class="text-xl font-bold mb-4 flex items-center gap-2 border-b border-slate-100 dark:border-zinc-800 pb-2"><span class="text-brand-500">5.</span> 主題與風格表現</h2>
+      <div class="p-5 rounded-2xl bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-850 shadow-sm overflow-x-auto"><table id="themeTable" class="w-full text-xs sm:text-sm text-left border-collapse"><thead class="bg-slate-50 dark:bg-zinc-800/60 border-b border-slate-200 dark:border-zinc-700 text-slate-500 dark:text-zinc-400"><tr><th class="p-3 sortable" onclick="sortTable('themeTable',0,false)">主題 ⇅</th><th class="p-3 sortable" onclick="sortTable('themeTable',1,false)">代表 ⇅</th><th class="p-3 sortable" onclick="sortTable('themeTable',2,true)">當日 ⇅</th><th class="p-3 sortable" onclick="sortTable('themeTable',3,true)">近5日 ⇅</th><th class="p-3 sortable" onclick="sortTable('themeTable',4,true)">近1月 ⇅</th><th class="p-3 sortable" onclick="sortTable('themeTable',5,false)">特徵 ⇅</th></tr></thead><tbody class="divide-y divide-slate-100 dark:divide-zinc-800"><tr class="hover:bg-slate-50 dark:hover:bg-zinc-800/30"><td class="p-3">半導體</td><td class="p-3"><b>SMH</b></td><td class="p-3"><span class="text-rose-500 font-bold">-0.22%</span></td><td class="p-3">+4.22%</td><td class="p-3">+11.55%</td><td class="p-3">高位整理，近5日 +4.22%</td></tr><tr class="hover:bg-slate-50 dark:hover:bg-zinc-800/30"><td class="p-3">半導體</td><td class="p-3"><b>SOXX</b></td><td class="p-3"><span class="text-rose-500 font-bold">-0.01%</span></td><td class="p-3">+3.88%</td><td class="p-3">+13.39%</td><td class="p-3">平盤附近，漲多整理</td></tr><tr class="hover:bg-slate-50 dark:hover:bg-zinc-800/30"><td class="p-3">軟體</td><td class="p-3"><b>IGV</b></td><td class="p-3"><span class="text-emerald-600 dark:text-emerald-400 font-bold">+1.31%</span></td><td class="p-3">+5.65%</td><td class="p-3">+6.30%</td><td class="p-3">軟體續彈，近5日 +5.65%</td></tr><tr class="hover:bg-slate-50 dark:hover:bg-zinc-800/30"><td class="p-3">網路安全（代理）</td><td class="p-3"><b>CRWD</b></td><td class="p-3"><span class="text-emerald-600 dark:text-emerald-400 font-bold">+2.27%</span></td><td class="p-3">+6.14%</td><td class="p-3">+30.86%</td><td class="p-3">近1月 +30.9% 領漲</td></tr><tr class="hover:bg-slate-50 dark:hover:bg-zinc-800/30"><td class="p-3">網路安全（代理）</td><td class="p-3"><b>PANW</b></td><td class="p-3"><span class="text-emerald-600 dark:text-emerald-400 font-bold">+3.23%</span></td><td class="p-3">+8.11%</td><td class="p-3">+26.00%</td><td class="p-3">近1月 +26.0%，今日大漲</td></tr><tr class="hover:bg-slate-50 dark:hover:bg-zinc-800/30"><td class="p-3">雲端運算（代理）</td><td class="p-3"><b>NOW</b></td><td class="p-3"><span class="text-emerald-600 dark:text-emerald-400 font-bold">+1.39%</span></td><td class="p-3">+6.18%</td><td class="p-3">-2.33%</td><td class="p-3">軟體龍頭續彈</td></tr><tr class="hover:bg-slate-50 dark:hover:bg-zinc-800/30"><td class="p-3">AI/自動化（代理）</td><td class="p-3"><b>PLTR</b></td><td class="p-3"><span class="text-emerald-600 dark:text-emerald-400 font-bold">+1.41%</span></td><td class="p-3">+2.73%</td><td class="p-3">+10.18%</td><td class="p-3">溫和上漲</td></tr><tr class="hover:bg-slate-50 dark:hover:bg-zinc-800/30"><td class="p-3">光通訊（代理）</td><td class="p-3"><b>LITE</b></td><td class="p-3"><span class="text-emerald-600 dark:text-emerald-400 font-bold">+3.82%</span></td><td class="p-3">+16.43%</td><td class="p-3">+28.61%</td><td class="p-3">近5日 +16.4%，短線擁擠</td></tr><tr class="hover:bg-slate-50 dark:hover:bg-zinc-800/30"><td class="p-3">光通訊（代理）</td><td class="p-3"><b>COHR</b></td><td class="p-3"><span class="text-emerald-600 dark:text-emerald-400 font-bold">+1.41%</span></td><td class="p-3">+15.79%</td><td class="p-3">+20.05%</td><td class="p-3">近5日 +15.8%</td></tr><tr class="hover:bg-slate-50 dark:hover:bg-zinc-800/30"><td class="p-3">資料中心/電力（代理）</td><td class="p-3"><b>VRT</b></td><td class="p-3"><span class="text-rose-500 font-bold">-0.19%</span></td><td class="p-3">+1.93%</td><td class="p-3">-9.76%</td><td class="p-3">近1月 -9.8% 仍在修復</td></tr><tr class="hover:bg-slate-50 dark:hover:bg-zinc-800/30"><td class="p-3">資料中心/電力（代理）</td><td class="p-3"><b>GEV</b></td><td class="p-3"><span class="text-emerald-600 dark:text-emerald-400 font-bold">+3.96%</span></td><td class="p-3">+6.93%</td><td class="p-3">+9.26%</td><td class="p-3">近5日 +6.9%，電力設備領漲</td></tr><tr class="hover:bg-slate-50 dark:hover:bg-zinc-800/30"><td class="p-3">儲能（代理）</td><td class="p-3"><b>FLNC</b></td><td class="p-3"><span class="text-emerald-600 dark:text-emerald-400 font-bold">+4.97%</span></td><td class="p-3">+2.69%</td><td class="p-3">-22.42%</td><td class="p-3">近1月 -22.4% 偏弱，今日反彈</td></tr><tr class="hover:bg-slate-50 dark:hover:bg-zinc-800/30"><td class="p-3">小盤成長</td><td class="p-3"><b>IWO</b></td><td class="p-3"><span class="text-rose-500 font-bold">-0.90%</span></td><td class="p-3">+0.90%</td><td class="p-3">-4.51%</td><td class="p-3">小盤成長走弱</td></tr><tr class="hover:bg-slate-50 dark:hover:bg-zinc-800/30"><td class="p-3">小盤價值</td><td class="p-3"><b>IWN</b></td><td class="p-3"><span class="text-rose-500 font-bold">-0.42%</span></td><td class="p-3">+0.65%</td><td class="p-3">-5.45%</td><td class="p-3">小盤價值走弱</td></tr><tr class="hover:bg-slate-50 dark:hover:bg-zinc-800/30"><td class="p-3">等權標普</td><td class="p-3"><b>RSP</b></td><td class="p-3"><span class="text-emerald-600 dark:text-emerald-400 font-bold">+0.57%</span></td><td class="p-3">+1.35%</td><td class="p-3">-3.05%</td><td class="p-3">與SPY同步，大型股寬度尚可</td></tr><tr class="hover:bg-slate-50 dark:hover:bg-zinc-800/30"><td class="p-3">大盤成長（納指100）</td><td class="p-3"><b>QQQ</b></td><td class="p-3"><span class="text-emerald-600 dark:text-emerald-400 font-bold">+0.46%</span></td><td class="p-3">+2.94%</td><td class="p-3">+5.66%</td><td class="p-3">大型成長領漲</td></tr></tbody></table></div><p class="mt-3 text-sm text-slate-600 dark:text-zinc-400">註：個別主題無單一ETF者使用代表個股作為代理，不等同主題指數。</p>
+    </section>
+
+    <section id="sec-6" class="scroll-mt-6 font-sans ">
+      <h2 class="text-xl font-bold mb-4 flex items-center gap-2 border-b border-slate-100 dark:border-zinc-800 pb-2"><span class="text-brand-500">6.</span> 市場寬度與參與度</h2>
+      
+      <div class="space-y-4">
+      <div class="p-5 rounded-2xl bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-850 shadow-sm"><h3 class="font-semibold mb-2">6.1 均線參與度</h3>
+      <p class="text-sm text-slate-700 dark:text-zinc-300">成分股站上20/50/100/200日均線的比例（如 S5TW/S5FI）<span class="text-slate-400">未取得可查證數據</span>；以下為代表ETF相對均線位置（均線、RSI 以至10-06收盤的Yahoo日線計算）：</p>
+      <div class="p-5 rounded-2xl bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-850 shadow-sm overflow-x-auto"><table class="w-full text-xs sm:text-sm text-left border-collapse"><thead class="bg-slate-50 dark:bg-zinc-800/60 border-b border-slate-200 dark:border-zinc-700 text-slate-500 dark:text-zinc-400"><tr><th class="p-3">ETF</th><th class="p-3">SPY</th><th class="p-3">QQQ</th><th class="p-3">IWM</th></tr></thead><tbody class="divide-y divide-slate-100 dark:divide-zinc-800"><tr class="hover:bg-slate-50 dark:hover:bg-zinc-800/30"><td class="p-3">20日均線</td><td class="p-3">765.72</td><td class="p-3">731.71</td><td class="p-3">283.71</td></tr><tr class="hover:bg-slate-50 dark:hover:bg-zinc-800/30"><td class="p-3">50日均線</td><td class="p-3">765.22</td><td class="p-3">719.81</td><td class="p-3">292.19</td></tr><tr class="hover:bg-slate-50 dark:hover:bg-zinc-800/30"><td class="p-3">200日均線</td><td class="p-3">721.49</td><td class="p-3">670.12</td><td class="p-3">276.66</td></tr><tr class="hover:bg-slate-50 dark:hover:bg-zinc-800/30"><td class="p-3">10-06收盤</td><td class="p-3">779.09</td><td class="p-3">759.66</td><td class="p-3">281.34</td></tr></tbody></table></div>
+      <p class="mt-2 text-sm text-slate-600 dark:text-zinc-400">SPY、QQQ 在所有主要均線之上，趨勢健康；IWM 低於20/50日均線，小型股中期趨勢偏弱。</p></div>
+      <div class="p-5 rounded-2xl bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-850 shadow-sm"><h3 class="font-semibold mb-2">6.2 漲跌家數、新高新低</h3><p class="text-sm">NYSE/Nasdaq 上漲/下跌家數、52週新高/新低 <span class="text-slate-400">未取得可查證數據</span>。代理：11個板塊中10個收高；SPY +0.55% vs RSP +0.57% 接近，但羅素2000 -0.59% 下跌，說明上漲面集中於大型股。</p></div>
+      <div class="p-5 rounded-2xl bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-850 shadow-sm"><h3 class="font-semibold mb-2">6.3 其他內部指標</h3><p class="text-sm">A/D Line、McClellan、Put/Call、VIX期限結構 <span class="text-slate-400">未取得可查證數據</span>。VIX 收 15.01，近5日 -6.42%，仍處低波動區；成交量：標普500 成交量約 2.72 十億股，Nasdaq 約 7.66 十億股。</p></div>
+      </div>
+    </section>
+
+    <section id="sec-7" class="scroll-mt-6 font-sans ">
+      <h2 class="text-xl font-bold mb-4 flex items-center gap-2 border-b border-slate-100 dark:border-zinc-800 pb-2"><span class="text-brand-500">7.</span> 技術面分析</h2>
+      <div class="p-5 rounded-2xl bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-850 shadow-sm overflow-x-auto"><table class="w-full text-xs sm:text-sm text-left border-collapse"><thead class="bg-slate-50 dark:bg-zinc-800/60 border-b border-slate-200 dark:border-zinc-700 text-slate-500 dark:text-zinc-400"><tr><th class="p-3">ETF</th><th class="p-3">收盤</th><th class="p-3">當日</th><th class="p-3">20日均線</th><th class="p-3">50日均線</th><th class="p-3">200日均線</th><th class="p-3">RSI(14)</th><th class="p-3">MACD</th><th class="p-3">支撐／壓力</th></tr></thead><tbody class="divide-y divide-slate-100 dark:divide-zinc-800 font-mono"><tr class="hover:bg-slate-50 dark:hover:bg-zinc-800/30"><td class="p-3"><b>SPY</b></td><td class="p-3">779.09</td><td class="p-3"><span class="text-emerald-600 dark:text-emerald-400 font-bold">+0.55%</span></td><td class="p-3">上(765.7)</td><td class="p-3">上(765.2)</td><td class="p-3">上(721.5)</td><td class="p-3">72 超買</td><td class="p-3">多頭</td><td class="p-3">支撐 777.96（日低）/ 765.7（20日）；壓力 781.62（20日高）</td></tr><tr class="hover:bg-slate-50 dark:hover:bg-zinc-800/30"><td class="p-3"><b>QQQ</b></td><td class="p-3">759.66</td><td class="p-3"><span class="text-emerald-600 dark:text-emerald-400 font-bold">+0.46%</span></td><td class="p-3">上(731.7)</td><td class="p-3">上(719.8)</td><td class="p-3">上(670.1)</td><td class="p-3">83 超買</td><td class="p-3">多頭</td><td class="p-3">支撐 759.10（日低）/ 731.7（20日）；壓力 762.86（20日高）</td></tr><tr class="hover:bg-slate-50 dark:hover:bg-zinc-800/30"><td class="p-3"><b>IWM</b></td><td class="p-3">281.34</td><td class="p-3"><span class="text-rose-500 font-bold">-0.72%</span></td><td class="p-3">下(283.7)</td><td class="p-3">下(292.2)</td><td class="p-3">上(276.7)</td><td class="p-3">44 中性</td><td class="p-3">空頭</td><td class="p-3">支撐 280.76（日低）/ 283.7（20日）；壓力 294.16（20日高）</td></tr><tr class="hover:bg-slate-50 dark:hover:bg-zinc-800/30"><td class="p-3"><b>SMH</b></td><td class="p-3">632.50</td><td class="p-3"><span class="text-rose-500 font-bold">-0.22%</span></td><td class="p-3">上(590.4)</td><td class="p-3">上(573.0)</td><td class="p-3">上(502.4)</td><td class="p-3">87 超買</td><td class="p-3">多頭</td><td class="p-3">支撐 631.49（日低）/ 590.4（20日）；壓力 639.47（20日高）</td></tr><tr class="hover:bg-slate-50 dark:hover:bg-zinc-800/30"><td class="p-3"><b>IGV</b></td><td class="p-3">111.16</td><td class="p-3"><span class="text-emerald-600 dark:text-emerald-400 font-bold">+1.31%</span></td><td class="p-3">上(106.1)</td><td class="p-3">上(103.8)</td><td class="p-3">上(93.7)</td><td class="p-3">70 中性</td><td class="p-3">多頭</td><td class="p-3">支撐 110.65（日低）/ 106.1（20日）；壓力 112.34（20日高）</td></tr><tr class="hover:bg-slate-50 dark:hover:bg-zinc-800/30"><td class="p-3"><b>XLK</b></td><td class="p-3">202.00</td><td class="p-3"><span class="text-emerald-600 dark:text-emerald-400 font-bold">+0.53%</span></td><td class="p-3">上(192.7)</td><td class="p-3">上(187.4)</td><td class="p-3">上(165.5)</td><td class="p-3">87 超買</td><td class="p-3">多頭</td><td class="p-3">支撐 201.87（日低）/ 192.7（20日）；壓力 203.25（20日高）</td></tr></tbody></table></div>
+      <p class="mt-3 text-sm text-slate-600 dark:text-zinc-400">註：均線/RSI/MACD 以Yahoo日線至10-06收盤計算。判讀：SMH（RSI 87）與 XLK（RSI 87）處於極度超買，QQQ（83）偏超買，SPY（72）略超買，追高風險上升；IWM RSI 44 偏中性偏弱。明日多頭確認：SPY 收盤站穩日高 781.6 之上、QQQ 站穩 762.9。風險位：SPY 失守 778.0（日低）、QQQ 失守 759.1（日低），更深支撐為20日均線區。</p>
+    </section>
+
+    <section id="sec-8" class="scroll-mt-6 font-sans ">
+      <h2 class="text-xl font-bold mb-4 flex items-center gap-2 border-b border-slate-100 dark:border-zinc-800 pb-2"><span class="text-brand-500">8.</span> 重點個股新聞與異動</h2>
+      <div class="space-y-3"><details class="group p-4 rounded-xl bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-850 shadow-sm" open><summary class="cursor-pointer font-bold text-slate-900 dark:text-white">8.1 大型科技七巨頭</summary><div class="mt-3 text-sm leading-relaxed text-slate-700 dark:text-zinc-300 space-y-2"><div class="overflow-x-auto"><table class="w-full text-sm text-left"><tbody class="divide-y divide-slate-100 dark:divide-zinc-800"><tr><td class="p-2 font-semibold">NVDA</td><td class="p-2 font-mono">$239.24</td><td class="p-2 text-emerald-600 dark:text-emerald-400 font-bold">+0.14%</td><td class="p-2 text-xs">近5日 +5.3% / 近1月 +3.9%</td><td class="p-2 text-xs">平盤附近整理，近5日 +5.3%</td></tr><tr><td class="p-2 font-semibold">MSFT</td><td class="p-2 font-mono">$529.30</td><td class="p-2 text-emerald-600 dark:text-emerald-400 font-bold">+0.78%</td><td class="p-2 text-xs">近5日 +4.0% / 近1月 +5.9%</td><td class="p-2 text-xs">收$529.3，AI軟體買盤延續</td></tr><tr><td class="p-2 font-semibold">AAPL</td><td class="p-2 font-mono">$333.63</td><td class="p-2 text-emerald-600 dark:text-emerald-400 font-bold">+0.22%</td><td class="p-2 text-xs">近5日 +1.3% / 近1月 +4.3%</td><td class="p-2 text-xs">小幅上漲</td></tr><tr><td class="p-2 font-semibold">GOOGL</td><td class="p-2 font-mono">$347.68</td><td class="p-2 text-emerald-600 dark:text-emerald-400 font-bold">+0.35%</td><td class="p-2 text-xs">近5日 +2.0% / 近1月 +2.7%</td><td class="p-2 text-xs">與Constellation簽20年購電協議（電力供應AI資料中心）</td></tr><tr><td class="p-2 font-semibold">AMZN</td><td class="p-2 font-mono">$256.29</td><td class="p-2 text-emerald-600 dark:text-emerald-400 font-bold">+1.95%</td><td class="p-2 text-xs">近5日 +3.9% / 近1月 -0.9%</td><td class="p-2 text-xs">+1.95%，七巨頭中領漲</td></tr><tr><td class="p-2 font-semibold">META</td><td class="p-2 font-mono">$738.88</td><td class="p-2 text-rose-500 font-bold">-0.41%</td><td class="p-2 text-xs">近5日 +0.0% / 近1月 +19.8%</td><td class="p-2 text-xs">小幅回落，近1月 +19.8% 後整理</td></tr><tr><td class="p-2 font-semibold">TSLA</td><td class="p-2 font-mono">$380.68</td><td class="p-2 text-emerald-600 dark:text-emerald-400 font-bold">+0.51%</td><td class="p-2 text-xs">近5日 +7.9% / 近1月 +7.5%</td><td class="p-2 text-xs">收$380.68，近5日 +7.9%</td></tr></tbody></table></div></div></details><details class="group p-4 rounded-xl bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-850 shadow-sm"><summary class="cursor-pointer font-bold text-slate-900 dark:text-white">8.2 AI 硬體 / 半導體</summary><div class="mt-3 text-sm leading-relaxed text-slate-700 dark:text-zinc-300 space-y-2"><div class="overflow-x-auto"><table class="w-full text-sm text-left"><tbody class="divide-y divide-slate-100 dark:divide-zinc-800"><tr><td class="p-2 font-semibold">AVGO</td><td class="p-2 font-mono">$375.81</td><td class="p-2 text-emerald-600 dark:text-emerald-400 font-bold">+3.67%</td><td class="p-2 text-xs">近5日 +5.8% / 近1月 +5.0%</td><td class="p-2 text-xs">受Marvell投資人日帶動，客製晶片題材</td></tr><tr><td class="p-2 font-semibold">TSM</td><td class="p-2 font-mono">$482.30</td><td class="p-2 text-rose-500 font-bold">-0.72%</td><td class="p-2 text-xs">近5日 +5.5% / 近1月 +12.4%</td><td class="p-2 text-xs">小幅回落</td></tr><tr><td class="p-2 font-semibold">AMD</td><td class="p-2 font-mono">$649.42</td><td class="p-2 text-emerald-600 dark:text-emerald-400 font-bold">+2.80%</td><td class="p-2 text-xs">近5日 +6.9% / 近1月 +36.0%</td><td class="p-2 text-xs">+2.8%，近1月 +36.0%</td></tr><tr><td class="p-2 font-semibold">MRVL</td><td class="p-2 font-mono">$287.01</td><td class="p-2 text-emerald-600 dark:text-emerald-400 font-bold">+5.81%</td><td class="p-2 text-xs">近5日 +9.0% / 近1月 +28.4%</td><td class="p-2 text-xs">投資人日：FY2028營收目標上調至$200億（原$180億，共識$182億）；FY2031目標$700–900億、EPS目標$30以上</td></tr><tr><td class="p-2 font-semibold">MU</td><td class="p-2 font-mono">$1,045.56</td><td class="p-2 text-rose-500 font-bold">-1.73%</td><td class="p-2 text-xs">近5日 -1.8% / 近1月 +2.9%</td><td class="p-2 text-xs">-1.73%，高位回吐</td></tr><tr><td class="p-2 font-semibold">ASML</td><td class="p-2 font-mono">$1,834.10</td><td class="p-2 text-rose-500 font-bold">-1.39%</td><td class="p-2 text-xs">近5日 -0.0% / 近1月 +7.0%</td><td class="p-2 text-xs">-1.39%</td></tr><tr><td class="p-2 font-semibold">ARM</td><td class="p-2 font-mono">$302.56</td><td class="p-2 text-rose-500 font-bold">-0.11%</td><td class="p-2 text-xs">近5日 +3.0% / 近1月 +20.0%</td><td class="p-2 text-xs">小幅回落</td></tr><tr><td class="p-2 font-semibold">DELL</td><td class="p-2 font-mono">$574.00</td><td class="p-2 text-emerald-600 dark:text-emerald-400 font-bold">+3.93%</td><td class="p-2 text-xs">近5日 +6.4% / 近1月 +9.5%</td><td class="p-2 text-xs">+3.93%</td></tr><tr><td class="p-2 font-semibold">VRT</td><td class="p-2 font-mono">$253.14</td><td class="p-2 text-rose-500 font-bold">-0.19%</td><td class="p-2 text-xs">近5日 +1.9% / 近1月 -9.8%</td><td class="p-2 text-xs">小幅回落</td></tr><tr><td class="p-2 font-semibold">ANET</td><td class="p-2 font-mono">$215.36</td><td class="p-2 text-emerald-600 dark:text-emerald-400 font-bold">+4.09%</td><td class="p-2 text-xs">近5日 +6.2% / 近1月 +11.1%</td><td class="p-2 text-xs">+4.09%，網通題材隨MRVL走強</td></tr></tbody></table></div></div></details><details class="group p-4 rounded-xl bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-850 shadow-sm"><summary class="cursor-pointer font-bold text-slate-900 dark:text-white">8.3 軟體 / SaaS / AI 應用</summary><div class="mt-3 text-sm leading-relaxed text-slate-700 dark:text-zinc-300 space-y-2"><div class="overflow-x-auto"><table class="w-full text-sm text-left"><tbody class="divide-y divide-slate-100 dark:divide-zinc-800"><tr><td class="p-2 font-semibold">CRM</td><td class="p-2 font-mono">$224.99</td><td class="p-2 text-rose-500 font-bold">-2.09%</td><td class="p-2 text-xs">近5日 -0.1% / 近1月 -13.2%</td><td class="p-2 text-xs">軟體中最弱，近1月 -13.2%</td></tr><tr><td class="p-2 font-semibold">NOW</td><td class="p-2 font-mono">$137.97</td><td class="p-2 text-emerald-600 dark:text-emerald-400 font-bold">+1.39%</td><td class="p-2 text-xs">近5日 +6.2% / 近1月 -2.3%</td><td class="p-2 text-xs">軟體龍頭續彈</td></tr><tr><td class="p-2 font-semibold">SNOW</td><td class="p-2 font-mono">$335.95</td><td class="p-2 text-rose-500 font-bold">-0.90%</td><td class="p-2 text-xs">近5日 +1.7% / 近1月 -0.4%</td><td class="p-2 text-xs">-0.9%</td></tr><tr><td class="p-2 font-semibold">ORCL</td><td class="p-2 font-mono">$144.77</td><td class="p-2 text-emerald-600 dark:text-emerald-400 font-bold">+1.61%</td><td class="p-2 text-xs">近5日 +5.1% / 近1月 -8.8%</td><td class="p-2 text-xs">+1.61%</td></tr><tr><td class="p-2 font-semibold">ADBE</td><td class="p-2 font-mono">$238.12</td><td class="p-2 text-rose-500 font-bold">-0.28%</td><td class="p-2 text-xs">近5日 +2.1% / 近1月 -10.7%</td><td class="p-2 text-xs">小幅回落</td></tr><tr><td class="p-2 font-semibold">PANW</td><td class="p-2 font-mono">$419.91</td><td class="p-2 text-emerald-600 dark:text-emerald-400 font-bold">+3.23%</td><td class="p-2 text-xs">近5日 +8.1% / 近1月 +26.0%</td><td class="p-2 text-xs">+3.23%，近1月 +26.0%</td></tr><tr><td class="p-2 font-semibold">CRWD</td><td class="p-2 font-mono">$278.86</td><td class="p-2 text-emerald-600 dark:text-emerald-400 font-bold">+2.27%</td><td class="p-2 text-xs">近5日 +6.1% / 近1月 +30.9%</td><td class="p-2 text-xs">+2.27%，近1月 +30.9%</td></tr><tr><td class="p-2 font-semibold">PLTR</td><td class="p-2 font-mono">$192.07</td><td class="p-2 text-emerald-600 dark:text-emerald-400 font-bold">+1.41%</td><td class="p-2 text-xs">近5日 +2.7% / 近1月 +10.2%</td><td class="p-2 text-xs">+1.41%</td></tr></tbody></table></div></div></details><details class="group p-4 rounded-xl bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-850 shadow-sm"><summary class="cursor-pointer font-bold text-slate-900 dark:text-white">8.4 AI 電力 / 資料中心 / 能源基礎設施</summary><div class="mt-3 text-sm leading-relaxed text-slate-700 dark:text-zinc-300 space-y-2"><div class="overflow-x-auto"><table class="w-full text-sm text-left"><tbody class="divide-y divide-slate-100 dark:divide-zinc-800"><tr><td class="p-2 font-semibold">CEG</td><td class="p-2 font-mono">$300.40</td><td class="p-2 text-emerald-600 dark:text-emerald-400 font-bold">+12.25%</td><td class="p-2 text-xs">近5日 +13.5% / 近1月 +0.5%</td><td class="p-2 text-xs">與Google簽20年購電協議（投資逾$43億提升11座核反應爐、新增890MW）及15年2,700MW供應協議，創單日大漲</td></tr><tr><td class="p-2 font-semibold">VST</td><td class="p-2 font-mono">$160.50</td><td class="p-2 text-emerald-600 dark:text-emerald-400 font-bold">+10.77%</td><td class="p-2 text-xs">近5日 +14.0% / 近1月 +7.5%</td><td class="p-2 text-xs">DOE 有條件貸款承諾最高$42億，支持Perry、Davis-Besse、Beaver Valley核電擴建</td></tr><tr><td class="p-2 font-semibold">NRG</td><td class="p-2 font-mono">$103.60</td><td class="p-2 text-emerald-600 dark:text-emerald-400 font-bold">+7.02%</td><td class="p-2 text-xs">近5日 +6.6% / 近1月 -13.0%</td><td class="p-2 text-xs">獨立電力商同步走高</td></tr><tr><td class="p-2 font-semibold">ETN</td><td class="p-2 font-mono">$445.09</td><td class="p-2 text-emerald-600 dark:text-emerald-400 font-bold">+2.89%</td><td class="p-2 text-xs">近5日 +2.7% / 近1月 +8.3%</td><td class="p-2 text-xs">+2.89%</td></tr><tr><td class="p-2 font-semibold">PWR</td><td class="p-2 font-mono">$719.56</td><td class="p-2 text-emerald-600 dark:text-emerald-400 font-bold">+5.29%</td><td class="p-2 text-xs">近5日 +10.4% / 近1月 +15.2%</td><td class="p-2 text-xs">+5.29%，電力基建</td></tr><tr><td class="p-2 font-semibold">GEV</td><td class="p-2 font-mono">$1,029.21</td><td class="p-2 text-emerald-600 dark:text-emerald-400 font-bold">+3.96%</td><td class="p-2 text-xs">近5日 +6.9% / 近1月 +9.3%</td><td class="p-2 text-xs">+3.96%</td></tr><tr><td class="p-2 font-semibold">OKLO</td><td class="p-2 font-mono">$38.55</td><td class="p-2 text-emerald-600 dark:text-emerald-400 font-bold">+7.17%</td><td class="p-2 text-xs">近5日 +3.9% / 近1月 -6.6%</td><td class="p-2 text-xs">+7.17%，核能題材跟漲</td></tr></tbody></table></div></div></details><details class="group p-4 rounded-xl bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-850 shadow-sm"><summary class="cursor-pointer font-bold text-slate-900 dark:text-white">8.5 其他顯著異動（併購與評級）</summary><div class="mt-3 text-sm leading-relaxed text-slate-700 dark:text-zinc-300 space-y-2"><ul class="list-disc pl-5 space-y-1"><li><b>Constellation Brands（STZ，盤後約-2.7%）</b>：FQ2 EPS $3.74（預期$3.61）、營收$26.3億（預期$25.4億），啤酒銷售+5%，但維持全年EPS指引$11.20–11.90，中值低於共識$11.72。</li>
+<li><b>Marvell（+5.81%）</b>：投資人日上調長期營收目標，帶動 AVGO、ANET 及 Astera Labs、Credo 等同業走強。</li>
+<li><b>Dell（+3.93%）、PANW（+3.23%）</b>：資料中心與資安股同步走強，未找到單一可查證催化。</li></ul></div></details><p class="text-xs text-slate-500">註：未列出個別新聞者，表示未找到可查證的單一催化，漲跌依價格資料呈現。</p></div>
+    </section>
+
+    <section id="sec-9" class="scroll-mt-6 font-sans ">
+      <h2 class="text-xl font-bold mb-4 flex items-center gap-2 border-b border-slate-100 dark:border-zinc-800 pb-2"><span class="text-brand-500">9.</span> 財報日曆與公司事件</h2>
+      <div class="space-y-4">
+  <div class="p-5 rounded-2xl bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-850 shadow-sm"><h3 class="font-semibold mb-2">9.1 昨夜（10/6）財報與公司事件</h3><p class="text-sm">Marvell 投資人日（盤中）上調長期目標；盤後 Constellation Brands(STZ) 財報：EPS $3.74 對預期 $3.61、營收 $26.3 億對預期 $25.4 億，啤酒部門銷量+5.5%、葡萄酒與烈酒銷售+17%，但維持FY27 EPS指引 $11.20–11.90（共識 $11.72），盤後約-2.7%。Q3財報季將自10月中旬由銀行股拉開序幕。</p></div>
+  <div class="p-5 rounded-2xl bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-850 shadow-sm overflow-x-auto"><table class="w-full text-xs sm:text-sm text-left border-collapse"><thead class="bg-slate-50 dark:bg-zinc-800/60 border-b border-slate-200 dark:border-zinc-700 text-slate-500 dark:text-zinc-400"><tr><th class="p-3">日期</th><th class="p-3">公司</th><th class="p-3">關注點</th></tr></thead><tbody class="divide-y divide-slate-100 dark:divide-zinc-800"><tr class="hover:bg-slate-50 dark:hover:bg-zinc-800/30"><td class="p-3">10/7 週三</td><td class="p-3">Levi Strauss (LEVI)、Applied Digital (APLD)</td><td class="p-3">APLD 為AI資料中心題材股；同日FOMC會議紀要</td></tr><tr class="hover:bg-slate-50 dark:hover:bg-zinc-800/30"><td class="p-3">10/8 週四</td><td class="p-3">PepsiCo (PEP)、Progressive (PGR)</td><td class="p-3">消費者價格彈性、保險定價</td></tr><tr class="hover:bg-slate-50 dark:hover:bg-zinc-800/30"><td class="p-3">10/9 週五</td><td class="p-3">（以公司IR確認為準）</td><td class="p-3">本日未取得可查證的重要財報</td></tr></tbody></table></div>
+  <p class="text-xs text-slate-500">日曆來源：Investing.com 財報日曆（沿用前一交易日整理）；EPS/營收預期除STZ外未取得，請於公司IR確認。</p></div>
+    </section>
+
+    <section id="sec-10" class="scroll-mt-6 font-sans ">
+      <h2 class="text-xl font-bold mb-4 flex items-center gap-2 border-b border-slate-100 dark:border-zinc-800 pb-2"><span class="text-brand-500">10.</span> 機構觀點與資金流</h2>
+      <div class="space-y-3 text-sm leading-relaxed text-slate-700 dark:text-zinc-300"><p><strong class="text-slate-900 dark:text-white font-semibold">【評級／目標價】</strong> 本日未取得可查證的大型券商評級或目標價調整（前一日：摩根士丹利維持輝達 Overweight、目標價$300，未更新）。</p><p><strong class="text-slate-900 dark:text-white font-semibold">【ETF 資金流】</strong> ETF 資金流量數據 <span class="text-slate-400">未取得可查證數據</span>；價格面：SMH 近5日 +4.22%、SOXX +3.88%，IGV +5.65%，XLU 單日 +2.98%，顯示軟體、半導體與電力近期受資金追捧。</p><p><strong class="text-slate-900 dark:text-white font-semibold">【大宗/內部人/期權】</strong> 本日大宗交易、內部人交易與異常期權活動 <span class="text-slate-400">未取得可查證數據</span>。</p></div>
+    </section>
+
+    <section id="sec-11" class="scroll-mt-6 font-sans ">
+      <h2 class="text-xl font-bold mb-4 flex items-center gap-2 border-b border-slate-100 dark:border-zinc-800 pb-2"><span class="text-brand-500">11.</span> 板塊輪動判斷</h2>
+      <div class="space-y-3 text-sm leading-relaxed text-slate-700 dark:text-zinc-300"><p><strong class="text-slate-900 dark:text-white font-semibold">【資金流入】</strong> 公用事業（XLU +2.98%）、工業（XLI +0.87%）、非必需消費（XLY +1.18%）領漲；近5日科技（XLK +3.86%）、軟體（IGV +5.65%）、半導體（SMH +4.22%）與能源（XLE +3.59%）領先。</p><p><strong class="text-slate-900 dark:text-white font-semibold">【資金流出／落後】</strong> 醫療保健（XLV 近5日 -2.13%）、小型股（IWM 近1月 -4.96%）、金融（XLF 近1月 -7.04%）。</p><p><strong class="text-slate-900 dark:text-white font-semibold">【AI 主線健康度與階段】</strong> AI 主線由晶片擴散至電力、客製晶片與網通，健康度良好，但SMH/XLK RSI 87、光通訊個股5日漲約16%，擁擠度偏高，且小型股走弱使寬度分歧。研判為『強趨勢上漲中的高位整理與輪動』，延續概率高於頂部，但追高性價比下降。</p></div>
+    </section>
+
+    <section id="sec-12" class="scroll-mt-6 font-sans ">
+      <h2 class="text-xl font-bold mb-4 flex items-center gap-2 border-b border-slate-100 dark:border-zinc-800 pb-2"><span class="text-brand-500">12.</span> 我的重點關注股觀察</h2>
+      <input id="watchSearch" type="text" placeholder="搜尋股票…" class="mb-3 w-full sm:w-72 px-3 py-2 text-sm rounded-lg border border-slate-200 dark:border-zinc-700 bg-white dark:bg-zinc-900">
+  <div class="p-5 rounded-2xl bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-850 shadow-sm overflow-x-auto"><table id="watchTable" class="w-full text-xs sm:text-sm text-left border-collapse"><thead class="bg-slate-50 dark:bg-zinc-800/60 border-b border-slate-200 dark:border-zinc-700 text-slate-500 dark:text-zinc-400"><tr><th class="p-3 sortable" onclick="sortTable('watchTable',0,false)">代號 ⇅</th><th class="p-3 sortable" onclick="sortTable('watchTable',1,false)">收盤 ⇅</th><th class="p-3 sortable" onclick="sortTable('watchTable',2,true)">當日 ⇅</th><th class="p-3 sortable" onclick="sortTable('watchTable',3,false)">近5日／近1月 ⇅</th><th class="p-3 sortable" onclick="sortTable('watchTable',4,false)">短線關鍵位（日內） ⇅</th><th class="p-3 sortable" onclick="sortTable('watchTable',5,false)">關鍵訊息 ⇅</th><th class="p-3 sortable" onclick="sortTable('watchTable',6,false)">判定 ⇅</th></tr></thead><tbody class="divide-y divide-slate-100 dark:divide-zinc-800"><tr class="hover:bg-slate-50 dark:hover:bg-zinc-800/30"><td class="p-3"><b>NVDA</b></td><td class="p-3">$239.24</td><td class="p-3"><span class="text-emerald-600 dark:text-emerald-400 font-bold">+0.14%</span></td><td class="p-3">+5.3% / +3.9%</td><td class="p-3"><span class="font-mono text-xs">日低 238.93 / 日高 243.37</span></td><td class="p-3">平盤附近整理；近5日+5.3%</td><td class="p-3"><span class="px-2 py-0.5 rounded text-xs font-semibold bg-yellow-100 text-yellow-700">高位震盪</span></td></tr><tr class="hover:bg-slate-50 dark:hover:bg-zinc-800/30"><td class="p-3"><b>AMD</b></td><td class="p-3">$649.42</td><td class="p-3"><span class="text-emerald-600 dark:text-emerald-400 font-bold">+2.80%</span></td><td class="p-3">+6.9% / +36.0%</td><td class="p-3"><span class="font-mono text-xs">日低 628.00 / 日高 658.52</span></td><td class="p-3">+2.8%，近1月+36.0%</td><td class="p-3"><span class="px-2 py-0.5 rounded text-xs font-semibold bg-emerald-100 text-emerald-700">繼續強勢</span></td></tr><tr class="hover:bg-slate-50 dark:hover:bg-zinc-800/30"><td class="p-3"><b>AVGO</b></td><td class="p-3">$375.81</td><td class="p-3"><span class="text-emerald-600 dark:text-emerald-400 font-bold">+3.67%</span></td><td class="p-3">+5.8% / +5.0%</td><td class="p-3"><span class="font-mono text-xs">日低 364.01 / 日高 380.84</span></td><td class="p-3">+3.67%，MRVL投資人日帶動</td><td class="p-3"><span class="px-2 py-0.5 rounded text-xs font-semibold bg-emerald-100 text-emerald-700">繼續強勢</span></td></tr><tr class="hover:bg-slate-50 dark:hover:bg-zinc-800/30"><td class="p-3"><b>MRVL</b></td><td class="p-3">$287.01</td><td class="p-3"><span class="text-emerald-600 dark:text-emerald-400 font-bold">+5.81%</span></td><td class="p-3">+9.0% / +28.4%</td><td class="p-3"><span class="font-mono text-xs">日低 267.26 / 日高 301.27</span></td><td class="p-3">+5.81%，上調長期目標</td><td class="p-3"><span class="px-2 py-0.5 rounded text-xs font-semibold bg-emerald-100 text-emerald-700">繼續強勢</span></td></tr><tr class="hover:bg-slate-50 dark:hover:bg-zinc-800/30"><td class="p-3"><b>GOOGL</b></td><td class="p-3">$347.68</td><td class="p-3"><span class="text-emerald-600 dark:text-emerald-400 font-bold">+0.35%</span></td><td class="p-3">+2.0% / +2.7%</td><td class="p-3"><span class="font-mono text-xs">日低 344.68 / 日高 349.09</span></td><td class="p-3">與CEG簽購電協議</td><td class="p-3"><span class="px-2 py-0.5 rounded text-xs font-semibold bg-emerald-100 text-emerald-700">繼續強勢</span></td></tr><tr class="hover:bg-slate-50 dark:hover:bg-zinc-800/30"><td class="p-3"><b>MSFT</b></td><td class="p-3">$529.30</td><td class="p-3"><span class="text-emerald-600 dark:text-emerald-400 font-bold">+0.78%</span></td><td class="p-3">+4.0% / +5.9%</td><td class="p-3"><span class="font-mono text-xs">日低 528.82 / 日高 535.69</span></td><td class="p-3">+0.78% 收$529</td><td class="p-3"><span class="px-2 py-0.5 rounded text-xs font-semibold bg-emerald-100 text-emerald-700">繼續強勢</span></td></tr><tr class="hover:bg-slate-50 dark:hover:bg-zinc-800/30"><td class="p-3"><b>META</b></td><td class="p-3">$738.88</td><td class="p-3"><span class="text-rose-500 font-bold">-0.41%</span></td><td class="p-3">+0.0% / +19.8%</td><td class="p-3"><span class="font-mono text-xs">日低 736.69 / 日高 747.60</span></td><td class="p-3">近1月+19.8%，今日小跌</td><td class="p-3"><span class="px-2 py-0.5 rounded text-xs font-semibold bg-yellow-100 text-yellow-700">高位震盪</span></td></tr><tr class="hover:bg-slate-50 dark:hover:bg-zinc-800/30"><td class="p-3"><b>AMZN</b></td><td class="p-3">$256.29</td><td class="p-3"><span class="text-emerald-600 dark:text-emerald-400 font-bold">+1.95%</span></td><td class="p-3">+3.9% / -0.9%</td><td class="p-3"><span class="font-mono text-xs">日低 251.08 / 日高 256.68</span></td><td class="p-3">+1.95%</td><td class="p-3"><span class="px-2 py-0.5 rounded text-xs font-semibold bg-emerald-100 text-emerald-700">繼續強勢</span></td></tr><tr class="hover:bg-slate-50 dark:hover:bg-zinc-800/30"><td class="p-3"><b>ORCL</b></td><td class="p-3">$144.77</td><td class="p-3"><span class="text-emerald-600 dark:text-emerald-400 font-bold">+1.61%</span></td><td class="p-3">+5.1% / -8.8%</td><td class="p-3"><span class="font-mono text-xs">日低 143.92 / 日高 146.93</span></td><td class="p-3">近1月-8.8%，近5日反彈5.1%</td><td class="p-3"><span class="px-2 py-0.5 rounded text-xs font-semibold bg-sky-100 text-sky-700">低位修復</span></td></tr><tr class="hover:bg-slate-50 dark:hover:bg-zinc-800/30"><td class="p-3"><b>CRM</b></td><td class="p-3">$224.99</td><td class="p-3"><span class="text-rose-500 font-bold">-2.09%</span></td><td class="p-3">-0.1% / -13.2%</td><td class="p-3"><span class="font-mono text-xs">日低 222.89 / 日高 232.78</span></td><td class="p-3">近1月-13.2%，今日-2.1%最弱</td><td class="p-3"><span class="px-2 py-0.5 rounded text-xs font-semibold bg-rose-100 text-rose-700">破位風險</span></td></tr><tr class="hover:bg-slate-50 dark:hover:bg-zinc-800/30"><td class="p-3"><b>NOW</b></td><td class="p-3">$137.97</td><td class="p-3"><span class="text-emerald-600 dark:text-emerald-400 font-bold">+1.39%</span></td><td class="p-3">+6.2% / -2.3%</td><td class="p-3"><span class="font-mono text-xs">日低 136.18 / 日高 140.60</span></td><td class="p-3">+1.39% 軟體續彈</td><td class="p-3"><span class="px-2 py-0.5 rounded text-xs font-semibold bg-sky-100 text-sky-700">低位修復</span></td></tr><tr class="hover:bg-slate-50 dark:hover:bg-zinc-800/30"><td class="p-3"><b>SNOW</b></td><td class="p-3">$335.95</td><td class="p-3"><span class="text-rose-500 font-bold">-0.90%</span></td><td class="p-3">+1.7% / -0.4%</td><td class="p-3"><span class="font-mono text-xs">日低 335.11 / 日高 349.00</span></td><td class="p-3">-0.9%</td><td class="p-3"><span class="px-2 py-0.5 rounded text-xs font-semibold bg-yellow-100 text-yellow-700">高位震盪</span></td></tr><tr class="hover:bg-slate-50 dark:hover:bg-zinc-800/30"><td class="p-3"><b>ADBE</b></td><td class="p-3">$238.12</td><td class="p-3"><span class="text-rose-500 font-bold">-0.28%</span></td><td class="p-3">+2.1% / -10.7%</td><td class="p-3"><span class="font-mono text-xs">日低 236.77 / 日高 240.15</span></td><td class="p-3">近1月-10.7%，小幅回落</td><td class="p-3"><span class="px-2 py-0.5 rounded text-xs font-semibold bg-sky-100 text-sky-700">低位修復</span></td></tr><tr class="hover:bg-slate-50 dark:hover:bg-zinc-800/30"><td class="p-3"><b>PLTR</b></td><td class="p-3">$192.07</td><td class="p-3"><span class="text-emerald-600 dark:text-emerald-400 font-bold">+1.41%</span></td><td class="p-3">+2.7% / +10.2%</td><td class="p-3"><span class="font-mono text-xs">日低 190.25 / 日高 194.56</span></td><td class="p-3">近1月+10.2%</td><td class="p-3"><span class="px-2 py-0.5 rounded text-xs font-semibold bg-yellow-100 text-yellow-700">高位震盪</span></td></tr><tr class="hover:bg-slate-50 dark:hover:bg-zinc-800/30"><td class="p-3"><b>LITE</b></td><td class="p-3">$1,133.40</td><td class="p-3"><span class="text-emerald-600 dark:text-emerald-400 font-bold">+3.82%</span></td><td class="p-3">+16.4% / +28.6%</td><td class="p-3"><span class="font-mono text-xs">日低 1,084.04 / 日高 1,137.20</span></td><td class="p-3">近5日+16.4%，今日+3.8%</td><td class="p-3"><span class="px-2 py-0.5 rounded text-xs font-semibold bg-orange-100 text-orange-700">短線過熱</span></td></tr><tr class="hover:bg-slate-50 dark:hover:bg-zinc-800/30"><td class="p-3"><b>COHR</b></td><td class="p-3">$338.36</td><td class="p-3"><span class="text-emerald-600 dark:text-emerald-400 font-bold">+1.41%</span></td><td class="p-3">+15.8% / +20.1%</td><td class="p-3"><span class="font-mono text-xs">日低 331.39 / 日高 341.30</span></td><td class="p-3">近5日+15.8%，今日+1.4%</td><td class="p-3"><span class="px-2 py-0.5 rounded text-xs font-semibold bg-orange-100 text-orange-700">短線過熱</span></td></tr><tr class="hover:bg-slate-50 dark:hover:bg-zinc-800/30"><td class="p-3"><b>ANET</b></td><td class="p-3">$215.36</td><td class="p-3"><span class="text-emerald-600 dark:text-emerald-400 font-bold">+4.09%</span></td><td class="p-3">+6.2% / +11.1%</td><td class="p-3"><span class="font-mono text-xs">日低 207.24 / 日高 216.07</span></td><td class="p-3">+4.09%</td><td class="p-3"><span class="px-2 py-0.5 rounded text-xs font-semibold bg-emerald-100 text-emerald-700">繼續強勢</span></td></tr><tr class="hover:bg-slate-50 dark:hover:bg-zinc-800/30"><td class="p-3"><b>FLNC</b></td><td class="p-3">$8.03</td><td class="p-3"><span class="text-emerald-600 dark:text-emerald-400 font-bold">+4.97%</span></td><td class="p-3">+2.7% / -22.4%</td><td class="p-3"><span class="font-mono text-xs">日低 7.72 / 日高 8.16</span></td><td class="p-3">近1月-22.4%，今日反彈</td><td class="p-3"><span class="px-2 py-0.5 rounded text-xs font-semibold bg-rose-100 text-rose-700">破位風險</span></td></tr><tr class="hover:bg-slate-50 dark:hover:bg-zinc-800/30"><td class="p-3"><b>OKLO</b></td><td class="p-3">$38.55</td><td class="p-3"><span class="text-emerald-600 dark:text-emerald-400 font-bold">+7.17%</span></td><td class="p-3">+3.9% / -6.6%</td><td class="p-3"><span class="font-mono text-xs">日低 37.00 / 日高 39.30</span></td><td class="p-3">+7.17%，近1月-6.6%</td><td class="p-3"><span class="px-2 py-0.5 rounded text-xs font-semibold bg-yellow-100 text-yellow-700">高位震盪</span></td></tr><tr class="hover:bg-slate-50 dark:hover:bg-zinc-800/30"><td class="p-3"><b>VST</b></td><td class="p-3">$160.50</td><td class="p-3"><span class="text-emerald-600 dark:text-emerald-400 font-bold">+10.77%</span></td><td class="p-3">+14.0% / +7.5%</td><td class="p-3"><span class="font-mono text-xs">日低 151.44 / 日高 162.69</span></td><td class="p-3">+10.77%，近5日+14.0%</td><td class="p-3"><span class="px-2 py-0.5 rounded text-xs font-semibold bg-orange-100 text-orange-700">短線過熱</span></td></tr><tr class="hover:bg-slate-50 dark:hover:bg-zinc-800/30"><td class="p-3"><b>CEG</b></td><td class="p-3">$300.40</td><td class="p-3"><span class="text-emerald-600 dark:text-emerald-400 font-bold">+12.25%</span></td><td class="p-3">+13.5% / +0.5%</td><td class="p-3"><span class="font-mono text-xs">日低 291.11 / 日高 309.80</span></td><td class="p-3">+12.25%，近5日+13.5%</td><td class="p-3"><span class="px-2 py-0.5 rounded text-xs font-semibold bg-orange-100 text-orange-700">短線過熱</span></td></tr><tr class="hover:bg-slate-50 dark:hover:bg-zinc-800/30"><td class="p-3"><b>ETN</b></td><td class="p-3">$445.09</td><td class="p-3"><span class="text-emerald-600 dark:text-emerald-400 font-bold">+2.89%</span></td><td class="p-3">+2.7% / +8.3%</td><td class="p-3"><span class="font-mono text-xs">日低 434.02 / 日高 446.70</span></td><td class="p-3">+2.89%，近1月+8.3%</td><td class="p-3"><span class="px-2 py-0.5 rounded text-xs font-semibold bg-emerald-100 text-emerald-700">繼續強勢</span></td></tr><tr class="hover:bg-slate-50 dark:hover:bg-zinc-800/30"><td class="p-3"><b>VRT</b></td><td class="p-3">$253.14</td><td class="p-3"><span class="text-rose-500 font-bold">-0.19%</span></td><td class="p-3">+1.9% / -9.8%</td><td class="p-3"><span class="font-mono text-xs">日低 249.10 / 日高 256.50</span></td><td class="p-3">-0.19%，近1月-9.8%</td><td class="p-3"><span class="px-2 py-0.5 rounded text-xs font-semibold bg-yellow-100 text-yellow-700">高位震盪</span></td></tr></tbody></table></div>
+  <p class="mt-2 text-xs text-slate-500">標籤為依價格趨勢的機械式判定，非投資建議。</p>
+    </section>
+
+    <section id="sec-13" class="scroll-mt-6 font-sans ">
+      <h2 class="text-xl font-bold mb-4 flex items-center gap-2 border-b border-slate-100 dark:border-zinc-800 pb-2"><span class="text-brand-500">13.</span> 明日交易計畫 / 觀察清單</h2>
+      <div class="space-y-4">
+  <div class="p-5 rounded-2xl bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-850 shadow-sm"><h3 class="font-semibold mb-2">13.1 宏觀觀察</h3><ul class="list-disc pl-5 text-sm space-y-1"><li>10年期殖利率能否守在5.30%下方（今日高5.30%、收5.27%）；30年期5.64%。</li><li>WTI $90.13 / Brent $101.25 走勢。</li><li>10/7（週三）FOMC會議紀要與Fed官員講話；美元（UUP）-0.31%。</li><li>VIX 能否維持15附近。</li></ul></div>
+  <div class="p-5 rounded-2xl bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-850 shadow-sm"><h3 class="font-semibold mb-2">13.2 大盤觀察</h3><p class="text-sm">SPY：壓力 781.6（今日高）、支撐 778.0（今日低）。QQQ：壓力 762.9、支撐 759.1。IGV（111.16，近5日 +5.7%）與 IWM（281.34，今日 -0.72%）是否改善是寬度確認指標。</p></div>
+  <div class="p-5 rounded-2xl bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-850 shadow-sm"><h3 class="font-semibold mb-2">13.3 板塊與個股觀察</h3><p class="text-sm">CEG、VST、NRG（電力股大漲後是否續強或獲利回吐）；PWR、GEV、ETN（電力基建）；MRVL、AVGO、ANET（客製晶片/網通）；NVDA、MU（高位整理）；LITE、COHR（光通訊擁擠）；CRM（軟體最弱）；STZ（盤後財報反應）；APLD（10/7財報）；LEVI、PEP、PGR（財報）；IWM（小型股走弱）；FLNC、OKLO（弱勢是否止穩）。</p></div></div>
+    </section>
+
+    <section id="sec-14" class="scroll-mt-6 font-sans ">
+      <h2 class="text-xl font-bold mb-4 flex items-center gap-2 border-b border-slate-100 dark:border-zinc-800 pb-2"><span class="text-brand-500">14.</span> 風險提示（風險矩陣）</h2>
+      <div class="p-5 rounded-2xl bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-850 shadow-sm overflow-x-auto"><table class="w-full text-xs sm:text-sm text-left border-collapse"><thead class="bg-slate-50 dark:bg-zinc-800/60 border-b border-slate-200 dark:border-zinc-700 text-slate-500 dark:text-zinc-400"><tr><th class="p-3">風險維度</th><th class="p-3">評級</th><th class="p-3">解讀</th></tr></thead><tbody class="divide-y divide-slate-100 dark:divide-zinc-800"><tr class="hover:bg-slate-50 dark:hover:bg-zinc-800/30"><td class="p-3"><b>宏觀利率</b></td><td class="p-3"><span class="px-2 py-0.5 rounded font-semibold bg-orange-100 text-orange-700">中高</span></td><td class="p-3">10年期5.27%、30年期5.64%雖自高位回落，仍處多年高位；12月升息據報導仍有定價</td></tr><tr class="hover:bg-slate-50 dark:hover:bg-zinc-800/30"><td class="p-3"><b>市場寬度</b></td><td class="p-3"><span class="px-2 py-0.5 rounded font-semibold bg-orange-100 text-orange-700">中高</span></td><td class="p-3">近1月RSP -3.1%、IWM -5.0%落後SPY +1.2%，今日羅素2000 -0.59%，指數創高依賴大型股</td></tr><tr class="hover:bg-slate-50 dark:hover:bg-zinc-800/30"><td class="p-3"><b>AI 擁擠度</b></td><td class="p-3"><span class="px-2 py-0.5 rounded font-semibold bg-orange-100 text-orange-700">中高</span></td><td class="p-3">SMH RSI 87、LITE/COHR 5日漲約16%，電力股單日大漲10%以上，高位波動放大</td></tr><tr class="hover:bg-slate-50 dark:hover:bg-zinc-800/30"><td class="p-3"><b>財報風險</b></td><td class="p-3"><span class="px-2 py-0.5 rounded font-semibold bg-yellow-100 text-yellow-700">中</span></td><td class="p-3">Q3財報季尚未全面展開；STZ 盤後財報反應偏弱，本週以消費財報為主</td></tr><tr class="hover:bg-slate-50 dark:hover:bg-zinc-800/30"><td class="p-3"><b>地緣／油價</b></td><td class="p-3"><span class="px-2 py-0.5 rounded font-semibold bg-yellow-100 text-yellow-700">中</span></td><td class="p-3">Brent 約$101，油價維持高位</td></tr><tr class="hover:bg-slate-50 dark:hover:bg-zinc-800/30"><td class="p-3"><b>技術面</b></td><td class="p-3"><span class="px-2 py-0.5 rounded font-semibold bg-orange-100 text-orange-700">中高</span></td><td class="p-3">多項大型ETF超買，若殖利率續升易回檔</td></tr><tr class="hover:bg-slate-50 dark:hover:bg-zinc-800/30"><td class="p-3"><b>流動性／債務</b></td><td class="p-3"><span class="px-2 py-0.5 rounded font-semibold bg-yellow-100 text-yellow-700">中</span></td><td class="p-3">長端殖利率上行反映債務與期限溢價擔憂</td></tr></tbody></table></div>
+    </section>
+
+    <section id="sec-15" class="scroll-mt-6 p-6 rounded-2xl bg-gradient-to-br from-white to-slate-50 dark:from-zinc-900 dark:to-zinc-950 border border-slate-200 dark:border-zinc-800 shadow-sm">
+      <h2 class="text-xl font-bold mb-4 flex items-center gap-2 border-b border-slate-100 dark:border-zinc-800 pb-2"><span class="text-brand-500">15.</span> 最終結論</h2>
+      <div class="space-y-3 text-sm sm:text-base leading-relaxed text-slate-700 dark:text-zinc-300">
+        <p><strong>今日市場結論：</strong>標普500收 7,818.93（+0.58%）、納指收 27,599.89（+0.45%）雙創收盤新高，殖利率回落（10年期5.27%）與AI基礎設施題材（電力、客製晶片、網通）支撐；小型股走弱與超買擁擠是主要制約。</p>
+        <p><strong>當前市場階段：</strong>強趨勢上漲中的高位震盪（板塊輪動並行）。</p>
+        <p><strong>我的操作傾向（中性表述）：</strong>趨勢仍偏多，但超買（SMH、XLK）與殖利率風險使追高性價比下降；偏向等待回踩或殖利率回落確認，AI電力、客製晶片與網通值得關注（但單日大漲後波動放大），小型股與醫療保健需謹慎。</p>
+        <div><strong>最值得關注的 5 個訊號：</strong>
+          <ol class="list-decimal pl-6 mt-2 space-y-1">
+            <li>10年期殖利率能否守住5.30%下方。</li>
+            <li>10/7 FOMC會議紀要對升息/按兵不動的措辭。</li>
+            <li>電力股（CEG、VST）大漲後是否續強或回吐；費半在超買下能否守住。</li>
+            <li>IWM 能否止跌，改善寬度。</li>
+            <li>STZ 盤後反應與 MRVL/AVGO 客製晶片題材延續性。</li>
+          </ol></div>
+        <p class="text-xs text-slate-500">資料與限制：價格取自 Yahoo Finance，新聞與經濟數據取自公開報導（Benzinga、Investing.com、Morningstar、Census/BEA、公司新聞稿）；寬度、ETF資金流、DXY、2年期殖利率等未取得項目已標示。非投資建議。</p>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<!-- Footer -->
+<footer class="border-t border-slate-200 dark:border-zinc-800 mt-12 py-6 text-center text-xs text-slate-500 dark:text-zinc-500">
+  <div class="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-2">
+    <div>美股收盤日報｜資料來源：Yahoo Finance、公開新聞報導（Morningstar、Benzinga、Investing.com 等）、美國普查局/BEA、公司新聞稿</div>
+    <div>Generated with <span class="text-rose-500">♥</span> by Antigravity CLI html-report skill</div>
+  </div>
+</footer>
+
+<!-- Interactive Scripts (Vanilla JS Theme, Chart.js, Search/Filter, Table Sorting) -->
+<script>
+  // Theme Toggle Logic
+  const themeToggle = document.getElementById('themeToggle');
+  themeToggle.addEventListener('click', () => {
+    if (document.documentElement.classList.contains('dark')) {
+      document.documentElement.classList.remove('dark');
+      localStorage.setItem('theme', 'light');
+    } else {
+      document.documentElement.classList.add('dark');
+      localStorage.setItem('theme', 'dark');
+    }
+    // Re-render Mermaid if needed
+    if (window.__mermaid) {
+      window.__mermaid.initialize({
+        theme: document.documentElement.classList.contains('dark') ? 'dark' : 'default'
+      });
+    }
+  });
+
+  // Overview Chart (Chart.js)
+  const ctx = document.getElementById('overviewChart').getContext('2d');
+  new Chart(ctx, {
+    type: 'bar',
+    data: { labels: ["標普500 (SPY)", "納斯達克 (QQQ)", "道瓊 (DIA)", "羅素2000 (IWM)", "半導體 (SMH)", "費半 (SOXX)", "軟體 (IGV)", "科技 (XLK)"],
+      datasets: [{ label: '當日漲跌幅 (%)', data: [0.55, 0.46, 0.48, -0.72, -0.22, -0.01, 1.31, 0.53],
+        backgroundColor: ["#10b981", "#10b981", "#10b981", "#f43f5e", "#f43f5e", "#f43f5e", "#10b981", "#10b981"], borderRadius: 6 }] },
+    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false },
+      tooltip: { callbacks: { label: function(c) { return ' 漲跌幅: ' + (c.raw >= 0 ? '+' : '') + c.raw + '%'; } } } },
+      scales: { y: { grid: { color: 'rgba(148,163,184,0.15)' }, ticks: { callback: function(v) { return v + '%'; } } }, x: { grid: { display: false } } } }
+  });
+
+  // Vanilla JS Search / Filter for Sectors
+  const sectorSearch = document.getElementById('sectorSearch');
+  sectorSearch.addEventListener('input', function() {
+    const filter = this.value.toLowerCase();
+    const rows = document.querySelectorAll('#sectorTable tbody tr');
+    rows.forEach(row => {
+      const text = row.textContent.toLowerCase();
+      row.style.display = text.includes(filter) ? '' : 'none';
+    });
+  });
+
+  // Vanilla JS Search / Filter for Watch List
+  const watchSearch = document.getElementById('watchSearch');
+  watchSearch.addEventListener('input', function() {
+    const filter = this.value.toLowerCase();
+    const rows = document.querySelectorAll('#watchTable tbody tr');
+    rows.forEach(row => {
+      const text = row.textContent.toLowerCase();
+      row.style.display = text.includes(filter) ? '' : 'none';
+    });
+  });
+
+  // Vanilla JS Sort Table
+  function sortTable(tableId, colIdx, isNumeric) {
+    const table = document.getElementById(tableId);
+    const tbody = table.querySelector('tbody');
+    const rows = Array.from(tbody.querySelectorAll('tr'));
+    const isAsc = table.getAttribute('data-sort-col') == colIdx && table.getAttribute('data-sort-dir') === 'asc';
+    const dir = isAsc ? 'desc' : 'asc';
+    table.setAttribute('data-sort-col', colIdx);
+    table.setAttribute('data-sort-dir', dir);
+
+    rows.sort((a, b) => {
+      let cellA = a.children[colIdx].textContent.trim().replace(/[$,%]/g, '');
+      let cellB = b.children[colIdx].textContent.trim().replace(/[$,%]/g, '');
+      if (isNumeric) {
+        let numA = parseFloat(cellA) || 0;
+        let numB = parseFloat(cellB) || 0;
+        return dir === 'asc' ? numA - numB : numB - numA;
+      } else {
+        return dir === 'asc' ? cellA.localeCompare(cellB) : cellB.localeCompare(cellA);
+      }
+    });
+
+    rows.forEach(r => tbody.appendChild(r));
+  }
+</script>
+</body>
+</html>
